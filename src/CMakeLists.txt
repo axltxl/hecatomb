@@ -110,7 +110,9 @@ endif()
 # Unix specific libraries
 if (UNIX)
   # dlopen, dlsym, dlclose, etc ...
-  list (APPEND LIBS dl) # libdl
+  find_package (LibDL REQUIRED)
+  list (APPEND INCLUDE_DIRS ${LIBDL_INCLUDE_DIR})
+  list (APPEND LIBS ${LIBDL_LIBRARY}) # libdl
 endif()
 
 # Include path
