@@ -52,6 +52,10 @@ set (CLIENT_LIBS ${OPENGL_LIBRARIES}) # OpenGL
 list (APPEND CLIENT_LIBS ${SDL_LIBRARY}) # libSDL 
 list (APPEND CLIENT_LIBS ${OPENAL_LIBRARY}) # OpenAL
 
+  # System wide assets
+  if (YQ2_SYSTEMWIDE)
+    add_definitions (-DSYSTEMWIDE -DSYSTEMDIR="${YQ2_SYSTEMDIR}")
+  endif()
 #
 # Platform-specific backends
 #

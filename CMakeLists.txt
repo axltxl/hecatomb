@@ -44,7 +44,18 @@ include (${CMAKE_GOODIES_PATH}/Config.cmake)
 
 if (UNIX)
   # Enable systemwide installation of game assets
-  ht_set_option(WITH_SYSTEMWIDE  TRUE BOOL "Enable systemwide installation of game assets")
+  ht_set_option(YQ2_SYSTEMWIDE TRUE BOOL "Enable systemwide installation of game assets")
+
+  # This will set the default SYSTEMDIR, a non-empty string
+  # would actually be used. On Windows normals slashes (/)
+  # instead of backslashed (\) should be used!
+  ht_set_option(YQ2_SYSTEMDIR "/usr/share/games/quake2" STRING "Systemwide installation of game assets location")
+
+  # Set the gamma via X11 and not via SDL. This works
+  # around problems in some SDL version. Adds dependencies
+  # to pkg-config, libX11 and libXxf86vm. Unsupported on
+  # Windows and OS X.
+  ht_set_option(YQ2_X11GAMMA FALSE BOOL "Set the gamma via X11 and not via SDL")
 endif()
 
 # Architecture name string
