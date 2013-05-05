@@ -102,6 +102,11 @@ else()
     set (ARCH_NAME "x86_64")
 endif()
 
+# X11 libraries
+if (YQ2_WITH_X11GAMMA)
+  find_package (X11 REQUIRED)
+endif()
+
 # OpenGL
 find_package(OpenGL REQUIRED)
 
@@ -116,11 +121,6 @@ find_package (SDL REQUIRED)
 # OGG and Vorbis
 if (YQ2_WITH_OGG)
   find_package (VORBIS REQUIRED)
-endif()
-
-# X11 libraries
-if (YQ2_WITH_X11GAMMA)
-  find_package (X11 REQUIRED)
 endif()
 
 # libjpeg

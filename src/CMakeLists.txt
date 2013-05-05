@@ -32,13 +32,6 @@ endif()
 # Source files root directory
 set (SRC_DIR ${CMAKE_CURRENT_SOURCE_DIR})
 
-# X11 hardware gamma
-if (YQ2_WITH_X11GAMMA)
-  add_definitions (-DX11GAMMA)
-  list (APPEND INCLUDE_DIRS ${X11_INCLUDE_DIR}) # X11
-  list (APPEND CLIENT_LIBS ${X11_LIBRARIES}) # X11 libraries
-endif()
-
 # CD audio playback
 if (YQ2_WITH_CDA)
   add_definitions (-DCDA)
@@ -61,9 +54,21 @@ endif()
 set (INCLUDE_DIRS ${SRC_DIR}/include) # for future use
 list (APPEND INCLUDE_DIRS ${SDL_INCLUDE_DIR})    # libSDL
 list (APPEND INCLUDE_DIRS ${OPENGL_INCLUDE_DIR}) # OpenGL
+
 # Libraries
 set (CLIENT_LIBS ${OPENGL_LIBRARIES}) # OpenGL
 list (APPEND CLIENT_LIBS ${SDL_LIBRARY}) # SDL 
+
+# X11 hardware gamma
+if (YQ2_WITH_X11GAMMA)
+  add_definitions (-DX11GAMMA)
+  #list (APPEND INCLUDE_DIRS ${X11_INCLUDE_DIR}) # X11
+  list (APPEND INCLUDE_DIRS ${X11_xf86vmode_INCLUDE_PATH}) # X11
+  #list (APPEND CLIENT_LIBS  ${X11_LIBRARIES}) # X11 libraries
+  #list (APPEND CLIENT_LIBS xf86vm) # Xf86vmode library
+  list (APPEND CLIENT_LIBS ${X11_Xxf86vm_LIB})
+  #message (FATAL_ERROR ${X11_LIBRARIES})
+endif()
 
 # Retexturing support
 if (YQ2_WITH_RETEXTURE)
