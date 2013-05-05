@@ -82,6 +82,7 @@ if (UNIX)
   if (YQ2_SYSTEMWIDE)
     add_definitions (-DSYSTEMWIDE -DSYSTEMDIR="${YQ2_SYSTEMDIR}")
   endif()
+endif()
 #
 # Platform-specific backends
 #
@@ -99,11 +100,16 @@ add_subdirectory (refresh)
 # Client
 add_subdirectory (client)
 
+# The game itself
+add_subdirectory (game)
+
 # Server exec
-add_executable (${SERVER_EXEC} ${SERVER_EXEC_SRC})
-set_target_properties(${SERVER_EXEC} PROPERTIES COMPILE_DEFINITIONS "DEDICATED_ONLY")
-target_link_libraries (${SERVER_EXEC} ${LIBS})
+add_executable (server ${SERVER_EXEC_SRC})
+set_target_properties(server PROPERTIES COMPILE_DEFINITIONS "DEDICATED_ONLY")
+set_target_properties(server PROPERTIES OUTPUT_NAME "${SERVER_EXEC}") 
+target_link_libraries (server ${LIBS})
 
 # Client exec
-add_executable (${CLIENT_EXEC} ${CLIENT_EXEC_SRC})
-target_link_libraries(${CLIENT_EXEC} ${LIBS} ${CLIENT_LIBS})
+add_executable (client ${CLIENT_EXEC_SRC})
+set_target_properties(client PROPERTIES OUTPUT_NAME "${CLIENT_EXEC}") 
+target_link_libraries(client ${LIBS} ${CLIENT_LIBS})
