@@ -96,7 +96,7 @@ ht_set_option(YQ2_SYSTEMDIR "${SYSTEMDIR_DEFAULT}" STRING "Location of system-wi
 
 # Architecture name string
 # Used in WINDOW_CAPTION
-if(ARCH_32BITS)
+if(ARCH_32)
     set (ARCH_NAME "x86")
 else()
     set (ARCH_NAME "x86_64")
