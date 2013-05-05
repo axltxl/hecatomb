@@ -39,6 +39,9 @@ set (INCLUDE_DIRS ${SRC_DIR}/include)
 list (APPEND INCLUDE_DIRS ${ZLIB_INCLUDE_DIRS})  # zlib
 list (APPEND INCLUDE_DIRS ${SDL_INCLUDE_DIR})    # libSDL
 list (APPEND INCLUDE_DIRS ${OPENGL_INCLUDE_DIR}) # OpenGL
+if (UNIX)
+  list (APPEND INCLUDE_DIRS ${X11_INCLUDE_DIR}) # X11
+endif()
 
 # Include path
 include_directories (${INCLUDE_DIRS})
@@ -76,6 +79,7 @@ if (UNIX)
   # X11 hardware gamma
   if (YQ2_X11GAMMA)
     add_definitions (-DX11GAMMA)
+    list (APPEND CLIENT_LIBS ${X11_LIBRARIES}) # X11 libraries
   endif()
 
   # System wide assets

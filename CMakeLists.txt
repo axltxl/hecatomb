@@ -78,6 +78,11 @@ find_package (SDL REQUIRED)
 # OGG and Vorbis
 find_package (VORBIS REQUIRED)
 
+# X11 libraries
+if (UNIX)
+  find_package (X11 REQUIRED)
+endif()
+
 # libjpeg
 find_package (JPEG REQUIRED)
 
