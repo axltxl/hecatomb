@@ -1,11 +1,17 @@
 #
-# Hecatomb
-# A Quake II convolution  
-# Copyright (c) 2013, Alejandro Ricoveri
 #
-# CMake build script
+# Yamagi Quake II
+# http://www.yamagi.org/quake2
+# http://github.com/yquake2
 #
-
+# CMake build automation scripts
+# Author: Alejandro Ricoveri <alejandroricoveri@gmail.com>
+#
+# ==================================================
+# !!! DO NOT ALTER ANYTHING BELOW THIS LINE !!!
+# (unless you know what you're doing)
+# ==================================================
+#
 cmake_minimum_required(VERSION 2.8.8)
 
 # define a macro that helps defining an option
@@ -21,7 +27,7 @@ endmacro()
 ht_set_option(CMAKE_BUILD_TYPE Debug STRING "Choose the type of build (Debug or Release)")
 
 # setup version numbers
-set (PROJ_NAME "hecatomb")
+set (PROJ_NAME "yquake2")
 
 # set project name
 project (${PROJ_NAME} C)
@@ -29,10 +35,10 @@ project (${PROJ_NAME} C)
 # Set debug/release definitions
 if (CMAKE_BUILD_TYPE STREQUAL "Debug")
     set (BUILD_DEBUG 1)
-    add_definitions(-DHT_DEBUG)
+    add_definitions(-DYQ2_DEBUG)
 else()
     set (BUILD_RELEASE 1)
-    add_definitions (-DNDEBUG -DHT_RELEASE)
+    add_definitions (-DNDEBUG -DYQ2_RELEASE)
 endif()
 
 # Helpful modules are here
@@ -42,21 +48,51 @@ set (CMAKE_MODULE_PATH "${CMAKE_GOODIES_PATH}/modules" ${CMAKE_MODULE_PATH})
 # detect OS, compiler, architecture
 include (${CMAKE_GOODIES_PATH}/Config.cmake)
 
+# Enables CD audio playback. CD audio playback is used
+# for the background music and doesn't add any further
+# dependencies. It should work on all platforms where
+# CD playback is supported by SDL.
+ht_set_option(YQ2_WITH_CDA TRUE BOOL "CD audio playback support")
+
+# Enables OGG/Vorbis support. OGG/Vorbis files can be
+# used as a substitute of CD audio playback. Adds
+# dependencies to libogg, libvorbis and libvorbisfile.
+ht_set_option(YQ2_WITH_OGG TRUE BOOL "OGG/Vorbis support")
+
+# Enables the optional OpenAL sound system.
+# To use it your system needs libopenal.so.1
+# or openal32.dll (we recommend openal-soft)
+# installed
+ht_set_option(YQ2_WITH_OPENAL FALSE BOOL "Use the OpenAL sound system")
+
+# Enables retexturing support. Adds
+# a dependency to libjpeg
+ht_set_option(YQ2_WITH_RETEXTURE FALSE BOOL "Retexturing support")
+
 if (UNIX)
-  # Enable systemwide installation of game assets
-  ht_set_option(YQ2_SYSTEMWIDE TRUE BOOL "Enable systemwide installation of game assets")
-
-  # This will set the default SYSTEMDIR, a non-empty string
-  # would actually be used. On Windows normals slashes (/)
-  # instead of backslashed (\) should be used!
-  ht_set_option(YQ2_SYSTEMDIR "/usr/share/games/quake2" STRING "Systemwide installation of game assets location")
-
   # Set the gamma via X11 and not via SDL. This works
   # around problems in some SDL version. Adds dependencies
   # to pkg-config, libX11 and libXxf86vm. Unsupported on
   # Windows and OS X.
-  ht_set_option(YQ2_X11GAMMA FALSE BOOL "Set the gamma via X11 and not via SDL")
+  ht_set_option(YQ2_WITH_X11GAMMA FALSE BOOL "Set the gamma via X11 and not via SDL")
 endif()
+
+# Enables opening of ZIP files (also known as .pk3 packs).
+# Adds a dependency to libz
+ht_set_option(YQ2_WITH_ZIP FALSE BOOL "ZIP files support (for opening .pk3 packs)")
+
+# Enable systemwide installation of game assets
+ht_set_option(YQ2_SYSTEMWIDE TRUE BOOL "Enable systemwide installation of game assets")
+
+# This will set the default SYSTEMDIR, a non-empty string
+# would actually be used. On Windows normals slashes (/)
+# instead of backslashed (\) should be used!
+if (WINDOWS)
+  set (SYSTEMDIR_DEFAULT c:\\quake2)
+else()
+  set (SYSTEMDIR_DEFAULT /usr/share/games/quake2)
+endif()
+ht_set_option(YQ2_SYSTEMDIR "${SYSTEMDIR_DEFAULT}" STRING "Location of system-wide game assets installation")
 
 # Architecture name string
 # Used in WINDOW_CAPTION
@@ -70,24 +106,32 @@ endif()
 find_package(OpenGL REQUIRED)
 
 # OpenAL
-find_package(OpenAL REQUIRED)
+if (YQ2_WITH_OPENAL)
+  find_package(OpenAL REQUIRED)
+endif()
 
 # SDL
 find_package (SDL REQUIRED)
 
 # OGG and Vorbis
-find_package (VORBIS REQUIRED)
+if (YQ2_WITH_OGG)
+  find_package (VORBIS REQUIRED)
+endif()
 
 # X11 libraries
-if (UNIX)
+if (YQ2_WITH_X11GAMMA)
   find_package (X11 REQUIRED)
 endif()
 
 # libjpeg
-find_package (JPEG REQUIRED)
+if (YQ2_WITH_RETEXTURE)
+  find_package (JPEG REQUIRED)
+endif()
 
 # zlib
-find_package (ZLIB REQUIRED)
+if (YQ2_WITH_ZIP)
+  find_package (ZLIB REQUIRED)
+endif()
 
 # Source files
 add_subdirectory (src)

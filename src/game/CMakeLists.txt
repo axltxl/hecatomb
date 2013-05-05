@@ -1,9 +1,19 @@
-#src/common/shared/flash.c
-#src/common/shared/rand.c
-#src/common/shared/shared.c
+#
+# Yamagi Quake II
+# http://www.yamagi.org/quake2
+# http://github.com/yquake2
+#
+# CMake build automation scripts
+# Author: Alejandro Ricoveri <alejandroricoveri@gmail.com>
+#
+# Game DLL
+# --------------------------------
+#
 
+# Library name
 set (GAME_DLL "game")
 
+# Game sources
 set (
   GAME_SRC
 
@@ -54,8 +64,12 @@ set (
   savegame/savegame.c
 )
 
+# All sources needed by this target
 set (GAME_DLL_SRC ${COMMON_SHARED_SRC} ${GAME_SRC})
 
+# Game DLL target
 add_library (${GAME_DLL} SHARED ${GAME_DLL_SRC})
 target_link_libraries(${GAME_DLL} ${LIBS} ${GAME_LIBS})
+
+# Remove "lib" prefix so it won't be like "libgame.so"
 set_target_properties(${GAME_DLL} PROPERTIES PREFIX "")

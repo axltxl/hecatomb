@@ -1,7 +1,4 @@
 #
-# division : A minimalist FPS game
-# Copyright (c) 2012, Alejandro Ricoveri
-#
 # Routine for OS and compiler detection
 # Thanks to SFML guys (www.sfml-dev.org)
 #
@@ -22,12 +19,14 @@ if(${CMAKE_SYSTEM_NAME} MATCHES "Windows")
         return()
     endif()
 elseif(${CMAKE_SYSTEM_NAME} MATCHES "Linux")
-    set(LINUX 1)
+    set (LINUX 1)
+    set (UNIX 1)
 elseif(${CMAKE_SYSTEM_NAME} MATCHES "FreeBSD")
-    # FreeBSD compile path is the same as Linux
-    set(LINUX 1)
+    set (BSD 1)
+    set (UNIX 1)
 elseif(${CMAKE_SYSTEM_NAME} MATCHES "Darwin")
-    set(MACOSX 1)
+    set (UNIX 1)
+    set (MACOSX 1)
 
     # detect OS X version. (use '/usr/bin/sw_vers -productVersion' to extract V from '10.V.x'.)
     EXEC_PROGRAM(/usr/bin/sw_vers ARGS -productVersion OUTPUT_VARIABLE MACOSX_VERSION_RAW)
@@ -37,7 +36,7 @@ elseif(${CMAKE_SYSTEM_NAME} MATCHES "Darwin")
         return()
     endif()
 else()
-    message(FATAL_ERROR "Unsupported operating system")
+    message(FATAL_ERROR "Unsupported operating system (for the moment)")
     return()
 endif()
 

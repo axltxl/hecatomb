@@ -1,98 +1,121 @@
 #
-# Hecatomb
-# A Quake II convolution  
-# Copyright (c) 2013, Alejandro Ricoveri
+# Yamagi Quake II
+# http://www.yamagi.org/quake2
+# http://github.com/yquake2
 #
-# CMake build script
-#
-
+# CMake build automation scripts
+# Author: Alejandro Ricoveri <alejandroricoveri@gmail.com>
 #
 # Source files
 # --------------------------------
 #
 
 # Define sources and executable
-set (CLIENT_EXEC "ht")
-set (SERVER_EXEC "htded")
+set (CLIENT_EXEC "quake2")
+set (SERVER_EXEC "q2ded")
 
 # Definitions
 if (WINDOWS)
-  add_definitions (-DHT_OS_WIN32)
+  add_definitions (-DYQ2_OS_WIN32)
 elseif (MACOSX)
-  add_definitions (-DHT_OS_OSX)
-  add_definitions (-DHT_OS_UNIX)
+  add_definitions (-DYQ2_OS_OSX) 
 elseif (LINUX)
-  add_definitions (-DHT_OS_LINUX)
-  add_definitions (-DHT_OS_UNIX)
-else()
-  add_definitions (-DHT_OS_UNIX)
+  add_definitions (-DYQ2_OS_LINUX)
+elseif (BSD)
+  add_definitions (-DYQ2_OS_BSD)
 endif ()
 
-# zlib necessary definitions
-add_definitions (-DZIP -DNOUNCRYPT)
+if (UNIX)
+  add_definitions (-DYQ2_OS_UNIX)
+endif()
 
 # Source files root directory
 set (SRC_DIR ${CMAKE_CURRENT_SOURCE_DIR})
 
+# X11 hardware gamma
+if (YQ2_WITH_X11GAMMA)
+  add_definitions (-DX11GAMMA)
+  list (APPEND INCLUDE_DIRS ${X11_INCLUDE_DIR}) # X11
+  list (APPEND CLIENT_LIBS ${X11_LIBRARIES}) # X11 libraries
+endif()
+
+# CD audio playback
+if (YQ2_WITH_CDA)
+  add_definitions (-DCDA)
+endif()
+
+# Link against this libraries
+set (LIBS m)
+
+# .pk3 files support
+if (YQ2_WITH_ZIP)
+  add_definitions (-DZIP -DNOUNCRYPT)
+  list (APPEND INCLUDE_DIRS ${ZLIB_INCLUDE_DIRS})  # zlib
+  list (APPEND LIST LIBS ${ZLIB_LIBRARIES})
+endif()
+
+#
+# Client-specific
+#
 # Include directories
-set (INCLUDE_DIRS ${SRC_DIR}/include)
-list (APPEND INCLUDE_DIRS ${ZLIB_INCLUDE_DIRS})  # zlib
+set (INCLUDE_DIRS ${SRC_DIR}/include) # for future use
 list (APPEND INCLUDE_DIRS ${SDL_INCLUDE_DIR})    # libSDL
 list (APPEND INCLUDE_DIRS ${OPENGL_INCLUDE_DIR}) # OpenGL
-list (APPEND INCLUDE_DIRS ${JPEG_INCLUDE_DIR}) # libjpeg
+# Libraries
+set (CLIENT_LIBS ${OPENGL_LIBRARIES}) # OpenGL
+list (APPEND CLIENT_LIBS ${SDL_LIBRARY}) # SDL 
 
+# Retexturing support
+if (YQ2_WITH_RETEXTURE)
+  add_definitions (-DRETEXTURE)
+  list (APPEND INCLUDE_DIRS ${JPEG_INCLUDE_DIR}) # libjpeg
+  list (APPEND CLIENT_LIBS ${JPEG_LIBRARY}) # jpeg
+endif()
+
+# OpenAL
+if (YQ2_WITH_OPENAL)
+  
+  # AL driver for QAL
+  if (UNIX)
+    set (AL_DRIVER libopenal.so)
+  endif()
+
+  if (WINDOWS)
+    set (AL_DRIVER openal32.dll)
+  endif()
+
+  # Necessary definitions
+  add_definitions (-DUSE_OPENAL -DDEFAULT_OPENAL_DRIVER="${AL_DRIVER}")
+
+  # OpenAL headers
+  list (APPEND INCLUDE_DIRS ${OPENAL_INCLUDE_DIR})
+
+  # OpenAL libraries 
+  list (APPEND CLIENT_LIBS ${OPENAL_LIBRARY})
+endif()
+
+# OGG Vorbis
+if (YQ2_WITH_OGG)
+  add_definitions (-DOGG)
+  list (APPEND INCLUDE_DIRS ${OGG_INCLUDE_DIR} ${VORBIS_INCLUDE_DIR})
+  list (APPEND CLIENT_LIBS ${OGG_LIBRARY} ${VORBIS_LIBRARY} ${VORBIS_FILE_LIBRARY})
+endif()
+
+
+# System wide assets
+if (YQ2_SYSTEMWIDE)
+  add_definitions (-DSYSTEMWIDE -DSYSTEMDIR="${YQ2_SYSTEMDIR}")
+endif()
+
+# Unix specific libraries
 if (UNIX)
-  list (APPEND INCLUDE_DIRS ${X11_INCLUDE_DIR}) # X11
+  # dlopen, dlsym, dlclose, etc ...
+  list (APPEND LIBS dl) # libdl
 endif()
 
 # Include path
 include_directories (${INCLUDE_DIRS})
 
-# Link against this libraries
-set (LIBS ${ZLIB_LIBRARIES} m)
-
-# Client-specific
-set (CLIENT_LIBS ${OPENGL_LIBRARIES}) # OpenGL
-list (APPEND CLIENT_LIBS ${SDL_LIBRARY}) # SDL 
-
-add_definitions (-DRETEXTURE)
-list (APPEND CLIENT_LIBS ${JPEG_LIBRARY}) # jpeg
-
-# OpenAL
-if (UNIX)
-  set (AL_DRIVER libopenal.so)
-endif()
-add_definitions (-DUSE_OPENAL -DDEFAULT_OPENAL_DRIVER="${AL_DRIVER}")
-
-# OpenAL headers
-list (APPEND INCLUDE_DIRS ${OPENAL_INCLUDE_DIR})
-
-# OpenAL libraries 
-list (APPEND CLIENT_LIBS ${OPENAL_LIBRARY})
-
-# OGG Vorbis
-add_definitions (-DOGG)
-list (APPEND INCLUDE_DIRS ${OGG_INCLUDE_DIR} ${VORBIS_INCLUDE_DIR})
-list (APPEND CLIENT_LIBS ${OGG_LIBRARY} ${VORBIS_LIBRARY} ${VORBIS_FILE_LIBRARY})
-
-
-if (UNIX)
-  
-  # dlopen, dlsym, dlclose, etc ...
-  list (APPEND LIBS dl) # libdl
-
-  # X11 hardware gamma
-  if (YQ2_X11GAMMA)
-    add_definitions (-DX11GAMMA)
-    list (APPEND CLIENT_LIBS ${X11_LIBRARIES}) # X11 libraries
-  endif()
-
-  # System wide assets
-  if (YQ2_SYSTEMWIDE)
-    add_definitions (-DSYSTEMWIDE -DSYSTEMDIR="${YQ2_SYSTEMDIR}")
-  endif()
-
-endif()
 #
 # Platform-specific backends
 #
@@ -115,6 +138,8 @@ add_subdirectory (game)
 
 # Server exec
 add_executable (server ${SERVER_EXEC_SRC})
+
+# -DDEDICATED_ONLY for dedicated server
 set_target_properties(server PROPERTIES COMPILE_DEFINITIONS "DEDICATED_ONLY")
 set_target_properties(server PROPERTIES OUTPUT_NAME "${SERVER_EXEC}") 
 target_link_libraries (server ${LIBS})

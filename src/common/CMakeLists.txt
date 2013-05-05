@@ -1,16 +1,19 @@
 #
-# Hecatomb
-# A Quake II convolution  
-# Copyright (c) 2013, Alejandro Ricoveri
+# Yamagi Quake II
+# http://www.yamagi.org/quake2
+# http://github.com/yquake2
 #
-# CMake build script
-#
-
+# CMake build automation scripts
+# Author: Alejandro Ricoveri <alejandroricoveri@gmail.com>
 #
 # Source files used by all targets
+# --------------------------------
 #
 
+# Set base directory
 set (COMMON_DIR ${SRC_DIR}/common)
+
+# Shared sources
 set (
   COMMON_SHARED_SRC
 
@@ -18,6 +21,8 @@ set (
   ${COMMON_DIR}/shared/rand.c
   ${COMMON_DIR}/shared/shared.c
 )
+
+# All common sources
 set (
   COMMON_SRC
 
@@ -35,11 +40,15 @@ set (
   ${COMMON_DIR}/netchan.c
   ${COMMON_DIR}/pmove.c
   ${COMMON_DIR}/szone.c
-  ${COMMON_DIR}/zone.c
-  ${COMMON_DIR}/unzip/ioapi.c
-  ${COMMON_DIR}/unzip/unzip.c
+  ${COMMON_DIR}/zone.c  
   ${COMMON_SHARED_SRC}
-
-  PARENT_SCOPE 
 )
+
+# Add some specific sources for .pk3 file support
+if (YQ2_WITH_ZIP)
+  list (APPEND COMMON_SRC ${COMMON_DIR}/unzip/ioapi.c ${COMMON_DIR}/unzip/unzip.c)
+endif()
+
+# Export the whole thing
+set (COMMON_SRC ${COMMON_SRC} PARENT_SCOPE)
 set (COMMON_SHARED_SRC ${COMMON_SHARED_SRC} PARENT_SCOPE)
