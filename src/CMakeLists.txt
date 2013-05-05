@@ -38,19 +38,45 @@ set (SRC_DIR ${CMAKE_CURRENT_SOURCE_DIR})
 set (INCLUDE_DIRS ${SRC_DIR}/include)
 list (APPEND INCLUDE_DIRS ${ZLIB_INCLUDE_DIRS})  # zlib
 list (APPEND INCLUDE_DIRS ${SDL_INCLUDE_DIR})    # libSDL
-list (APPEND INCLUDE_DIRS ${OPENAL_INCLUDE_DIR}) # OpenAL
 list (APPEND INCLUDE_DIRS ${OPENGL_INCLUDE_DIR}) # OpenGL
 
 # Include path
 include_directories (${INCLUDE_DIRS})
 
 # Link against this libraries
-set (LIBS ${ZLIB_LIBRARIES} m dl)
+set (LIBS ${ZLIB_LIBRARIES} m)
 
 # Client-specific
 set (CLIENT_LIBS ${OPENGL_LIBRARIES}) # OpenGL
-list (APPEND CLIENT_LIBS ${SDL_LIBRARY}) # libSDL 
-list (APPEND CLIENT_LIBS ${OPENAL_LIBRARY}) # OpenAL
+list (APPEND CLIENT_LIBS ${SDL_LIBRARY}) # SDL 
+
+# OpenAL
+if (UNIX)
+  set (AL_DRIVER libopenal.so)
+endif()
+add_definitions (-DUSE_OPENAL -DDEFAULT_OPENAL_DRIVER="${AL_DRIVER}")
+
+# OpenAL headers
+list (APPEND INCLUDE_DIRS ${OPENAL_INCLUDE_DIR})
+
+# OpenAL libraries 
+list (APPEND CLIENT_LIBS ${OPENAL_LIBRARY})
+
+# OGG Vorbis
+add_definitions (-DOGG)
+list (APPEND INCLUDE_DIRS ${OGG_INCLUDE_DIR} ${VORBIS_INCLUDE_DIR})
+list (APPEND CLIENT_LIBS ${OGG_LIBRARY} ${VORBIS_LIBRARY} ${VORBIS_FILE_LIBRARY})
+
+
+if (UNIX)
+  
+  # dlopen, dlsym, dlclose, etc ...
+  list (APPEND LIBS dl) # libdl
+
+  # X11 hardware gamma
+  if (YQ2_X11GAMMA)
+    add_definitions (-DX11GAMMA)
+  endif()
 
   # System wide assets
   if (YQ2_SYSTEMWIDE)
