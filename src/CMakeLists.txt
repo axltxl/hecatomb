@@ -39,6 +39,8 @@ set (INCLUDE_DIRS ${SRC_DIR}/include)
 list (APPEND INCLUDE_DIRS ${ZLIB_INCLUDE_DIRS})  # zlib
 list (APPEND INCLUDE_DIRS ${SDL_INCLUDE_DIR})    # libSDL
 list (APPEND INCLUDE_DIRS ${OPENGL_INCLUDE_DIR}) # OpenGL
+list (APPEND INCLUDE_DIRS ${JPEG_INCLUDE_DIR}) # libjpeg
+
 if (UNIX)
   list (APPEND INCLUDE_DIRS ${X11_INCLUDE_DIR}) # X11
 endif()
@@ -52,6 +54,9 @@ set (LIBS ${ZLIB_LIBRARIES} m)
 # Client-specific
 set (CLIENT_LIBS ${OPENGL_LIBRARIES}) # OpenGL
 list (APPEND CLIENT_LIBS ${SDL_LIBRARY}) # SDL 
+
+add_definitions (-DRETEXTURE)
+list (APPEND CLIENT_LIBS ${JPEG_LIBRARY}) # jpeg
 
 # OpenAL
 if (UNIX)
@@ -86,6 +91,7 @@ if (UNIX)
   if (YQ2_SYSTEMWIDE)
     add_definitions (-DSYSTEMWIDE -DSYSTEMDIR="${YQ2_SYSTEMDIR}")
   endif()
+
 endif()
 #
 # Platform-specific backends
