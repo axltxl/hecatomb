@@ -51,7 +51,7 @@ set (LIBS m)
 if (YQ2_WITH_ZIP)
   add_definitions (-DZIP -DNOUNCRYPT)
   list (APPEND INCLUDE_DIRS ${ZLIB_INCLUDE_DIRS})  # zlib
-  list (APPEND LIST LIBS ${ZLIB_LIBRARIES})
+  list (APPEND LIBS ${ZLIB_LIBRARIES})
 endif()
 
 #
