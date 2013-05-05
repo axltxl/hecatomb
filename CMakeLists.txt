@@ -75,9 +75,11 @@ find_package(OpenAL REQUIRED)
 # SDL
 find_package (SDL REQUIRED)
 
-# Vorbis
+# OGG and Vorbis
+find_package (VORBIS REQUIRED)
 
 # libjpeg
+find_package (JPEG REQUIRED)
 
 # zlib
 find_package (ZLIB REQUIRED)
