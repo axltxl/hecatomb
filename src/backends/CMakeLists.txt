@@ -1,4 +1,12 @@
 #
+# Hecatomb
+# A Quake II convolution  
+# Copyright (c) 2013, Alejandro Ricoveri
+#
+# CMake build script
+#
+
+#
 # Platform-specific backends
 #
 set (BACKEND_DIR ${SRC_DIR}/backends)

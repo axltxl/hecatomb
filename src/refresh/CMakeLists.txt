@@ -1,3 +1,15 @@
+#
+# Hecatomb
+# A Quake II convolution  
+# Copyright (c) 2013, Alejandro Ricoveri
+#
+# CMake build script
+#
+
+#
+# Refresher source files
+#
+
 set (REF_DIR ${SRC_DIR}/refresh)
 set (REF_SRC
 

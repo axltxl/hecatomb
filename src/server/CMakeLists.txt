@@ -1,3 +1,11 @@
+#
+# Hecatomb
+# A Quake II convolution  
+# Copyright (c) 2013, Alejandro Ricoveri
+#
+# CMake build script
+#
+
 set (SERVER_DIR ${SRC_DIR}/server)
 set (
     SERVER_SRC
@@ -19,6 +27,8 @@ set (SERVER_EXEC_SRC
     ${BACKEND_SERVER_SRC} 
     ${SERVER_SRC}
 
-  PARENT_SCOPE
-  )
+    PARENT_SCOPE
+    )
+
+# Export the whole thing
 set (SERVER_SRC ${SERVER_SRC} PARENT_SCOPE)

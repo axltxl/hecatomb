@@ -42,6 +42,11 @@ set (CMAKE_MODULE_PATH "${CMAKE_GOODIES_PATH}/modules" ${CMAKE_MODULE_PATH})
 # detect OS, compiler, architecture
 include (${CMAKE_GOODIES_PATH}/Config.cmake)
 
+if (UNIX)
+  # Enable systemwide installation of game assets
+  ht_set_option(WITH_SYSTEMWIDE  TRUE BOOL "Enable systemwide installation of game assets")
+endif()
+
 # Architecture name string
 # Used in WINDOW_CAPTION
 if(ARCH_32BITS)

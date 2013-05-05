@@ -1,3 +1,15 @@
+#
+# Hecatomb
+# A Quake II convolution  
+# Copyright (c) 2013, Alejandro Ricoveri
+#
+# CMake build script
+#
+
+# 
+# Client source files
+#
+
 set (CLIENT_DIR ${SRC_DIR}/client)
 set (
     CLIENT_SRC
@@ -27,6 +39,8 @@ set (
     ${CLIENT_DIR}/sound/sound.c
     ${CLIENT_DIR}/sound/wave.c
     )
+
+# Export the whole thing
 set (CLIENT_EXEC_SRC
     
     ${COMMON_SRC}

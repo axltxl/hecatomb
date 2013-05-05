@@ -1,4 +1,12 @@
 #
+# Hecatomb
+# A Quake II convolution  
+# Copyright (c) 2013, Alejandro Ricoveri
+#
+# CMake build script
+#
+
+#
 # Source files
 # --------------------------------
 #
@@ -61,7 +69,7 @@ add_subdirectory (refresh)
 # Client
 add_subdirectory (client)
 
-# Server 
+# Server exec
 add_executable (${SERVER_EXEC} ${SERVER_EXEC_SRC})
 set_target_properties(${SERVER_EXEC} PROPERTIES COMPILE_DEFINITIONS "DEDICATED_ONLY")
 target_link_libraries (${SERVER_EXEC} ${LIBS})
