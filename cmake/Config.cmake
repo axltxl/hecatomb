@@ -44,11 +44,9 @@ endif()
 
 # GCC
 if ("${CMAKE_C_COMPILER_ID}" MATCHES "GNU")
-  set (COMPILER_GCC 1)
 
-  # -g to build always with debug symbols. Please DO NOT
-  #  CHANGE THIS, since it's our only chance to debug this
-  #  crap when random crashes happen!
+  # Basic compiler flags
+  set (COMPILER_GCC 1)
   set (CMAKE_C_FLAGS "-Wall -pipe")
 
   # -O2 are enough optimizations.
@@ -59,7 +57,11 @@ if ("${CMAKE_C_COMPILER_ID}" MATCHES "GNU")
   #
   # -fomit-frame-pointer since the framepointer is mostly
   #  useless for debugging Quake II and slows things down.
-  set (CMAKE_C_FLAGS_RELEASE "-O2 -fno-strict-aliasing -fomit-frame-pointer")
+  #
+  # -g to build always with debug symbols. Please DO NOT
+  #  CHANGE THIS, since it's our only chance to debug this
+  #  crap when random crashes happen!
+  set (CMAKE_C_FLAGS_RELEASE "-O2 -fno-strict-aliasing -fomit-frame-pointer -g")
 
   # -MMD to generate header dependencies. (They cannot be
   #  generated if building universal binaries on OSX)
@@ -69,6 +71,7 @@ if ("${CMAKE_C_COMPILER_ID}" MATCHES "GNU")
 
 # clang
 elseif ("${CMAKE_C_COMPILER_ID}" MATCHES "Clang")
+
   # Basic compiler flags
   set (COMPILER_CLANG 1)
   set (CMAKE_C_FLAGS "-Weverything")
