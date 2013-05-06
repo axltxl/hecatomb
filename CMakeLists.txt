@@ -95,11 +95,19 @@ endif()
 ht_set_option(YQ2_SYSTEMDIR "${SYSTEMDIR_DEFAULT}" STRING "Location of system-wide game assets installation")
 
 # Architecture name string
-# Used in WINDOW_CAPTION
-if(ARCH_32)
+if (ARCH_32)
     set (ARCH_NAME "x86")
+    add_definitions (-DYQ2_ARCH_32)
 else()
     set (ARCH_NAME "x86_64")
+    add_definitions (-DYQ2_ARCH_64)
+endif()
+
+# Compiler related definitions
+if (COMPILER_GCC)
+    add_definitions (-DYQ2_COMPILER_GCC)
+elseif (COMPILER_CLANG)
+    add_definitions (-DYQ2_COMPILER_CLANG)
 endif()
 
 # X11 libraries
