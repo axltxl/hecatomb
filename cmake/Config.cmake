@@ -69,6 +69,7 @@ if ("${CMAKE_C_COMPILER_ID}" MATCHES "GNU")
 
 # clang
 elseif ("${CMAKE_C_COMPILER_ID}" MATCHES "Clang")
+  # Basic compiler flags
   set (COMPILER_CLANG 1)
   set (CMAKE_C_FLAGS "-Weverything")
 
@@ -81,6 +82,11 @@ elseif ("${CMAKE_C_COMPILER_ID}" MATCHES "Clang")
   elseif (LINUX)
     set (CMAKE_C_FLAGS_RELEASE "-O3")
   endif()
+  
+  # -g to build always with debug symbols. Please DO NOT
+  #  CHANGE THIS, since it's our only chance to debug this
+  #  crap when random crashes happen!
+  set (CMAKE_C_FLAGS_RELEASE "${CMAKE_C_FLAGS_RELEASE} -g")
 
 # Unsupported compiler
 else()
