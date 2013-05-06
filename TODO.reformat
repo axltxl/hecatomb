@@ -1,0 +1,7 @@
+* include files normalization (with prereqs.h each)
+* after that and all tests done, delete old include files
+* rename 'header' to 'include' in every subfolder
+* rebranding of cmake files
+* 2 space indentation and proper formatting
+
+
