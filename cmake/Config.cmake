@@ -82,13 +82,13 @@ elseif ("${CMAKE_C_COMPILER_ID}" MATCHES "Clang")
   # (Needs some double checking)
   if (OSX AND OSX_VERSION GREATER 8 )
     set (CMAKE_C_FLAGS_RELEASE "-O4")
-  elseif (LINUX)
+  else ()
     set (CMAKE_C_FLAGS_RELEASE "-O3")
   endif()
   
   # -g to build always with debug symbols. Please DO NOT
   #  CHANGE THIS, since it's our only chance to debug this
-  #  crap when random crashes happen!
+  #  crap when random crashes happen!a
   set (CMAKE_C_FLAGS_RELEASE "${CMAKE_C_FLAGS_RELEASE} -g")
 
 # Unsupported compiler
