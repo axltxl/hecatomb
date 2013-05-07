@@ -16,17 +16,17 @@ set (SERVER_EXEC "q2ded")
 
 # Definitions
 if (WINDOWS)
-  add_definitions (-DYQ2_OS_WIN32)
+  add_definitions (-DHT_OS_WIN32)
 elseif (MACOSX)
-  add_definitions (-DYQ2_OS_OSX) 
+  add_definitions (-DHT_OS_OSX)
 elseif (LINUX)
-  add_definitions (-DYQ2_OS_LINUX)
+  add_definitions (-DHT_OS_LINUX)
 elseif (BSD)
-  add_definitions (-DYQ2_OS_BSD)
+  add_definitions (-DHT_OS_BSD)
 endif ()
 
 if (UNIX)
-  add_definitions (-DYQ2_OS_UNIX)
+  add_definitions (-DHT_OS_UNIX)
 endif()
 
 # Source files root directory
@@ -57,7 +57,7 @@ list (APPEND INCLUDE_DIRS ${OPENGL_INCLUDE_DIR}) # OpenGL
 
 # Libraries
 set (CLIENT_LIBS ${OPENGL_LIBRARIES}) # OpenGL
-list (APPEND CLIENT_LIBS ${SDL_LIBRARY}) # SDL 
+list (APPEND CLIENT_LIBS ${SDL_LIBRARY}) # SDL
 
 # X11 hardware gamma
 if (YQ2_WITH_X11GAMMA)
@@ -79,7 +79,7 @@ endif()
 
 # OpenAL
 if (YQ2_WITH_OPENAL)
-  
+
   # AL driver for QAL
   if (UNIX)
     set (AL_DRIVER libopenal.so)
@@ -95,7 +95,7 @@ if (YQ2_WITH_OPENAL)
   # OpenAL headers
   list (APPEND INCLUDE_DIRS ${OPENAL_INCLUDE_DIR})
 
-  # OpenAL libraries 
+  # OpenAL libraries
   list (APPEND CLIENT_LIBS ${OPENAL_LIBRARY})
 endif()
 
@@ -148,10 +148,10 @@ add_executable (server ${SERVER_EXEC_SRC})
 
 # -DDEDICATED_ONLY for dedicated server
 set_target_properties(server PROPERTIES COMPILE_DEFINITIONS "DEDICATED_ONLY")
-set_target_properties(server PROPERTIES OUTPUT_NAME "${SERVER_EXEC}") 
+set_target_properties(server PROPERTIES OUTPUT_NAME "${SERVER_EXEC}")
 target_link_libraries (server ${LIBS})
 
 # Client exec
 add_executable (client ${CLIENT_EXEC_SRC})
-set_target_properties(client PROPERTIES OUTPUT_NAME "${CLIENT_EXEC}") 
+set_target_properties(client PROPERTIES OUTPUT_NAME "${CLIENT_EXEC}")
 target_link_libraries(client ${LIBS} ${CLIENT_LIBS})
