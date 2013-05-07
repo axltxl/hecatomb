@@ -24,9 +24,17 @@
  * =======================================================================
  */
 
+ #include "prereqs.h"
+
 /* For mremap() - must be before sys/mman.h include! */
-#if defined(__linux__) && !defined(_GNU_SOURCE)
+//#if defined(__linux__) && !defined(_GNU_SOURCE)
+// #define _GNU_SOURCE
+//#endif
+
+/* For mremap() - must be before sys/mman.h include! */
+#ifdef HT_OS_LINUX
  #define _GNU_SOURCE
+ #define __USE_GNU
 #endif
 
 #include <sys/mman.h>
@@ -34,14 +42,12 @@
 #include <sys/time.h>
 #include <unistd.h>
 
-#include "../../../common/header/common.h"
-
 #if defined(__FreeBSD__) || defined(__OpenBSD__)
  #include <machine/param.h>
  #define MAP_ANONYMOUS MAP_ANON
 #endif
 
-#if defined(__APPLE__)
+#ifdef HT_OS_OSX
  #include <sys/types.h>
  #define MAP_ANONYMOUS MAP_ANON
 #endif
