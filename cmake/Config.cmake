@@ -96,3 +96,13 @@ else()
     message(FATAL_ERROR "Unsupported compiler. Current supported compilers are gcc and clang.")
     return()
 endif()
+
+# clang++ (Only for OS X)
+if (OSX)
+  if ("${CMAKE_CXX_COMPILER_ID}" MATCHES "Clang")
+    # Basic compiler flags
+    set (COMPILER_CLANGXX 1)
+    set (CMAKE_CXX_FLAGS "-Weverything")
+    set (CMAKE_CXX_FLAGS_RELEASE "-O4 -g")
+  endif()
+endif()

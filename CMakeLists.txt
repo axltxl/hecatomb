@@ -30,7 +30,7 @@ ht_set_option(CMAKE_BUILD_TYPE Debug STRING "Choose the type of build (Debug or 
 set (PROJ_NAME "yquake2")
 
 # set project name
-project (${PROJ_NAME} C)
+project (${PROJ_NAME})
 
 # Set debug/release definitions
 if (CMAKE_BUILD_TYPE STREQUAL "Debug")

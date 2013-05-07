@@ -17,7 +17,7 @@ set (SERVER_EXEC "q2ded")
 # Definitions
 if (WINDOWS)
   add_definitions (-DYQ2_OS_WIN32)
-elseif (MACOSX)
+elseif (OSX)
   add_definitions (-DYQ2_OS_OSX) 
 elseif (LINUX)
   add_definitions (-DYQ2_OS_LINUX)
