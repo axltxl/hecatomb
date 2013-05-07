@@ -1,6 +1,7 @@
-
 #Hecatomb
-A [Yamagi Quake 2](http://github.com/yquake2) Expansion
+A [Yamagi Quake 2](http://github.com/yquake2) Expansion  
+
+[![Build Status](https://drone.io/github.com/alericoveri/hecatomb/status.png)](https://drone.io/github.com/alericoveri/hecatomb/latest)
 
 This is the Hecatomb Quake II Client, an enhanced Version of Yamagi's Quake
 II. The main focus is engine modernization and expansion. With the power and stability of Yamagi Quake II, 
