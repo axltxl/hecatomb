@@ -38,8 +38,11 @@
 #include <assert.h>
 #include <errno.h>
 
-#include "../../client/header/client.h"
-#include "header/input.h"
+//#include "../../client/header/client.h"
+//#include "header/input.h"
+#include "prereqs.h"
+#include "client/client.h"
+#include "backend/generic/input.h"
 
 typedef struct vidmode_s
 {

@@ -32,8 +32,11 @@
  * =======================================================================
  */
 
-#include "../../refresh/header/local.h"
-#include "header/glwindow.h"
+//#include "../../refresh/header/local.h"
+//#include "header/glwindow.h"
+#include "prereqs.h"
+#include "refresh/local.h"
+#include "backend/generic/glwindow.h"
 
 void *(APIENTRY *qwglGetProcAddress)(char *symbol);
 

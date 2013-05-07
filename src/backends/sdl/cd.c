@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2001 Robert Bäuml
+ * Copyright (C) 2001 Robert BÃ¤uml
  * Copyright (C) 2002 W. P. va Paassen
  *
  * This program is free software; you can redistribute it and/or modify
@@ -27,7 +27,7 @@
 
 #ifdef CDA
 
-#include <stdio.h>
+/*#include <stdio.h>
 
 #ifdef _WIN32
  #include "SDL/SDL.h"
@@ -37,7 +37,11 @@
  #include "SDL.h"
 #endif
 
-#include "../../client/header/client.h"
+#include "../../client/header/client.h"*/
+
+#include "prereqs.h"
+#include "backend/generic/sdl.h"
+#include "client/client.h"
 
 static qboolean cdValid = false;
 static qboolean initialized = false;

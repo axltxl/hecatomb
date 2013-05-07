@@ -51,23 +51,22 @@
 #define BLASTER_PARTICLE_COLOR 0xe0
 #define INSTANT_PARTICLE -10000.0
 
-#include <math.h>
-#include <string.h>
-#include <stdarg.h>
-#include <stdio.h>
-#include <stdlib.h>
-#include <ctype.h>
+#include "prereqs.h"
 
-#include "ref.h"
-#include "vid.h"
-#include "screen.h"
-#include "input.h"
-#include "keyboard.h"
-#include "console.h"
+#include "client/ref.h"
+#include "client/vid.h"
+#include "client/screen.h"
+#include "client/input.h"
+#include "client/keyboard.h"
+#include "client/console.h"
 
-#include "../sound/header/cdaudio.h"
-#include "../sound/header/sound.h"
-#include "../sound/header/vorbis.h"
+//#include "../sound/header/cdaudio.h"
+//#include "../sound/header/sound.h"
+//#include "../sound/header/vorbis.h"
+
+#include "client/sound/cdaudio.h"
+#include "client/sound/sound.h"
+#include "client/sound/vorbis.h"
 
 typedef struct
 {

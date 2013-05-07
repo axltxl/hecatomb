@@ -19,27 +19,36 @@
  *
  * Prequisites
  */
- 
- #include "config.h"
+
+ //#include "config.h"
+
+
+ #include <math.h>
+ #include <string.h>
+ #include <stdarg.h>
+ #include <stdio.h>
+ #include <stdlib.h>
+ #include <ctype.h>
+
  #include "common/common.h"
- 
+
  #ifdef HT_OS_WIN32
-    #include "backends/win32/prereqs.h"
+ //   #include "backend/win32/prereqs.h"
  #endif
- 
+
  #ifdef HT_OS_UNIX
-    #include "backends/unix/prereqs.h"
+//    #include "backend/unix/prereqs.h"
  #endif
- 
+
  #ifdef HT_OS_LINUX
-    #include "backends/linux/prereqs.h"
+ //   #include "backend/linux/prereqs.h"
  #endif
- 
+
  #ifdef HT_OS_OSX
-    #include "backends/osx/prereqs.h"
+ //   #include "backend/osx/prereqs.h"
  #endif
- 
+
  #ifdef HT_OS_BSD
-    #include "backends/bsd/prereqs.h"
+ //   #include "backend/bsd/prereqs.h"
  #endif
- 
+
