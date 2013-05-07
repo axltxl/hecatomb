@@ -1,7 +1,6 @@
 #
-# Yamagi Quake II
-# http://www.yamagi.org/quake2
-# http://github.com/yquake2
+# Hecatomb Quake II
+# http://github.com/alericoveri/hecatomb
 #
 # CMake build automation scripts
 # Author: Alejandro Ricoveri <alejandroricoveri@gmail.com>
@@ -11,8 +10,8 @@
 #
 
 # Define sources and executable
-set (CLIENT_EXEC "quake2")
-set (SERVER_EXEC "q2ded")
+set (CLIENT_EXEC "ht")
+set (SERVER_EXEC "htded")
 
 # Definitions
 if (WINDOWS)
