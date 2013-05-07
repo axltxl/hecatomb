@@ -25,8 +25,9 @@
  * =======================================================================
  */
 
-#include "../../client/header/client.h"
-#include "../../client/menu/header/qmenu.h"
+#include "prereqs.h"
+#include "client/client.h"
+#include "client/menu/qmenu.h"
 
 #define CUSTOM_MODE 24
 

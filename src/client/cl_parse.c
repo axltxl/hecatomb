@@ -24,7 +24,8 @@
  * =======================================================================
  */
 
-#include "header/client.h"
+#include "prereqs.h"
+#include "client/client.h"
 
 void CL_DownloadFileName(char *dest, int destlen, char *fn);
 void CL_ParseDownload(void);

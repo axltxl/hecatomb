@@ -24,8 +24,8 @@
  * =======================================================================
  */
 
-#include <math.h>
-#include "header/client.h"
+#include "prereqs.h"
+#include "client/client.h"
 
 extern struct model_s *cl_mod_powerscreen;
 int vidref_val;

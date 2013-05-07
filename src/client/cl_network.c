@@ -24,7 +24,8 @@
  * =======================================================================
  */
 
-#include "header/client.h"
+#include "prereqs.h"
+#include "client/client.h"
 
 void CL_ParseStatusMessage(void);
 

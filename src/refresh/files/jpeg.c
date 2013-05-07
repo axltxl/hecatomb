@@ -26,7 +26,8 @@
 
 #ifdef RETEXTURE
 
-#include "../header/local.h"
+#include "prereqs.h"
+#include "refresh/local.h"
 
 #ifdef __APPLE__
 #include <libjpeg/jpeglib.h>

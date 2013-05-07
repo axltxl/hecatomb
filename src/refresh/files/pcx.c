@@ -24,7 +24,8 @@
  * =======================================================================
  */
 
-#include "../header/local.h"
+#include "prereqs.h"
+#include "refresh/local.h"
 
 void
 LoadPCX(char *origname, byte **pic, byte **palette, int *width, int *height)

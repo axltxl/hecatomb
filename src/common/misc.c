@@ -24,9 +24,8 @@
  * =======================================================================
  */
 
-#include "header/common.h"
-#include "header/zone.h"
-#include <setjmp.h>
+#include "prereqs.h"
+#include "common/zone.h"
 
 FILE *log_stats_file;
 cvar_t *host_speeds;

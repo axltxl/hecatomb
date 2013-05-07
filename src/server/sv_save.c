@@ -24,7 +24,8 @@
  * =======================================================================
  */
 
-#include "header/server.h"
+#include "prereqs.h"
+#include "server/server.h"
 
 void CM_ReadPortalState(fileHandle_t f);
 
@@ -41,12 +42,12 @@ SV_WipeSavegame(char *savename)
 
 	Com_sprintf(name, sizeof(name), "%s/save/%s/server.ssv",
 				FS_Gamedir(), savename);
-	
+
 	remove(name);
 
 	Com_sprintf(name, sizeof(name), "%s/save/%s/game.ssv",
 				FS_Gamedir(), savename);
-	
+
 	remove(name);
 
 	Com_sprintf(name, sizeof(name), "%s/save/%s/*.sav", FS_Gamedir(), savename);
@@ -316,7 +317,7 @@ SV_ReadServerFile(void)
 	FS_Read(mapcmd, sizeof(mapcmd), f);
 
 	/* read all CVAR_LATCH cvars
-	   these will be things like 
+	   these will be things like
 	   coop, skill, deathmatch, etc */
 	while (1)
 	{

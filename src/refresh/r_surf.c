@@ -24,8 +24,8 @@
  * =======================================================================
  */
 
-#include <assert.h>
-#include "header/local.h"
+#include "prereqs.h"
+#include "refresh/local.h"
 
 int c_visible_lightmaps;
 int c_visible_textures;

@@ -20,15 +20,22 @@
  * Prequisites
  */
 
+ #ifndef PREREQS_H
+ #define PREREQS_H
+
  //#include "config.h"
 
-
+#include <assert.h>
  #include <math.h>
  #include <string.h>
  #include <stdarg.h>
  #include <stdio.h>
  #include <stdlib.h>
  #include <ctype.h>
+ #include <setjmp.h>
+ #include <signal.h>
+ #include <ctype.h>
+ #include <time.h>
 
  #include "common/common.h"
 
@@ -51,4 +58,6 @@
  #ifdef HT_OS_BSD
  //   #include "backend/bsd/prereqs.h"
  #endif
+
+ #endif // PREREQS_H
 

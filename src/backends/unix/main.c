@@ -31,11 +31,11 @@
 #include <sys/stat.h>
 #include <unistd.h>
 
-#include "../../common/header/common.h"
-#include "header/unix.h"
+#include "prereqs.h"
+#include "backend/unix/unix.h"
 
-#if defined(__APPLE__) && !defined(DEDICATED_ONLY)
-#include <SDL/SDL.h>
+#if defined(HT_OS_OSX) && !defined(DEDICATED_ONLY)
+#include "backend/generic/sdl.h"
 #endif
 
 int

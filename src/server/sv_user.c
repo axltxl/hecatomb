@@ -24,7 +24,8 @@
  * =======================================================================
  */
 
-#include "header/server.h"
+#include "prereqs.h"
+#include "server/server.h"
 
 #define MAX_STRINGCMDS 8
 
@@ -135,7 +136,7 @@ SV_Configstrings_f(void)
 	start = (int)strtol(Cmd_Argv(2), (char **)NULL, 10);
 
 	/* write a packet full of data */
-	while (sv_client->netchan.message.cursize < MAX_MSGLEN / 2 && 
+	while (sv_client->netchan.message.cursize < MAX_MSGLEN / 2 &&
 		   start < MAX_CONFIGSTRINGS)
 	{
 		if (sv.configstrings[start][0])
@@ -387,7 +388,7 @@ SV_Nextserver(void)
 	const char *v;
 
 	if ((sv.state == ss_game) ||
-		((sv.state == ss_pic) && 
+		((sv.state == ss_pic) &&
 		 !Cvar_VariableValue("coop")))
 	{
 		return; /* can't nextserver while playing a normal game */

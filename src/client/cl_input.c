@@ -25,7 +25,8 @@
  * =======================================================================
  */
 
-#include "header/client.h"
+#include "prereqs.h"
+#include "client/client.h"
 
 cvar_t *cl_nodelta;
 

@@ -25,15 +25,13 @@
  * =======================================================================
  */
 
-#include <signal.h>
+#include "prereqs.h"
 
-#ifdef __linux__
-#include <execinfo.h>
+#ifdef HT_OS_LINUX
+# include <execinfo.h>
 #endif
 
-#include "../../common/header/common.h"
-
-#ifdef __linux__
+#ifdef HT_OS_LINUX
 
 void
 printBacktrace(int sig)

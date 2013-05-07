@@ -25,7 +25,8 @@
  * =======================================================================
  */
 
-#include "header/client.h"
+#include "prereqs.h"
+#include "client/client.h"
 
 void CL_ForwardToServer_f(void);
 void CL_Changing_f(void);

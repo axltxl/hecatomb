@@ -33,18 +33,12 @@
  * =======================================================================
  */
 
-/* SDL includes */
-#ifdef _WIN32
-#include <SDL/SDL.h>
-#elif defined(__APPLE__)
-#include <SDL/SDL.h>
-#else
-#include <SDL.h>
-#endif
+#include "prereqs.h"
+#include "backend/generic/sdl.h"
 
 /* Local includes */
-#include "../../client/header/client.h"
-#include "../../client/sound/header/local.h"
+#include "client/client.h"
+#include "client/sound/local.h"
 
 /* Defines */
 #define SDL_PAINTBUFFER_SIZE 2048
@@ -1323,7 +1317,7 @@ SDL_BackendInit(void)
 
 	soundtime = 0;
 	snd_inited = 1;
-	
+
 	return 1;
 }
 

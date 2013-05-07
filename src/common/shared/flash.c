@@ -24,7 +24,8 @@
  * =======================================================================
  */
 
-#include "../header/shared.h"
+#include "prereqs.h"
+#include "common/shared.h"
 
 vec3_t monster_flash_offset[] = {
 	/* flash 0 is not used */

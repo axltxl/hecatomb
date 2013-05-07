@@ -41,9 +41,9 @@
 #include <AL/alext.h>
 #endif
 
-#include "../../common/header/common.h"
-#include "../../client/sound/header/local.h"
-#include "header/qal.h"
+#include "prereqs.h"
+#include "client/sound/local.h"
+#include "backend/generic/qal.h"
 
 static ALCcontext *context;
 static ALCdevice *device;
@@ -324,7 +324,7 @@ QAL_Shutdown()
 	qalDopplerVelocity = NULL;
 	qalSpeedOfSound = NULL;
 	qalDistanceModel = NULL;
-#if !defined (__APPLE__)	
+#if !defined (__APPLE__)
 	qalGenFilters = NULL;
 	qalFilteri = NULL;
 	qalFilterf = NULL;
@@ -455,7 +455,7 @@ QAL_Init()
 	qalDopplerVelocity = Sys_GetProcAddress(handle, "alDopplerVelocity");
 	qalSpeedOfSound = Sys_GetProcAddress(handle, "alSpeedOfSound");
 	qalDistanceModel = Sys_GetProcAddress(handle, "alDistanceModel");
-#if !defined (__APPLE__)	
+#if !defined (__APPLE__)
 	qalGenFilters = Sys_GetProcAddress(handle, "alGenFilters");
 	qalFilteri = Sys_GetProcAddress(handle, "alFilteri");
 	qalFilterf = Sys_GetProcAddress(handle, "alFilterf");

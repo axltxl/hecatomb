@@ -27,7 +27,8 @@
  * =======================================================================
  */
 
-#include "header/client.h"
+#include "prereqs.h"
+#include "client/client.h"
 
 static cvar_t *cfg_unbindall;
 
@@ -575,7 +576,7 @@ Key_Message(int key)
 }
 
 /*
- * Returns a key number to be used to index 
+ * Returns a key number to be used to index
  * keybindings[] by looking at the given string.
  * Single ascii characters return themselves, while
  * the K_* names are matched up.
@@ -771,7 +772,7 @@ Key_WriteBindings(FILE *f)
 	{
 		if (keybindings[i] && keybindings[i][0])
 		{
-			fprintf(f, "bind %s \"%s\"\n", 
+			fprintf(f, "bind %s \"%s\"\n",
 					Key_KeynumToString(i), keybindings[i]);
 		}
 	}
@@ -893,7 +894,7 @@ Key_Init(void)
 }
 
 /*
- * Called by the system between frames 
+ * Called by the system between frames
  * for both key up and key down events
  * Should NOT be called during an interrupt!
  */

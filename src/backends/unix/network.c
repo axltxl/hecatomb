@@ -24,7 +24,7 @@
  * =======================================================================
  */
 
-#include "../../common/header/common.h"
+#include "prereqs.h"
 
 #include <unistd.h>
 #include <sys/socket.h>

@@ -20,7 +20,7 @@
  * This file implements an interface to libvorbis for decoding
  * OGG/Vorbis files. Strongly spoken this file isn't part of the sound
  * system but part of the main client. It justs converts Vorbis streams
- * into normal, raw Wave stream which are injected into the backends as 
+ * into normal, raw Wave stream which are injected into the backends as
  * if they were normal "raw" samples. At this moment only background
  * music playback and in theory .cin movie file playback is supported.
  *
@@ -35,9 +35,10 @@
 #include <errno.h>
 #include <vorbis/vorbisfile.h>
 
-#include "../header/client.h"
-#include "header/local.h"
-#include "header/vorbis.h"
+#include "prereqs.h"
+#include "client/client.h"
+#include "client/sound/local.h"
+#include "client/sound/vorbis.h"
 
 qboolean ogg_first_init = true; /* First initialization flag. */
 qboolean ogg_started = false;   /* Initialization flag. */
@@ -326,7 +327,7 @@ OGG_LoadFileList(void)
 	/* Free the file list. */
 	free(list);
 
-	/* Adjust the list size (remove 
+	/* Adjust the list size (remove
 	   space for invalid music files). */
 	ogg_numfiles = j;
 	ogg_filelist = realloc(ogg_filelist, sizeof(char *) * ogg_numfiles);
@@ -344,7 +345,7 @@ OGG_LoadPlaylist(char *playlist)
 	int size;     /* Length of buffer and strings. */
 
 	/* Open playlist. */
-	if ((size = FS_LoadFile(va("%s/%s.lst", OGG_DIR, 
+	if ((size = FS_LoadFile(va("%s/%s.lst", OGG_DIR,
 				  ogg_playlist->string), (void **)&buffer)) < 0)
 	{
 		Com_Printf("OGG_LoadPlaylist: could not open playlist: %s.\n",

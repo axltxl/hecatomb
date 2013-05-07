@@ -24,7 +24,8 @@
  * =======================================================================
  */
 
-#include "header/client.h"
+#include "prereqs.h"
+#include "client/client.h"
 
 cparticle_t *active_particles, *free_particles;
 cparticle_t particles[MAX_PARTICLES];

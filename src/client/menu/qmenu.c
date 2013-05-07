@@ -24,10 +24,9 @@
  * =======================================================================
  */
 
-#include <string.h>
-#include <ctype.h>
-#include "../header/client.h"
-#include "header/qmenu.h"
+#include "prereqs.h"
+#include "client/client.h"
+#include "client/menu/qmenu.h"
 
 static void Action_DoEnter(menuaction_s *a);
 static void Action_Draw(menuaction_s *a);

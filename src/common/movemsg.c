@@ -24,7 +24,7 @@
  * =======================================================================
  */
 
-#include "header/common.h"
+#include "prereqs.h"
 
 vec3_t bytedirs[NUMVERTEXNORMALS] = {
 	{-0.525731, 0.000000, 0.850651},

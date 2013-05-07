@@ -24,7 +24,8 @@
  * =======================================================================
  */
 
-#include "header/server.h"
+#include "prereqs.h"
+#include "server/server.h"
 
 extern cvar_t *hostname;
 extern cvar_t *rcon_password;

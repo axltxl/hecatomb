@@ -24,8 +24,8 @@
  * =======================================================================
  */
 
-#include <stdio.h>
-#include "header/glob.h"
+#include "prereqs.h"
+#include "common/glob.h"
 
 /*
  * Like glob_match, but match PATTERN against any final segment of TEXT.

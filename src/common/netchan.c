@@ -24,7 +24,7 @@
  * =======================================================================
  */
 
-#include "header/common.h"
+#include "prereqs.h"
 
 /*
  * packet header

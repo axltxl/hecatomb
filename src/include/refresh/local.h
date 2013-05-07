@@ -27,18 +27,15 @@
 #ifndef REF_LOCAL_H
 #define REF_LOCAL_H
 
-#include <stdio.h>
-#include <ctype.h>
-#include <math.h>
-
 #if defined(__APPLE__)
 #include <OpenGL/gl.h>
 #else
 #include <GL/gl.h>
 #endif
 
-#include "../../client/header/ref.h"
-#include "../../backends/generic/header/qgl.h"
+#include "prereqs.h"
+#include "client/ref.h"
+#include "backend/generic/qgl.h"
 
 #ifndef GL_COLOR_INDEX8_EXT
  #define GL_COLOR_INDEX8_EXT GL_COLOR_INDEX

@@ -24,7 +24,7 @@
  * =======================================================================
  */
 
-#include "header/common.h"
+#include "prereqs.h"
 
 cvar_t *cvar_vars;
 

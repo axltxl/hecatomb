@@ -25,11 +25,11 @@
  * =======================================================================
  */
 
-#include "header/common.h"
-#include "../common/header/glob.h"
+#include "prereqs.h"
+#include "common/glob.h"
 
 #ifdef ZIP
- #include "unzip/unzip.h"
+ #include "common/unzip/unzip.h"
 #endif
 
 #define MAX_HANDLES 512

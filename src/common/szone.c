@@ -24,7 +24,7 @@
  * =======================================================================
  */
 
-#include "header/common.h"
+#include "prereqs.h"
 
 void
 SZ_Init(sizebuf_t *buf, byte *data, int length)

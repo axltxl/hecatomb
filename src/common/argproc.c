@@ -24,7 +24,8 @@
  * =======================================================================
  */
 
-#include "header/common.h"
+//#include "header/common.h"
+#include "prereqs.h"
 
 #define MAX_NUM_ARGVS 50
 

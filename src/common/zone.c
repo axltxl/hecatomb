@@ -24,8 +24,8 @@
  * =======================================================================
  */
 
-#include "header/common.h"
-#include "header/zone.h"
+#include "prereqs.h"
+#include "common/zone.h"
 
 #define Z_MAGIC 0x1d1d
 

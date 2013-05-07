@@ -29,9 +29,9 @@
  * =======================================================================
  */
 
-#include <ctype.h>
-#include "../header/client.h"
-#include "header/qmenu.h"
+#include "prereqs.h"
+#include "client/client.h"
+#include "client/menu/qmenu.h"
 
 static int m_main_cursor;
 

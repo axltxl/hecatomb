@@ -25,7 +25,7 @@
  * =======================================================================
  */
 
-#include "header/common.h"
+#include "prereqs.h"
 
 typedef struct
 {
@@ -119,7 +119,7 @@ vec3_t trace_extents;
 int		c_pointcontents;
 int		c_traces, c_brush_traces;
 #endif
- 
+
 /* 1/32 epsilon to keep floating point happy */
 #define DIST_EPSILON (0.03125f)
 
@@ -738,7 +738,7 @@ CM_ClipBoxToBrush(vec3_t mins, vec3_t maxs, vec3_t p1,
 }
 
 void
-CM_TestBoxInBrush(vec3_t mins, vec3_t maxs, vec3_t p1, 
+CM_TestBoxInBrush(vec3_t mins, vec3_t maxs, vec3_t p1,
 		trace_t *trace, cbrush_t *brush)
 {
 	int i, j;

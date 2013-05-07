@@ -24,7 +24,8 @@
  * =======================================================================
  */
 
-#include "header/server.h"
+#include "prereqs.h"
+#include "server/server.h"
 
 server_static_t svs; /* persistant server info */
 server_t sv; /* local server */
@@ -377,7 +378,7 @@ SV_InitGame(void)
 	svs.spawncount = randk();
 	svs.clients = Z_Malloc(sizeof(client_t) * maxclients->value);
 	svs.num_client_entities = maxclients->value * UPDATE_BACKUP * 64;
-	svs.client_entities = 
+	svs.client_entities =
 		Z_Malloc( sizeof(entity_state_t) * svs.num_client_entities);
 
 	/* init network stuff */

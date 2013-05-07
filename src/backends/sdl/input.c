@@ -25,17 +25,11 @@
  * =======================================================================
  */
 
-#include "../../refresh/header/local.h"
-#include "../../client/header/keyboard.h"
-#include "../generic/header/input.h"
-
-#ifdef _WIN32
-#include <SDL/SDL.h>
-#elif defined(__APPLE__)
-#include <SDL/SDL.h>
-#else
-#include <SDL.h>
-#endif
+#include "prereqs.h"
+#include "refresh/local.h"
+#include "client/keyboard.h"
+#include "backend/generic/input.h"
+#include "backend/generic/sdl.h"
 
 #define MOUSE_MAX 3000
 #define MOUSE_MIN 40

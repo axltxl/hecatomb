@@ -24,7 +24,8 @@
  * =======================================================================
  */
 
-#include "header/local.h"
+#include "prereqs.h"
+#include "refresh/local.h"
 
 #define TURBSCALE (256.0 / (2 * M_PI))
 #define SUBDIVIDE_SIZE 64
@@ -43,7 +44,7 @@ int skytexorder[6] = {0, 2, 1, 3, 4, 5};
 char *suf[6] = {"rt", "bk", "lf", "ft", "up", "dn"};
 
 float r_turbsin[] = {
-#include "constants/warpsin.h"
+#include "refresh/constants/warpsin.h"
 };
 
 vec3_t skyclip[6] = {

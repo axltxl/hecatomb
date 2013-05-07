@@ -27,7 +27,8 @@
 #ifndef GEN_INPUT_H
 #define GEN_INPUT_H
 
-#include "../../../common/header/shared.h"
+#include "prereqs.h"
+#include "common/shared.h"
 
 typedef void (*Key_Event_fp_t)(int key, qboolean down);
 

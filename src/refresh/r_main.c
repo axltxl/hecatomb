@@ -24,7 +24,8 @@
  * =======================================================================
  */
 
-#include "header/local.h"
+#include "prereqs.h"
+#include "refresh/local.h"
 
 #define NUM_BEAM_SEGS 6
 
