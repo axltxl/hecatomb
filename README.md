@@ -32,7 +32,7 @@ file for further information.
 
 ####How do I open the console?   
 Press `^` or `~`, depending on your keyboard layout.
-Actually, pressing SHIFT + Ctrl will surely open up the console on any keyboard layout.
+Actually, pressing `Shift + Ctrl` will open up the console on any keyboard layout.
 
 ####How do I get the frame counter?
 Set `cl_drawfps` to 1
@@ -56,8 +56,7 @@ menu is opened set to 2. The default is 2.
 ####Hey, my screensaver crashes Quake II or I experience strange crashes after a
 fixed amount of time!
 This is a known bug in some linux distributions. SDL fails to disable
-the screensaver even if we tell him to do so. See this Ubuntu bugreport:
-https://bugs.launchpad.net/ubuntu/+source/gnome-screensaver/+bug/32457
+the screensaver even if we tell him to do so. See [this Ubuntu bugreport](https://bugs.launchpad.net/ubuntu/+source/gnome-screensaver/+bug/32457).
 As a work around use the startscript in stuff/quake-start.sh It deactivates
 the screensaver before starting Quake II and reenables it after exiting the
 game.
