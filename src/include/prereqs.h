@@ -20,35 +20,23 @@
  * Prequisites
  */
 
- //#include "config.h"
+ // Configuration file
+ #include "config.h"
 
-
+ // Standard headers
  #include <math.h>
  #include <string.h>
  #include <stdarg.h>
  #include <stdio.h>
  #include <stdlib.h>
  #include <ctype.h>
+ #include <time.h>
+ 
+ // Standard integer types
+ #if HT_HAVE_STDINT_H
+ #  include <stdint.h>
+ #else
+ #endif
 
  #include "common/common.h"
-
- #ifdef HT_OS_WIN32
- //   #include "backend/win32/prereqs.h"
- #endif
-
- #ifdef HT_OS_UNIX
-//    #include "backend/unix/prereqs.h"
- #endif
-
- #ifdef HT_OS_LINUX
- //   #include "backend/linux/prereqs.h"
- #endif
-
- #ifdef HT_OS_OSX
- //   #include "backend/osx/prereqs.h"
- #endif
-
- #ifdef HT_OS_BSD
- //   #include "backend/bsd/prereqs.h"
- #endif
 
