@@ -37,7 +37,6 @@ set (LIBS m)
 
 # .pk3 files support
 if (HT_WITH_ZIP)
-  add_definitions (-DNOUNCRYPT)
   list (APPEND INCLUDE_DIRS ${ZLIB_INCLUDE_DIRS})  # zlib
   list (APPEND LIBS ${ZLIB_LIBRARIES})
 endif()
