@@ -25,7 +25,7 @@ file for further information.
 
 ###Wishlist
 * PhysFS backend for FS_ calls
-* GLEW backend for dealing with OpenGL context and extensions on refreshera
+* GLEW backend for dealing with OpenGL context and extensions on refresher
 
 ##1. Installation on (Free|Open)BSD and Linux
 
