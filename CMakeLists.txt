@@ -12,7 +12,7 @@
 # (unless you know what you're doing)
 # ==================================================
 #
-cmake_minimum_required(VERSION 2.8.8)
+cmake_minimum_required(VERSION 2.8a)
 
 # define a macro that helps defining an option
 macro(ht_set_option var default type docstring)
