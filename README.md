@@ -24,7 +24,7 @@ file for further information.
 * Better cross-architecture integer support
 
 ###Wishlist
-* PhysicsFS backend
+* PhysFS backend for FS_ calls
 * GLEW backend for dealing with OpenGL context and extensions on refreshera
 
 ##1. Installation on (Free|Open)BSD and Linux
