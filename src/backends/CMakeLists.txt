@@ -23,7 +23,7 @@ set (
 )
 
 # OpenAL support (QAL)
-if (YQ2_WITH_OPENAL)
+if (HT_WITH_OPENAL)
   list (APPEND BACKEND_GENERIC_SRC ${BACKEND_GENERIC_DIR}/qal.c)
 endif()
 set (BACKEND_CLIENT_SRC ${BACKEND_GENERIC_SRC})
@@ -36,7 +36,7 @@ set (
   ${BACKEND_SDL_DIR}/input.c
   ${BACKEND_SDL_DIR}/refresh.c
   ${BACKEND_SDL_DIR}/cd.c
-  ${BACKEND_SDL_DIR}/sound.c 
+  ${BACKEND_SDL_DIR}/sound.c
 )
 
 
@@ -46,12 +46,12 @@ if (MACOSX)
 endif()
 # SDL will be only for the client
 list (APPEND BACKEND_CLIENT_SRC ${BACKEND_SDL_SRC})
-    
+
 # Unix backend
 set (BACKEND_UNIX_DIR ${BACKEND_DIR}/unix)
 set (
   BACKEND_UNIX_SRC
-     
+
   ${BACKEND_UNIX_DIR}/main.c
   ${BACKEND_UNIX_DIR}/network.c
   ${BACKEND_UNIX_DIR}/signalhandler.c
