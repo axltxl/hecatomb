@@ -61,8 +61,7 @@ As a work around use the startscript in stuff/quake-start.sh It deactivates
 the screensaver before starting Quake II and reenables it after exiting the
 game.
 
-####The movement is fucked up! I can jump much higher and longer as it used
-to be! What's wrong?
+####The movement is fucked up! I can jump much higher and longer as it used to be! What's wrong?
 You're experiencing the Quake II version of the famous Q3A 125hz bug.
 When Quake II draws more than about 100 FPS the movement calculations go
 wrong and you can jump much higher. To solve this set `cl_maxfps` to about
@@ -99,12 +98,12 @@ name, e.g. "baseq2/" for the main game.
 ####My mod crashes at startup.
 This is known problem of some mods. A workaround is to create the working
 directory by hand:
-  mkdir -p ~/.yq2/$moddir (FreeBSD, Linux, OpenBSD and OS X)
-  ...\Documents\YamagiQ2\$moddir (Windows)
+  `mkdir -p ~/.yq2/$moddir` (FreeBSD, Linux, OpenBSD and OS X)
+  `...\Documents\YamagiQ2\$moddir` (Windows)
 
 ####Only parts of the maps are rendered!
 By default the maximum view distance is 2300 units. You can widen it up
-to 4096 units by setting "gl_farsee" to "1".
+to 4096 units by setting `gl_farsee` to "1".
 
 ####What is yq2.cfg for?
 yq2.cfg is an alternate startup script, used to override some bad
