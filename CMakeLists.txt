@@ -32,15 +32,6 @@ set (PROJ_NAME "yquake2")
 # set project name
 project (${PROJ_NAME} C)
 
-# Set debug/release definitions
-if (CMAKE_BUILD_TYPE STREQUAL "Debug")
-    set (BUILD_DEBUG 1)
-    add_definitions(-DYQ2_DEBUG)
-else()
-    set (BUILD_RELEASE 1)
-    add_definitions (-DNDEBUG -DYQ2_RELEASE)
-endif()
-
 # Helpful modules are here
 set (CMAKE_GOODIES_PATH ${CMAKE_SOURCE_DIR}/cmake)
 set (CMAKE_MODULE_PATH "${CMAKE_GOODIES_PATH}/modules" ${CMAKE_MODULE_PATH})
@@ -48,41 +39,51 @@ set (CMAKE_MODULE_PATH "${CMAKE_GOODIES_PATH}/modules" ${CMAKE_MODULE_PATH})
 # detect OS, compiler, architecture
 include (${CMAKE_GOODIES_PATH}/Config.cmake)
 
+# Set debug/release definitions
+if (CMAKE_BUILD_TYPE STREQUAL "Debug")
+  set (HT_BUILD_DEBUG 1)
+  set (HT_CC_CFLAGS "${CMAKE_C_FLAGS} ${CMAKE_C_FLAGS_DEBUG}")
+else()
+  set (HT_BUILD_RELEASE 1)
+  add_definitions (-DNDEBUG)
+  set (HT_CC_CFLAGS "${CMAKE_C_FLAGS} ${CMAKE_C_FLAGS_RELEASE}")
+endif()
+
 # Enables CD audio playback. CD audio playback is used
 # for the background music and doesn't add any further
 # dependencies. It should work on all platforms where
 # CD playback is supported by SDL.
-ht_set_option(YQ2_WITH_CDA TRUE BOOL "CD audio playback support")
+ht_set_option(HT_WITH_CDA TRUE BOOL "CD audio playback support")
 
 # Enables OGG/Vorbis support. OGG/Vorbis files can be
 # used as a substitute of CD audio playback. Adds
 # dependencies to libogg, libvorbis and libvorbisfile.
-ht_set_option(YQ2_WITH_OGG TRUE BOOL "OGG/Vorbis support")
+ht_set_option(HT_WITH_OGG TRUE BOOL "OGG/Vorbis support")
 
 # Enables the optional OpenAL sound system.
 # To use it your system needs libopenal.so.1
 # or openal32.dll (we recommend openal-soft)
 # installed
-ht_set_option(YQ2_WITH_OPENAL FALSE BOOL "Use the OpenAL sound system")
+ht_set_option(HT_WITH_OPENAL FALSE BOOL "Use the OpenAL sound system")
 
 # Enables retexturing support. Adds
 # a dependency to libjpeg
-ht_set_option(YQ2_WITH_RETEXTURE FALSE BOOL "Retexturing support")
+ht_set_option(HT_WITH_RETEXTURE FALSE BOOL "Retexturing support")
 
 if (UNIX)
   # Set the gamma via X11 and not via SDL. This works
   # around problems in some SDL version. Adds dependencies
   # to pkg-config, libX11 and libXxf86vm. Unsupported on
   # Windows and OS X.
-  ht_set_option(YQ2_WITH_X11GAMMA FALSE BOOL "Set the gamma via X11 and not via SDL")
+  ht_set_option(HT_WITH_X11GAMMA FALSE BOOL "Set the gamma via X11 and not via SDL")
 endif()
 
 # Enables opening of ZIP files (also known as .pk3 packs).
 # Adds a dependency to libz
-ht_set_option(YQ2_WITH_ZIP FALSE BOOL "ZIP files support (for opening .pk3 packs)")
+ht_set_option(HT_WITH_ZIP FALSE BOOL "ZIP files support (for opening .pk3 packs)")
 
 # Enable systemwide installation of game assets
-ht_set_option(YQ2_SYSTEMWIDE TRUE BOOL "Enable systemwide installation of game assets")
+ht_set_option(HT_WITH_SYSTEMWIDE TRUE BOOL "Enable systemwide installation of game assets")
 
 # This will set the default SYSTEMDIR, a non-empty string
 # would actually be used. On Windows normals slashes (/)
@@ -92,26 +93,26 @@ if (WINDOWS)
 else()
   set (SYSTEMDIR_DEFAULT /usr/share/games/quake2)
 endif()
-ht_set_option(YQ2_SYSTEMDIR "${SYSTEMDIR_DEFAULT}" STRING "Location of system-wide game assets installation")
+ht_set_option(HT_WITH_SYSTEMDIR "${SYSTEMDIR_DEFAULT}" STRING "Location of system-wide game assets installation")
 
 # Architecture name string
 if (ARCH_32)
-    set (ARCH_NAME "x86")
-    add_definitions (-DYQ2_ARCH_32)
+    set (HT_ARCH_NAME "x86")
+    set (HT_ARCH_32 1)
 else()
-    set (ARCH_NAME "x86_64")
-    add_definitions (-DYQ2_ARCH_64)
+    set (HT_ARCH_NAME "x86_64")
+    set (HT_ARCH_64 1)
 endif()
 
 # Compiler related definitions
 if (COMPILER_GCC)
-    add_definitions (-DYQ2_COMPILER_GCC)
+    set (HT_CC_GCC 1)
 elseif (COMPILER_CLANG)
-    add_definitions (-DYQ2_COMPILER_CLANG)
+    set (HT_CC_CLANG 1)
 endif()
 
 # X11 libraries
-if (YQ2_WITH_X11GAMMA)
+if (HT_WITH_X11GAMMA)
   find_package (X11 REQUIRED)
 endif()
 
@@ -119,7 +120,7 @@ endif()
 find_package(OpenGL REQUIRED)
 
 # OpenAL
-if (YQ2_WITH_OPENAL)
+if (HT_WITH_OPENAL)
   find_package(OpenAL REQUIRED)
 endif()
 
@@ -127,7 +128,7 @@ endif()
 find_package (SDL REQUIRED)
 
 # OGG and Vorbis
-if (YQ2_WITH_OGG)
+if (HT_WITH_OGG)
   find_package (VORBIS REQUIRED)
 endif()
 
@@ -137,7 +138,7 @@ if (YQ2_WITH_RETEXTURE)
 endif()
 
 # zlib
-if (YQ2_WITH_ZIP)
+if (HT_WITH_ZIP)
   find_package (ZLIB REQUIRED)
 endif()
 

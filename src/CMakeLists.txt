@@ -1,5 +1,6 @@
 #
-# Hecatomb Quake II
+# Hecatomb
+# A Quake II Engine Extension
 # http://github.com/alericoveri/hecatomb
 #
 # CMake build automation scripts
@@ -15,33 +16,28 @@ set (SERVER_EXEC "htded")
 
 # Definitions
 if (WINDOWS)
-  add_definitions (-DHT_OS_WIN32)
+  set (HT_OS_WIN32 1)
 elseif (MACOSX)
-  add_definitions (-DHT_OS_OSX)
+  set (HT_OS_OSX 1)
 elseif (LINUX)
-  add_definitions (-DHT_OS_LINUX)
+  set (HT_OS_LINUX 1)
 elseif (BSD)
-  add_definitions (-DHT_OS_BSD)
+  set (HT_OS_BSD 1)
 endif ()
 
 if (UNIX)
-  add_definitions (-DHT_OS_UNIX)
+  set (HT_OS_UNIX 1)
 endif()
 
 # Source files root directory
 set (SRC_DIR ${CMAKE_CURRENT_SOURCE_DIR})
 
-# CD audio playback
-if (YQ2_WITH_CDA)
-  add_definitions (-DCDA)
-endif()
-
 # Link against this libraries
 set (LIBS m)
 
 # .pk3 files support
-if (YQ2_WITH_ZIP)
-  add_definitions (-DZIP -DNOUNCRYPT)
+if (HT_WITH_ZIP)
+  add_definitions (-DNOUNCRYPT)
   list (APPEND INCLUDE_DIRS ${ZLIB_INCLUDE_DIRS})  # zlib
   list (APPEND LIBS ${ZLIB_LIBRARIES})
 endif()
@@ -59,25 +55,19 @@ set (CLIENT_LIBS ${OPENGL_LIBRARIES}) # OpenGL
 list (APPEND CLIENT_LIBS ${SDL_LIBRARY}) # SDL
 
 # X11 hardware gamma
-if (YQ2_WITH_X11GAMMA)
-  add_definitions (-DX11GAMMA)
-  #list (APPEND INCLUDE_DIRS ${X11_INCLUDE_DIR}) # X11
+if (HT_WITH_X11GAMMA)
   list (APPEND INCLUDE_DIRS ${X11_xf86vmode_INCLUDE_PATH}) # X11
-  #list (APPEND CLIENT_LIBS  ${X11_LIBRARIES}) # X11 libraries
-  #list (APPEND CLIENT_LIBS xf86vm) # Xf86vmode library
   list (APPEND CLIENT_LIBS ${X11_Xxf86vm_LIB})
-  #message (FATAL_ERROR ${X11_LIBRARIES})
 endif()
 
 # Retexturing support
-if (YQ2_WITH_RETEXTURE)
-  add_definitions (-DRETEXTURE)
+if (HT_WITH_RETEXTURE)
   list (APPEND INCLUDE_DIRS ${JPEG_INCLUDE_DIR}) # libjpeg
   list (APPEND CLIENT_LIBS ${JPEG_LIBRARY}) # jpeg
 endif()
 
 # OpenAL
-if (YQ2_WITH_OPENAL)
+if (HT_WITH_OPENAL)
 
   # AL driver for QAL
   if (UNIX)
@@ -99,16 +89,9 @@ if (YQ2_WITH_OPENAL)
 endif()
 
 # OGG Vorbis
-if (YQ2_WITH_OGG)
-  add_definitions (-DOGG)
+if (HT_WITH_OGG)
   list (APPEND INCLUDE_DIRS ${OGG_INCLUDE_DIR} ${VORBIS_INCLUDE_DIR})
   list (APPEND CLIENT_LIBS ${OGG_LIBRARY} ${VORBIS_LIBRARY} ${VORBIS_FILE_LIBRARY})
-endif()
-
-
-# System wide assets
-if (YQ2_SYSTEMWIDE)
-  add_definitions (-DSYSTEMWIDE -DSYSTEMDIR="${YQ2_SYSTEMDIR}")
 endif()
 
 # Unix specific libraries
@@ -121,6 +104,9 @@ endif()
 
 # Include path
 include_directories (${INCLUDE_DIRS})
+
+# Configuration file
+configure_file (${SRC_DIR}/include/config.h.in ${SRC_DIR}/include/config.h)
 
 #
 # Platform-specific backends
