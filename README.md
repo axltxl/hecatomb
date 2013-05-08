@@ -9,7 +9,7 @@ Hecatomb has full support of 64-bit architectures.
 processors and operating systems. This code should run on Windows XP or later,
 Mac OS X 10.6 or higher and on most unix-like operating systems (only FreeBSD,
 Linux and OpenBSD are officially supported and tested, for other systems you'd
-at least have to edit the Makefile), just type "make" or "gmake" to compile.
+at least have to edit the `Makefile`), just type `make` or `gmake` to compile.
 
 This code is based upon Yamagi Quake II, which itself is based upon Icculus Quake II, which itself is built upon id
 Software's original code drop indeed. Additional code and patches by many contributers
@@ -49,7 +49,7 @@ Set `timedemo` to 1 and play a demo.
 ####When playing in window mode my cursor is locked onto the window. Can I change
 that, so that Quake II behaves like a normal window?
 Open the console by pressing `~` or `^` or drop into the menu. If you want Quake
-II to never  grab the mouse set "in_grab" to 0, if Quake II should never
+II to never  grab the mouse set `in_grab` to 0, if Quake II should never
 release the mouse set 1, for releasing the mouse when the console or the
 menu is opened set to 2. The default is 2.
 
