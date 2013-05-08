@@ -111,10 +111,10 @@ decisions in the original defaults.cfg. Please do not alter it,
 unless you know what you're doing! It may beak the game!
 
 ####Why isn't there an "underwater sound effect" when playing under OS X?
-That's a limitation of OS X. Apples OpenAL implementation doesn't
+That's a limitation of OS X. Apple's OpenAL implementation doesn't
 support sound effects.
 
-####Why is the FOV different than in id Softwares client?
+####Why is the FOV different than in id Software's client?
 id Softwares client was designed to work an 4:3 screens only. Setting
 the FOV kept the aspect ratio, expanded the view angle in height and 
 width. Setting a higher FOV on wider screens was common, but the image
