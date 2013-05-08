@@ -1,9 +1,9 @@
 #Hecatomb
-A [Yamagi Quake 2](http://github.com/yquake2) Expansion  
+A Q2 Engine Expansion  
 
 [![Build Status](https://drone.io/github.com/alericoveri/hecatomb/status.png)](https://drone.io/github.com/alericoveri/hecatomb/latest)
 
-This is the Hecatomb Quake II Client, an enhanced Version of Yamagi's Quake
+This is the Hecatomb Quake II Client, an enhanced Version of [Yamagi's Quake 2](http://github.com/yquake2)
 II. The main focus is engine modernization and expansion. With the power and stability of Yamagi Quake II, 
 Hecatomb has full support of 64-bit architectures.
 processors and operating systems. This code should run on Windows XP or later,
