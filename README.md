@@ -78,17 +78,17 @@ to the desired path.
 Yes, the same way as connecting to an IPv4 server. Since the Quake II console
 has problems with the characters `:`, `[` and `]` we suggest to submit the
 connection command as command line argument:
-  `./quake2 +connect "[2001:db8::1]"`
+  `ht +connect "[2001:db8::1]"`
 If you want to connect to a server with a non-standard port use the following
 syntax:
-  `./quake2 +connect "[2001:db8::1]:12345"`
+  `ht +connect "[2001:db8::1]:12345"`
 For your server to show up in the server list you need to supply a multicast
 interface to both the client and the server:
-  `./q2ded +set multicast eth0`
-  `./quake2 +set multicast eth0`
+  `htded +set multicast eth0`
+  `ht +set multicast eth0`
 Normaly the server will listen to all IPv4 and IPv6 addresses. You can bind
 it to an address with:
-  `./q2ded +set ip "[2001:db8::1]"`
+  `htded +set ip "[2001:db8::1]"`
 
 ####Where can I find the configuration file?
 It's located at ~/.yq2/game/config.cfg (FreeBSD, Linux, OpenBSD and OS X) or
