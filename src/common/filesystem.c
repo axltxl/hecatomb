@@ -28,7 +28,7 @@
 #include "prereqs.h"
 #include "common/glob.h"
 
-#ifdef ZIP
+#ifdef HT_WITH_ZIP
  #include "common/unzip/unzip.h"
 #endif
 
@@ -38,18 +38,12 @@
 #define MAX_FIND_FILES 0x04000
 #define MAX_PAKS 100
 
-#ifdef SYSTEMWIDE
- #ifndef SYSTEMDIR
-  #define SYSTEMDIR "/usr/share/games/quake2/"
- #endif
-#endif
-
 typedef struct
 {
 	char name[MAX_QPATH];
 	fsMode_t mode;
 	FILE *file;           /* Only one will be used. */
-#ifdef ZIP
+#ifdef HT_WITH_ZIP
 	unzFile *zip;        /* (file or zip) */
 #endif
 } fsHandle_t;
@@ -74,7 +68,7 @@ typedef struct
 	char name[MAX_OSPATH];
 	int numFiles;
 	FILE *pak;
-#ifdef ZIP
+#ifdef HT_WITH_ZIP
 	unzFile *pk3;
 #endif
 	fsPackFile_t *files;
@@ -90,7 +84,7 @@ typedef struct fsSearchPath_s
 typedef enum
 {
 	PAK,
-#ifdef ZIP
+#ifdef HT_WITH_ZIP
 	PK3
 #endif
 } fsPackFormat_t;
@@ -109,7 +103,7 @@ fsSearchPath_t *fs_baseSearchPaths;
 /* Pack formats / suffixes. */
 fsPackTypes_t fs_packtypes[] = {
 	{"pak", PAK},
-#ifdef ZIP
+#ifdef HT_WITH_ZIP
 	{"pk2", PK3},
 	{"pk3", PK3},
 	{"zip", PK3}
@@ -124,7 +118,7 @@ static qboolean fs_fileInPack;
 
 /* Set by FS_FOpenFile. */
 int file_from_pak = 0;
-#ifdef ZIP
+#ifdef HT_WITH_ZIP
 int file_from_pk3 = 0;
 char file_from_pk3_name[MAX_QPATH];
 #endif
@@ -268,7 +262,7 @@ FS_FileForHandle(fileHandle_t f)
 
 	handle = FS_GetFileByHandle(f);
 
-#ifdef ZIP
+#ifdef HT_WITH_ZIP
 	if (handle->zip != NULL)
 	{
 		Com_Error(ERR_DROP, "FS_FileForHandle: can't get FILE on zip file");
@@ -297,7 +291,7 @@ FS_HandleForFile(const char *path, fileHandle_t *f)
 	for (i = 0; i < MAX_HANDLES; i++, handle++)
 	{
 		if ((handle->file == NULL)
-#ifdef ZIP
+#ifdef HT_WITH_ZIP
 			 && (handle->zip == NULL)
 #endif
 			)
@@ -408,7 +402,7 @@ FS_FOpenFileRead(fsHandle_t *handle)
 	fsPack_t *pack;
 
 	file_from_pak = 0;
-#ifdef ZIP
+#ifdef HT_WITH_ZIP
 	file_from_pk3 = 0;
 #endif
 
@@ -447,7 +441,7 @@ FS_FOpenFileRead(fsHandle_t *handle)
 							return pack->files[i].size;
 						}
 					}
-#ifdef ZIP
+#ifdef HT_WITH_ZIP
 					else if (pack->pk3)
 					{
 						/* PK3 */
@@ -537,7 +531,7 @@ FS_FCloseFile(fileHandle_t f)
 	{
 		fclose(handle->file);
 	}
-#ifdef ZIP
+#ifdef HT_WITH_ZIP
 	else if (handle->zip)
 	{
 		unzCloseCurrentFile(handle->zip);
@@ -652,7 +646,7 @@ FS_Read(void *buffer, int size, fileHandle_t f)
 		{
 			r = fread(buf, 1, remaining, handle->file);
 		}
-#ifdef ZIP
+#ifdef HT_WITH_ZIP
 		else if (handle->zip)
 		{
 			r = unzReadCurrentFile(handle->zip, buf, remaining);
@@ -723,7 +717,7 @@ FS_FRead(void *buffer, int size, int count, fileHandle_t f)
 			{
 				r = fread(buf, 1, remaining, handle->file);
 			}
-#ifdef ZIP
+#ifdef HT_WITH_ZIP
 			else if (handle->zip)
 			{
 				r = unzReadCurrentFile(handle->zip, buf, remaining);
@@ -787,7 +781,7 @@ FS_Write(const void *buffer, int size, fileHandle_t f)
 		{
 			w = fwrite(buf, 1, remaining, handle->file);
 		}
-#ifdef ZIP
+#ifdef HT_WITH_ZIP
 		else if (handle->zip)
 		{
 			Com_Error(ERR_FATAL,
@@ -830,7 +824,7 @@ FS_FTell(fileHandle_t f)
 	{
 		return ftell(handle->file);
 	}
-#ifdef ZIP
+#ifdef HT_WITH_ZIP
 	else if (handle->zip)
 	{
 		return unztell(handle->zip);
@@ -901,7 +895,7 @@ FS_ListPak(char *find, int *num)
 void
 FS_Seek(fileHandle_t f, int offset, fsOrigin_t origin)
 {
-#ifdef ZIP
+#ifdef HT_WITH_ZIP
 	byte dummy[0x8000]; /* Dummy buffer to skip bytes. */
 	int len; /* Length of byte chunk to skip. */
 	int r; /* Number of bytes read. */
@@ -930,7 +924,7 @@ FS_Seek(fileHandle_t f, int offset, fsOrigin_t origin)
 				break;
 		}
 	}
-#ifdef ZIP
+#ifdef HT_WITH_ZIP
 	else if (handle->zip)
 	{
 		switch (origin)
@@ -998,7 +992,7 @@ FS_Tell(fileHandle_t f)
 	{
 		return ftell(handle->file);
 	}
-#ifdef ZIP
+#ifdef HT_WITH_ZIP
 	else if (handle->zip)
 	{
 		return unztell(handle->zip);
@@ -1158,7 +1152,7 @@ FS_LoadPAK(const char *packPath)
 	pack = Z_Malloc(sizeof(fsPack_t));
 	strncpy(pack->name, packPath, sizeof(pack->name));
 	pack->pak = handle;
-#ifdef ZIP
+#ifdef HT_WITH_ZIP
 	pack->pk3 = NULL;
 #endif
 	pack->numFiles = numFiles;
@@ -1169,7 +1163,7 @@ FS_LoadPAK(const char *packPath)
 	return pack;
 }
 
-#ifdef ZIP
+#ifdef HT_WITH_ZIP
 /*
  * Takes an explicit (not game tree related) path to a pack file.
  *
@@ -1284,7 +1278,7 @@ FS_AddGameDirectory(const char *dir)
 				case PAK:
 					pack = FS_LoadPAK(path);
 					break;
-#ifdef ZIP
+#ifdef HT_WITH_ZIP
 				case PK3:
 					pack = FS_LoadPK3(path);
 					break;
@@ -1329,7 +1323,7 @@ FS_AddGameDirectory(const char *dir)
 				case PAK:
 					pack = FS_LoadPAK(list[j]);
 					break;
-#ifdef ZIP
+#ifdef HT_WITH_ZIP
 				case PK3:
 					pack = FS_LoadPK3(list[j]);
 					break;
@@ -1382,12 +1376,12 @@ FS_AddHomeAsGameDirectory(char *dir)
 	FS_AddGameDirectory(gdir);
 }
 
-#ifdef SYSTEMWIDE
+#ifdef HT_WITH_SYSTEMWIDE
 void
 FS_AddSystemwideGameDirectory(char *dir)
 {
 	char gdir[MAX_OSPATH];
-	char *datadir = SYSTEMDIR;
+	char *datadir = HT_WITH_SYSTEMDIR;
 	int len = snprintf(gdir, sizeof(gdir), "%s/%s/", datadir, dir);
 
 	printf("Using %s to fetch paks\n", gdir);
@@ -1465,7 +1459,7 @@ FS_Path_f(void)
 	for (i = 0, handle = fs_handles; i < MAX_HANDLES; i++, handle++)
 	{
 		if ((handle->file != NULL)
-#ifdef ZIP
+#ifdef HT_WITH_ZIP
 			 || (handle->zip != NULL)
 #endif
 			)
@@ -1480,7 +1474,7 @@ FS_Path_f(void)
 	}
 
 	Com_Printf("----------------------\n");
-#ifdef ZIP
+#ifdef HT_WITH_ZIP
 	Com_Printf("%i files in PAK/PK2/PK3/ZIP files.\n", totalFiles);
 #else
 	Com_Printf("%i files in PAK/PK2 files.\n", totalFiles);
@@ -1518,7 +1512,7 @@ FS_Startup(void)
 					fclose(pack->pak);
 				}
 
-#ifdef ZIP
+#ifdef HT_WITH_ZIP
 				if (pack->pk3 != NULL)
 				{
 					unzClose(pack->pk3);
@@ -1539,7 +1533,7 @@ FS_Startup(void)
 		{
 			if (strstr(fs_handles[i].name, fs_currentGame) &&
 				((fs_handles[i].file != NULL)
-#ifdef ZIP
+#ifdef HT_WITH_ZIP
 				  || (fs_handles[i].zip != NULL)
 #endif
 				))
@@ -1618,7 +1612,7 @@ FS_SetGamedir(char *dir)
 				fclose(fs_searchPaths->pack->pak);
 			}
 
-#ifdef ZIP
+#ifdef HT_WITH_ZIP
 			if (fs_searchPaths->pack->pk3)
 			{
 				unzClose(fs_searchPaths->pack->pk3);
@@ -1639,7 +1633,7 @@ FS_SetGamedir(char *dir)
 	{
 		if (strstr(fs_handles[i].name, dir) &&
 			((fs_handles[i].file != NULL)
-#ifdef ZIP
+#ifdef HT_WITH_ZIP
 			  || (fs_handles[i].zip != NULL)
 #endif
 			))
@@ -1671,7 +1665,7 @@ FS_SetGamedir(char *dir)
 			FS_AddGameDirectory(va("%s/%s", fs_cddir->string, dir));
 		}
 
-#ifdef SYSTEMWIDE
+#ifdef HT_WITH_SYSTEMWIDE
 		FS_AddSystemwideGameDirectory(dir);
 #endif
 
@@ -2083,7 +2077,7 @@ FS_InitFilesystem(void)
 	/* Current directory. */
 	fs_homepath = Cvar_Get("homepath", Sys_GetCurrentDirectory(), CVAR_NOSET);
 
-#ifdef SYSTEMWIDE
+#ifdef HT_WITH_SYSTEMWIDE
 	FS_AddSystemwideGameDirectory(BASEDIRNAME);
 #endif
 
@@ -2128,7 +2122,7 @@ FS_Shutdown(void)
 			fclose(handle->file);
 		}
 
-#ifdef ZIP
+#ifdef HT_WITH_ZIP
 		if (handle->zip != NULL)
 		{
 			unzCloseCurrentFile(handle->zip);
@@ -2149,7 +2143,7 @@ FS_Shutdown(void)
 				fclose(pack->pak);
 			}
 
-#ifdef ZIP
+#ifdef HT_WITH_ZIP
 			if (pack->pk3 != NULL)
 			{
 				unzClose(pack->pk3);
