@@ -61,7 +61,7 @@ As a work around use the startscript in stuff/quake-start.sh It deactivates
 the screensaver before starting Quake II and reenables it after exiting the
 game.
 
-####The movement is fucked up! I can jump much higher and longer as it used to be! What's wrong?
+####The movement is screwed up! I can jump much higher and longer as it used to be! What's wrong?
 You're experiencing the Quake II version of the famous Q3A 125hz bug.
 When Quake II draws more than about 100 FPS the movement calculations go
 wrong and you can jump much higher. To solve this set `cl_maxfps` to about
