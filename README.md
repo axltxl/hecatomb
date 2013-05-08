@@ -16,6 +16,17 @@ Software's original code drop indeed. Additional code and patches by many contri
 were used. It's released under the terms of the GPL version 2. See the LICENSE
 file for further information.
 
+###Priorities at this time
+* Good layout/organization of the code, that includes 2-space indentation and better header layout
+* CMake build automation integration
+
+###Priorities at future
+* Better cross-architecture integer support
+
+###Wishlist
+* PhysicsFS backend
+* GLEW backend for dealing with OpenGL context and extensions on refreshera
+
 ##1. Installation on (Free|Open)BSD and Linux
 
 Note: If you're using Debian Linux or a derived distribution like Ubuntu, you
@@ -88,12 +99,11 @@ demo), you have to compile the Yamagi Quake II client.
 You will need the following dependencies (by editing the Makefile
 the requirement of most of this depencenies can be removed, but
 it'll lead to the loss of features):
- - A libGL implementation (Mesa3D, nVidia, AMD Catalyst, etc.)
- - OpenGL system headers
+ - OpenGL
  - libjpeg (6 or 8)
- - libogg with development headers
- - libvorbis with development headers
- - SDL with development headers and sdl-config(1)
+ - libogg
+ - libvorbis
+ - SDL 1.2
  - ZLib
 
 Extract the source, change into the new created directory and type "make"
@@ -181,9 +191,9 @@ directory structure.
 
 ###2.6 Compiling
 
-Compiling Yamagi Quake II from source is unnecessary as long as you will not
+Compiling Hecatomb from source is unnecessary as long as you will not
 use the github version or want to develop on Windows. If you really want to
-compile Yamagi Quake II by yourself follow these steps:
+compile Hecatomba by yourself follow these steps:
 
 1. Grab a copy of Nuwens MinGW distribution from http://nuwen.net/mingw.html
    Our code is tested with version 9.0, newer version may work but we can not
@@ -285,7 +295,7 @@ now ready.
 
 ###3.6 Compiling
 
-Compiling Yamagi Quake II from source is unnecessary as long as you will not
+Compiling Hecatomba from source is unnecessary as long as you will not
 use the github version or want to develop on OS X. If you really want to
 compile Yamagi Quake II by yourself follow these steps:
 
@@ -408,7 +418,7 @@ For most people the options in the "Video" menu are sufficent. But there
 are some things that can and in some cases must be tuned via cvars. Here
 the most common questions are answered.
 
-- Yamagi Quake II has full support for widescreen setups. Just select your
+- Hecatomb has full support for widescreen setups. Just select your
   favorite resolution via the video menu.
 
 - If your resolution is not in the list, it's also possible to set custom
@@ -437,21 +447,21 @@ the most common questions are answered.
 - If the colors look over-saturated try setting the cvar "intensity" to a lower
   value, e.g. 1.
 
-- Yamagi Quake II offers hardware gamma control in realtime in the "Video" menu.
+- Hecatomb offers hardware gamma control in realtime in the "Video" menu.
   If Quake II is still too dark, set the "vid_gamma" cvar by hand to values
   above 1.5.
 
-- Yamagi Quake II can draw shadows. Just set "gl_shadows" to 1. You most
+- Hecatomb can draw shadows. Just set "gl_shadows" to 1. You most
   likely want to set "gl_stecilshadow" to 1 too. This enables high
   quality stencil buffer shadows.
 
-- Yamagi Quake II has support for anisotropic filtering. Activating it
+- Hecatomb has support for anisotropic filtering. Activating it
   improves texture drawing over large distances a bit.
   Enter "gl_anisotropic_avail" in your console for the maximum amount of
   filtering supported by your video card and set the cvar "gl_anisotropic" to
   the desired value. It must be a power of 2, in most cases 2, 4, 8 or 16.
 
-- Yamagi Quake II has support for the high resolution retexturing pack, created
+- Hecatomb has support for the high resolution retexturing pack, created
   by the community. Installation is easy:
    1. Download q2_textures.zip and/or models.zip from
         http://www-personal.umich.edu/~jimw/q2/
