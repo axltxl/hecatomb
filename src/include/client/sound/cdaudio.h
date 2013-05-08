@@ -24,7 +24,7 @@
  * =======================================================================
  */
 
-#ifdef CDA
+#ifdef HT_WITH_CDA
 
 #ifndef CL_SOUND_CDAUDIO_H
 #define CL_SOUND_CDAUDIO_H

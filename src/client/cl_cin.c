@@ -578,7 +578,7 @@ SCR_PlayCinematic(char *arg)
 	char name[MAX_OSPATH], *dot;
 
 	/* make sure background music is not playing */
-#ifdef CDA
+#ifdef HT_WITH_CDA
 	CDAudio_Stop();
 #endif
 #ifdef OGG

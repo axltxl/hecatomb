@@ -820,7 +820,7 @@ CL_Frame(int msec)
 
 	/* update audio */
 	S_Update(cl.refdef.vieworg, cl.v_forward, cl.v_right, cl.v_up);
-#ifdef CDA
+#ifdef HT_WITH_CDA
 	CDAudio_Update();
 #endif
 
@@ -891,7 +891,7 @@ CL_Init(void)
 
 	cls.disable_screen = true; /* don't draw yet */
 
-#ifdef CDA
+#ifdef HT_WITH_CDA
 	CDAudio_Init();
 #endif
 
@@ -917,7 +917,7 @@ CL_Shutdown(void)
 
 	CL_WriteConfiguration();
 
-#ifdef CDA
+#ifdef HT_WITH_CDA
 	CDAudio_Shutdown();
 #endif
 #ifdef OGG

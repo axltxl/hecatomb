@@ -975,10 +975,10 @@ static menulist_s s_options_lookspring_box;
 static menulist_s s_options_lookstrafe_box;
 static menulist_s s_options_crosshair_box;
 static menuslider_s s_options_sfxvolume_slider;
-#ifdef CDA
+#ifdef HT_WITH_CDA
 static menulist_s s_options_cdvolume_box;
 #endif
-#if defined(OGG) || defined(CDA)
+#if defined(OGG) || defined(HT_WITH_CDA)
 static menulist_s s_options_cdshuffle_box;
 #endif
 #ifdef OGG
@@ -1037,7 +1037,7 @@ static void
 ControlsSetMenuItemValues(void)
 {
     s_options_sfxvolume_slider.curvalue = Cvar_VariableValue("s_volume") * 10;
-#ifdef CDA
+#ifdef HT_WITH_CDA
     s_options_cdvolume_box.curvalue = !Cvar_VariableValue("cd_nocd");
 #endif
 
@@ -1113,7 +1113,7 @@ UpdateVolumeFunc(void *unused)
     Cvar_SetValue("s_volume", s_options_sfxvolume_slider.curvalue / 10);
 }
 
-#if defined(OGG) || defined(CDA)
+#if defined(OGG) || defined(HT_WITH_CDA)
 static void
 CDShuffleFunc(void *unused)
 {
@@ -1157,7 +1157,7 @@ CDShuffleFunc(void *unused)
 
 #endif
 
-#ifdef CDA
+#ifdef HT_WITH_CDA
 static void
 UpdateCDVolumeFunc(void *unused)
 {
@@ -1196,13 +1196,13 @@ static void
 UpdateOGGVolumeFunc(void *unused)
 {
     Cvar_SetValue("ogg_enable", (float)s_options_oggvolume_box.curvalue);
-#ifdef CDA
+#ifdef HT_WITH_CDA
     Cvar_SetValue("cd_nocd", 1);
 #endif
 
     if (s_options_oggvolume_box.curvalue)
     {
-#ifdef CDA
+#ifdef HT_WITH_CDA
         CDAudio_Stop();
 #endif
         OGG_Init();
@@ -1281,7 +1281,7 @@ UpdateSoundQualityFunc(void *unused)
 static void
 Options_MenuInit(void)
 {
-#ifdef CDA
+#ifdef HT_WITH_CDA
     static const char *cd_music_items[] =
     {
         "disabled",
@@ -1299,7 +1299,7 @@ Options_MenuInit(void)
     };
 #endif
 
-#if defined(OGG) || defined(CDA)
+#if defined(OGG) || defined(HT_WITH_CDA)
     static const char *cd_shuffle[] =
     {
         "disabled",
@@ -1343,7 +1343,7 @@ Options_MenuInit(void)
     s_options_sfxvolume_slider.maxvalue = 10;
     s_options_sfxvolume_slider.curvalue = Cvar_VariableValue("s_volume") * 10.0f;
 
-#ifdef CDA
+#ifdef HT_WITH_CDA
     s_options_cdvolume_box.generic.type = MTYPE_SPINCONTROL;
     s_options_cdvolume_box.generic.x = 0;
     s_options_cdvolume_box.generic.y = 10;
@@ -1363,7 +1363,7 @@ Options_MenuInit(void)
     s_options_oggvolume_box.curvalue = Cvar_VariableValue("ogg_enable");
 #endif
 
-#if defined(OGG) || defined(CDA)
+#if defined(OGG) || defined(HT_WITH_CDA)
     s_options_cdshuffle_box.generic.type = MTYPE_SPINCONTROL;
     s_options_cdshuffle_box.generic.x = 0;
     s_options_cdshuffle_box.generic.y = 30;
@@ -1452,13 +1452,13 @@ Options_MenuInit(void)
     ControlsSetMenuItemValues();
 
     Menu_AddItem(&s_options_menu, (void *)&s_options_sfxvolume_slider);
-#ifdef CDA
+#ifdef HT_WITH_CDA
     Menu_AddItem(&s_options_menu, (void *)&s_options_cdvolume_box);
 #endif
 #ifdef OGG
     Menu_AddItem(&s_options_menu, (void *)&s_options_oggvolume_box);
 #endif
-#if defined(OGG) || defined(CDA)
+#if defined(OGG) || defined(HT_WITH_CDA)
     Menu_AddItem(&s_options_menu, (void *)&s_options_cdshuffle_box);
 #endif
     Menu_AddItem(&s_options_menu, (void *)&s_options_quality_list);

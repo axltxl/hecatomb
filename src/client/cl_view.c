@@ -355,18 +355,18 @@ CL_PrepRefresh(void)
 	cl.refresh_prepped = true;
 	cl.force_refdef = true; /* make sure we have a valid refdef */
 
-#if defined(OGG) || defined(CDA)
+#if defined(OGG) || defined(HT_WITH_CDA)
 
 	/* start the cd track */
 	if (Cvar_VariableValue("cd_shuffle"))
 	{
- #ifdef CDA
+ #ifdef HT_WITH_CDA
 		CDAudio_RandomPlay();
  #endif
 	}
 	else
 	{
- #ifdef CDA
+ #ifdef HT_WITH_CDA
 		CDAudio_Play((int)strtol(cl.configstrings[CS_CDTRACK], (char **)NULL, 10), true);
  #endif
 

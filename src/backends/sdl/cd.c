@@ -25,8 +25,6 @@
  * =======================================================================
  */
 
-#ifdef CDA
-
 /*#include <stdio.h>
 
 #ifdef _WIN32
@@ -42,6 +40,8 @@
 #include "prereqs.h"
 #include "backend/generic/sdl.h"
 #include "client/client.h"
+
+#ifdef HT_WITH_CDA
 
 static qboolean cdValid = false;
 static qboolean initialized = false;
@@ -529,4 +529,4 @@ CDAudio_Activate(qboolean active)
 	}
 }
 
-#endif /* CDA */
+#endif /* HT_WITH_CDA */

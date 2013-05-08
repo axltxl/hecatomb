@@ -327,7 +327,7 @@ CL_Disconnect(void)
 #ifdef OGG
 	OGG_Stop();
 #endif
-#ifdef CDA
+#ifdef HT_WITH_CDA
 	CDAudio_Stop();
 #endif
 

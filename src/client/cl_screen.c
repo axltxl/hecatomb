@@ -557,7 +557,7 @@ SCR_BeginLoadingPlaque(void)
 {
 	S_StopAllSounds();
 	cl.sound_prepped = false; /* don't play ambients */
-#ifdef CDA
+#ifdef HT_WITH_CDA
 	CDAudio_Stop();
 #endif
 #ifdef OGG

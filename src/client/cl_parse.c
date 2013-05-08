@@ -1079,7 +1079,7 @@ CL_ParseConfigString(void)
 	{
 		if (cl.refresh_prepped)
 		{
-#ifdef CDA
+#ifdef HT_WITH_CDA
 			CDAudio_Play((int)strtol(cl.configstrings[CS_CDTRACK],
 							(char **)NULL, 10), true);
 #endif
