@@ -108,7 +108,7 @@ to 4096 units by setting `gl_farsee` to "1".
 ####What is yq2.cfg for?
 yq2.cfg is an alternate startup script, used to override some bad
 decisions in the original defaults.cfg. Please do not alter it,
-unless you know what you're doing! It may beak the game!
+unless you know what you're doing! It might break the game!.
 
 ####Why isn't there an "underwater sound effect" when playing under OS X?
 That's a limitation of OS X. Apple's OpenAL implementation doesn't
