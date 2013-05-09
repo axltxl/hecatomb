@@ -48,6 +48,37 @@ set (CMAKE_MODULE_PATH "${CMAKE_GOODIES_PATH}/modules" ${CMAKE_MODULE_PATH})
 # detect OS, compiler, architecture
 include (${CMAKE_GOODIES_PATH}/Config.cmake)
 
+# let CMake know about our additional libraries paths (on Windows and OS X)
+# Thanks to SFML guys for this snippet
+set (EXTLIBS_BASE "${PROJECT_SOURCE_DIR}/extlibs")
+set (EXTLIBS_HEADERS "${EXTLIBS_BASE}/include")
+set (EXTLIBS_LIBS "${EXTLIBS_BASE}/libs")
+set (EXTLIBS_BIN "${EXTLIBS_BASE}/bin")
+if (WINDOWS)
+  set (CMAKE_INCLUDE_PATH ${CMAKE_INCLUDE_PATH} "${EXTLIBS_HEADERS}")
+  if (COMPILER_GCC)
+    set (EXTLIBS_LIBS_MINGW "${EXTLIBS_LIBS}/mingw")
+    if (ARCH_32)
+			set (CMAKE_LIBRARY_PATH ${CMAKE_LIBRARY_PATH} "${EXTLIBS_LIBS_MINGW}/x86")
+      set (CMAKE_LIBRARY_PATH ${CMAKE_LIBRARY_PATH} "${EXTLIBS_BIN}/x86")
+    elseif(ARCH_64)
+			set (CMAKE_LIBRARY_PATH ${CMAKE_LIBRARY_PATH} "${EXTLIBS_LIBS_MINGW}/x64")
+      set (CMAKE_LIBRARY_PATH ${CMAKE_LIBRARY_PATH} "${EXTLIBS_BIN}/x64")
+  endif()
+  # There's not yet support for this compiler
+  elseif(COMPILER_MSVC)
+    set (EXTLIBS_LIBS_MSVC "${EXTLIBS_LIBS}/msvc")
+    if(ARCH_32)
+      set (CMAKE_LIBRARY_PATH ${CMAKE_LIBRARY_PATH} "${EXTLIBS_LIBS_MSVC}/x86")
+    elseif(ARCH_64)
+      set (CMAKE_LIBRARY_PATH ${CMAKE_LIBRARY_PATH} "${EXTLIBS_LIBS_MSVC}/x64")
+    endif()
+  endif()
+elseif (OSX)
+  set (CMAKE_INCLUDE_PATH ${CMAKE_INCLUDE_PATH} "${EXTLIBS_HEADERS}")
+  set (CMAKE_LIBRARY_PATH ${CMAKE_LIBRARY_PATH} "${EXTLIBS_LIBS_OSX}/osx")
+endif()
+
 # Enables CD audio playback. CD audio playback is used
 # for the background music and doesn't add any further
 # dependencies. It should work on all platforms where
