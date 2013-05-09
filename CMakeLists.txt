@@ -123,7 +123,7 @@ ht_set_option(YQ2_SYSTEMWIDE TRUE BOOL
 # would actually be used. On Windows normals slashes (/)
 # instead of backslashed (\) should be used!
 if (WINDOWS)
-  set (SYSTEMDIR_DEFAULT c:\\quake2)
+  set (SYSTEMDIR_DEFAULT c:/quake2)
 else()
   set (SYSTEMDIR_DEFAULT /usr/share/games/quake2)
 endif()
