@@ -48,18 +48,20 @@ endif()
 list (APPEND BACKEND_CLIENT_SRC ${BACKEND_SDL_SRC})
     
 # Unix backend
-set (BACKEND_UNIX_DIR ${BACKEND_DIR}/unix)
-set (
-  BACKEND_UNIX_SRC
-     
-  ${BACKEND_UNIX_DIR}/main.c
-  ${BACKEND_UNIX_DIR}/network.c
-  ${BACKEND_UNIX_DIR}/signalhandler.c
-  ${BACKEND_UNIX_DIR}/system.c
-  ${BACKEND_UNIX_DIR}/shared/hunk.c
-)
-list (APPEND BACKEND_CLIENT_SRC ${BACKEND_UNIX_SRC})
-list (APPEND BACKEND_SERVER_SRC ${BACKEND_UNIX_SRC})
+if (UNIX)
+  set (BACKEND_UNIX_DIR ${BACKEND_DIR}/unix)
+  set (
+    BACKEND_UNIX_SRC
+	 
+    ${BACKEND_UNIX_DIR}/main.c
+    ${BACKEND_UNIX_DIR}/network.c
+    ${BACKEND_UNIX_DIR}/signalhandler.c
+    ${BACKEND_UNIX_DIR}/system.c
+    ${BACKEND_UNIX_DIR}/shared/hunk.c
+  )
+  list (APPEND BACKEND_CLIENT_SRC ${BACKEND_UNIX_SRC})
+  list (APPEND BACKEND_SERVER_SRC ${BACKEND_UNIX_SRC})
+endif()
 
 # Windows backend
 if (WINDOWS)
