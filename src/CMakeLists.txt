@@ -124,6 +124,14 @@ endif()
 # Include path
 include_directories (${INCLUDE_DIRS})
 
+# Set output directory
+set (OUTPUT_DIR ${PROJECT_SOURCE_DIR}/bin)
+if (ARCH_32)
+  set (OUTPUT_DIR "${OUTPUT_DIR}/x86")
+else()
+  set (OUTPUT_DIR "${OUTPUT_DIR}/x64")
+endif()
+
 #
 # Platform-specific backends
 #
@@ -156,3 +164,7 @@ target_link_libraries (server ${LIBS})
 add_executable (client ${CLIENT_EXEC_SRC})
 set_target_properties(client PROPERTIES OUTPUT_NAME "${CLIENT_EXEC}") 
 target_link_libraries(client ${LIBS} ${CLIENT_LIBS})
+
+# Set output directory
+set_target_properties (client server 
+    PROPERTIES RUNTIME_OUTPUT_DIRECTORY ${OUTPUT_DIR})
