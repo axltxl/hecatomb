@@ -560,7 +560,7 @@ SCR_BeginLoadingPlaque(void)
 #ifdef HT_WITH_CDA
 	CDAudio_Stop();
 #endif
-#ifdef OGG
+#ifdef HT_WITH_OGG
 	OGG_Stop();
 #endif
 

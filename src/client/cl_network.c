@@ -324,7 +324,7 @@ CL_Disconnect(void)
 	cls.connect_time = 0;
 
 	SCR_StopCinematic();
-#ifdef OGG
+#ifdef HT_WITH_OGG
 	OGG_Stop();
 #endif
 #ifdef HT_WITH_CDA

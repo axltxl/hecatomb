@@ -355,7 +355,7 @@ CL_PrepRefresh(void)
 	cl.refresh_prepped = true;
 	cl.force_refdef = true; /* make sure we have a valid refdef */
 
-#if defined(OGG) || defined(HT_WITH_CDA)
+#if defined(HT_WITH_OGG) || defined(HT_WITH_CDA)
 
 	/* start the cd track */
 	if (Cvar_VariableValue("cd_shuffle"))
@@ -370,7 +370,7 @@ CL_PrepRefresh(void)
 		CDAudio_Play((int)strtol(cl.configstrings[CS_CDTRACK], (char **)NULL, 10), true);
  #endif
 
- #ifdef OGG
+ #ifdef HT_WITH_OGG
 
 		/* OGG/Vorbis */
 		if ((int)strtol(cl.configstrings[CS_CDTRACK], (char **)NULL, 10) < 10)

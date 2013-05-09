@@ -1021,7 +1021,7 @@ S_Init(void)
 	Cmd_AddCommand("stopsound", S_StopAllSounds);
 	Cmd_AddCommand("soundlist", S_SoundList);
 	Cmd_AddCommand("soundinfo", S_SoundInfo_f);
-#ifdef OGG
+#ifdef HT_WITH_OGG
 	Cmd_AddCommand("ogg_init", OGG_Init);
 	Cmd_AddCommand("ogg_shutdown", OGG_Shutdown);
 #endif
@@ -1050,7 +1050,7 @@ S_Init(void)
 	num_sfx = 0;
 	paintedtime = 0;
 
-#ifdef OGG
+#ifdef HT_WITH_OGG
 	OGG_Init();
 #endif
 
@@ -1077,7 +1077,7 @@ S_Shutdown(void)
 
 	S_StopAllSounds();
 
-#ifdef OGG
+#ifdef HT_WITH_OGG
 	OGG_Shutdown();
 #endif
 
@@ -1131,7 +1131,7 @@ S_Shutdown(void)
 	Cmd_RemoveCommand("soundinfo");
 	Cmd_RemoveCommand("play");
 	Cmd_RemoveCommand("stopsound");
-#ifdef OGG
+#ifdef HT_WITH_OGG
 	Cmd_RemoveCommand("ogg_init");
 	Cmd_RemoveCommand("ogg_shutdown");
 #endif

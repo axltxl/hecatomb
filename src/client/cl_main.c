@@ -920,7 +920,7 @@ CL_Shutdown(void)
 #ifdef HT_WITH_CDA
 	CDAudio_Shutdown();
 #endif
-#ifdef OGG
+#ifdef HT_WITH_OGG
 	OGG_Stop();
 #endif
 	S_Shutdown();

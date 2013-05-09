@@ -27,6 +27,17 @@
 #ifndef CL_CLIENT_H
 #define CL_CLIENT_H
 
+#include "prereqs.h"
+#include "client/ref.h"
+#include "client/vid.h"
+#include "client/screen.h"
+#include "client/input.h"
+#include "client/keyboard.h"
+#include "client/console.h"
+#include "client/sound/cdaudio.h"
+#include "client/sound/sound.h"
+#include "client/sound/vorbis.h"
+
 #ifdef __x86_64__
 #define INT long int
 #elif defined __ia64__
@@ -50,23 +61,6 @@
 #define	PARTICLE_GRAVITY 40
 #define BLASTER_PARTICLE_COLOR 0xe0
 #define INSTANT_PARTICLE -10000.0
-
-#include "prereqs.h"
-
-#include "client/ref.h"
-#include "client/vid.h"
-#include "client/screen.h"
-#include "client/input.h"
-#include "client/keyboard.h"
-#include "client/console.h"
-
-//#include "../sound/header/cdaudio.h"
-//#include "../sound/header/sound.h"
-//#include "../sound/header/vorbis.h"
-
-#include "client/sound/cdaudio.h"
-#include "client/sound/sound.h"
-#include "client/sound/vorbis.h"
 
 typedef struct
 {

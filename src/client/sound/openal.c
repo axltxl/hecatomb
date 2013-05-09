@@ -601,7 +601,7 @@ AL_Update(void)
 	AL_AddLoopSounds();
 
 	/* add music */
-#ifdef OGG
+#ifdef HT_WITH_OGG
 	OGG_Stream();
 #endif
 

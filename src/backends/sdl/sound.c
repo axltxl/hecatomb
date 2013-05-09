@@ -1058,7 +1058,7 @@ SDL_Update(void)
 		Com_Printf("----(%i)---- painted: %i\n", total, paintedtime);
 	}
 
-#ifdef OGG
+#ifdef HT_WITH_OGG
 	/* stream music */
 	OGG_Stream();
 #endif

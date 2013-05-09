@@ -27,18 +27,18 @@
  * =======================================================================
  */
 
-#ifdef OGG
+ #include "prereqs.h"
+ #include "client/client.h"
+ #include "client/sound/local.h"
+ #include "client/sound/vorbis.h"
 
-#define OV_EXCLUDE_STATIC_CALLBACKS
+ #ifdef HT_WITH_OGG
 
-#include <sys/time.h>
-#include <errno.h>
-#include <vorbis/vorbisfile.h>
+ #define OV_EXCLUDE_STATIC_CALLBACKS
 
-#include "prereqs.h"
-#include "client/client.h"
-#include "client/sound/local.h"
-#include "client/sound/vorbis.h"
+ #include <sys/time.h>
+ #include <errno.h>
+ #include <vorbis/vorbisfile.h>
 
 qboolean ogg_first_init = true; /* First initialization flag. */
 qboolean ogg_started = false;   /* Initialization flag. */
@@ -851,5 +851,5 @@ OGG_StatusCmd(void)
 	}
 }
 
-#endif  /* OGG */
+#endif  /* HT_WITH_OGG */
 

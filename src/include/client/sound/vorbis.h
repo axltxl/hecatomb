@@ -22,10 +22,12 @@
  * =======================================================================
  */
 
-#ifdef OGG
-
-#ifndef CL_SOUND_VORBIS_H
+ #ifndef CL_SOUND_VORBIS_H
  #define CL_SOUND_VORBIS_H
+
+ #include "prereqs.h"
+
+ #ifdef HT_WITH_OGG
 
 /* The OGG codec can return the samples in a number
  * of different formats, we use the standard signed
@@ -71,5 +73,5 @@ void OGG_ResumeCmd(void);
 void OGG_SeekCmd(void);
 void OGG_StatusCmd(void);
 
-#endif
-#endif
+#endif /* HT_WITH_OGG */
+#endif /* CL_SOUND_VORBIS_H */

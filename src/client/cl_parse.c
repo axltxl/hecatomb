@@ -1084,7 +1084,7 @@ CL_ParseConfigString(void)
 							(char **)NULL, 10), true);
 #endif
 
-#ifdef OGG
+#ifdef HT_WITH_OGG
 
 			/* OGG/Vorbis */
 			if ((int)strtol(cl.configstrings[CS_CDTRACK], (char **)NULL, 10) < 10)
