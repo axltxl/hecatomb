@@ -30,20 +30,19 @@
  * =======================================================================
  */
 
-#ifdef USE_OPENAL
+ #include "prereqs.h"
+ #ifdef HT_WITH_OPENAL
 
-#if defined (__APPLE__)
-#include <OpenAL/al.h>
-#include <OpenAL/alc.h>
-#else
-#include <AL/al.h>
-#include <AL/alc.h>
-#include <AL/alext.h>
-#endif
-
-#include "prereqs.h"
-#include "client/sound/local.h"
-#include "backend/generic/qal.h"
+ #if defined (HT_OS_OSX)
+ #  include <OpenAL/al.h>
+ #  include <OpenAL/alc.h>
+ #else
+ #  include <AL/al.h>
+ #  include <AL/alc.h>
+ #  include <AL/alext.h>
+ #endif
+ #include "client/sound/local.h"
+ #include "backend/generic/qal.h"
 
 static ALCcontext *context;
 static ALCdevice *device;
@@ -148,7 +147,7 @@ LPALDOPPLERFACTOR qalDopplerFactor;
 LPALDOPPLERVELOCITY qalDopplerVelocity;
 LPALSPEEDOFSOUND qalSpeedOfSound;
 LPALDISTANCEMODEL qalDistanceModel;
-#if !defined (__APPLE__)
+#if !defined (HT_OS_OSX)
 LPALGENFILTERS qalGenFilters;
 LPALFILTERI qalFilteri;
 LPALFILTERF qalFilterf;
@@ -324,7 +323,7 @@ QAL_Shutdown()
 	qalDopplerVelocity = NULL;
 	qalSpeedOfSound = NULL;
 	qalDistanceModel = NULL;
-#if !defined (__APPLE__)
+#if !defined (HT_OS_OSX)
 	qalGenFilters = NULL;
 	qalFilteri = NULL;
 	qalFilterf = NULL;
@@ -455,7 +454,7 @@ QAL_Init()
 	qalDopplerVelocity = Sys_GetProcAddress(handle, "alDopplerVelocity");
 	qalSpeedOfSound = Sys_GetProcAddress(handle, "alSpeedOfSound");
 	qalDistanceModel = Sys_GetProcAddress(handle, "alDistanceModel");
-#if !defined (__APPLE__)
+#if !defined (HT_OS_OSX)
 	qalGenFilters = Sys_GetProcAddress(handle, "alGenFilters");
 	qalFilteri = Sys_GetProcAddress(handle, "alFilteri");
 	qalFilterf = Sys_GetProcAddress(handle, "alFilterf");
@@ -510,4 +509,4 @@ QAL_Init()
     return true;
 }
 
-#endif /* USE_OPENAL */
+#endif /* HT_WITH_OPENAL */

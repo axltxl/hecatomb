@@ -26,16 +26,18 @@
  * =======================================================================
  */
 
-#ifdef USE_OPENAL
+ #ifndef QAL_H
+ #define QAL_H
 
-#ifndef _QAL_API_H_
- #define _QAL_API_H_
+ #include "prereqs.h"
 
- #if defined (__APPLE__)
- #include <OpenAL/al.h>
+ #ifdef HT_WITH_OPENAL
+
+ #if defined (HT_OS_OSX)
+ #  include <OpenAL/al.h>
  #else
- #include <AL/al.h>
- #include <AL/efx.h>
+ #  include <AL/al.h>
+ #  include <AL/efx.h>
  #endif
 
 /* Function pointers used to tie
@@ -113,7 +115,7 @@ extern LPALDOPPLERFACTOR qalDopplerFactor;
 extern LPALDOPPLERVELOCITY qalDopplerVelocity;
 extern LPALSPEEDOFSOUND qalSpeedOfSound;
 extern LPALDISTANCEMODEL qalDistanceModel;
-#if !defined (__APPLE__)
+#if !defined (HT_OS_OSX)
 extern LPALGENFILTERS qalGenFilters;
 extern LPALFILTERI qalFilteri;
 extern LPALFILTERF qalFilterf;
@@ -138,5 +140,5 @@ qboolean QAL_Init(void);
  */
 void QAL_Shutdown(void);
 
-#endif /* _QAL_API_H_ */
-#endif /* USE_OPENAL */
+#endif /* HT_WITH_OPENAL */
+#endif /* QAL_H */

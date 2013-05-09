@@ -595,7 +595,7 @@ OGG_Stop(void)
 		return;
 	}
 
-#ifdef USE_OPENAL
+#ifdef HT_WITH_OPENAL
 	if (sound_started == SS_OAL)
 	{
 		AL_UnqueueRawSamples();
@@ -627,7 +627,7 @@ OGG_Stream(void)
 
 	if (ogg_status == PLAY)
 	{
-#ifdef USE_OPENAL
+#ifdef HT_WITH_OPENAL
 		if (sound_started == SS_OAL)
 		{
 			/* Calculate the number of buffers used
@@ -635,7 +635,7 @@ OGG_Stream(void)
 			   We take the number of active buffers
 			   at startup (at this point most of the
 			   samples should be precached and loaded
-			   into buffers) and add 64. Empircal
+			   into buffers) and add 64. Empirical
 			   testing showed, that at most times
 			   at least 52 buffers remain available
 			   for OGG/Vorbis, enough for about 3

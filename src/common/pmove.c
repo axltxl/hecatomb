@@ -27,7 +27,7 @@
 
 #include "prereqs.h"
 
-#if !defined(DEDICATED_ONLY) && defined(USE_OPENAL)
+#if !defined(DEDICATED_ONLY) && defined(HT_WITH_OPENAL)
 void AL_Underwater();
 void AL_Overwater();
 #endif
@@ -1270,7 +1270,7 @@ PM_ClampAngles(void)
 void
 Pmove(pmove_t *pmove)
 {
-#if !defined(DEDICATED_ONLY) && defined(USE_OPENAL)
+#if !defined(DEDICATED_ONLY) && defined(HT_WITH_OPENAL)
 	static int underwater;
 #endif
 
@@ -1414,7 +1414,7 @@ Pmove(pmove_t *pmove)
 	/* set groundentity, watertype, and waterlevel for final spot */
 	PM_CatagorizePosition();
 
-#if !defined(DEDICATED_ONLY) && defined(USE_OPENAL)
+#if !defined(DEDICATED_ONLY) && defined(HT_WITH_OPENAL)
 	if ((pm->waterlevel == 3) && !underwater)
 	{
 		underwater = 1;

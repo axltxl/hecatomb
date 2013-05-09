@@ -78,7 +78,7 @@ if (HT_WITH_OPENAL)
   endif()
 
   # Necessary definitions
-  add_definitions (-DUSE_OPENAL -DDEFAULT_OPENAL_DRIVER="${AL_DRIVER}")
+  add_definitions (-DDEFAULT_OPENAL_DRIVER="${AL_DRIVER}")
 
   # OpenAL headers
   list (APPEND INCLUDE_DIRS ${OPENAL_INCLUDE_DIR})

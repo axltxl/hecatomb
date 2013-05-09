@@ -24,11 +24,13 @@
  * =======================================================================
  */
 
-#ifndef CL_SOUND_LOCAL_H
-#define CL_SOUND_LOCAL_H
+ #ifndef CL_SOUND_LOCAL_H
+ #define CL_SOUND_LOCAL_H
 
-#define MAX_CHANNELS 32
-#define MAX_RAW_SAMPLES 8192
+ #include "prereqs.h"
+
+ #define MAX_CHANNELS 32
+ #define MAX_RAW_SAMPLES 8192
 
 /*
  * Holds one sample with 2 channels
@@ -49,7 +51,7 @@ typedef struct
 	int loopstart;
 	int speed;
 	int width;
-#if USE_OPENAL
+#ifdef HT_WITH_OPENAL
 	int size;
 	int bufnum;
 #endif
@@ -122,7 +124,7 @@ typedef struct
 	int master_vol;             /* 0-255 master volume */
 	qboolean fixed_origin;      /* use origin instead of fetching entnum's origin */
 	qboolean autosound;         /* from an entity->sound, cleared each frame */
-#if USE_OPENAL
+#ifdef HT_WITH_OPENAL
 	int autoframe;
 	float oal_vol;
 	int srcnum;
@@ -266,7 +268,7 @@ void SDL_Spatialize(channel_t *ch);
 
 /* ----------------------------------------------------------------- */
 
-#if USE_OPENAL
+#ifdef HT_WITH_OPENAL
 
  /* Only begin attenuating sound volumes
     when outside the FULLVOLUME range */
@@ -335,6 +337,6 @@ void AL_RawSamples(int samples, int rate, int width,
  */
 void AL_UnqueueRawSamples();
 
-#endif /* USE_OPENAL */
+#endif /* HT_WITH_OPENAL */
 #endif /* CL_SOUND_LOCAL_H */
 
