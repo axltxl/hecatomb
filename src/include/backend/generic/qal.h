@@ -40,105 +40,108 @@
  #  include <AL/efx.h>
  #endif
 
-/* Function pointers used to tie
-*  the qal API to the OpenAL API */
-extern LPALENABLE qalEnable;
-extern LPALDISABLE qalDisable;
-extern LPALISENABLED qalIsEnabled;
-extern LPALGETSTRING qalGetString;
-extern LPALGETBOOLEANV qalGetBooleanv;
-extern LPALGETINTEGERV qalGetIntegerv;
-extern LPALGETFLOATV qalGetFloatv;
-extern LPALGETDOUBLEV qalGetDoublev;
-extern LPALGETBOOLEAN qalGetBoolean;
-extern LPALGETINTEGER qalGetInteger;
-extern LPALGETFLOAT qalGetFloat;
-extern LPALGETDOUBLE qalGetDouble;
-extern LPALGETERROR qalGetError;
-extern LPALISEXTENSIONPRESENT qalIsExtensionPresent;
-extern LPALGETPROCADDRESS qalGetProcAddress;
-extern LPALGETENUMVALUE qalGetEnumValue;
-extern LPALLISTENERF qalListenerf;
-extern LPALLISTENER3F qalListener3f;
-extern LPALLISTENERFV qalListenerfv;
-extern LPALLISTENERI qalListeneri;
-extern LPALLISTENER3I qalListener3i;
-extern LPALLISTENERIV qalListeneriv;
-extern LPALGETLISTENERF qalGetListenerf;
-extern LPALGETLISTENER3F qalGetListener3f;
-extern LPALGETLISTENERFV qalGetListenerfv;
-extern LPALGETLISTENERI qalGetListeneri;
-extern LPALGETLISTENER3I qalGetListener3i;
-extern LPALGETLISTENERIV qalGetListeneriv;
-extern LPALGENSOURCES qalGenSources;
-extern LPALDELETESOURCES qalDeleteSources;
-extern LPALISSOURCE qalIsSource;
-extern LPALSOURCEF qalSourcef;
-extern LPALSOURCE3F qalSource3f;
-extern LPALSOURCEFV qalSourcefv;
-extern LPALSOURCEI qalSourcei;
-extern LPALSOURCE3I qalSource3i;
-extern LPALSOURCEIV qalSourceiv;
-extern LPALGETSOURCEF qalGetSourcef;
-extern LPALGETSOURCE3F qalGetSource3f;
-extern LPALGETSOURCEFV qalGetSourcefv;
-extern LPALGETSOURCEI qalGetSourcei;
-extern LPALGETSOURCE3I qalGetSource3i;
-extern LPALGETSOURCEIV qalGetSourceiv;
-extern LPALSOURCEPLAYV qalSourcePlayv;
-extern LPALSOURCESTOPV qalSourceStopv;
-extern LPALSOURCEREWINDV qalSourceRewindv;
-extern LPALSOURCEPAUSEV qalSourcePausev;
-extern LPALSOURCEPLAY qalSourcePlay;
-extern LPALSOURCESTOP qalSourceStop;
-extern LPALSOURCEREWIND qalSourceRewind;
-extern LPALSOURCEPAUSE qalSourcePause;
-extern LPALSOURCEQUEUEBUFFERS qalSourceQueueBuffers;
-extern LPALSOURCEUNQUEUEBUFFERS qalSourceUnqueueBuffers;
-extern LPALGENBUFFERS qalGenBuffers;
-extern LPALDELETEBUFFERS qalDeleteBuffers;
-extern LPALISBUFFER qalIsBuffer;
-extern LPALBUFFERDATA qalBufferData;
-extern LPALBUFFERF qalBufferf;
-extern LPALBUFFER3F qalBuffer3f;
-extern LPALBUFFERFV qalBufferfv;
-extern LPALBUFFERI qalBufferi;
-extern LPALBUFFER3I qalBuffer3i;
-extern LPALBUFFERIV qalBufferiv;
-extern LPALGETBUFFERF qalGetBufferf;
-extern LPALGETBUFFER3F qalGetBuffer3f;
-extern LPALGETBUFFERFV qalGetBufferfv;
-extern LPALGETBUFFERI qalGetBufferi;
-extern LPALGETBUFFER3I qalGetBuffer3i;
-extern LPALGETBUFFERIV qalGetBufferiv;
-extern LPALDOPPLERFACTOR qalDopplerFactor;
-extern LPALDOPPLERVELOCITY qalDopplerVelocity;
-extern LPALSPEEDOFSOUND qalSpeedOfSound;
-extern LPALDISTANCEMODEL qalDistanceModel;
-#if !defined (HT_OS_OSX)
-extern LPALGENFILTERS qalGenFilters;
-extern LPALFILTERI qalFilteri;
-extern LPALFILTERF qalFilterf;
-extern LPALDELETEFILTERS qalDeleteFilters;
-#endif
+ /* 
+  * Function pointers used to tie
+  * the qal API to the OpenAL API 
+  */
+ extern LPALENABLE qalEnable;
+ extern LPALDISABLE qalDisable;
+ extern LPALISENABLED qalIsEnabled;
+ extern LPALGETSTRING qalGetString;
+ extern LPALGETBOOLEANV qalGetBooleanv;
+ extern LPALGETINTEGERV qalGetIntegerv;
+ extern LPALGETFLOATV qalGetFloatv;
+ extern LPALGETDOUBLEV qalGetDoublev;
+ extern LPALGETBOOLEAN qalGetBoolean;
+ extern LPALGETINTEGER qalGetInteger;
+ extern LPALGETFLOAT qalGetFloat;
+ extern LPALGETDOUBLE qalGetDouble;
+ extern LPALGETERROR qalGetError;
+ extern LPALISEXTENSIONPRESENT qalIsExtensionPresent;
+ extern LPALGETPROCADDRESS qalGetProcAddress;
+ extern LPALGETENUMVALUE qalGetEnumValue;
+ extern LPALLISTENERF qalListenerf;
+ extern LPALLISTENER3F qalListener3f;
+ extern LPALLISTENERFV qalListenerfv;
+ extern LPALLISTENERI qalListeneri;
+ extern LPALLISTENER3I qalListener3i;
+ extern LPALLISTENERIV qalListeneriv;
+ extern LPALGETLISTENERF qalGetListenerf;
+ extern LPALGETLISTENER3F qalGetListener3f;
+ extern LPALGETLISTENERFV qalGetListenerfv;
+ extern LPALGETLISTENERI qalGetListeneri;
+ extern LPALGETLISTENER3I qalGetListener3i;
+ extern LPALGETLISTENERIV qalGetListeneriv;
+ extern LPALGENSOURCES qalGenSources;
+ extern LPALDELETESOURCES qalDeleteSources;
+ extern LPALISSOURCE qalIsSource;
+ extern LPALSOURCEF qalSourcef;
+ extern LPALSOURCE3F qalSource3f;
+ extern LPALSOURCEFV qalSourcefv;
+ extern LPALSOURCEI qalSourcei;
+ extern LPALSOURCE3I qalSource3i;
+ extern LPALSOURCEIV qalSourceiv;
+ extern LPALGETSOURCEF qalGetSourcef;
+ extern LPALGETSOURCE3F qalGetSource3f;
+ extern LPALGETSOURCEFV qalGetSourcefv;
+ extern LPALGETSOURCEI qalGetSourcei;
+ extern LPALGETSOURCE3I qalGetSource3i;
+ extern LPALGETSOURCEIV qalGetSourceiv;
+ extern LPALSOURCEPLAYV qalSourcePlayv;
+ extern LPALSOURCESTOPV qalSourceStopv;
+ extern LPALSOURCEREWINDV qalSourceRewindv;
+ extern LPALSOURCEPAUSEV qalSourcePausev;
+ extern LPALSOURCEPLAY qalSourcePlay;
+ extern LPALSOURCESTOP qalSourceStop;
+ extern LPALSOURCEREWIND qalSourceRewind;
+ extern LPALSOURCEPAUSE qalSourcePause;
+ extern LPALSOURCEQUEUEBUFFERS qalSourceQueueBuffers;
+ extern LPALSOURCEUNQUEUEBUFFERS qalSourceUnqueueBuffers;
+ extern LPALGENBUFFERS qalGenBuffers;
+ extern LPALDELETEBUFFERS qalDeleteBuffers;
+ extern LPALISBUFFER qalIsBuffer;
+ extern LPALBUFFERDATA qalBufferData;
+ extern LPALBUFFERF qalBufferf;
+ extern LPALBUFFER3F qalBuffer3f;
+ extern LPALBUFFERFV qalBufferfv;
+ extern LPALBUFFERI qalBufferi;
+ extern LPALBUFFER3I qalBuffer3i;
+ extern LPALBUFFERIV qalBufferiv;
+ extern LPALGETBUFFERF qalGetBufferf;
+ extern LPALGETBUFFER3F qalGetBuffer3f;
+ extern LPALGETBUFFERFV qalGetBufferfv;
+ extern LPALGETBUFFERI qalGetBufferi;
+ extern LPALGETBUFFER3I qalGetBuffer3i;
+ extern LPALGETBUFFERIV qalGetBufferiv;
+ extern LPALDOPPLERFACTOR qalDopplerFactor;
+ extern LPALDOPPLERVELOCITY qalDopplerVelocity;
+ extern LPALSPEEDOFSOUND qalSpeedOfSound;
+ extern LPALDISTANCEMODEL qalDistanceModel;
+ 
+ #ifndef HT_OS_OSX
+ extern LPALGENFILTERS qalGenFilters;
+ extern LPALFILTERI qalFilteri;
+ extern LPALFILTERF qalFilterf;
+ extern LPALDELETEFILTERS qalDeleteFilters;
+ #endif
 
-/*
- * Gives information over the OpenAL
- * implementation and it's state
- */
-void QAL_SoundInfo(void);
+ /*
+  * Gives information over the OpenAL
+  * implementation and it's state
+  */
+ void QAL_SoundInfo(void);
 
-/*
- * Loads the OpenAL shared lib, creates
- * a context and device handle.
- */
-qboolean QAL_Init(void);
+ /*
+  * Loads the OpenAL shared lib, creates
+  * a context and device handle.
+  */
+ qboolean QAL_Init(void);
 
-/*
- * Shuts OpenAL down, frees all context and
- * device handles and unloads the shared lib.
- */
-void QAL_Shutdown(void);
+ /*
+  * Shuts OpenAL down, frees all context and
+  * device handles and unloads the shared lib.
+  */
+ void QAL_Shutdown(void);
 
-#endif /* HT_WITH_OPENAL */
-#endif /* QAL_H */
+ #endif /* HT_WITH_OPENAL */
+ #endif /* QAL_H */
