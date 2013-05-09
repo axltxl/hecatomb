@@ -24,7 +24,8 @@ endmacro()
 
 # set a default build type if none was provided
 # this has to be done before the project() instruction!
-ht_set_option(CMAKE_BUILD_TYPE Debug STRING "Choose the type of build (Debug or Release)")
+ht_set_option(CMAKE_BUILD_TYPE Debug STRING
+    "Choose the type of build (Debug or Release)")
 
 # setup version numbers
 set (PROJ_NAME "yquake2")
@@ -105,15 +106,18 @@ if (UNIX)
   # around problems in some SDL version. Adds dependencies
   # to pkg-config, libX11 and libXxf86vm. Unsupported on
   # Windows and OS X.
-  ht_set_option(YQ2_WITH_X11GAMMA FALSE BOOL "Set the gamma via X11 and not via SDL")
+  ht_set_option(YQ2_WITH_X11GAMMA FALSE BOOL 
+    "Set the gamma via X11 and not via SDL")
 endif()
 
 # Enables opening of ZIP files (also known as .pk3 packs).
 # Adds a dependency to libz
-ht_set_option(YQ2_WITH_ZIP FALSE BOOL "ZIP files support (for opening .pk3 packs)")
+ht_set_option(YQ2_WITH_ZIP FALSE BOOL 
+    "ZIP files support (for opening .pk3 packs)")
 
 # Enable systemwide installation of game assets
-ht_set_option(YQ2_SYSTEMWIDE TRUE BOOL "Enable systemwide installation of game assets")
+ht_set_option(YQ2_SYSTEMWIDE TRUE BOOL
+    "Enable systemwide installation of game assets")
 
 # This will set the default SYSTEMDIR, a non-empty string
 # would actually be used. On Windows normals slashes (/)
@@ -123,7 +127,8 @@ if (WINDOWS)
 else()
   set (SYSTEMDIR_DEFAULT /usr/share/games/quake2)
 endif()
-ht_set_option(YQ2_SYSTEMDIR "${SYSTEMDIR_DEFAULT}" STRING "Location of system-wide game assets installation")
+ht_set_option(YQ2_SYSTEMDIR "${SYSTEMDIR_DEFAULT}"
+    STRING "Location of system-wide game assets installation")
 
 # Architecture name string
 if (ARCH_32)
