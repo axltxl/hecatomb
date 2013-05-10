@@ -16,7 +16,7 @@ set (SERVER_EXEC "htded")
 
 # Definitions
 if (WINDOWS)
-  set (HT_OS_WIN32 1)
+  set (HT_OS_WINDOWS 1)
 elseif (OSX)
   set (HT_OS_OSX 1)
 elseif (LINUX)
@@ -90,7 +90,7 @@ endif()
 # OGG Vorbis
 if (HT_WITH_OGG)
   list (APPEND INCLUDE_DIRS ${OGG_INCLUDE_DIR} ${VORBIS_INCLUDE_DIR})
-  list (APPEND CLIENT_LIBS 
+  list (APPEND CLIENT_LIBS
     ${OGG_LIBRARY} ${VORBIS_LIBRARY} ${VORBIS_FILE_LIBRARY})
 endif()
 
@@ -159,5 +159,5 @@ set_target_properties(client PROPERTIES OUTPUT_NAME "${CLIENT_EXEC}")
 target_link_libraries(client ${LIBS} ${CLIENT_LIBS})
 
 # Set output directory
-set_target_properties (client server 
+set_target_properties (client server
     PROPERTIES RUNTIME_OUTPUT_DIRECTORY ${OUTPUT_DIR})
