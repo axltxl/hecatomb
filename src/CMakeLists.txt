@@ -17,7 +17,7 @@ set (SERVER_EXEC "q2ded")
 # Definitions
 if (WINDOWS)
   add_definitions (-DYQ2_OS_WIN32)
-elseif (MACOSX)
+elseif (OSX)
   add_definitions (-DYQ2_OS_OSX) 
 elseif (LINUX)
   add_definitions (-DYQ2_OS_LINUX)
@@ -103,13 +103,20 @@ endif()
 if (YQ2_WITH_OGG)
   add_definitions (-DOGG)
   list (APPEND INCLUDE_DIRS ${OGG_INCLUDE_DIR} ${VORBIS_INCLUDE_DIR})
-  list (APPEND CLIENT_LIBS ${OGG_LIBRARY} ${VORBIS_LIBRARY} ${VORBIS_FILE_LIBRARY})
+  list (APPEND CLIENT_LIBS 
+    ${OGG_LIBRARY} ${VORBIS_LIBRARY} ${VORBIS_FILE_LIBRARY})
 endif()
 
 
 # System wide assets
 if (YQ2_SYSTEMWIDE)
   add_definitions (-DSYSTEMWIDE -DSYSTEMDIR="${YQ2_SYSTEMDIR}")
+endif()
+
+# Windows specific libraries
+if (WINDOWS)
+  # Winsock and WinMM
+  list (APPEND LIBS ws2_32 winmm )
 endif()
 
 # Unix specific libraries
@@ -122,6 +129,14 @@ endif()
 
 # Include path
 include_directories (${INCLUDE_DIRS})
+
+# Set output directory
+set (OUTPUT_DIR ${PROJECT_SOURCE_DIR}/bin)
+if (ARCH_32)
+  set (OUTPUT_DIR "${OUTPUT_DIR}/x86")
+else()
+  set (OUTPUT_DIR "${OUTPUT_DIR}/x64")
+endif()
 
 #
 # Platform-specific backends
@@ -155,3 +170,7 @@ target_link_libraries (server ${LIBS})
 add_executable (client ${CLIENT_EXEC_SRC})
 set_target_properties(client PROPERTIES OUTPUT_NAME "${CLIENT_EXEC}") 
 target_link_libraries(client ${LIBS} ${CLIENT_LIBS})
+
+# Set output directory
+set_target_properties (client server 
+    PROPERTIES RUNTIME_OUTPUT_DIRECTORY ${OUTPUT_DIR})

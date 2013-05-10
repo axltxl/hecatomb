@@ -66,7 +66,7 @@ if ("${CMAKE_C_COMPILER_ID}" MATCHES "GNU")
   # -MMD to generate header dependencies. (They cannot be
   #  generated if building universal binaries on OSX)
   if (OSX)
-    list (APPEND CMAKE_C_FLAGS "-MMD")
+    set (CMAKE_C_FLAGS "${CMAKE_C_FLAGS} -MMD")
   endif()
 
 # clang
@@ -95,4 +95,14 @@ elseif ("${CMAKE_C_COMPILER_ID}" MATCHES "Clang")
 else()
     message(FATAL_ERROR "Unsupported compiler. Current supported compilers are gcc and clang.")
     return()
+endif()
+
+# clang++ (Only for OS X)
+if (OSX)
+  if ("${CMAKE_CXX_COMPILER_ID}" MATCHES "Clang")
+    # Basic compiler flags
+    set (COMPILER_CLANGXX 1)
+    set (CMAKE_CXX_FLAGS "-Weverything")
+    set (CMAKE_CXX_FLAGS_RELEASE "-O4 -g")
+  endif()
 endif()

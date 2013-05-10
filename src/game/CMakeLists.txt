@@ -73,3 +73,12 @@ target_link_libraries(${GAME_DLL} ${LIBS} ${GAME_LIBS})
 
 # Remove "lib" prefix so it won't be like "libgame.so"
 set_target_properties(${GAME_DLL} PROPERTIES PREFIX "")
+
+# Set output directory
+if (WINDOWS)
+  set_target_properties (${GAME_DLL} PROPERTIES
+    RUNTIME_OUTPUT_DIRECTORY "${OUTPUT_DIR}/baseq2")
+else()
+  set_target_properties (${GAME_DLL} PROPERTIES
+    LIBRARY_OUTPUT_DIRECTORY "${OUTPUT_DIR}/baseq2")
+endif()
