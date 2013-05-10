@@ -57,6 +57,8 @@ set (EXTLIBS_LIBS "${EXTLIBS_BASE}/libs")
 set (EXTLIBS_BIN "${EXTLIBS_BASE}/bin")
 if (WINDOWS)
   set (CMAKE_INCLUDE_PATH ${CMAKE_INCLUDE_PATH} "${EXTLIBS_HEADERS}")
+  set (SDL_INCLUDE_DIR ${EXTLIBS_HEADERS})
+  set (OPENAL_INCLUDE_DIR ${EXTLIBS_HEADERS})
   if (COMPILER_GCC)
     set (EXTLIBS_LIBS_MINGW "${EXTLIBS_LIBS}/mingw")
     if (ARCH_32)
@@ -86,20 +88,31 @@ endif()
 # CD playback is supported by SDL.
 ht_set_option(YQ2_WITH_CDA TRUE BOOL "CD audio playback support")
 
-# Enables OGG/Vorbis support. OGG/Vorbis files can be
-# used as a substitute of CD audio playback. Adds
-# dependencies to libogg, libvorbis and libvorbisfile.
-ht_set_option(YQ2_WITH_OGG TRUE BOOL "OGG/Vorbis support")
+
+if (NOT WINDOWS)
+  # Enables OGG/Vorbis support. OGG/Vorbis files can be
+  # used as a substitute of CD audio playback. Adds
+  # dependencies to libogg, libvorbis and libvorbisfile.
+  # This features won't be present on Windows
+  # until I find the right binaries for it
+  ht_set_option(YQ2_WITH_OGG TRUE BOOL "OGG/Vorbis support")
+  
+  # Enables retexturing support. Adds
+  # a dependency to libjpeg
+  ht_set_option(YQ2_WITH_RETEXTURE FALSE BOOL "Retexturing support")
+  
+  # Enables opening of ZIP files (also known as .pk3 packs).
+  # Adds a dependency to libz
+  ht_set_option(YQ2_WITH_ZIP FALSE BOOL 
+    "ZIP files support (for opening .pk3 packs)")
+endif()
+  
 
 # Enables the optional OpenAL sound system.
 # To use it your system needs libopenal.so.1
 # or openal32.dll (we recommend openal-soft)
 # installed
 ht_set_option(YQ2_WITH_OPENAL FALSE BOOL "Use the OpenAL sound system")
-
-# Enables retexturing support. Adds
-# a dependency to libjpeg
-ht_set_option(YQ2_WITH_RETEXTURE FALSE BOOL "Retexturing support")
 
 if (UNIX)
   # Set the gamma via X11 and not via SDL. This works
@@ -109,11 +122,6 @@ if (UNIX)
   ht_set_option(YQ2_WITH_X11GAMMA FALSE BOOL 
     "Set the gamma via X11 and not via SDL")
 endif()
-
-# Enables opening of ZIP files (also known as .pk3 packs).
-# Adds a dependency to libz
-ht_set_option(YQ2_WITH_ZIP FALSE BOOL 
-    "ZIP files support (for opening .pk3 packs)")
 
 # Enable systemwide installation of game assets
 ht_set_option(YQ2_SYSTEMWIDE TRUE BOOL
@@ -162,19 +170,23 @@ endif()
 # SDL
 find_package (SDL REQUIRED)
 
-# OGG and Vorbis
-if (YQ2_WITH_OGG)
-  find_package (VORBIS REQUIRED)
-endif()
+# This features won't be present on Windows
+# until I find the right binaries for it
+if (NOT WINDOWS)
+  # OGG and Vorbis
+  if (YQ2_WITH_OGG)
+    find_package (VORBIS REQUIRED)
+  endif()
 
-# libjpeg
-if (YQ2_WITH_RETEXTURE)
-  find_package (JPEG REQUIRED)
-endif()
+  # libjpeg
+  if (YQ2_WITH_RETEXTURE)
+    find_package (JPEG REQUIRED)
+  endif()
 
-# zlib
-if (YQ2_WITH_ZIP)
-  find_package (ZLIB REQUIRED)
+  # zlib
+  if (YQ2_WITH_ZIP)
+    find_package (ZLIB REQUIRED)
+  endif()
 endif()
 
 # Source files
