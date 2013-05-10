@@ -25,19 +25,12 @@
  * =======================================================================
  */
 
-#include <errno.h>
-#include <float.h>
-#include <fcntl.h>
-#include <stdio.h>
-#include <direct.h>
-#include <io.h>
-#include <conio.h>
-#include <shlobj.h>
 
-#include "../../common/header/common.h"
-#include "../generic/header/input.h"
-#include "header/resource.h"
-#include "header/winquake.h"
+
+#include "prereqs.h"
+#include "backend/generic/input.h"
+#include "backend/windows/resource.h"
+#include "backend/windows/winquake.h"
 
 #define MAX_NUM_ARGVS 128
 

@@ -29,7 +29,7 @@
 
  #include "prereqs.h"
  #ifdef HT_OS_WINDOWS
- # include "windows/prereqs.h"
+ # include "backend/windows/prereqs.h"
  #endif
  #include "backend/generic/gl.h"
 

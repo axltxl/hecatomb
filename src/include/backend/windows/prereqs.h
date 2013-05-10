@@ -22,9 +22,25 @@
  
  #ifndef WIN_PREREQS_H
  #define WIN_PREREQS_H
+ 
+ #include "prereqs.h"
 
  #define WIN32_MEAN_AND_LEAN
+ 
+ /* Require Win XP or higher */
+ #define _WIN32_WINNT 0x0501
+ 
  #include <windows.h>
+ #include <winsock2.h>
+ #include <ws2tcpip.h>
+ #include <wsipx.h>
+ 
+ #include <float.h>
+ #include <fcntl.h>
+ #include <direct.h>
+ #include <io.h>
+ #include <conio.h>
+ #include <shlobj.h>
 
  #endif /* WIN_PREREQS_H */
 

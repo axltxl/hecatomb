@@ -24,6 +24,7 @@ set (
 	${HEADER_DIR}/backend/osx/SDLMain.h
 	${HEADER_DIR}/backend/unix/unix.h
 	${HEADER_DIR}/backend/unix/prereqs.h
+  ${HEADER_DIR}/backend/windows/prereqs.h
 	${HEADER_DIR}/backend/windows/resource.h
 	${HEADER_DIR}/backend/windows/winquake.h
 	${HEADER_DIR}/client/client.h
@@ -52,7 +53,6 @@ set (
 	${HEADER_DIR}/refresh/constants/anormtab.h
 	${HEADER_DIR}/refresh/constants/warpsin.h
 	${HEADER_DIR}/server/server.h
-	${HEADER_DIR}/windows/prereqs.h
 	${HEADER_DIR}/prereqs.h
 	${HEADER_DIR}/config.h
 

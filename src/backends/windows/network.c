@@ -24,13 +24,8 @@
  * =======================================================================
  */
 
-/* Require Win XP or higher */
-#define _WIN32_WINNT 0x0501
-
-#include <winsock2.h>
-#include <ws2tcpip.h>
-#include <wsipx.h>
-#include "../../common/header/common.h"
+#include "prereqs.h"
+#include "backend/windows/prereqs.h"
 
 #define MAX_LOOPBACK 4
 #define QUAKE2MCAST "ff12::666"
