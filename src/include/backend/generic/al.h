@@ -27,8 +27,11 @@
 
  #ifdef HT_OS_OSX
  # include <OpenAL/al.h>
+ # include <OpenAL/alc.h>
  #else
  # include <AL/al.h>
+ # include <AL/alc.h>
+ # include <AL/alext.h>
  # include <AL/efx.h>
  #endif
 
