@@ -35,11 +35,6 @@
  * =======================================================================
  */
 
-#include <assert.h>
-#include <errno.h>
-
-//#include "../../client/header/client.h"
-//#include "header/input.h"
 #include "prereqs.h"
 #include "client/client.h"
 #include "backend/generic/input.h"
@@ -102,11 +97,10 @@ VID_Printf ( int print_level, char *fmt, ... )
 {
   va_list argptr;
   char msg[MAXPRINTMSG];
-  
   va_start ( argptr, fmt );
   vsnprintf ( msg, MAXPRINTMSG, fmt, argptr );
   va_end ( argptr );
-  
+
   if ( print_level == PRINT_ALL ) {
     Com_Printf ( "%s", msg );
   } else {
@@ -119,11 +113,9 @@ VID_Error ( int err_level, char *fmt, ... )
 {
   va_list argptr;
   char msg[MAXPRINTMSG];
-  
   va_start ( argptr, fmt );
   vsnprintf ( msg, MAXPRINTMSG, fmt, argptr );
   va_end ( argptr );
-  
   Com_Error ( err_level, "%s", msg );
 }
 
@@ -144,10 +136,9 @@ VID_GetModeInfo ( int *width, int *height, int mode )
   if ( ( mode < 0 ) || ( mode >= VID_NUM_MODES ) ) {
     return false;
   }
-  
+
   *width = vid_modes[mode].width;
   *height = vid_modes[mode].height;
-  
   return true;
 }
 
@@ -164,37 +155,33 @@ VID_LoadRefresh ( void )
   // If the refresher is already active
   // we'll shut it down
   VID_Shutdown();
-  
+
   // Log it!
   Com_Printf ( "----- refresher initialization -----\n" );
-  
-  // Get refresher API exports
-  //R_GetRefAPI();
-  
+
   /* Init IN (Mouse) */
   in_state.IN_CenterView_fp = IN_CenterView;
   in_state.Key_Event_fp = Do_Key_Event;
   in_state.viewangles = cl.viewangles;
   in_state.in_strafe_state = &in_strafe.state;
   in_state.in_speed_state = &in_speed.state;
-  
+
   // Initiate the input backend
   IN_BackendInit ( &in_state );
-  
+
   // Initiate keyboard at the input backend
   IN_KeyboardInit ( Do_Key_Event );
   Key_ClearStates();
-  
+
   // Declare the refresher as active
   ref_active = true;
-  
+
   // Initiate the refresher
   if ( R_Init ( 0, 0 ) == -1 ) {
     VID_Shutdown(); // Isn't that just too bad? :(
     return false;
   }
-  
-  Com_Printf ( "------------------------------------\n\n" );
+
   return true;
 }
 
@@ -209,13 +196,13 @@ VID_CheckChanges ( void )
 {
   if ( vid_fullscreen->modified ) {
     S_StopAllSounds();
-    
+
     /* refresh has changed */
     vid_fullscreen->modified = true;
     cl.refresh_prepped = false;
     cl.cinematicpalette_active = false;
     cls.disable_screen = true;
-    
+
     // Proceed to reboot the refresher
     VID_LoadRefresh();
     cls.disable_screen = false;
@@ -230,10 +217,10 @@ VID_Init ( void )
   vid_ypos = Cvar_Get ( "vid_ypos", "22", CVAR_ARCHIVE );
   vid_fullscreen = Cvar_Get ( "vid_fullscreen", "0", CVAR_ARCHIVE );
   vid_gamma = Cvar_Get ( "vid_gamma", "1", CVAR_ARCHIVE );
-  
+
   /* Add some console commands that we want to handle */
   Cmd_AddCommand ( "vid_restart", VID_Restart_f );
-  
+
   /* Start the graphics mode and load refresh DLL */
   VID_CheckChanges();
 }
@@ -245,11 +232,11 @@ VID_Shutdown ( void )
     // Shut down the input backend
     IN_Close();
     IN_BackendShutdown();
-    
+
     /* Shut down the renderer */
     R_Shutdown();
   }
-  
+
   // Declare the refresher as inactive
   ref_active = false;
 }
