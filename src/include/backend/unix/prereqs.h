@@ -42,7 +42,6 @@
  #include <sys/shm.h>
  #include <sys/stat.h>
  #include <sys/wait.h>
- #include <sys/mman.h>
 
  #include <arpa/inet.h>
  #include <net/if.h>
@@ -51,5 +50,22 @@
 
  #include <dlfcn.h>
  #include <dirent.h>
+
+  /* For mremap() - must be before sys/mman.h include! */
+ #ifdef HT_OS_LINUX
+ # define _GNU_SOURCE
+ # define __USE_GNU
+ #endif
+ #include <sys/mman.h>
+
+ #ifdef HT_OS_BSD
+ # include <machine/param.h>
+ # define MAP_ANONYMOUS MAP_ANON
+ #endif
+
+ #ifdef HT_OS_OSX
+ # include <sys/types.h>
+ # define MAP_ANONYMOUS MAP_ANON
+ #endif
 
  #endif /* UNIX_PREREQS_H */
