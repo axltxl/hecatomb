@@ -1,2 +1,4 @@
 /build/
 /release/
+
+src/include/config.h
