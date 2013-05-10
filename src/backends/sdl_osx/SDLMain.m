@@ -6,7 +6,7 @@
  */
 
 #import <SDL/SDL.h>
-#import "SDLMain.h"
+#import "backend/osx/SDLMain.h"
 #import <sys/param.h> /* for MAXPATHLEN */
 #import <unistd.h>
 //#import <iostream>
