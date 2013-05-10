@@ -24,67 +24,54 @@
  * =======================================================================
  */
 
-#include "prereqs.h"
-#include "refresh/local.h"
+ #include "prereqs.h"
+ #include "refresh/local.h"
 
-image_t *
-LoadWal(char *origname)
-{
-	miptex_t *mt;
-	int width, height, ofs;
-	image_t *image;
-	int len;
-	char name[256];
+ image_t *
+ LoadWal ( char *origname )
+ {
+   miptex_t *mt;
+   int width, height, ofs;
+   image_t *image;
+   int len;
+   char name[256];
+   /* Add the extension */
+   len = strlen ( origname );
 
-	/* Add the extension */
-	len = strlen(origname);
+   if ( strcmp ( origname + len - 4, ".wal" ) ) {
+     strncpy ( name, origname, 256 );
+     strncat ( name, ".wal", 255 );
+   } else {
+     strncpy ( name, origname, 256 );
+   }
 
-	if (strcmp(origname + len - 4, ".wal"))
-	{
-		strncpy(name, origname, 256);
-		strncat(name, ".wal", 255);
-	}
-	else
-	{
-		strncpy(name, origname, 256);
-	}
+   FS_LoadFile ( name, ( void ** ) &mt );
 
-	FS_LoadFile(name, (void **)&mt);
+   if ( !mt ) {
+     VID_Printf ( PRINT_ALL, "LoadWall: can't load %s\n", name );
+     return r_notexture;
+   }
 
-	if (!mt)
-	{
-		VID_Printf(PRINT_ALL, "LoadWall: can't load %s\n", name);
-		return r_notexture;
-	}
+   width = LittleLong ( mt->width );
+   height = LittleLong ( mt->height );
+   ofs = LittleLong ( mt->offsets[0] );
+   image = R_LoadPic ( name, ( byte * ) mt + ofs, width, 0, height, 0, it_wall, 8 );
+   FS_FreeFile ( ( void * ) mt );
+   return image;
+ }
 
-	width = LittleLong(mt->width);
-	height = LittleLong(mt->height);
-	ofs = LittleLong(mt->offsets[0]);
+ void
+ GetWalInfo ( char *name, int *width, int *height )
+ {
+   miptex_t *mt;
+   FS_LoadFile ( name, ( void ** ) &mt );
 
-	image = R_LoadPic(name, (byte *)mt + ofs, width, 0, height, 0, it_wall, 8);
+   if ( !mt ) {
+     return;
+   }
 
-	FS_FreeFile((void *)mt);
-
-	return image;
-}
-
-void
-GetWalInfo(char *name, int *width, int *height)
-{
-	miptex_t *mt;
-
-	FS_LoadFile(name, (void **)&mt);
-
-	if (!mt)
-	{
-		return;
-	}
-
-	*width = LittleLong(mt->width);
-	*height = LittleLong(mt->height);
-
-	FS_FreeFile((void *)mt);
-
-	return;
-}
-
+   *width = LittleLong ( mt->width );
+   *height = LittleLong ( mt->height );
+   FS_FreeFile ( ( void * ) mt );
+   return;
+ }

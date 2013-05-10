@@ -29,160 +29,146 @@
 
  #ifdef HT_WITH_RETEXTURE
 
-#ifdef HT_OS_OSX
-# include <libjpeg/jpeglib.h>
-# include <libjpeg/jerror.h>
-#else
-# include <jpeglib.h>
-# include <jerror.h>
-#endif
+ #ifdef HT_OS_OSX
+ # include <libjpeg/jpeglib.h>
+ # include <libjpeg/jerror.h>
+ #else
+ # include <jpeglib.h>
+ # include <jerror.h>
+ #endif
 
-void jpeg_memory_src(j_decompress_ptr cinfo,
-		unsigned char *inbuffer,
-		unsigned long insize);
+ void jpeg_memory_src ( j_decompress_ptr cinfo,
+                        unsigned char *inbuffer,
+                        unsigned long insize );
 
-void
-jpg_null(j_decompress_ptr cinfo)
-{
-}
+ void
+ jpg_null ( j_decompress_ptr cinfo )
+ {
+ }
 
-boolean
-jpg_fill_input_buffer(j_decompress_ptr cinfo)
-{
-	VID_Printf(PRINT_ALL, "Premature end of JPEG data\n");
-	return 1;
-}
+ boolean
+ jpg_fill_input_buffer ( j_decompress_ptr cinfo )
+ {
+   VID_Printf ( PRINT_ALL, "Premature end of JPEG data\n" );
+   return 1;
+ }
 
-void
-jpg_skip_input_data(j_decompress_ptr cinfo, long num_bytes)
-{
-	cinfo->src->next_input_byte += (size_t)num_bytes;
-	cinfo->src->bytes_in_buffer -= (size_t)num_bytes;
-}
+ void
+ jpg_skip_input_data ( j_decompress_ptr cinfo, long num_bytes )
+ {
+   cinfo->src->next_input_byte += ( size_t ) num_bytes;
+   cinfo->src->bytes_in_buffer -= ( size_t ) num_bytes;
+ }
 
-void
-jpeg_mem_src(j_decompress_ptr cinfo, unsigned char *mem, unsigned long len)
-{
-	cinfo->src =
-		(struct jpeg_source_mgr *)(*cinfo->mem->alloc_small)((j_common_ptr)
-				cinfo,
-				JPOOL_PERMANENT, sizeof(struct jpeg_source_mgr));
-	cinfo->src->init_source = jpg_null;
-	cinfo->src->fill_input_buffer = jpg_fill_input_buffer;
-	cinfo->src->skip_input_data = jpg_skip_input_data;
-	cinfo->src->resync_to_restart = jpeg_resync_to_restart;
-	cinfo->src->term_source = jpg_null;
-	cinfo->src->bytes_in_buffer = len;
-	cinfo->src->next_input_byte = mem;
-}
+ void
+ jpeg_mem_src ( j_decompress_ptr cinfo, unsigned char *mem, unsigned long len )
+ {
+   cinfo->src =
+     ( struct jpeg_source_mgr * ) ( *cinfo->mem->alloc_small ) ( ( j_common_ptr )
+         cinfo,
+         JPOOL_PERMANENT, sizeof ( struct jpeg_source_mgr ) );
+   cinfo->src->init_source = jpg_null;
+   cinfo->src->fill_input_buffer = jpg_fill_input_buffer;
+   cinfo->src->skip_input_data = jpg_skip_input_data;
+   cinfo->src->resync_to_restart = jpeg_resync_to_restart;
+   cinfo->src->term_source = jpg_null;
+   cinfo->src->bytes_in_buffer = len;
+   cinfo->src->next_input_byte = mem;
+ }
 
-void
-LoadJPG(char *origname, byte **pic, int *width, int *height)
-{
-	struct jpeg_decompress_struct cinfo;
-	char filename[256];
-	struct jpeg_error_mgr jerr;
-	int len;
-	byte *rawdata, *rgbadata, *scanline, *p, *q;
-	unsigned int rawsize, i;
+ void
+ LoadJPG ( char *origname, byte **pic, int *width, int *height )
+ {
+   struct jpeg_decompress_struct cinfo;
+   char filename[256];
+   struct jpeg_error_mgr jerr;
+   int len;
+   byte *rawdata, *rgbadata, *scanline, *p, *q;
+   unsigned int rawsize, i;
+   /* Add the extension */
+   len = strlen ( origname );
 
-	/* Add the extension */
-	len = strlen(origname);
+   if ( strcmp ( origname + len - 4, ".jpg" ) ) {
+     strncpy ( filename, origname, 256 );
+     strncat ( filename, ".jpg", 255 );
+   } else {
+     strncpy ( filename, origname, 256 );
+   }
 
-	if (strcmp(origname + len - 4, ".jpg"))
-	{
-		strncpy(filename, origname, 256);
-		strncat(filename, ".jpg", 255);
-	}
-	else
-	{
-		strncpy(filename, origname, 256);
-	}
+   *pic = NULL;
+   /* Load JPEG file into memory */
+   rawsize = FS_LoadFile ( filename, ( void ** ) &rawdata );
 
-	*pic = NULL;
+   if ( !rawdata ) {
+     return;
+   }
 
-	/* Load JPEG file into memory */
-	rawsize = FS_LoadFile(filename, (void **)&rawdata);
+   if ( ( rawsize < 10 ) || ( rawdata[6] != 'J' ) || ( rawdata[7] != 'F' ) ||
+        ( rawdata[8] != 'I' ) || ( rawdata[9] != 'F' ) ) {
+     VID_Printf ( PRINT_ALL, "Invalid JPEG header: %s\n", filename );
+     FS_FreeFile ( rawdata );
+     return;
+   }
 
-	if (!rawdata)
-	{
-		return;
-	}
+   cinfo.err = jpeg_std_error ( &jerr );
+   jpeg_create_decompress ( &cinfo );
+   jpeg_mem_src ( &cinfo, ( unsigned char * ) rawdata, ( unsigned long ) rawsize );
+   jpeg_read_header ( &cinfo, true );
+   jpeg_start_decompress ( &cinfo );
 
-	if ((rawsize < 10) || (rawdata[6] != 'J') || (rawdata[7] != 'F') ||
-		(rawdata[8] != 'I') || (rawdata[9] != 'F'))
-	{
-		VID_Printf(PRINT_ALL, "Invalid JPEG header: %s\n", filename);
-		FS_FreeFile(rawdata);
-		return;
-	}
+   if ( ( cinfo.output_components != 3 ) && ( cinfo.output_components != 4 ) ) {
+     VID_Printf ( PRINT_ALL, "Invalid JPEG colour components\n" );
+     jpeg_destroy_decompress ( &cinfo );
+     FS_FreeFile ( rawdata );
+     return;
+   }
 
-	cinfo.err = jpeg_std_error(&jerr);
-	jpeg_create_decompress(&cinfo);
-	jpeg_mem_src(&cinfo, (unsigned char *)rawdata, (unsigned long)rawsize);
-	jpeg_read_header(&cinfo, true);
-	jpeg_start_decompress(&cinfo);
+   /* Allocate Memory for decompressed image */
+   rgbadata = malloc ( cinfo.output_width * cinfo.output_height * 4 );
 
-	if ((cinfo.output_components != 3) && (cinfo.output_components != 4))
-	{
-		VID_Printf(PRINT_ALL, "Invalid JPEG colour components\n");
-		jpeg_destroy_decompress(&cinfo);
-		FS_FreeFile(rawdata);
-		return;
-	}
+   if ( !rgbadata ) {
+     VID_Printf ( PRINT_ALL, "Insufficient memory for JPEG buffer\n" );
+     jpeg_destroy_decompress ( &cinfo );
+     FS_FreeFile ( rawdata );
+     return;
+   }
 
-	/* Allocate Memory for decompressed image */
-	rgbadata = malloc(cinfo.output_width * cinfo.output_height * 4);
+   /* Pass sizes to output */
+   *width = cinfo.output_width;
+   *height = cinfo.output_height;
+   /* Allocate Scanline buffer */
+   scanline = malloc ( cinfo.output_width * 3 );
 
-	if (!rgbadata)
-	{
-		VID_Printf(PRINT_ALL, "Insufficient memory for JPEG buffer\n");
-		jpeg_destroy_decompress(&cinfo);
-		FS_FreeFile(rawdata);
-		return;
-	}
+   if ( !scanline ) {
+     VID_Printf ( PRINT_ALL,
+                  "Insufficient memory for JPEG scanline buffer\n" );
+     free ( rgbadata );
+     jpeg_destroy_decompress ( &cinfo );
+     FS_FreeFile ( rawdata );
+     return;
+   }
 
-	/* Pass sizes to output */
-	*width = cinfo.output_width;
-	*height = cinfo.output_height;
+   /* Read Scanlines, and expand from RGB to RGBA */
+   q = rgbadata;
 
-	/* Allocate Scanline buffer */
-	scanline = malloc(cinfo.output_width * 3);
+   while ( cinfo.output_scanline < cinfo.output_height ) {
+     p = scanline;
+     jpeg_read_scanlines ( &cinfo, &scanline, 1 );
 
-	if (!scanline)
-	{
-		VID_Printf(PRINT_ALL,
-				"Insufficient memory for JPEG scanline buffer\n");
-		free(rgbadata);
-		jpeg_destroy_decompress(&cinfo);
-		FS_FreeFile(rawdata);
-		return;
-	}
+     for ( i = 0; i < cinfo.output_width; i++ ) {
+       q[0] = p[0];
+       q[1] = p[1];
+       q[2] = p[2];
+       q[3] = 255;
+       p += 3;
+       q += 4;
+     }
+   }
 
-	/* Read Scanlines, and expand from RGB to RGBA */
-	q = rgbadata;
+   free ( scanline );
+   jpeg_finish_decompress ( &cinfo );
+   jpeg_destroy_decompress ( &cinfo );
+   *pic = rgbadata;
+ }
 
-	while (cinfo.output_scanline < cinfo.output_height)
-	{
-		p = scanline;
-		jpeg_read_scanlines(&cinfo, &scanline, 1);
-
-		for (i = 0; i < cinfo.output_width; i++)
-		{
-			q[0] = p[0];
-			q[1] = p[1];
-			q[2] = p[2];
-			q[3] = 255;
-			p += 3;
-			q += 4;
-		}
-	}
-
-	free(scanline);
-	jpeg_finish_decompress(&cinfo);
-	jpeg_destroy_decompress(&cinfo);
-
-	*pic = rgbadata;
-}
-
-#endif /* HT_WITH_RETEXTURE */
+ #endif /* HT_WITH_RETEXTURE */
