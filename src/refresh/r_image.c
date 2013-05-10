@@ -1052,7 +1052,7 @@ R_FindImage(char *name, imagetype_t type)
 	char *ptr;
 	char namewe[256];
 
-#ifdef RETEXTURE
+#ifdef HT_WITH_RETEXTURE
 	int realwidth = 0, realheight = 0;
 #endif
 
@@ -1094,7 +1094,7 @@ R_FindImage(char *name, imagetype_t type)
 
 	if (!strcmp(name + len - 4, ".pcx"))
 	{
-#ifdef RETEXTURE
+#ifdef HT_WITH_RETEXTURE
 
 		if (gl_retexturing->value)
 		{
@@ -1151,7 +1151,7 @@ R_FindImage(char *name, imagetype_t type)
 	}
 	else if (!strcmp(name + len - 4, ".wal"))
 	{
-#ifdef RETEXTURE
+#ifdef HT_WITH_RETEXTURE
 
 		if (gl_retexturing->value)
 		{
@@ -1204,7 +1204,7 @@ R_FindImage(char *name, imagetype_t type)
 		}
 	}
 
-#ifdef RETEXTURE
+#ifdef HT_WITH_RETEXTURE
 	else if (!strcmp(name + len - 4, ".tga"))
 	{
 		LoadTGA(name, &pic, &width, &height);

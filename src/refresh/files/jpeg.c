@@ -24,17 +24,17 @@
  * =======================================================================
  */
 
-#ifdef RETEXTURE
+ #include "prereqs.h"
+ #include "refresh/local.h"
 
-#include "prereqs.h"
-#include "refresh/local.h"
+ #ifdef HT_WITH_RETEXTURE
 
-#ifdef __APPLE__
-#include <libjpeg/jpeglib.h>
-#include <libjpeg/jerror.h>
+#ifdef HT_OS_OSX
+# include <libjpeg/jpeglib.h>
+# include <libjpeg/jerror.h>
 #else
-#include <jpeglib.h>
-#include <jerror.h>
+# include <jpeglib.h>
+# include <jerror.h>
 #endif
 
 void jpeg_memory_src(j_decompress_ptr cinfo,
@@ -185,4 +185,4 @@ LoadJPG(char *origname, byte **pic, int *width, int *height)
 	*pic = rgbadata;
 }
 
-#endif /* RETEXTURE */
+#endif /* HT_WITH_RETEXTURE */

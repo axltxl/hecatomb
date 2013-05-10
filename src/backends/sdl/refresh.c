@@ -40,7 +40,7 @@
 #include "icon/q2icon.xbm"
 
 /* X.org stuff */
-#ifdef X11GAMMA
+#ifdef HT_WITH_X11GAMMA
  #include <X11/Xos.h>
  #include <X11/Xlib.h>
  #include <X11/Xutil.h>
@@ -54,7 +54,7 @@ qboolean have_stencil = false;
 char *displayname = NULL;
 int screen = -1;
 
-#ifdef X11GAMMA
+#ifdef HT_WITH_X11GAMMA
 Display *dpy;
 XF86VidModeGamma x11_oldgamma;
 #endif
@@ -136,7 +136,7 @@ SetSDLIcon()
 /*
  * Sets the hardware gamma
  */
-#ifdef X11GAMMA
+#ifdef HT_WITH_X11GAMMA
 void
 UpdateHardwareGamma(void)
 {
@@ -271,7 +271,7 @@ GLimp_InitGraphics(qboolean fullscreen)
 	}
 
 	/* Initialize hardware gamma */
-#ifdef X11GAMMA
+#ifdef HT_WITH_X11GAMMA
 	if ((dpy = XOpenDisplay(displayname)) == NULL)
 	{
 		VID_Printf(PRINT_ALL, "Unable to open display.\n");
@@ -372,7 +372,7 @@ GLimp_Shutdown(void)
 		SDL_QuitSubSystem(SDL_INIT_VIDEO);
 	}
 
-#ifdef X11GAMMA
+#ifdef HT_WITH_X11GAMMA
 	if (gl_state.hwgamma == true)
 	{
 		XF86VidModeSetGamma(dpy, screen, &x11_oldgamma);
