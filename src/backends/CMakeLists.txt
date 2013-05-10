@@ -41,7 +41,7 @@ set (
 
 
 # SDLMain.m (OSX)
-if (MACOSX)
+if (OSX)
   list (APPEND BACKEND_SDL_SRC ${BACKEND_DIR}/sdl_osx/SDLMain.m)
 endif()
 # SDL will be only for the client
