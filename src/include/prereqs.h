@@ -19,14 +19,14 @@
  *
  * Prequisites
  */
- 
+
  #ifndef PREREQS_H
  #define PREREQS_H
 
  // Configuration file
  #include "config.h"
 
- // Standard headers
+ // ISO C headers
  #include <assert.h>
  #include <math.h>
  #include <string.h>
@@ -38,10 +38,12 @@
  #include <signal.h>
  #include <ctype.h>
  #include <time.h>
+ #include <locale.h>
+ #include <errno.h>
 
  // Standard integer types
  #if HT_HAVE_STDINT_H
- #  include <stdint.h>
+ # include <stdint.h>
  #else
  #endif
 
