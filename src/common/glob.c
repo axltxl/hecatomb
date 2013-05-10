@@ -24,216 +24,177 @@
  * =======================================================================
  */
 
-#include "prereqs.h"
-#include "common/glob.h"
+ #include "prereqs.h"
+ #include "common/glob.h"
 
-/*
- * Like glob_match, but match PATTERN against any final segment of TEXT.
- */
-static int
-glob_match_after_star(char *pattern, char *text)
-{
-	register char *p = pattern, *t = text;
-	register char c, c1;
+ /*
+  * Like glob_match, but match PATTERN against any final segment of TEXT.
+  */
+ static int
+ glob_match_after_star ( char *pattern, char *text )
+ {
+   register char *p = pattern, *t = text;
+   register char c, c1;
 
-	while ((c = *p++) == '?' || c == '*')
-	{
-		if ((c == '?') && (*t++ == '\0'))
-		{
-			return 0;
-		}
-	}
+   while ( ( c = *p++ ) == '?' || c == '*' ) {
+     if ( ( c == '?' ) && ( *t++ == '\0' ) ) {
+       return 0;
+     }
+   }
 
-	if (c == '\0')
-	{
-		return 1;
-	}
+   if ( c == '\0' ) {
+     return 1;
+   }
 
-	if (c == '\\')
-	{
-		c1 = *p;
-	}
-	else
-	{
-		c1 = c;
-	}
+   if ( c == '\\' ) {
+     c1 = *p;
+   } else {
+     c1 = c;
+   }
 
-	while (1)
-	{
-		if (((c == '[') || (*t == c1)) && glob_match(p - 1, t))
-		{
-			return 1;
-		}
+   while ( 1 ) {
+     if ( ( ( c == '[' ) || ( *t == c1 ) ) && glob_match ( p - 1, t ) ) {
+       return 1;
+     }
 
-		if (*t++ == '\0')
-		{
-			return 0;
-		}
-	}
-}
+     if ( *t++ == '\0' ) {
+       return 0;
+     }
+   }
+ }
 
-/* Match the pattern PATTERN against the string TEXT;
- * return 1 if it matches, 0 otherwise.
- *
- * A match means the entire string TEXT is used up in matching.
- *
- * In the pattern string, `*' matches any sequence of characters,
- * `?' matches any character, [SET] matches any character in the specified set,
- * [!SET] matches any character not in the specified set.
- *
- * A set is composed of characters or ranges; a range looks like
- * character hyphen character (as in 0-9 or A-Z).
- * [0-9a-zA-Z_] is the set of characters allowed in C identifiers.
- * Any other character in the pattern must be matched exactly.
- *
- * To suppress the special syntactic significance of any of `[]*?!-\',
- * and match the character exactly, precede it with a `\'.
- */
-int
-glob_match(char *pattern, char *text)
-{
-	register char *p = pattern, *t = text;
-	register char c;
+ /* Match the pattern PATTERN against the string TEXT;
+  * return 1 if it matches, 0 otherwise.
+  *
+  * A match means the entire string TEXT is used up in matching.
+  *
+  * In the pattern string, `*' matches any sequence of characters,
+  * `?' matches any character, [SET] matches any character in the specified set,
+  * [!SET] matches any character not in the specified set.
+  *
+  * A set is composed of characters or ranges; a range looks like
+  * character hyphen character (as in 0-9 or A-Z).
+  * [0-9a-zA-Z_] is the set of characters allowed in C identifiers.
+  * Any other character in the pattern must be matched exactly.
+  *
+  * To suppress the special syntactic significance of any of `[]*?!-\',
+  * and match the character exactly, precede it with a `\'.
+  */
+ int
+ glob_match ( char *pattern, char *text )
+ {
+   register char *p = pattern, *t = text;
+   register char c;
 
-	while ((c = *p++) != '\0')
-	{
-		switch (c)
-		{
-			case '?':
+   while ( ( c = *p++ ) != '\0' ) {
+     switch ( c ) {
+     case '?':
+       if ( *t == '\0' ) {
+         return 0;
+       } else {
+         ++t;
+       }
 
-				if (*t == '\0')
-				{
-					return 0;
-				}
-				else
-				{
-					++t;
-				}
+       break;
 
-				break;
+     case '\\':
+       if ( *p++ != *t++ ) {
+         return 0;
+       }
 
-			case '\\':
+       break;
 
-				if (*p++ != *t++)
-				{
-					return 0;
-				}
+     case '*':
+       return glob_match_after_star ( p, t );
 
-				break;
+     case '[': {
+       register char c1 = *t++;
+       int invert;
 
-			case '*':
-				return glob_match_after_star(p, t);
+       if ( !c1 ) {
+         return 0;
+       }
 
-			case '[':
-			{
-				register char c1 = *t++;
-				int invert;
+       invert = ( ( *p == '!' ) || ( *p == '^' ) );
 
-				if (!c1)
-				{
-					return 0;
-				}
+       if ( invert ) {
+         p++;
+       }
 
-				invert = ((*p == '!') || (*p == '^'));
+       c = *p++;
 
-				if (invert)
-				{
-					p++;
-				}
+       while ( 1 ) {
+         register char cstart = c, cend = c;
 
-				c = *p++;
+         if ( c == '\\' ) {
+           cstart = *p++;
+           cend = cstart;
+         }
 
-				while (1)
-				{
-					register char cstart = c, cend = c;
+         if ( c == '\0' ) {
+           return 0;
+         }
 
-					if (c == '\\')
-					{
-						cstart = *p++;
-						cend = cstart;
-					}
+         c = *p++;
 
-					if (c == '\0')
-					{
-						return 0;
-					}
+         if ( ( c == '-' ) && ( *p != ']' ) ) {
+           cend = *p++;
 
-					c = *p++;
+           if ( cend == '\\' ) {
+             cend = *p++;
+           }
 
-					if ((c == '-') && (*p != ']'))
-					{
-						cend = *p++;
+           if ( cend == '\0' ) {
+             return 0;
+           }
 
-						if (cend == '\\')
-						{
-							cend = *p++;
-						}
+           c = *p++;
+         }
 
-						if (cend == '\0')
-						{
-							return 0;
-						}
+         if ( ( c1 >= cstart ) && ( c1 <= cend ) ) {
+           goto match;
+         }
 
-						c = *p++;
-					}
+         if ( c == ']' ) {
+           break;
+         }
+       }
 
-					if ((c1 >= cstart) && (c1 <= cend))
-					{
-						goto match;
-					}
+       if ( !invert ) {
+         return 0;
+       }
 
-					if (c == ']')
-					{
-						break;
-					}
-				}
+       break;
+ match:
 
-				if (!invert)
-				{
-					return 0;
-				}
+       /* Skip the rest of the [...] construct that already matched.  */
+       while ( c != ']' ) {
+         if ( c == '\0' ) {
+           return 0;
+         }
 
-				break;
+         c = *p++;
 
-			match:
+         if ( c == '\0' ) {
+           return 0;
+         } else if ( c == '\\' ) {
+           ++p;
+         }
+       }
 
-				/* Skip the rest of the [...] construct that already matched.  */
-				while (c != ']')
-				{
-					if (c == '\0')
-					{
-						return 0;
-					}
+       if ( invert ) {
+         return 0;
+       }
 
-					c = *p++;
+       break;
+     }
 
-					if (c == '\0')
-					{
-						return 0;
-					}
-					else if (c == '\\')
-					{
-						++p;
-					}
-				}
+     default:
+       if ( c != *t++ ) {
+         return 0;
+       }
+     }
+   }
 
-				if (invert)
-				{
-					return 0;
-				}
-
-				break;
-			}
-
-			default:
-
-				if (c != *t++)
-				{
-					return 0;
-				}
-		}
-	}
-
-	return *t == '\0';
-}
-
+   return *t == '\0';
+ }

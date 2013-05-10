@@ -24,238 +24,207 @@
  * =======================================================================
  */
 
-#include "prereqs.h"
+ #include "prereqs.h"
 
+ #define MAXPRINTMSG 4096
 
-#define MAXPRINTMSG 4096
+ FILE *logfile;
+ cvar_t *logfile_active;  /* 1 = buffer log, 2 = flush after each print */
+ jmp_buf abortframe; /* an ERR_DROP occured, exit the entire frame */
+ int server_state;
 
-FILE *logfile;
-cvar_t *logfile_active;  /* 1 = buffer log, 2 = flush after each print */
-jmp_buf abortframe; /* an ERR_DROP occured, exit the entire frame */
-int server_state;
+ static int rd_target;
+ static char *rd_buffer;
+ static int rd_buffersize;
+ static void ( *rd_flush ) ( int target, char *buffer );
 
-static int rd_target;
-static char *rd_buffer;
-static int rd_buffersize;
-static void (*rd_flush)(int target, char *buffer);
+ void
+ Com_BeginRedirect ( int target, char *buffer, int buffersize, void ( *flush ) )
+ {
+   if ( !target || !buffer || !buffersize || !flush ) {
+     return;
+   }
 
-void
-Com_BeginRedirect(int target, char *buffer, int buffersize, void (*flush))
-{
-	if (!target || !buffer || !buffersize || !flush)
-	{
-		return;
-	}
+   rd_target = target;
+   rd_buffer = buffer;
+   rd_buffersize = buffersize;
+   rd_flush = flush;
+   *rd_buffer = 0;
+ }
 
-	rd_target = target;
-	rd_buffer = buffer;
-	rd_buffersize = buffersize;
-	rd_flush = flush;
+ void
+ Com_EndRedirect ( void )
+ {
+   rd_flush ( rd_target, rd_buffer );
+   rd_target = 0;
+   rd_buffer = NULL;
+   rd_buffersize = 0;
+   rd_flush = NULL;
+ }
 
-	*rd_buffer = 0;
-}
+ /*
+  * Both client and server can use this, and it will output
+  * to the apropriate place.
+  */
+ void
+ Com_Printf ( char *fmt, ... )
+ {
+   va_list argptr;
+   char msg[MAXPRINTMSG];
+   va_start ( argptr, fmt );
+   vsnprintf ( msg, MAXPRINTMSG, fmt, argptr );
+   va_end ( argptr );
 
-void
-Com_EndRedirect(void)
-{
-	rd_flush(rd_target, rd_buffer);
+   if ( rd_target ) {
+     if ( ( strlen ( msg ) + strlen ( rd_buffer ) ) > ( rd_buffersize - 1 ) ) {
+       rd_flush ( rd_target, rd_buffer );
+       *rd_buffer = 0;
+     }
 
-	rd_target = 0;
-	rd_buffer = NULL;
-	rd_buffersize = 0;
-	rd_flush = NULL;
-}
+     strcat ( rd_buffer, msg );
+     return;
+   }
 
-/*
- * Both client and server can use this, and it will output
- * to the apropriate place.
- */
-void
-Com_Printf(char *fmt, ...)
-{
-	va_list argptr;
-	char msg[MAXPRINTMSG];
+ #ifndef DEDICATED_ONLY
+   Con_Print ( msg );
+ #endif
+   /* also echo to debugging console */
+   Sys_ConsoleOutput ( msg );
 
-	va_start(argptr, fmt);
-	vsnprintf(msg, MAXPRINTMSG, fmt, argptr);
-	va_end(argptr);
+   /* logfile */
+   if ( logfile_active && logfile_active->value ) {
+     char name[MAX_QPATH];
 
-	if (rd_target)
-	{
-		if ((strlen(msg) + strlen(rd_buffer)) > (rd_buffersize - 1))
-		{
-			rd_flush(rd_target, rd_buffer);
-			*rd_buffer = 0;
-		}
+     if ( !logfile ) {
+       Com_sprintf ( name, sizeof ( name ), "%s/qconsole.log", FS_Gamedir() );
 
-		strcat(rd_buffer, msg);
-		return;
-	}
+       if ( logfile_active->value > 2 ) {
+         logfile = fopen ( name, "a" );
+       } else {
+         logfile = fopen ( name, "w" );
+       }
+     }
 
-#ifndef DEDICATED_ONLY
-	Con_Print(msg);
-#endif
+     if ( logfile ) {
+       fprintf ( logfile, "%s", msg );
+     }
 
-	/* also echo to debugging console */
-	Sys_ConsoleOutput(msg);
+     if ( logfile_active->value > 1 ) {
+       fflush ( logfile ); /* force it to save every time */
+     }
+   }
+ }
 
-	/* logfile */
-	if (logfile_active && logfile_active->value)
-	{
-		char name[MAX_QPATH];
+ /*
+  * A Com_Printf that only shows up if the "developer" cvar is set
+  */
+ void
+ Com_DPrintf ( char *fmt, ... )
+ {
+   va_list argptr;
+   char msg[MAXPRINTMSG];
 
-		if (!logfile)
-		{
-			Com_sprintf(name, sizeof(name), "%s/qconsole.log", FS_Gamedir());
+   if ( !developer || !developer->value ) {
+     return; /* don't confuse non-developers with techie stuff... */
+   }
 
-			if (logfile_active->value > 2)
-			{
-				logfile = fopen(name, "a");
-			}
+   va_start ( argptr, fmt );
+   vsnprintf ( msg, MAXPRINTMSG, fmt, argptr );
+   va_end ( argptr );
+   Com_Printf ( "%s", msg );
+ }
 
-			else
-			{
-				logfile = fopen(name, "w");
-			}
-		}
+ /*
+  * A Com_Printf that only shows up when either the "modder" or "developer"
+  * cvars is set
+  */
+ void
+ Com_MDPrintf ( char *fmt, ... )
+ {
+   va_list argptr;
+   char msg[MAXPRINTMSG];
 
-		if (logfile)
-		{
-			fprintf(logfile, "%s", msg);
-		}
+   if ( ( !modder || !modder->value ) && ( !developer || !developer->value ) ) {
+     return;
+   }
 
-		if (logfile_active->value > 1)
-		{
-			fflush(logfile);  /* force it to save every time */
-		}
-	}
-}
+   va_start ( argptr, fmt );
+   vsnprintf ( msg, MAXPRINTMSG, fmt, argptr );
+   va_end ( argptr );
+   Com_Printf ( "%s", msg );
+ }
 
-/*
- * A Com_Printf that only shows up if the "developer" cvar is set
- */
-void
-Com_DPrintf(char *fmt, ...)
-{
-	va_list argptr;
-	char msg[MAXPRINTMSG];
+ /*
+  * Both client and server can use this, and it will
+  * do the apropriate things.
+  */
+ void
+ Com_Error ( int code, char *fmt, ... )
+ {
+   va_list argptr;
+   static char msg[MAXPRINTMSG];
+   static qboolean recursive;
 
-	if (!developer || !developer->value)
-	{
-		return; /* don't confuse non-developers with techie stuff... */
-	}
+   if ( recursive ) {
+     Sys_Error ( "recursive error after: %s", msg );
+   }
 
-	va_start(argptr, fmt);
-	vsnprintf(msg, MAXPRINTMSG, fmt, argptr);
-	va_end(argptr);
+   recursive = true;
+   va_start ( argptr, fmt );
+   vsnprintf ( msg, MAXPRINTMSG, fmt, argptr );
+   va_end ( argptr );
 
-	Com_Printf("%s", msg);
-}
+   if ( code == ERR_DISCONNECT ) {
+ #ifndef DEDICATED_ONLY
+     CL_Drop();
+ #endif
+     recursive = false;
+     longjmp ( abortframe, -1 );
+   } else if ( code == ERR_DROP ) {
+     Com_Printf ( "********************\nERROR: %s\n********************\n",
+                  msg );
+     SV_Shutdown ( va ( "Server crashed: %s\n", msg ), false );
+ #ifndef DEDICATED_ONLY
+     CL_Drop();
+ #endif
+     recursive = false;
+     longjmp ( abortframe, -1 );
+   } else {
+     SV_Shutdown ( va ( "Server fatal crashed: %s\n", msg ), false );
+ #ifndef DEDICATED_ONLY
+     CL_Shutdown();
+ #endif
+   }
 
-/*
- * A Com_Printf that only shows up when either the "modder" or "developer"
- * cvars is set
- */
-void
-Com_MDPrintf(char *fmt, ...)
-{
-	va_list argptr;
-	char msg[MAXPRINTMSG];
+   if ( logfile ) {
+     fclose ( logfile );
+     logfile = NULL;
+   }
 
-	if ((!modder || !modder->value) && (!developer || !developer->value))
-	{
-		return;
-	}
+   Sys_Error ( "%s", msg );
+   recursive = false;
+ }
 
-	va_start(argptr, fmt);
-	vsnprintf(msg, MAXPRINTMSG, fmt, argptr);
-	va_end(argptr);
+ /*
+  * Both client and server can use this, and it will
+  * do the apropriate things.
+  */
+ void
+ Com_Quit ( void )
+ {
+   Com_Printf ( "\n----------- shutting down ----------\n" );
+   SV_Shutdown ( "Server quit\n", false );
+   Sys_Quit();
+ }
 
-	Com_Printf("%s", msg);
-}
+ int
+ Com_ServerState ( void )
+ {
+   return server_state;
+ }
 
-/*
- * Both client and server can use this, and it will
- * do the apropriate things.
- */
-void
-Com_Error(int code, char *fmt, ...)
-{
-	va_list argptr;
-	static char msg[MAXPRINTMSG];
-	static qboolean recursive;
-
-	if (recursive)
-	{
-		Sys_Error("recursive error after: %s", msg);
-	}
-
-	recursive = true;
-
-	va_start(argptr, fmt);
-	vsnprintf(msg, MAXPRINTMSG, fmt, argptr);
-	va_end(argptr);
-
-	if (code == ERR_DISCONNECT)
-	{
-#ifndef DEDICATED_ONLY
-		CL_Drop();
-#endif
-		recursive = false;
-		longjmp(abortframe, -1);
-	}
-
-	else if (code == ERR_DROP)
-	{
-		Com_Printf("********************\nERROR: %s\n********************\n",
-				msg);
-		SV_Shutdown(va("Server crashed: %s\n", msg), false);
-#ifndef DEDICATED_ONLY
-		CL_Drop();
-#endif
-		recursive = false;
-		longjmp(abortframe, -1);
-	}
-
-	else
-	{
-		SV_Shutdown(va("Server fatal crashed: %s\n", msg), false);
-#ifndef DEDICATED_ONLY
-		CL_Shutdown();
-#endif
-	}
-
-	if (logfile)
-	{
-		fclose(logfile);
-		logfile = NULL;
-	}
-
-	Sys_Error("%s", msg);
-	recursive = false;
-}
-
-/*
- * Both client and server can use this, and it will
- * do the apropriate things.
- */
-void
-Com_Quit(void)
-{
-	Com_Printf("\n----------- shutting down ----------\n");
-	SV_Shutdown("Server quit\n", false);
-	Sys_Quit();
-}
-
-int
-Com_ServerState(void)
-{
-	return server_state;
-}
-
-void
-Com_SetServerState(int state)
-{
-	server_state = state;
-}
-
+ void
+ Com_SetServerState ( int state )
+ {
+   server_state = state;
+ }
