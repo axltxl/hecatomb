@@ -27,7 +27,7 @@ ht_set_option(CMAKE_BUILD_TYPE Debug STRING
     "Choose the type of build (Debug or Release)")
 
 # setup version numbers
-set (PROJ_NAME "yquake2")
+set (PROJ_NAME "hecatomb")
 
 # set project name
 project (${PROJ_NAME})
