@@ -24,220 +24,186 @@
  * =======================================================================
  */
 
-#include "prereqs.h"
-#include "client/client.h"
+ #include "prereqs.h"
+ #include "client/client.h"
 
-typedef struct
-{
-	int length;
-	float value[3];
-	float map[MAX_QPATH];
-} clightstyle_t;
+ typedef struct {
+   int length;
+   float value[3];
+   float map[MAX_QPATH];
+ } clightstyle_t;
 
-clightstyle_t cl_lightstyle[MAX_LIGHTSTYLES];
-int lastofs;
+ clightstyle_t cl_lightstyle[MAX_LIGHTSTYLES];
+ int lastofs;
 
-void
-CL_ClearLightStyles(void)
-{
-	memset(cl_lightstyle, 0, sizeof(cl_lightstyle));
-	lastofs = -1;
-}
+ void
+ CL_ClearLightStyles ( void )
+ {
+   memset ( cl_lightstyle, 0, sizeof ( cl_lightstyle ) );
+   lastofs = -1;
+ }
 
-void
-CL_RunLightStyles(void)
-{
-	int ofs;
-	int i;
-	clightstyle_t *ls;
+ void
+ CL_RunLightStyles ( void )
+ {
+   int ofs;
+   int i;
+   clightstyle_t *ls;
+   ofs = cl.time / 100;
 
-	ofs = cl.time / 100;
+   if ( ofs == lastofs ) {
+     return;
+   }
 
-	if (ofs == lastofs)
-	{
-		return;
-	}
+   lastofs = ofs;
 
-	lastofs = ofs;
+   for ( i = 0, ls = cl_lightstyle; i < MAX_LIGHTSTYLES; i++, ls++ ) {
+     if ( !ls->length ) {
+       ls->value[0] = ls->value[1] = ls->value[2] = 1.0;
+       continue;
+     }
 
-	for (i = 0, ls = cl_lightstyle; i < MAX_LIGHTSTYLES; i++, ls++)
-	{
-		if (!ls->length)
-		{
-			ls->value[0] = ls->value[1] = ls->value[2] = 1.0;
-			continue;
-		}
+     if ( ls->length == 1 ) {
+       ls->value[0] = ls->value[1] = ls->value[2] = ls->map[0];
+     } else {
+       ls->value[0] = ls->value[1] = ls->value[2] = ls->map[ofs % ls->length];
+     }
+   }
+ }
 
-		if (ls->length == 1)
-		{
-			ls->value[0] = ls->value[1] = ls->value[2] = ls->map[0];
-		}
+ void
+ CL_SetLightstyle ( int i )
+ {
+   char *s;
+   int j, k;
+   s = cl.configstrings[i + CS_LIGHTS];
+   j = ( int ) strlen ( s );
+   cl_lightstyle[i].length = j;
 
-		else
-		{
-			ls->value[0] = ls->value[1] = ls->value[2] = ls->map[ofs % ls->length];
-		}
-	}
-}
+   for ( k = 0; k < j; k++ ) {
+     cl_lightstyle[i].map[k] = ( float ) ( s[k] - 'a' ) / ( float ) ( 'm' - 'a' );
+   }
+ }
 
-void
-CL_SetLightstyle(int i)
-{
-	char *s;
-	int j, k;
+ void
+ CL_AddLightStyles ( void )
+ {
+   int i;
+   clightstyle_t *ls;
 
-	s = cl.configstrings[i + CS_LIGHTS];
+   for ( i = 0, ls = cl_lightstyle; i < MAX_LIGHTSTYLES; i++, ls++ ) {
+     V_AddLightStyle ( i, ls->value[0], ls->value[1], ls->value[2] );
+   }
+ }
 
-	j = (int)strlen(s);
-	cl_lightstyle[i].length = j;
+ cdlight_t cl_dlights[MAX_DLIGHTS];
 
-	for (k = 0; k < j; k++)
-	{
-		cl_lightstyle[i].map[k] = (float)(s[k] - 'a') / (float)('m' - 'a');
-	}
-}
+ void
+ CL_ClearDlights ( void )
+ {
+   memset ( cl_dlights, 0, sizeof ( cl_dlights ) );
+ }
 
-void
-CL_AddLightStyles(void)
-{
-	int i;
-	clightstyle_t *ls;
+ cdlight_t *
+ CL_AllocDlight ( int key )
+ {
+   int i;
+   cdlight_t *dl;
 
-	for (i = 0, ls = cl_lightstyle; i < MAX_LIGHTSTYLES; i++, ls++)
-	{
-		V_AddLightStyle(i, ls->value[0], ls->value[1], ls->value[2]);
-	}
-}
+   /* first look for an exact key match */
+   if ( key ) {
+     dl = cl_dlights;
 
-cdlight_t cl_dlights[MAX_DLIGHTS];
+     for ( i = 0; i < MAX_DLIGHTS; i++, dl++ ) {
+       if ( dl->key == key ) {
+         dl->key = key;
+         return dl;
+       }
+     }
+   }
 
-void
-CL_ClearDlights(void)
-{
-	memset(cl_dlights, 0, sizeof(cl_dlights));
-}
+   /* then look for anything else */
+   dl = cl_dlights;
 
-cdlight_t *
-CL_AllocDlight(int key)
-{
-	int i;
-	cdlight_t *dl;
+   for ( i = 0; i < MAX_DLIGHTS; i++, dl++ ) {
+     if ( dl->die < cl.time ) {
+       dl->key = key;
+       return dl;
+     }
+   }
 
-	/* first look for an exact key match */
-	if (key)
-	{
-		dl = cl_dlights;
+   dl = &cl_dlights[0];
+   dl->key = key;
+   return dl;
+ }
 
-		for (i = 0; i < MAX_DLIGHTS; i++, dl++)
-		{
-			if (dl->key == key)
-			{
-				dl->key = key;
-				return dl;
-			}
-		}
-	}
+ void
+ CL_NewDlight ( int key, float x, float y, float z, float radius, float time )
+ {
+   cdlight_t *dl;
+   dl = CL_AllocDlight ( key );
+   dl->origin[0] = x;
+   dl->origin[1] = y;
+   dl->origin[2] = z;
+   dl->radius = radius;
+   dl->die = cl.time + time;
+ }
 
-	/* then look for anything else */
-	dl = cl_dlights;
+ void
+ CL_RunDLights ( void )
+ {
+   int i;
+   cdlight_t *dl;
+   dl = cl_dlights;
 
-	for (i = 0; i < MAX_DLIGHTS; i++, dl++)
-	{
-		if (dl->die < cl.time)
-		{
-			dl->key = key;
-			return dl;
-		}
-	}
+   for ( i = 0; i < MAX_DLIGHTS; i++, dl++ ) {
+     if ( !dl->radius ) {
+       continue;
+     }
 
-	dl = &cl_dlights[0];
-	dl->key = key;
-	return dl;
-}
+     if ( dl->die < cl.time ) {
+       dl->radius = 0;
+       return;
+     }
 
-void
-CL_NewDlight(int key, float x, float y, float z, float radius, float time)
-{
-	cdlight_t *dl;
+     dl->radius -= cls.frametime * dl->decay;
 
-	dl = CL_AllocDlight(key);
-	dl->origin[0] = x;
-	dl->origin[1] = y;
-	dl->origin[2] = z;
-	dl->radius = radius;
-	dl->die = cl.time + time;
-}
+     if ( dl->radius < 0 ) {
+       dl->radius = 0;
+     }
+   }
+ }
 
-void
-CL_RunDLights(void)
-{
-	int i;
-	cdlight_t *dl;
+ void
+ CL_AddDLights ( void )
+ {
+   int i;
+   cdlight_t *dl;
+   dl = cl_dlights;
 
-	dl = cl_dlights;
+   if ( vidref_val == VIDREF_GL ) {
+     for ( i = 0; i < MAX_DLIGHTS; i++, dl++ ) {
+       if ( !dl->radius ) {
+         continue;
+       }
 
-	for (i = 0; i < MAX_DLIGHTS; i++, dl++)
-	{
-		if (!dl->radius)
-		{
-			continue;
-		}
+       V_AddLight ( dl->origin, dl->radius, dl->color[0], dl->color[1], dl->color[2] );
+     }
+   } else {
+     for ( i = 0; i < MAX_DLIGHTS; i++, dl++ ) {
+       if ( !dl->radius ) {
+         continue;
+       }
 
-		if (dl->die < cl.time)
-		{
-			dl->radius = 0;
-			return;
-		}
+       /* negative light in software. only black allowed */
+       if ( ( dl->color[0] < 0 ) || ( dl->color[1] < 0 ) || ( dl->color[2] < 0 ) ) {
+         dl->radius = - ( dl->radius );
+         dl->color[0] = 1;
+         dl->color[1] = 1;
+         dl->color[2] = 1;
+       }
 
-		dl->radius -= cls.frametime * dl->decay;
-
-		if (dl->radius < 0)
-		{
-			dl->radius = 0;
-		}
-	}
-}
-
-void
-CL_AddDLights(void)
-{
-	int i;
-	cdlight_t *dl;
-
-	dl = cl_dlights;
-
-	if (vidref_val == VIDREF_GL)
-	{
-		for (i = 0; i < MAX_DLIGHTS; i++, dl++)
-		{
-			if (!dl->radius)
-			{
-				continue;
-			}
-
-			V_AddLight(dl->origin, dl->radius, dl->color[0], dl->color[1], dl->color[2]);
-		}
-	}
-	else
-	{
-		for (i = 0; i < MAX_DLIGHTS; i++, dl++)
-		{
-			if (!dl->radius)
-			{
-				continue;
-			}
-
-			/* negative light in software. only black allowed */
-			if ((dl->color[0] < 0) || (dl->color[1] < 0) || (dl->color[2] < 0))
-			{
-				dl->radius = -(dl->radius);
-				dl->color[0] = 1;
-				dl->color[1] = 1;
-				dl->color[2] = 1;
-			}
-
-			V_AddLight(dl->origin, dl->radius, dl->color[0], dl->color[1], dl->color[2]);
-		}
-	}
-}
-
+       V_AddLight ( dl->origin, dl->radius, dl->color[0], dl->color[1], dl->color[2] );
+     }
+   }
+ }
