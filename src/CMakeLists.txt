@@ -104,6 +104,9 @@ endif()
 # Include path
 include_directories (${INCLUDE_DIRS})
 
+# Add headers to the project
+add_subdirectory (include)
+
 # Configuration file
 configure_file (${SRC_DIR}/include/config.h.in ${SRC_DIR}/include/config.h)
 
@@ -136,6 +139,6 @@ set_target_properties(server PROPERTIES OUTPUT_NAME "${SERVER_EXEC}")
 target_link_libraries (server ${LIBS})
 
 # Client exec
-add_executable (client ${CLIENT_EXEC_SRC})
+add_executable (client ${CLIENT_EXEC_SRC} ${HEADERS})
 set_target_properties(client PROPERTIES OUTPUT_NAME "${CLIENT_EXEC}")
 target_link_libraries(client ${LIBS} ${CLIENT_LIBS})
