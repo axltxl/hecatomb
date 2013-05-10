@@ -113,6 +113,12 @@ if (YQ2_SYSTEMWIDE)
   add_definitions (-DSYSTEMWIDE -DSYSTEMDIR="${YQ2_SYSTEMDIR}")
 endif()
 
+# Windows specific libraries
+if (WINDOWS)
+  # Winsock and WinMM
+  list (APPEND LIBS ws2_32 winmm )
+endif()
+
 # Unix specific libraries
 if (UNIX)
   # dlopen, dlsym, dlclose, etc ...
