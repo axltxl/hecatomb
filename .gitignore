@@ -1,2 +1,4 @@
-/build/
-/release/
+/build
+bin/*/baseq2
+*.exe
+*.pak
