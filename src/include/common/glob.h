@@ -24,9 +24,11 @@
  * =======================================================================
  */
 
-#ifndef UNIX_GLOB_H
-#define UNIX_GLOB_H
+ #ifndef UNIX_GLOB_H
+ #define UNIX_GLOB_H
 
-int glob_match(char *pattern, char *text);
+ #include "prereqs.h"
 
-#endif
+ int glob_match ( char *pattern, char *text );
+
+ #endif /* UNIX_GLOB_H */

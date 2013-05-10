@@ -24,17 +24,18 @@
  * =======================================================================
  */
 
-#ifndef CO_ZONE_H
-#define CO_ZONE_H
+ #ifndef CO_ZONE_H
+ #define CO_ZONE_H
 
-typedef struct zhead_s
-{
-	struct zhead_s	*prev, *next;
-	short	magic;
-	short	tag; /* for group free */
-	int		size;
-} zhead_t;
+ #include "prereqs.h"
 
-void Z_Stats_f (void);
+ typedef struct zhead_s {
+   struct zhead_s  *prev, *next;
+   short magic;
+   short tag; /* for group free */
+   int   size;
+ } zhead_t;
 
-#endif
+ void Z_Stats_f ( void );
+
+ #endif /* CO_ZONE_H */
