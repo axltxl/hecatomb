@@ -1,4 +1,5 @@
-/build/
-/release/
-
+/build
 src/include/config.h
+bin/*/baseq2
+*.exe
+*.pak

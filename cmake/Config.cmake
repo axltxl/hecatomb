@@ -64,10 +64,10 @@ if ("${CMAKE_C_COMPILER_ID}" MATCHES "GNU")
   set (CMAKE_C_FLAGS_RELEASE "-O2 -fno-strict-aliasing -fomit-frame-pointer -g")
 
   # -MMD to generate header dependencies. (They cannot be
-  #  generated if building universal binaries on OSX)
-  #if (OSX)
-  #  list (APPEND CMAKE_C_FLAGS "-MMD")
-  #endif()
+  #  generated if building universal binaries on OSX)a
+  if (OSX)
+    list (APPEND CMAKE_C_FLAGS "-MMD")
+  endif()
 
 # clang
 elseif ("${CMAKE_C_COMPILER_ID}" MATCHES "Clang")
@@ -95,4 +95,14 @@ elseif ("${CMAKE_C_COMPILER_ID}" MATCHES "Clang")
 else()
     message(FATAL_ERROR "Unsupported compiler. Current supported compilers are gcc and clang.")
     return()
+endif()
+
+# clang++ (Only for OS X)
+if (OSX)
+  if ("${CMAKE_CXX_COMPILER_ID}" MATCHES "Clang")
+    # Basic compiler flags
+    set (COMPILER_CLANGXX 1)
+    set (CMAKE_CXX_FLAGS "-Weverything")
+    set (CMAKE_CXX_FLAGS_RELEASE "-O4 -g")
+  endif()
 endif()

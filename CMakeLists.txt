@@ -11,7 +11,7 @@
 # (unless you know what you're doing)
 # ==================================================
 #
-cmake_minimum_required(VERSION 2.8.8)
+cmake_minimum_required(VERSION 2.8)
 
 # define a macro that helps defining an option
 macro(ht_set_option var default type docstring)
@@ -23,7 +23,8 @@ endmacro()
 
 # set a default build type if none was provided
 # this has to be done before the project() instruction!
-ht_set_option(CMAKE_BUILD_TYPE Debug STRING "Choose the type of build (Debug or Release)")
+ht_set_option(CMAKE_BUILD_TYPE Debug STRING
+    "Choose the type of build (Debug or Release)")
 
 # setup version numbers
 set (PROJ_NAME "yquake2")
@@ -48,51 +49,93 @@ else()
   set (HT_CC_CFLAGS "${CMAKE_C_FLAGS} ${CMAKE_C_FLAGS_RELEASE}")
 endif()
 
+# let CMake know about our additional libraries paths (on Windows and OS X)
+# Thanks to SFML guys for this snippet
+set (EXTLIBS_BASE "${PROJECT_SOURCE_DIR}/extlibs")
+set (EXTLIBS_HEADERS "${EXTLIBS_BASE}/include")
+set (EXTLIBS_LIBS "${EXTLIBS_BASE}/libs")
+set (EXTLIBS_BIN "${EXTLIBS_BASE}/bin")
+if (WINDOWS)
+  set (CMAKE_INCLUDE_PATH ${CMAKE_INCLUDE_PATH} "${EXTLIBS_HEADERS}")
+  set (SDL_INCLUDE_DIR ${EXTLIBS_HEADERS})
+  set (OPENAL_INCLUDE_DIR ${EXTLIBS_HEADERS})
+  if (COMPILER_GCC)
+    set (EXTLIBS_LIBS_MINGW "${EXTLIBS_LIBS}/mingw")
+    if (ARCH_32)
+			set (CMAKE_LIBRARY_PATH ${CMAKE_LIBRARY_PATH} "${EXTLIBS_LIBS_MINGW}/x86")
+      set (CMAKE_LIBRARY_PATH ${CMAKE_LIBRARY_PATH} "${EXTLIBS_BIN}/x86")
+    elseif(ARCH_64)
+			set (CMAKE_LIBRARY_PATH ${CMAKE_LIBRARY_PATH} "${EXTLIBS_LIBS_MINGW}/x64")
+      set (CMAKE_LIBRARY_PATH ${CMAKE_LIBRARY_PATH} "${EXTLIBS_BIN}/x64")
+  endif()
+  # There's not yet support for this compiler
+  elseif(COMPILER_MSVC)
+    set (EXTLIBS_LIBS_MSVC "${EXTLIBS_LIBS}/msvc")
+    if(ARCH_32)
+      set (CMAKE_LIBRARY_PATH ${CMAKE_LIBRARY_PATH} "${EXTLIBS_LIBS_MSVC}/x86")
+    elseif(ARCH_64)
+      set (CMAKE_LIBRARY_PATH ${CMAKE_LIBRARY_PATH} "${EXTLIBS_LIBS_MSVC}/x64")
+    endif()
+  endif()
+elseif (OSX)
+  set (CMAKE_INCLUDE_PATH ${CMAKE_INCLUDE_PATH} "${EXTLIBS_HEADERS}")
+  set (CMAKE_LIBRARY_PATH ${CMAKE_LIBRARY_PATH} "${EXTLIBS_LIBS_OSX}/osx")
+endif()
+
 # Enables CD audio playback. CD audio playback is used
 # for the background music and doesn't add any further
 # dependencies. It should work on all platforms where
 # CD playback is supported by SDL.
 ht_set_option(HT_WITH_CDA TRUE BOOL "CD audio playback support")
 
-# Enables OGG/Vorbis support. OGG/Vorbis files can be
-# used as a substitute of CD audio playback. Adds
-# dependencies to libogg, libvorbis and libvorbisfile.
-ht_set_option(HT_WITH_OGG TRUE BOOL "OGG/Vorbis support")
+if (NOT WINDOWS)
+  # Enables OGG/Vorbis support. OGG/Vorbis files can be
+  # used as a substitute of CD audio playback. Adds
+  # dependencies to libogg, libvorbis and libvorbisfile.
+  # This features won't be present on Windows
+  # until I find the right binaries for it
+  ht_set_option(HT_WITH_OGG TRUE BOOL "OGG/Vorbis support")
+
+  # Enables retexturing support. Adds
+  # a dependency to libjpeg
+  ht_set_option(HT_WITH_RETEXTURE FALSE BOOL "Retexturing support")
+
+  # Enables opening of ZIP files (also known as .pk3 packs).
+  # Adds a dependency to libz
+  ht_set_option(HT_WITH_ZIP FALSE BOOL
+    "ZIP files support (for opening .pk3 packs)")
+endif()
 
 # Enables the optional OpenAL sound system.
 # To use it your system needs libopenal.so.1
 # or openal32.dll (we recommend openal-soft)
 # installed
-ht_set_option(HT_WITH_OPENAL FALSE BOOL "Use the OpenAL sound system")
+ht_set_option(HT_WITH_OPENAL FALSE BOOL
+  "Use the OpenAL sound system")
 
-# Enables retexturing support. Adds
-# a dependency to libjpeg
-ht_set_option(HT_WITH_RETEXTURE FALSE BOOL "Retexturing support")
-
+# Set the gamma via X11 and not via SDL. This works
+# around problems in some SDL version. Adds dependencies
+# to pkg-config, libX11 and libXxf86vm. Unsupported on
+# Windows and OS X.
 if (UNIX)
-  # Set the gamma via X11 and not via SDL. This works
-  # around problems in some SDL version. Adds dependencies
-  # to pkg-config, libX11 and libXxf86vm. Unsupported on
-  # Windows and OS X.
-  ht_set_option(HT_WITH_X11GAMMA FALSE BOOL "Set the gamma via X11 and not via SDL")
+  ht_set_option(HT_WITH_X11GAMMA FALSE BOOL
+    "Set the gamma via X11 and not via SDL")
 endif()
 
-# Enables opening of ZIP files (also known as .pk3 packs).
-# Adds a dependency to libz
-ht_set_option(HT_WITH_ZIP FALSE BOOL "ZIP files support (for opening .pk3 packs)")
-
 # Enable systemwide installation of game assets
-ht_set_option(HT_WITH_SYSTEMWIDE TRUE BOOL "Enable systemwide installation of game assets")
+ht_set_option(HT_WITH_SYSTEMWIDE TRUE BOOL
+  "Enable systemwide installation of game assets")
 
 # This will set the default SYSTEMDIR, a non-empty string
 # would actually be used. On Windows normals slashes (/)
 # instead of backslashed (\) should be used!
 if (WINDOWS)
-  set (SYSTEMDIR_DEFAULT c:\\quake2)
+  set (SYSTEMDIR_DEFAULT c:/quake2)
 else()
   set (SYSTEMDIR_DEFAULT /usr/share/games/quake2)
 endif()
-ht_set_option(HT_WITH_SYSTEMDIR "${SYSTEMDIR_DEFAULT}" STRING "Location of system-wide game assets installation")
+ht_set_option(HT_WITH_SYSTEMDIR "${SYSTEMDIR_DEFAULT}"
+    STRING "Location of system-wide game assets installation")
 
 # Architecture name string
 if (ARCH_32)
@@ -126,19 +169,23 @@ endif()
 # SDL
 find_package (SDL REQUIRED)
 
-# OGG and Vorbis
-if (HT_WITH_OGG)
-  find_package (VORBIS REQUIRED)
-endif()
+# This features won't be present on Windows
+# until I find the right binaries for it
+if (NOT WINDOWS)
+  # OGG and Vorbis
+  if (HT_WITH_OGG)
+    find_package (VORBIS REQUIRED)
+  endif()
 
-# libjpeg
-if (HT_WITH_RETEXTURE)
-  find_package (JPEG REQUIRED)
-endif()
+  # libjpeg
+  if (HT_WITH_RETEXTURE)
+    find_package (JPEG REQUIRED)
+  endif()
 
-# zlib
-if (HT_WITH_ZIP)
-  find_package (ZLIB REQUIRED)
+  # zlib
+  if (HT_WITH_ZIP)
+    find_package (ZLIB REQUIRED)
+  endif()
 endif()
 
 # Source files
