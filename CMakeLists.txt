@@ -29,7 +29,7 @@ ht_set_option(CMAKE_BUILD_TYPE Debug STRING "Choose the type of build (Debug or 
 set (PROJ_NAME "yquake2")
 
 # set project name
-project (${PROJ_NAME} C)
+project (${PROJ_NAME})
 
 # Helpful modules are here
 set (CMAKE_GOODIES_PATH ${CMAKE_SOURCE_DIR}/cmake)

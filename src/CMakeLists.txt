@@ -17,7 +17,7 @@ set (SERVER_EXEC "htded")
 # Definitions
 if (WINDOWS)
   set (HT_OS_WIN32 1)
-elseif (MACOSX)
+elseif (OSX)
   set (HT_OS_OSX 1)
 elseif (LINUX)
   set (HT_OS_LINUX 1)

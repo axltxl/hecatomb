@@ -65,9 +65,9 @@ if ("${CMAKE_C_COMPILER_ID}" MATCHES "GNU")
 
   # -MMD to generate header dependencies. (They cannot be
   #  generated if building universal binaries on OSX)
-  if (OSX)
-    list (APPEND CMAKE_C_FLAGS "-MMD")
-  endif()
+  #if (OSX)
+  #  list (APPEND CMAKE_C_FLAGS "-MMD")
+  #endif()
 
 # clang
 elseif ("${CMAKE_C_COMPILER_ID}" MATCHES "Clang")
