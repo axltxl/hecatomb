@@ -24,58 +24,57 @@
  * =======================================================================
  */
 
-#ifndef GEN_INPUT_H
-#define GEN_INPUT_H
+ #ifndef GEN_INPUT_H
+ #define GEN_INPUT_H
 
-#include "prereqs.h"
-#include "common/shared.h"
+ #include "prereqs.h"
+ #include "common/shared.h"
 
-typedef void (*Key_Event_fp_t)(int key, qboolean down);
+ typedef void ( *Key_Event_fp_t ) ( int key, qboolean down );
 
-typedef struct in_state
-{
-    /* Pointers to functions back in client, set by vid_so */
-    void (*IN_CenterView_fp)(void);
-    Key_Event_fp_t Key_Event_fp;
-    vec_t *viewangles;
-    int *in_strafe_state;
-    int *in_speed_state;
-} in_state_t;
+ typedef struct in_state {
+   /* Pointers to functions back in client, set by vid_so */
+   void ( *IN_CenterView_fp ) ( void );
+   Key_Event_fp_t Key_Event_fp;
+   vec_t *viewangles;
+   int *in_strafe_state;
+   int *in_speed_state;
+ } in_state_t;
 
-/*
- * Keyboard initialisation. Called by the client.
- */
-void IN_KeyboardInit(Key_Event_fp_t fp);
+ /*
+  * Keyboard initialisation. Called by the client.
+  */
+ void IN_KeyboardInit ( Key_Event_fp_t fp );
 
-/*
- * Updates the state of the input queue
- */
-void IN_Update(void);
+ /*
+  * Updates the state of the input queue
+  */
+ void IN_Update ( void );
 
-/*
- * Initializes the input backend
- */
-void IN_BackendInit(in_state_t *in_state_p);
+ /*
+  * Initializes the input backend
+  */
+ void IN_BackendInit ( in_state_t *in_state_p );
 
-/*
- * Shuts the backend down
- */
-void IN_BackendShutdown(void);
+ /*
+  * Shuts the backend down
+  */
+ void IN_BackendShutdown ( void );
 
-/*
- * Shuts the input backend down
- */
-void IN_BackendMouseButtons(void);
+ /*
+  * Shuts the input backend down
+  */
+ void IN_BackendMouseButtons ( void );
 
-/*
- * Move handling
- */
-void IN_BackendMove(usercmd_t *cmd);
+ /*
+  * Move handling
+  */
+ void IN_BackendMove ( usercmd_t *cmd );
 
-/*
- * Closes all inputs and clears
- * the input queue.
- */
-void IN_Close(void);
+ /*
+  * Closes all inputs and clears
+  * the input queue.
+  */
+ void IN_Close ( void );
 
-#endif
+ #endif /* GEN_INPUT_H */

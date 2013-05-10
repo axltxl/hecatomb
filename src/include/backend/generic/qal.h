@@ -32,17 +32,11 @@
  #include "prereqs.h"
 
  #ifdef HT_WITH_OPENAL
+ #include "backend/generic/al.h"
 
- #if defined (HT_OS_OSX)
- #  include <OpenAL/al.h>
- #else
- #  include <AL/al.h>
- #  include <AL/efx.h>
- #endif
-
- /* 
+ /*
   * Function pointers used to tie
-  * the qal API to the OpenAL API 
+  * the qal API to the OpenAL API
   */
  extern LPALENABLE qalEnable;
  extern LPALDISABLE qalDisable;
@@ -117,7 +111,7 @@
  extern LPALDOPPLERVELOCITY qalDopplerVelocity;
  extern LPALSPEEDOFSOUND qalSpeedOfSound;
  extern LPALDISTANCEMODEL qalDistanceModel;
- 
+
  #ifndef HT_OS_OSX
  extern LPALGENFILTERS qalGenFilters;
  extern LPALFILTERI qalFilteri;
@@ -129,19 +123,19 @@
   * Gives information over the OpenAL
   * implementation and it's state
   */
- void QAL_SoundInfo(void);
+ void QAL_SoundInfo ( void );
 
  /*
   * Loads the OpenAL shared lib, creates
   * a context and device handle.
   */
- qboolean QAL_Init(void);
+ qboolean QAL_Init ( void );
 
  /*
   * Shuts OpenAL down, frees all context and
   * device handles and unloads the shared lib.
   */
- void QAL_Shutdown(void);
+ void QAL_Shutdown ( void );
 
  #endif /* HT_WITH_OPENAL */
  #endif /* QAL_H */

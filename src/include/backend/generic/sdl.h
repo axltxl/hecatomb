@@ -25,13 +25,13 @@
 
  #include "prereqs.h"
 
- #ifdef HT_OS_WIN32
- #  include "SDL/SDL.h"
+ #ifdef HT_OS_WINDOWS
+ # include "SDL/SDL.h"
  #elif defined(HT_OS_OSX)
- #  include <SDL/SDL.h>
+ # include <SDL/SDL.h>
  #else
  // Wonderful UNIX
- #  include "SDL.h"
+ # include <SDL.h>
  #endif
 
  #endif /* SDL_WRAPPER_H */

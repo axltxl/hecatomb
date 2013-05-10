@@ -24,17 +24,16 @@
  * =======================================================================
  */
 
-#ifndef GEN_GLWINDOW_H
-#define GEN_GLWINDOW_H
+ #ifndef GEN_GLWINDOW_H
+ #define GEN_GLWINDOW_H
 
-#include <stdio.h>
+ #include "prereqs.h"
 
-typedef struct
-{
-	void *OpenGLLib; /* instance of OpenGL library */
-	FILE *log_fp;
-} glwstate_t;
+ typedef struct {
+   void *OpenGLLib; /* instance of OpenGL library */
+   FILE *log_fp;
+ } glwstate_t;
 
-extern glwstate_t glw_state;
+ extern glwstate_t glw_state;
 
-#endif
+ #endif /* GEN_GLWINDOW_H */
