@@ -25,34 +25,36 @@
  * =======================================================================
  */
 
-#ifndef CL_SOUND_SOUND_H
-#define CL_SOUND_SOUND_H
+ #ifndef CL_SOUND_SOUND_H
+ #define CL_SOUND_SOUND_H
 
-struct sfx_s;
+ #include "prereqs.h"
 
-void S_Init(void);
-void S_Shutdown(void);
+ struct sfx_s;
 
-/* if origin is NULL, the sound will be 
-   dynamically sourced from the entity */
-void S_StartSound(vec3_t origin, int entnum, int entchannel,
-		struct sfx_s *sfx, float fvol, float attenuation,
-		float timeofs);
+ void S_Init ( void );
+ void S_Shutdown ( void );
 
-void S_StartLocalSound(char *s);
-void S_RawSamples(int samples, int rate, int width, int channels,
-		byte *data, float volume);
-void S_StopAllSounds(void);
-void S_Update(vec3_t origin, vec3_t v_forward, vec3_t v_right, vec3_t v_up);
-void S_Activate(qboolean active);
-void S_BeginRegistration(void);
-struct sfx_s *S_RegisterSound(char *sample);
-void S_EndRegistration(void);
-struct sfx_s *S_FindName(char *name, qboolean create);
+ /* if origin is NULL, the sound will be
+    dynamically sourced from the entity */
+ void S_StartSound ( vec3_t origin, int entnum, int entchannel,
+                     struct sfx_s *sfx, float fvol, float attenuation,
+                     float timeofs );
 
-/* the sound code makes callbacks to the client for
-   entitiy position information, so entities can be 
-   dynamically re-spatialized */
-void CL_GetEntitySoundOrigin(int ent, vec3_t org);
+ void S_StartLocalSound ( char *s );
+ void S_RawSamples ( int samples, int rate, int width, int channels,
+                     byte *data, float volume );
+ void S_StopAllSounds ( void );
+ void S_Update ( vec3_t origin, vec3_t v_forward, vec3_t v_right, vec3_t v_up );
+ void S_Activate ( qboolean active );
+ void S_BeginRegistration ( void );
+ struct sfx_s *S_RegisterSound ( char *sample );
+ void S_EndRegistration ( void );
+ struct sfx_s *S_FindName ( char *name, qboolean create );
 
-#endif
+ /* the sound code makes callbacks to the client for
+    entitiy position information, so entities can be
+    dynamically re-spatialized */
+ void CL_GetEntitySoundOrigin ( int ent, vec3_t org );
+
+ #endif /* CL_SOUND_SOUND_H */

@@ -24,18 +24,19 @@
  * =======================================================================
  */
 
-#ifdef HT_WITH_CDA
+ #ifndef CL_SOUND_CDAUDIO_H
+ #define CL_SOUND_CDAUDIO_H
 
-#ifndef CL_SOUND_CDAUDIO_H
-#define CL_SOUND_CDAUDIO_H
+ #include "prereqs.h"
 
-int		CDAudio_Init(void);
-void	CDAudio_Shutdown(void);
-void	CDAudio_Play(int track, qboolean looping);
-void	CDAudio_Stop(void);
-void	CDAudio_Update(void);
-void	CDAudio_Activate (qboolean active);
-void    CDAudio_RandomPlay(void);
+ #ifdef HT_WITH_CDA
+ int   CDAudio_Init ( void );
+ void  CDAudio_Shutdown ( void );
+ void  CDAudio_Play ( int track, qboolean looping );
+ void  CDAudio_Stop ( void );
+ void  CDAudio_Update ( void );
+ void  CDAudio_Activate ( qboolean active );
+ void  CDAudio_RandomPlay ( void );
+ #endif /* HT_WITH_CDA */
 
-#endif
-#endif
+ #endif /* CL_SOUND_CDAUDIO_H */

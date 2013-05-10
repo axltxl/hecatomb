@@ -24,32 +24,34 @@
  * =======================================================================
  */
 
-#ifndef CL_VID_H
-#define CL_VID_H
+ #ifndef CL_VID_H
+ #define CL_VID_H
 
-typedef struct vrect_s {
-	int				x,y,width,height;
-} vrect_t;
+ #include "prereqs.h"
 
-typedef struct {
-	int		width, height; /* coordinates from main game */
-} viddef_t;
+ typedef struct vrect_s {
+   int       x, y, width, height;
+ } vrect_t;
 
-extern	viddef_t	viddef; /* global video state */
+ typedef struct {
+   int   width, height; /* coordinates from main game */
+ } viddef_t;
 
-/* Video module initialisation, etc */
-void	VID_Init(void);
-void	VID_Shutdown(void);
-void	VID_CheckChanges(void);
+ extern  viddef_t  viddef; /* global video state */
 
-void	VID_MenuInit(void);
-void	VID_MenuDraw(void);
-const char *VID_MenuKey(int);
+ /* Video module initialisation, etc */
+ void  VID_Init ( void );
+ void  VID_Shutdown ( void );
+ void  VID_CheckChanges ( void );
 
-void VID_Printf(int print_level, char *fmt, ...);
-void VID_Error(int err_level, char *fmt, ...);
+ void  VID_MenuInit ( void );
+ void  VID_MenuDraw ( void );
+ const char *VID_MenuKey ( int );
 
-void VID_NewWindow(int width, int height);
-qboolean VID_GetModeInfo(int *width, int *height, int mode);
+ void VID_Printf ( int print_level, char *fmt, ... );
+ void VID_Error ( int err_level, char *fmt, ... );
 
-#endif
+ void VID_NewWindow ( int width, int height );
+ qboolean VID_GetModeInfo ( int *width, int *height, int mode );
+
+ #endif /* CL_VID_H */

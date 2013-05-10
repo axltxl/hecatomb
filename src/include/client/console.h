@@ -24,43 +24,45 @@
  * =======================================================================
  */
 
-#ifndef CL_HEADER_CONSOLE_H
-#define CL_HEADER_CONSOLE_H
+ #ifndef CL_HEADER_CONSOLE_H
+ #define CL_HEADER_CONSOLE_H
 
-#define	NUM_CON_TIMES 4
-#define	CON_TEXTSIZE	32768
+ #include "prereqs.h"
 
-typedef struct {
-	qboolean	initialized;
+ #define NUM_CON_TIMES 4
+ #define CON_TEXTSIZE  32768
 
-	char	text[CON_TEXTSIZE];
-	int		current; /* line where next message will be printed */
-	int		x; /* offset in current line for next print */
-	int		display; /* bottom of console displays this line */
+ typedef struct {
+   qboolean  initialized;
 
-	int		ormask; /* high bit mask for colored characters */
+   char  text[CON_TEXTSIZE];
+   int   current; /* line where next message will be printed */
+   int   x; /* offset in current line for next print */
+   int   display; /* bottom of console displays this line */
 
-	int 	linewidth; /* characters across screen */
-	int		totallines; /* total lines in console scrollback */
+   int   ormask; /* high bit mask for colored characters */
 
-	float	cursorspeed;
+   int   linewidth; /* characters across screen */
+   int   totallines; /* total lines in console scrollback */
 
-	int		vislines;
+   float cursorspeed;
 
-	float	times[NUM_CON_TIMES]; /* cls.realtime time the line was generated */
-} console_t;
+   int   vislines;
 
-extern	console_t	con;
+   float times[NUM_CON_TIMES]; /* cls.realtime time the line was generated */
+ } console_t;
 
-void Con_DrawCharacter (int cx, int line, int num);
-void Con_CheckResize (void);
-void Con_Init (void);
-void Con_DrawConsole (float frac);
-void Con_Print (char *txt);
-void Con_CenteredPrint (char *text);
-void Con_Clear_f (void);
-void Con_DrawNotify (void);
-void Con_ClearNotify (void);
-void Con_ToggleConsole_f (void);
+ extern  console_t con;
 
-#endif
+ void Con_DrawCharacter ( int cx, int line, int num );
+ void Con_CheckResize ( void );
+ void Con_Init ( void );
+ void Con_DrawConsole ( float frac );
+ void Con_Print ( char *txt );
+ void Con_CenteredPrint ( char *text );
+ void Con_Clear_f ( void );
+ void Con_DrawNotify ( void );
+ void Con_ClearNotify ( void );
+ void Con_ToggleConsole_f ( void );
+
+ #endif /* CL_HEADER_CONSOLE_H */

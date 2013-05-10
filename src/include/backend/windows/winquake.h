@@ -22,34 +22,34 @@
  * Header file for Windows specific stuff.
  *
  * =======================================================================
- */ 
+ */
 
-#ifndef WIN_WINQUAKE_H
-#define WIN_WINQUAKE_H
+ #ifndef WIN_WINQUAKE_H
+ #define WIN_WINQUAKE_H
 
-#include <windows.h>
+ #include "backend/windows/prereqs.h"
 
-#define WINDOW_STYLE (WS_OVERLAPPED | WS_BORDER | WS_CAPTION | WS_VISIBLE)
+ #define WINDOW_STYLE (WS_OVERLAPPED | WS_BORDER | WS_CAPTION | WS_VISIBLE)
 
-#ifndef _PC_24
- #define _PC_24 0x00020000
-#endif
+ #ifndef _PC_24
+ # define _PC_24 0x00020000
+ #endif
 
-#ifndef _MCW_PC
- #define _MCW_PC 0x00030000
-#endif
+ #ifndef _MCW_PC
+ # define _MCW_PC 0x00030000
+ #endif
 
-/* This is a hack to work around a missing MinGW prototype */
-#ifndef _controlfp
-unsigned int _controlfp(unsigned int new, unsigned int mask);
-#endif
+ /* This is a hack to work around a missing MinGW prototype */
+ #ifndef _controlfp
+ unsigned int _controlfp ( unsigned int new, unsigned int mask );
+ #endif
 
-extern HINSTANCE global_hInstance;
+ extern HINSTANCE global_hInstance;
 
-extern qboolean ActiveApp, Minimized;
+ extern qboolean ActiveApp, Minimized;
 
-extern int window_center_x, window_center_y;
-extern RECT window_rect;
+ extern int window_center_x, window_center_y;
+ extern RECT window_rect;
 
-#endif
+ #endif
 
