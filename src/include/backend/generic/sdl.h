@@ -20,6 +20,11 @@
  * SDL backend (platform-specific)
  */
 
+ #ifndef SDL_WRAPPER_H
+ #define SDL_WRAPPER_H
+
+ #include "prereqs.h"
+
  #ifdef HT_OS_WIN32
  #  include "SDL/SDL.h"
  #elif defined(HT_OS_OSX)
@@ -28,3 +33,5 @@
  // Wonderful UNIX
  #  include "SDL.h"
  #endif
+
+ #endif /* SDL_WRAPPER_H */
