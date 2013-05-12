@@ -117,7 +117,7 @@ ht_set_option(HT_WITH_OPENAL FALSE BOOL
 # around problems in some SDL version. Adds dependencies
 # to pkg-config, libX11 and libXxf86vm. Unsupported on
 # Windows and OS X.
-if (UNIX)
+if (UNIX AND NOT OSX)
   ht_set_option(HT_WITH_X11GAMMA FALSE BOOL
     "Set the gamma via X11 and not via SDL")
 endif()
