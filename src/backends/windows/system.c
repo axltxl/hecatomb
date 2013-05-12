@@ -706,22 +706,22 @@ WinMain ( HINSTANCE hInstance, HINSTANCE hPrevInstance,
 
 #ifndef DEDICATED_ONLY
   printf ( "Client build options:\n" );
-#ifdef CDA
+#ifdef HT_WITH_CDA
   printf ( " + CD audio\n" );
 #else
   printf ( " - CD audio\n" );
 #endif
-#ifdef OGG
+#ifdef HT_WITH_OGG
   printf ( " + OGG/Vorbis\n" );
 #else
   printf ( " - OGG/Vorbis\n" );
 #endif
-#ifdef USE_OPENAL
+#ifdef HT_WITH_OPENAL
   printf ( " + OpenAL audio\n" );
 #else
   printf ( " - OpenAL audio\n" );
 #endif
-#ifdef ZIP
+#ifdef HT_WITH_ZIP
   printf ( " + Zip file support\n" );
 #else
   printf ( " - Zip file support\n" );
