@@ -35,6 +35,6 @@
  # include <AL/efx.h>
  #endif
 
- #endif /* GL_WRAPPER_H */
+ #endif /* AL_WRAPPER_H */
 
 
