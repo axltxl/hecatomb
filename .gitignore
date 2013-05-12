@@ -6,3 +6,4 @@ bin/*/baseq2
 *.exe
 *.pak
 *~
+.*
