@@ -14,19 +14,41 @@
 set (CLIENT_EXEC "ht")
 set (SERVER_EXEC "htded")
 
+#
 # Definitions
+#
+
+# Windows
 if (WINDOWS)
   set (HT_OS_WINDOWS 1)
-elseif (OSX)
-  set (HT_OS_OSX 1)
-elseif (LINUX)
-  set (HT_OS_LINUX 1)
-elseif (BSD)
-  set (HT_OS_BSD 1)
-endif ()
+endif()
 
+# UNIX
 if (UNIX)
+
   set (HT_OS_UNIX 1)
+
+  # BSD variants
+  if (BSD)
+    set (HT_OS_BSD 1)
+    if (OPENBSD)
+      set (HT_OS_OPENBSD 1)
+    endif()
+    if (FREEBSD)
+      set (HT_OS_FREEBSD 1)
+    endif()
+  endif ()
+
+  # Linux
+  if (LINUX)
+    set (HT_OS_LINUX 1)
+  endif()
+
+  # Apple OSX
+  if (OSX)
+    set (HT_OS_OSX 1)
+  endif()
+
 endif()
 
 # Source files root directory
