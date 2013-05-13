@@ -18,7 +18,7 @@ file for further information.
 
 ###Priorities at this time
 * Good layout/organization of the code, that includes 2-space indentation and better header layout
-* CMake build automation integration
+* CMake build system fully automated for all supported platforms
 
 ###Priorities at future
 * Better cross-architecture integer support
