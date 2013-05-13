@@ -1,5 +1,5 @@
 #Hecatomb
-A Q2 Engine Extension  
+A Quake II Extension  
 
 [![Build Status](https://drone.io/github.com/alericoveri/hecatomb/status.png)](https://drone.io/github.com/alericoveri/hecatomb/latest)
 
