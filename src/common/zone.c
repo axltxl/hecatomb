@@ -24,89 +24,79 @@
  * =======================================================================
  */
 
-#include "header/common.h"
-#include "header/zone.h"
+ #include "prereqs.h"
+ #include "common/zone.h"
 
-#define Z_MAGIC 0x1d1d
+ #define Z_MAGIC 0x1d1d
 
-zhead_t z_chain;
-int z_count, z_bytes;
+ zhead_t z_chain;
+ int z_count, z_bytes;
 
-void
-Z_Free(void *ptr)
-{
-	zhead_t *z;
+ void
+ Z_Free ( void *ptr )
+ {
+   zhead_t *z;
+   z = ( ( zhead_t * ) ptr ) - 1;
 
-	z = ((zhead_t *)ptr) - 1;
+   if ( z->magic != Z_MAGIC ) {
+     printf ( "free: %p failed\n", ptr );
+     abort();
+     Com_Error ( ERR_FATAL, "Z_Free: bad magic" );
+   }
 
-	if (z->magic != Z_MAGIC)
-	{
-		printf("free: %p failed\n", ptr);
-		abort();
-		Com_Error(ERR_FATAL, "Z_Free: bad magic");
-	}
+   z->prev->next = z->next;
+   z->next->prev = z->prev;
+   z_count--;
+   z_bytes -= z->size;
+   free ( z );
+ }
 
-	z->prev->next = z->next;
-	z->next->prev = z->prev;
+ void
+ Z_Stats_f ( void )
+ {
+   Com_Printf ( "%i bytes in %i blocks\n", z_bytes, z_count );
+ }
 
-	z_count--;
-	z_bytes -= z->size;
-	free(z);
-}
+ void
+ Z_FreeTags ( int tag )
+ {
+   zhead_t *z, *next;
 
-void
-Z_Stats_f(void)
-{
-	Com_Printf("%i bytes in %i blocks\n", z_bytes, z_count);
-}
+   for ( z = z_chain.next; z != &z_chain; z = next ) {
+     next = z->next;
 
-void
-Z_FreeTags(int tag)
-{
-	zhead_t *z, *next;
+     if ( z->tag == tag ) {
+       Z_Free ( ( void * ) ( z + 1 ) );
+     }
+   }
+ }
 
-	for (z = z_chain.next; z != &z_chain; z = next)
-	{
-		next = z->next;
+ void *
+ Z_TagMalloc ( int size, int tag )
+ {
+   zhead_t *z;
+   size = size + sizeof ( zhead_t );
+   z = malloc ( size );
 
-		if (z->tag == tag)
-		{
-			Z_Free((void *)(z + 1));
-		}
-	}
-}
+   if ( !z ) {
+     Com_Error ( ERR_FATAL, "Z_Malloc: failed on allocation of %i bytes", size );
+   }
 
-void *
-Z_TagMalloc(int size, int tag)
-{
-	zhead_t *z;
+   memset ( z, 0, size );
+   z_count++;
+   z_bytes += size;
+   z->magic = Z_MAGIC;
+   z->tag = tag;
+   z->size = size;
+   z->next = z_chain.next;
+   z->prev = &z_chain;
+   z_chain.next->prev = z;
+   z_chain.next = z;
+   return ( void * ) ( z + 1 );
+ }
 
-	size = size + sizeof(zhead_t);
-	z = malloc(size);
-
-	if (!z)
-	{
-		Com_Error(ERR_FATAL, "Z_Malloc: failed on allocation of %i bytes", size);
-	}
-
-	memset(z, 0, size);
-	z_count++;
-	z_bytes += size;
-	z->magic = Z_MAGIC;
-	z->tag = tag;
-	z->size = size;
-
-	z->next = z_chain.next;
-	z->prev = &z_chain;
-	z_chain.next->prev = z;
-	z_chain.next = z;
-
-	return (void *)(z + 1);
-}
-
-void *
-Z_Malloc(int size)
-{
-	return Z_TagMalloc(size, 0);
-}
-
+ void *
+ Z_Malloc ( int size )
+ {
+   return Z_TagMalloc ( size, 0 );
+ }

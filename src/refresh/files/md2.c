@@ -24,140 +24,121 @@
  * =======================================================================
  */
 
-#include "../header/local.h"
+ #include "prereqs.h"
+ #include "refresh/local.h"
 
-void
-LoadMD2(model_t *mod, void *buffer)
-{
-	int i, j;
-	dmdl_t *pinmodel, *pheader;
-	dstvert_t *pinst, *poutst;
-	dtriangle_t *pintri, *pouttri;
-	daliasframe_t *pinframe, *poutframe;
-	int *pincmd, *poutcmd;
-	int version;
+ void
+ LoadMD2 ( model_t *mod, void *buffer )
+ {
+   int i, j;
+   dmdl_t *pinmodel, *pheader;
+   dstvert_t *pinst, *poutst;
+   dtriangle_t *pintri, *pouttri;
+   daliasframe_t *pinframe, *poutframe;
+   int *pincmd, *poutcmd;
+   int version;
+   pinmodel = ( dmdl_t * ) buffer;
+   version = LittleLong ( pinmodel->version );
 
-	pinmodel = (dmdl_t *)buffer;
+   if ( version != ALIAS_VERSION ) {
+     VID_Error ( ERR_DROP, "%s has wrong version number (%i should be %i)",
+                 mod->name, version, ALIAS_VERSION );
+   }
 
-	version = LittleLong(pinmodel->version);
+   pheader = Hunk_Alloc ( LittleLong ( pinmodel->ofs_end ) );
 
-	if (version != ALIAS_VERSION)
-	{
-		VID_Error(ERR_DROP, "%s has wrong version number (%i should be %i)",
-				mod->name, version, ALIAS_VERSION);
-	}
+   /* byte swap the header fields and sanity check */
+   for ( i = 0; i < sizeof ( dmdl_t ) / 4; i++ ) {
+     ( ( int * ) pheader ) [i] = LittleLong ( ( ( int * ) buffer ) [i] );
+   }
 
-	pheader = Hunk_Alloc(LittleLong(pinmodel->ofs_end));
+   if ( pheader->skinheight > MAX_LBM_HEIGHT ) {
+     VID_Error ( ERR_DROP, "model %s has a skin taller than %d", mod->name,
+                 MAX_LBM_HEIGHT );
+   }
 
-	/* byte swap the header fields and sanity check */
-	for (i = 0; i < sizeof(dmdl_t) / 4; i++)
-	{
-		((int *)pheader)[i] = LittleLong(((int *)buffer)[i]);
-	}
+   if ( pheader->num_xyz <= 0 ) {
+     VID_Error ( ERR_DROP, "model %s has no vertices", mod->name );
+   }
 
-	if (pheader->skinheight > MAX_LBM_HEIGHT)
-	{
-		VID_Error(ERR_DROP, "model %s has a skin taller than %d", mod->name,
-				MAX_LBM_HEIGHT);
-	}
+   if ( pheader->num_xyz > MAX_VERTS ) {
+     VID_Error ( ERR_DROP, "model %s has too many vertices", mod->name );
+   }
 
-	if (pheader->num_xyz <= 0)
-	{
-		VID_Error(ERR_DROP, "model %s has no vertices", mod->name);
-	}
+   if ( pheader->num_st <= 0 ) {
+     VID_Error ( ERR_DROP, "model %s has no st vertices", mod->name );
+   }
 
-	if (pheader->num_xyz > MAX_VERTS)
-	{
-		VID_Error(ERR_DROP, "model %s has too many vertices", mod->name);
-	}
+   if ( pheader->num_tris <= 0 ) {
+     VID_Error ( ERR_DROP, "model %s has no triangles", mod->name );
+   }
 
-	if (pheader->num_st <= 0)
-	{
-		VID_Error(ERR_DROP, "model %s has no st vertices", mod->name);
-	}
+   if ( pheader->num_frames <= 0 ) {
+     VID_Error ( ERR_DROP, "model %s has no frames", mod->name );
+   }
 
-	if (pheader->num_tris <= 0)
-	{
-		VID_Error(ERR_DROP, "model %s has no triangles", mod->name);
-	}
+   /* load base s and t vertices (not used in gl version) */
+   pinst = ( dstvert_t * ) ( ( byte * ) pinmodel + pheader->ofs_st );
+   poutst = ( dstvert_t * ) ( ( byte * ) pheader + pheader->ofs_st );
 
-	if (pheader->num_frames <= 0)
-	{
-		VID_Error(ERR_DROP, "model %s has no frames", mod->name);
-	}
+   for ( i = 0; i < pheader->num_st; i++ ) {
+     poutst[i].s = LittleShort ( pinst[i].s );
+     poutst[i].t = LittleShort ( pinst[i].t );
+   }
 
-	/* load base s and t vertices (not used in gl version) */
-	pinst = (dstvert_t *)((byte *)pinmodel + pheader->ofs_st);
-	poutst = (dstvert_t *)((byte *)pheader + pheader->ofs_st);
+   /* load triangle lists */
+   pintri = ( dtriangle_t * ) ( ( byte * ) pinmodel + pheader->ofs_tris );
+   pouttri = ( dtriangle_t * ) ( ( byte * ) pheader + pheader->ofs_tris );
 
-	for (i = 0; i < pheader->num_st; i++)
-	{
-		poutst[i].s = LittleShort(pinst[i].s);
-		poutst[i].t = LittleShort(pinst[i].t);
-	}
+   for ( i = 0; i < pheader->num_tris; i++ ) {
+     for ( j = 0; j < 3; j++ ) {
+       pouttri[i].index_xyz[j] = LittleShort ( pintri[i].index_xyz[j] );
+       pouttri[i].index_st[j] = LittleShort ( pintri[i].index_st[j] );
+     }
+   }
 
-	/* load triangle lists */
-	pintri = (dtriangle_t *)((byte *)pinmodel + pheader->ofs_tris);
-	pouttri = (dtriangle_t *)((byte *)pheader + pheader->ofs_tris);
+   /* load the frames */
+   for ( i = 0; i < pheader->num_frames; i++ ) {
+     pinframe = ( daliasframe_t * ) ( ( byte * ) pinmodel
+                                      + pheader->ofs_frames + i * pheader->framesize );
+     poutframe = ( daliasframe_t * ) ( ( byte * ) pheader
+                                       + pheader->ofs_frames + i * pheader->framesize );
+     memcpy ( poutframe->name, pinframe->name, sizeof ( poutframe->name ) );
 
-	for (i = 0; i < pheader->num_tris; i++)
-	{
-		for (j = 0; j < 3; j++)
-		{
-			pouttri[i].index_xyz[j] = LittleShort(pintri[i].index_xyz[j]);
-			pouttri[i].index_st[j] = LittleShort(pintri[i].index_st[j]);
-		}
-	}
+     for ( j = 0; j < 3; j++ ) {
+       poutframe->scale[j] = LittleFloat ( pinframe->scale[j] );
+       poutframe->translate[j] = LittleFloat ( pinframe->translate[j] );
+     }
 
-	/* load the frames */
-	for (i = 0; i < pheader->num_frames; i++)
-	{
-		pinframe = (daliasframe_t *)((byte *)pinmodel
-				+ pheader->ofs_frames + i * pheader->framesize);
-		poutframe = (daliasframe_t *)((byte *)pheader
-				+ pheader->ofs_frames + i * pheader->framesize);
+     /* verts are all 8 bit, so no swapping needed */
+     memcpy ( poutframe->verts, pinframe->verts,
+              pheader->num_xyz * sizeof ( dtrivertx_t ) );
+   }
 
-		memcpy(poutframe->name, pinframe->name, sizeof(poutframe->name));
+   mod->type = mod_alias;
+   /* load the glcmds */
+   pincmd = ( int * ) ( ( byte * ) pinmodel + pheader->ofs_glcmds );
+   poutcmd = ( int * ) ( ( byte * ) pheader + pheader->ofs_glcmds );
 
-		for (j = 0; j < 3; j++)
-		{
-			poutframe->scale[j] = LittleFloat(pinframe->scale[j]);
-			poutframe->translate[j] = LittleFloat(pinframe->translate[j]);
-		}
+   for ( i = 0; i < pheader->num_glcmds; i++ ) {
+     poutcmd[i] = LittleLong ( pincmd[i] );
+   }
 
-		/* verts are all 8 bit, so no swapping needed */
-		memcpy(poutframe->verts, pinframe->verts,
-				pheader->num_xyz * sizeof(dtrivertx_t));
-	}
+   /* register all skins */
+   memcpy ( ( char * ) pheader + pheader->ofs_skins,
+            ( char * ) pinmodel + pheader->ofs_skins,
+            pheader->num_skins * MAX_SKINNAME );
 
-	mod->type = mod_alias;
+   for ( i = 0; i < pheader->num_skins; i++ ) {
+     mod->skins[i] = R_FindImage (
+                       ( char * ) pheader + pheader->ofs_skins + i * MAX_SKINNAME,
+                       it_skin );
+   }
 
-	/* load the glcmds */
-	pincmd = (int *)((byte *)pinmodel + pheader->ofs_glcmds);
-	poutcmd = (int *)((byte *)pheader + pheader->ofs_glcmds);
-
-	for (i = 0; i < pheader->num_glcmds; i++)
-	{
-		poutcmd[i] = LittleLong(pincmd[i]);
-	}
-
-	/* register all skins */
-	memcpy((char *)pheader + pheader->ofs_skins,
-			(char *)pinmodel + pheader->ofs_skins,
-			pheader->num_skins * MAX_SKINNAME);
-
-	for (i = 0; i < pheader->num_skins; i++)
-	{
-		mod->skins[i] = R_FindImage(
-				(char *)pheader + pheader->ofs_skins + i * MAX_SKINNAME,
-				it_skin);
-	}
-
-	mod->mins[0] = -32;
-	mod->mins[1] = -32;
-	mod->mins[2] = -32;
-	mod->maxs[0] = 32;
-	mod->maxs[1] = 32;
-	mod->maxs[2] = 32;
-}
-
+   mod->mins[0] = -32;
+   mod->mins[1] = -32;
+   mod->mins[2] = -32;
+   mod->maxs[0] = 32;
+   mod->maxs[1] = 32;
+   mod->maxs[2] = 32;
+ }

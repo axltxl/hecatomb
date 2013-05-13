@@ -24,186 +24,161 @@
  * =======================================================================
  */
 
-#include "header/common.h"
+ #include "prereqs.h"
 
-#define MAX_NUM_ARGVS 50
+ #define MAX_NUM_ARGVS 50
 
-int com_argc;
-char *com_argv[MAX_NUM_ARGVS + 1];
+ int com_argc;
+ char *com_argv[MAX_NUM_ARGVS + 1];
 
-/*
- * Returns the position (1 to argc-1) in the program's argument list
- * where the given parameter apears, or 0 if not present
- */
-int
-COM_CheckParm(char *parm)
-{
-	int i;
+ /*
+  * Returns the position (1 to argc-1) in the program's argument list
+  * where the given parameter apears, or 0 if not present
+  */
+ int
+ COM_CheckParm ( char *parm )
+ {
+   int i;
 
-	for (i = 1; i < com_argc; i++)
-	{
-		if (!strcmp(parm, com_argv[i]))
-		{
-			return i;
-		}
-	}
+   for ( i = 1; i < com_argc; i++ ) {
+     if ( !strcmp ( parm, com_argv[i] ) ) {
+       return i;
+     }
+   }
 
-	return 0;
-}
+   return 0;
+ }
 
-int
-COM_Argc(void)
-{
-	return com_argc;
-}
+ int
+ COM_Argc ( void )
+ {
+   return com_argc;
+ }
 
-char *
-COM_Argv(int arg)
-{
-	if ((arg < 0) || (arg >= com_argc) || !com_argv[arg])
-	{
-		return "";
-	}
+ char *
+ COM_Argv ( int arg )
+ {
+   if ( ( arg < 0 ) || ( arg >= com_argc ) || !com_argv[arg] ) {
+     return "";
+   }
 
-	return com_argv[arg];
-}
+   return com_argv[arg];
+ }
 
-void
-COM_ClearArgv(int arg)
-{
-	if ((arg < 0) || (arg >= com_argc) || !com_argv[arg])
-	{
-		return;
-	}
+ void
+ COM_ClearArgv ( int arg )
+ {
+   if ( ( arg < 0 ) || ( arg >= com_argc ) || !com_argv[arg] ) {
+     return;
+   }
 
-	com_argv[arg] = "";
-}
+   com_argv[arg] = "";
+ }
 
-void
-COM_InitArgv(int argc, char **argv)
-{
-	int i;
+ void
+ COM_InitArgv ( int argc, char **argv )
+ {
+   int i;
 
-	if (argc > MAX_NUM_ARGVS)
-	{
-		Com_Error(ERR_FATAL, "argc > MAX_NUM_ARGVS");
-	}
+   if ( argc > MAX_NUM_ARGVS ) {
+     Com_Error ( ERR_FATAL, "argc > MAX_NUM_ARGVS" );
+   }
 
-	com_argc = argc;
+   com_argc = argc;
 
-	for (i = 0; i < argc; i++)
-	{
-		if (!argv[i] || (strlen(argv[i]) >= MAX_TOKEN_CHARS))
-		{
-			com_argv[i] = "";
-		}
+   for ( i = 0; i < argc; i++ ) {
+     if ( !argv[i] || ( strlen ( argv[i] ) >= MAX_TOKEN_CHARS ) ) {
+       com_argv[i] = "";
+     } else {
+       com_argv[i] = argv[i];
+     }
+   }
+ }
 
-		else
-		{
-			com_argv[i] = argv[i];
-		}
-	}
-}
+ /*
+  * Adds the given string at the end of the current argument list
+  */
+ void
+ COM_AddParm ( char *parm )
+ {
+   if ( com_argc == MAX_NUM_ARGVS ) {
+     Com_Error ( ERR_FATAL, "COM_AddParm: MAX_NUM)ARGS" );
+   }
 
-/*
- * Adds the given string at the end of the current argument list
- */
-void
-COM_AddParm(char *parm)
-{
-	if (com_argc == MAX_NUM_ARGVS)
-	{
-		Com_Error(ERR_FATAL, "COM_AddParm: MAX_NUM)ARGS");
-	}
+   com_argv[com_argc++] = parm;
+ }
 
-	com_argv[com_argc++] = parm;
-}
+ int
+ memsearch ( byte *start, int count, int search )
+ {
+   int i;
 
-int
-memsearch(byte *start, int count, int search)
-{
-	int i;
+   for ( i = 0; i < count; i++ ) {
+     if ( start[i] == search ) {
+       return i;
+     }
+   }
 
-	for (i = 0; i < count; i++)
-	{
-		if (start[i] == search)
-		{
-			return i;
-		}
-	}
+   return -1;
+ }
 
-	return -1;
-}
+ char *
+ CopyString ( char *in )
+ {
+   char *out;
+   out = Z_Malloc ( ( int ) strlen ( in ) + 1 );
+   strcpy ( out, in );
+   return out;
+ }
 
-char *
-CopyString(char *in)
-{
-	char *out;
+ void
+ Info_Print ( char *s )
+ {
+   char key[512];
+   char value[512];
+   char *o;
+   int l;
 
-	out = Z_Malloc((int)strlen(in) + 1);
-	strcpy(out, in);
-	return out;
-}
+   if ( *s == '\\' ) {
+     s++;
+   }
 
-void
-Info_Print(char *s)
-{
-	char key[512];
-	char value[512];
-	char *o;
-	int l;
+   while ( *s ) {
+     o = key;
 
-	if (*s == '\\')
-	{
-		s++;
-	}
+     while ( *s && *s != '\\' ) {
+       *o++ = *s++;
+     }
 
-	while (*s)
-	{
-		o = key;
+     l = o - key;
 
-		while (*s && *s != '\\')
-		{
-			*o++ = *s++;
-		}
+     if ( l < 20 ) {
+       memset ( o, ' ', 20 - l );
+       key[20] = 0;
+     } else {
+       *o = 0;
+     }
 
-		l = o - key;
+     Com_Printf ( "%s", key );
 
-		if (l < 20)
-		{
-			memset(o, ' ', 20 - l);
-			key[20] = 0;
-		}
+     if ( !*s ) {
+       Com_Printf ( "MISSING VALUE\n" );
+       return;
+     }
 
-		else
-		{
-			*o = 0;
-		}
+     o = value;
+     s++;
 
-		Com_Printf("%s", key);
+     while ( *s && *s != '\\' ) {
+       *o++ = *s++;
+     }
 
-		if (!*s)
-		{
-			Com_Printf("MISSING VALUE\n");
-			return;
-		}
+     *o = 0;
 
-		o = value;
-		s++;
+     if ( *s ) {
+       s++;
+     }
 
-		while (*s && *s != '\\')
-		{
-			*o++ = *s++;
-		}
-
-		*o = 0;
-
-		if (*s)
-		{
-			s++;
-		}
-
-		Com_Printf("%s\n", value);
-	}
-}
-
+     Com_Printf ( "%s\n", value );
+   }
+ }

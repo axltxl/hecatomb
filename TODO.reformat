@@ -1,0 +1,8 @@
+* include files normalization (with prereqs.h each)
+
+AStyle Stroustrup-style prototype formatting with:
+* 2-space indentation
+* Padding around operators and parenthesis (inside and outside).
+* Fill empty lines with whitespace from the previous line.
+* Trim trailing whitespace.
+

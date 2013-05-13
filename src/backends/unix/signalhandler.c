@@ -25,103 +25,94 @@
  * =======================================================================
  */
 
-#include <signal.h>
+ #include "prereqs.h"
 
-#ifdef __linux__
-#include <execinfo.h>
-#endif
+ #ifdef HT_OS_LINUX
+ # include <execinfo.h>
+ #endif
 
-#include "../../common/header/common.h"
+ #ifdef HT_OS_LINUX
 
-#ifdef __linux__
+ void
+ printBacktrace ( int sig )
+ {
+   void *array[15];
+   size_t size;
+   char **strings;
+   int i;
+   size = backtrace ( array, 15 );
+   strings = backtrace_symbols ( array, size );
+   printf ( "Product:      Yamagi Quake II\n" );
+   printf ( "Version:      %s\n", VERSION );
+   printf ( "Plattform:    %s\n", BUILDSTRING );
+   printf ( "Architecture: %s\n", CPUSTRING );
+   printf ( "Compiler:     %s\n", __VERSION__ );
+   printf ( "Signal:       %i\n", sig );
+   printf ( "\nBacktrace:\n" );
 
-void
-printBacktrace(int sig)
-{
-	void *array[15];
-	size_t size;
-	char **strings;
-	int i;
+   for ( i = 0; i < size; i++ ) {
+     printf ( "  %s\n", strings[i] );
+   }
 
-	size = backtrace(array, 15);
-	strings = backtrace_symbols(array, size);
+   printf ( "\n" );
+ }
 
-	printf("Product:      Yamagi Quake II\n");
-	printf("Version:      %s\n", VERSION);
-	printf("Plattform:    %s\n", BUILDSTRING);
-	printf("Architecture: %s\n", CPUSTRING);
-	printf("Compiler:     %s\n", __VERSION__);
-	printf("Signal:       %i\n", sig);
-	printf("\nBacktrace:\n");
+ #else
 
-	for (i = 0; i < size; i++)
-	{
-		printf("  %s\n", strings[i]);
-	}
+ void
+ printBacktrace ( int sig )
+ {
+   printf ( "Product:      Yamagi Quake II\n" );
+   printf ( "Version:      %s\n", VERSION );
+   printf ( "Plattform:    %s\n", BUILDSTRING );
+   printf ( "Architecture: %s\n", CPUSTRING );
+   printf ( "Compiler:     %s\n", __VERSION__ );
+   printf ( "Signal:       %i\n", sig );
+   printf ( "\nBacktrace:\n" );
+   printf ( "  Not available on this plattform.\n\n" );
+ }
 
-	printf("\n");
-}
+ #endif
 
-#else
+ void
+ signalhandler ( int sig )
+ {
+   printf ( "\n=======================================================\n" );
+   printf ( "\nYamagi Quake II crashed! This should not happen...\n" );
+   printf ( "\nMake sure that you're using the last version. It can\n" );
+   printf ( "be found at http://www.yamagi.org/quake2. If you do,\n" );
+   printf ( "send a bug report to quake2@yamagi.org and include:\n\n" );
+   printf ( " - This output\n" );
+   printf ( " - The conditions that triggered the crash\n" );
+   printf ( " - How to reproduce the crash (if known)\n" );
+   printf ( " - The following files. None of them contains private\n" );
+   printf ( "   data. They're necessary to analyze the backtrace:\n\n" );
+   printf ( "    - quake2 (the executable / binary)\n\n" );
+   printf ( "    - ref_gl.so (the renderer)\n\n" );
+   printf ( "    - game.so (the game.so of the mod you were playing\n" );
+   printf ( "      when the game crashed. baseq2/game.so for the\n" );
+   printf ( "      main game)\n\n" );
+   printf ( " - Any other data which you think might be usefull\n" );
+   printf ( "\nThank you very much for your help, making Yamagi Quake\n" );
+   printf ( "II an even better source port. It's much appreciated.\n" );
+   printf ( "\n=======================================================\n\n" );
+   printBacktrace ( sig );
+   /* make sure this is written */
+   fflush ( stdout );
+   /* reset signalhandler */
+   signal ( SIGSEGV, SIG_DFL );
+   signal ( SIGILL, SIG_DFL );
+   signal ( SIGFPE, SIG_DFL );
+   signal ( SIGABRT, SIG_DFL );
+   /* pass signal to the os */
+   raise ( sig );
+ }
 
-void
-printBacktrace(int sig)
-{
-	printf("Product:      Yamagi Quake II\n");
-	printf("Version:      %s\n", VERSION);
-	printf("Plattform:    %s\n", BUILDSTRING);
-	printf("Architecture: %s\n", CPUSTRING);
-	printf("Compiler:     %s\n", __VERSION__);
-	printf("Signal:       %i\n", sig);
-	printf("\nBacktrace:\n");
-	printf("  Not available on this plattform.\n\n");
-}
-
-#endif
-
-void
-signalhandler(int sig)
-{
-	printf("\n=======================================================\n");
-	printf("\nYamagi Quake II crashed! This should not happen...\n");
-	printf("\nMake sure that you're using the last version. It can\n");
-	printf("be found at http://www.yamagi.org/quake2. If you do,\n");
-	printf("send a bug report to quake2@yamagi.org and include:\n\n");
-	printf(" - This output\n");
-	printf(" - The conditions that triggered the crash\n");
-	printf(" - How to reproduce the crash (if known)\n");
-	printf(" - The following files. None of them contains private\n");
-	printf("   data. They're necessary to analyze the backtrace:\n\n");
-	printf("    - quake2 (the executable / binary)\n\n");
-	printf("    - ref_gl.so (the renderer)\n\n");
-	printf("    - game.so (the game.so of the mod you were playing\n");
-	printf("      when the game crashed. baseq2/game.so for the\n");
-	printf("      main game)\n\n");
-	printf(" - Any other data which you think might be usefull\n");
-	printf("\nThank you very much for your help, making Yamagi Quake\n");
-	printf("II an even better source port. It's much appreciated.\n");
-	printf("\n=======================================================\n\n");
-
-	printBacktrace(sig);
-
-	/* make sure this is written */
-	fflush(stdout);
-
-	/* reset signalhandler */
-	signal(SIGSEGV, SIG_DFL);
-	signal(SIGILL, SIG_DFL);
-	signal(SIGFPE, SIG_DFL);
-	signal(SIGABRT, SIG_DFL);
-
-	/* pass signal to the os */
-	raise(sig);
-}
-
-void
-registerHandler(void)
-{
-	signal(SIGSEGV, signalhandler);
-	signal(SIGILL, signalhandler);
-	signal(SIGFPE, signalhandler);
-	signal(SIGABRT, signalhandler);
-}
+ void
+ registerHandler ( void )
+ {
+   signal ( SIGSEGV, signalhandler );
+   signal ( SIGILL, signalhandler );
+   signal ( SIGFPE, signalhandler );
+   signal ( SIGABRT, signalhandler );
+ }

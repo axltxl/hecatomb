@@ -40,12 +40,12 @@ set (
   ${COMMON_DIR}/netchan.c
   ${COMMON_DIR}/pmove.c
   ${COMMON_DIR}/szone.c
-  ${COMMON_DIR}/zone.c  
+  ${COMMON_DIR}/zone.c
   ${COMMON_SHARED_SRC}
 )
 
 # Add some specific sources for .pk3 file support
-if (YQ2_WITH_ZIP)
+if (HT_WITH_ZIP)
   list (APPEND COMMON_SRC ${COMMON_DIR}/unzip/ioapi.c ${COMMON_DIR}/unzip/unzip.c)
 endif()
 

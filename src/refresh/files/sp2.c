@@ -24,47 +24,42 @@
  * =======================================================================
  */
 
-#include "../header/local.h"
+ #include "prereqs.h"
+ #include "refresh/local.h"
 
-extern int modfilelen;
+ extern int modfilelen;
 
-void
-LoadSP2(model_t *mod, void *buffer)
-{
-	dsprite_t *sprin, *sprout;
-	int i;
+ void
+ LoadSP2 ( model_t *mod, void *buffer )
+ {
+   dsprite_t *sprin, *sprout;
+   int i;
+   sprin = ( dsprite_t * ) buffer;
+   sprout = Hunk_Alloc ( modfilelen );
+   sprout->ident = LittleLong ( sprin->ident );
+   sprout->version = LittleLong ( sprin->version );
+   sprout->numframes = LittleLong ( sprin->numframes );
 
-	sprin = (dsprite_t *)buffer;
-	sprout = Hunk_Alloc(modfilelen);
+   if ( sprout->version != SPRITE_VERSION ) {
+     VID_Error ( ERR_DROP, "%s has wrong version number (%i should be %i)",
+                 mod->name, sprout->version, SPRITE_VERSION );
+   }
 
-	sprout->ident = LittleLong(sprin->ident);
-	sprout->version = LittleLong(sprin->version);
-	sprout->numframes = LittleLong(sprin->numframes);
+   if ( sprout->numframes > MAX_MD2SKINS ) {
+     VID_Error ( ERR_DROP, "%s has too many frames (%i > %i)",
+                 mod->name, sprout->numframes, MAX_MD2SKINS );
+   }
 
-	if (sprout->version != SPRITE_VERSION)
-	{
-		VID_Error(ERR_DROP, "%s has wrong version number (%i should be %i)",
-				mod->name, sprout->version, SPRITE_VERSION);
-	}
+   /* byte swap everything */
+   for ( i = 0; i < sprout->numframes; i++ ) {
+     sprout->frames[i].width = LittleLong ( sprin->frames[i].width );
+     sprout->frames[i].height = LittleLong ( sprin->frames[i].height );
+     sprout->frames[i].origin_x = LittleLong ( sprin->frames[i].origin_x );
+     sprout->frames[i].origin_y = LittleLong ( sprin->frames[i].origin_y );
+     memcpy ( sprout->frames[i].name, sprin->frames[i].name, MAX_SKINNAME );
+     mod->skins[i] = R_FindImage ( sprout->frames[i].name,
+                                   it_sprite );
+   }
 
-	if (sprout->numframes > MAX_MD2SKINS)
-	{
-		VID_Error(ERR_DROP, "%s has too many frames (%i > %i)",
-				mod->name, sprout->numframes, MAX_MD2SKINS);
-	}
-
-	/* byte swap everything */
-	for (i = 0; i < sprout->numframes; i++)
-	{
-		sprout->frames[i].width = LittleLong(sprin->frames[i].width);
-		sprout->frames[i].height = LittleLong(sprin->frames[i].height);
-		sprout->frames[i].origin_x = LittleLong(sprin->frames[i].origin_x);
-		sprout->frames[i].origin_y = LittleLong(sprin->frames[i].origin_y);
-		memcpy(sprout->frames[i].name, sprin->frames[i].name, MAX_SKINNAME);
-		mod->skins[i] = R_FindImage(sprout->frames[i].name,
-				it_sprite);
-	}
-
-	mod->type = mod_sprite;
-}
-
+   mod->type = mod_sprite;
+ }

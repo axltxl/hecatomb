@@ -1,7 +1,7 @@
 #
-# Yamagi Quake II
-# http://www.yamagi.org/quake2
-# http://github.com/yquake2
+# Hecatomb
+# A Quake II Engine Extension
+# http://github.com/alericoveri/hecatomb
 #
 # CMake build automation scripts
 # Author: Alejandro Ricoveri <alejandroricoveri@gmail.com>
@@ -23,7 +23,7 @@ set (
 )
 
 # OpenAL support (QAL)
-if (YQ2_WITH_OPENAL)
+if (HT_WITH_OPENAL)
   list (APPEND BACKEND_GENERIC_SRC ${BACKEND_GENERIC_DIR}/qal.c)
 endif()
 set (BACKEND_CLIENT_SRC ${BACKEND_GENERIC_SRC})
@@ -36,7 +36,7 @@ set (
   ${BACKEND_SDL_DIR}/input.c
   ${BACKEND_SDL_DIR}/refresh.c
   ${BACKEND_SDL_DIR}/cd.c
-  ${BACKEND_SDL_DIR}/sound.c 
+  ${BACKEND_SDL_DIR}/sound.c
 )
 
 
@@ -46,7 +46,7 @@ if (OSX)
 endif()
 # SDL will be only for the client
 list (APPEND BACKEND_CLIENT_SRC ${BACKEND_SDL_SRC})
-    
+
 # Unix backend
 if (UNIX)
   set (BACKEND_UNIX_DIR ${BACKEND_DIR}/unix)

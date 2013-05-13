@@ -1,0 +1,105 @@
+/*
+ * Copyright (C) 2013 Alejandro Ricoveri
+ *
+ * This program is free software; you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation; either version 2 of the License, or (at
+ * your option) any later version.
+ *
+ * This program is distributed in the hope that it will be useful, but
+ * WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
+ *
+ * See the GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with this program; if not, write to the Free Software
+ * Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA
+ * 02111-1307, USA.
+ *
+ * Dynamic configuration header
+ */
+
+ #ifndef CONFIG_H
+ #define CONFIG_H
+
+ /* Build type */
+ #cmakedefine HT_BUILD_DEBUG
+ #cmakedefine HT_BUILD_RELEASE
+
+ /* Operating system */
+ #define HT_OS_NAME "@CMAKE_SYSTEM_NAME@"
+ #cmakedefine HT_OS_UNIX
+ #cmakedefine HT_OS_LINUX
+ #cmakedefine HT_OS_WINDOWS
+ #cmakedefine HT_OS_OSX
+ #cmakedefine HT_OS_BSD
+ #cmakedefine HT_OS_FREEBSD
+ #cmakedefine HT_OS_OPENBSD
+
+ /* Architecture */
+ #define HT_ARCH_NAME "@HT_ARCH_NAME@"
+ #cmakedefine HT_ARCH_32
+ #cmakedefine HT_ARCH_64
+
+ /* Compiler information */
+ #cmakedefine HT_CC_GCC
+ #cmakedefine HT_CC_CLANG
+ #define HT_CC_ID "@CMAKE_C_COMPILER_ID@"
+
+ /* gcc */
+ #ifdef HT_CC_GCC
+ #  define HT_CC_VERSION_MAJOR __GNUC__
+ #  define HT_CC_VERSION_MINOR __GNUC_MINOR__
+ #  define HT_CC_VERSION_PATCH __GNUC_PATCHLEVEL__
+ #endif
+
+ /* clang */
+ #if HT_CC_CLANG
+ #  define HT_CC_VERSION_MAJOR __clang_major__
+ #  define HT_CC_VERSION_MINOR __clang_minor__
+ #  define HT_CC_VERSION_PATCH __clang_patchlevel__
+ #endif
+
+ /* Compiler version */
+ #define HT_CC_VERSION (HT_CC_VERSION_MAJOR * 1000 \
+    + HT_CC_VERSION_MINOR * 100 + HT_CC_VERSION_PATCH * 10)
+ #define HT_CC_CFLAGS "@HT_CC_CFLAGS@"
+
+ /* C++ compiler (OSX) */
+ #define HT_CXX_ID "@CMAKE_CXX_COMPILER_ID@"
+ #define HT_CXX_VERSION_MAJOR __clang_major__
+ #define HT_CXX_VERSION_MINOR __clang_minor__
+ #define HT_CXX_VERSION_PATCH __clang_patchlevel__
+ #define HT_CXX_VERSION (HT_CXX_VERSION_MAJOR * 1000 \
+    + HT_CXX_VERSION_MINOR * 100 + HT_CXX_VERSION_PATCH * 10)
+ #define HT_CXX_CFLAGS "@HT_CXX_CFLAGS@"
+
+ /* git-related information (for future use) */
+ #cmakedefine HT_WITH_GIT
+ #cmakedefine HT_GIT_COMMIT "@HT_GIT_COMMIT@"
+ #cmakedefine HT_GIT_BRANCH "@HT_GIT_BRANCH@"
+
+ /* Available headers and functions */
+ #cmakedefine HT_HAVE_MALLOC_H
+ #cmakedefine HT_HAVE_STDINT_H
+
+ /* Byte order */
+ #cmakedefine HT_ENDIAN_BIG
+ #cmakedefine HT_ENDIAN_LITTLE
+
+ /* Features */
+ #cmakedefine HT_WITH_SYSTEMWIDE
+ #cmakedefine HT_WITH_SYSTEMDIR "@HT_WITH_SYSTEMDIR@"
+ #cmakedefine HT_WITH_X11GAMMA
+ #cmakedefine HT_WITH_OPENAL
+ #cmakedefine HT_WITH_RETEXTURE
+ #cmakedefine HT_WITH_CDA
+ #cmakedefine HT_WITH_OGG
+ #cmakedefine HT_WITH_ZIP
+
+ #ifdef HT_WITH_ZIP
+ #  define NOUNCRYPT
+ #endif
+
+ #endif /* CONFIG_H */

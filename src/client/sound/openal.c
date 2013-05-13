@@ -32,12 +32,14 @@
  * =======================================================================
  */
 
-#ifdef USE_OPENAL
+ #include "prereqs.h"
 
-#include "../header/client.h"
-#include "../../backends/generic/header/qal.h"
-#include "header/local.h"
-#include "header/vorbis.h"
+ #ifdef HT_WITH_OPENAL
+
+ #include "client/client.h"
+ #include "backend/generic/qal.h"
+ #include "client/sound/local.h"
+ #include "client/sound/vorbis.h"
 
 /* translates from AL coordinate system to quake */
 #define AL_UnpackVector(v) - v[1], v[2], -v[0]
@@ -57,7 +59,7 @@ static int s_framecount;
 
 /* Apple crappy OpenAL implementation
    has no support for filters. */
-#ifndef __APPLE__
+#ifndef HT_OS_OSX
 static ALuint underwaterFilter;
 #endif
 
@@ -600,7 +602,7 @@ AL_Update(void)
 	AL_AddLoopSounds();
 
 	/* add music */
-#ifdef OGG
+#ifdef HT_WITH_OGG
 	OGG_Stream();
 #endif
 
@@ -794,5 +796,5 @@ AL_Shutdown(void)
 	QAL_Shutdown();
 }
 
-#endif /* USE_OPENAL */
+#endif /* HT_WITH_OPENAL */
 

@@ -25,405 +25,345 @@
  * =======================================================================
  */
 
-#include "../../client/header/client.h"
-#include "../../client/menu/header/qmenu.h"
+ #include "prereqs.h"
+ #include "client/client.h"
+ #include "client/menu/qmenu.h"
 
-#define CUSTOM_MODE 24
+ #define CUSTOM_MODE 24
 
-extern void M_ForceMenuOff(void);
+ extern void M_ForceMenuOff ( void );
 
-extern cvar_t *vid_fullscreen;
-extern cvar_t *vid_gamma;
-extern cvar_t *scr_viewsize;
+ extern cvar_t *vid_fullscreen;
+ extern cvar_t *vid_gamma;
+ extern cvar_t *scr_viewsize;
 
-static cvar_t *gl_mode;
-static cvar_t *gl_driver;
-static cvar_t *gl_picmip;
-static cvar_t *gl_ext_palettedtexture;
+ static cvar_t *gl_mode;
+ static cvar_t *gl_driver;
+ static cvar_t *gl_picmip;
+ static cvar_t *gl_ext_palettedtexture;
 
-static cvar_t *fov;
+ static cvar_t *fov;
 
-static menuframework_s s_opengl_menu;
+ static menuframework_s s_opengl_menu;
 
-static menulist_s s_mode_list;
-static menulist_s s_aspect_list;
-static menuslider_s s_tq_slider;
-static menuslider_s s_screensize_slider;
-static menuslider_s s_brightness_slider;
-static menulist_s s_fs_box;
-static menulist_s s_paletted_texture_box;
-static menuaction_s s_apply_action;
-static menuaction_s s_defaults_action;
+ static menulist_s s_mode_list;
+ static menulist_s s_aspect_list;
+ static menuslider_s s_tq_slider;
+ static menuslider_s s_screensize_slider;
+ static menuslider_s s_brightness_slider;
+ static menulist_s s_fs_box;
+ static menulist_s s_paletted_texture_box;
+ static menuaction_s s_apply_action;
+ static menuaction_s s_defaults_action;
 
-static void
-ScreenSizeCallback(void *s)
-{
-	menuslider_s *slider = (menuslider_s *)s;
+ static void
+ ScreenSizeCallback ( void *s )
+ {
+   menuslider_s *slider = ( menuslider_s * ) s;
+   Cvar_SetValue ( "viewsize", slider->curvalue * 10 );
+ }
 
-	Cvar_SetValue("viewsize", slider->curvalue * 10);
-}
+ static void
+ BrightnessCallback ( void *s )
+ {
+   menuslider_s *slider = ( menuslider_s * ) s;
+   float gamma = slider->curvalue / 10.0;
+   Cvar_SetValue ( "vid_gamma", gamma );
+ }
 
-static void
-BrightnessCallback(void *s)
-{
-	menuslider_s *slider = (menuslider_s *)s;
+ static void
+ ResetDefaults ( void *unused )
+ {
+   VID_MenuInit();
+ }
 
-	float gamma = slider->curvalue / 10.0;
-	Cvar_SetValue("vid_gamma", gamma);
-}
+ static void
+ ApplyChanges ( void *unused )
+ {
+   qboolean restart = false;
 
-static void
-ResetDefaults(void *unused)
-{
-	VID_MenuInit();
-}
+   if ( gl_picmip->value != ( 3 - s_tq_slider.curvalue ) ) {
+     Cvar_SetValue ( "gl_picmip", 3 - s_tq_slider.curvalue );
+     restart = true;
+   }
 
-static void
-ApplyChanges(void *unused)
-{
-	qboolean restart = false;
+   if ( gl_ext_palettedtexture->value != s_paletted_texture_box.curvalue ) {
+     Cvar_SetValue ( "gl_ext_palettedtexture", s_paletted_texture_box.curvalue );
+     restart = true;
+   }
 
-	if (gl_picmip->value != (3 - s_tq_slider.curvalue))
-	{
+   /* Restarts automatically */
+   Cvar_SetValue ( "vid_fullscreen", s_fs_box.curvalue );
 
-		Cvar_SetValue("gl_picmip", 3 - s_tq_slider.curvalue);
-		restart = true;
-	}
+   /* custom mode */
+   if ( s_mode_list.curvalue != CUSTOM_MODE ) {
+     /* Restarts automatically */
+     Cvar_SetValue ( "gl_mode", s_mode_list.curvalue );
+   } else {
+     /* Restarts automatically */
+     Cvar_SetValue ( "gl_mode", -1 );
+   }
 
-	if (gl_ext_palettedtexture->value != s_paletted_texture_box.curvalue)
-	{
-		Cvar_SetValue("gl_ext_palettedtexture", s_paletted_texture_box.curvalue);
-		restart = true;
-	}
+   /* horplus */
+   if ( s_aspect_list.curvalue == 0 ) {
+     if ( horplus->value != 1 ) {
+       Cvar_SetValue ( "horplus", 1 );
+     }
+   } else {
+     if ( horplus->value != 0 ) {
+       Cvar_SetValue ( "horplus", 0 );
+     }
+   }
 
-	/* Restarts automatically */
-	Cvar_SetValue("vid_fullscreen", s_fs_box.curvalue);
+   /* fov */
+   if ( s_aspect_list.curvalue == 0 || s_aspect_list.curvalue == 1 ) {
+     if ( fov->value != 90 ) {
+       /* Restarts automatically */
+       Cvar_SetValue ( "fov", 90 );
+     }
+   } else if ( s_aspect_list.curvalue == 2 ) {
+     if ( fov->value != 86 ) {
+       /* Restarts automatically */
+       Cvar_SetValue ( "fov", 86 );
+     }
+   } else if ( s_aspect_list.curvalue == 3 ) {
+     if ( fov->value != 100 ) {
+       /* Restarts automatically */
+       Cvar_SetValue ( "fov", 100 );
+     }
+   } else if ( s_aspect_list.curvalue == 4 ) {
+     if ( fov->value != 106 ) {
+       /* Restarts automatically */
+       Cvar_SetValue ( "fov", 106 );
+     }
+   }
 
-	/* custom mode */
-	if (s_mode_list.curvalue != CUSTOM_MODE)
-	{
-		/* Restarts automatically */
-		Cvar_SetValue("gl_mode", s_mode_list.curvalue);
-	}
-	else
-	{
-		/* Restarts automatically */
-		Cvar_SetValue("gl_mode", -1);
-	}
+   if ( restart ) {
+     Cbuf_AddText ( "vid_restart\n" );
+   }
 
-	/* horplus */
-	if (s_aspect_list.curvalue == 0)
-	{
-		if (horplus->value != 1)
-		{
-			Cvar_SetValue("horplus", 1);
-		}
-	}
-	else
-	{
-		if (horplus->value != 0)
-		{
-			Cvar_SetValue("horplus", 0);
-		}
-	}
+   M_ForceMenuOff();
+ }
 
-	/* fov */
-	if (s_aspect_list.curvalue == 0 || s_aspect_list.curvalue == 1)
-	{
-		if (fov->value != 90)
-		{
-			/* Restarts automatically */
-			Cvar_SetValue("fov", 90);
-		}
-	}
-	else if (s_aspect_list.curvalue == 2)
-	{
-		if (fov->value != 86)
-		{
-			/* Restarts automatically */
-			Cvar_SetValue("fov", 86);
-		}
-	}
-	else if (s_aspect_list.curvalue == 3)
-	{
-		if (fov->value != 100)
-		{
-			/* Restarts automatically */
-			Cvar_SetValue("fov", 100);
-		}
-	}
-	else if (s_aspect_list.curvalue == 4)
-	{
-		if (fov->value != 106)
-		{
-			/* Restarts automatically */
-			Cvar_SetValue("fov", 106);
-		}
-	}
+ void
+ VID_MenuInit ( void )
+ {
+   static const char *resolutions[] = {
+     "[320 240  ]",
+     "[400 300  ]",
+     "[512 384  ]",
+     "[640 400  ]",
+     "[640 480  ]",
+     "[800 500  ]",
+     "[800 600  ]",
+     "[960 720  ]",
+     "[1024 480 ]",
+     "[1024 640 ]",
+     "[1024 768 ]",
+     "[1152 768 ]",
+     "[1152 864 ]",
+     "[1280 800 ]",
+     "[1280 854 ]",
+     "[1280 960 ]",
+     "[1280 1024]",
+     "[1366 768 ]",
+     "[1440 900 ]",
+     "[1600 1200]",
+     "[1680 1050]",
+     "[1920 1080]",
+     "[1920 1200]",
+     "[2048 1536]",
+     "[Custom   ]",
+     0
+   };
+   static const char *yesno_names[] = {
+     "no",
+     "yes",
+     0
+   };
+   static const char *aspect_names[] = {
+     "Auto",
+     "4:3",
+     "5:4",
+     "683:384",
+     "16:10",
+     "16:9",
+     "Custom",
+     0
+   };
 
-	if (restart)
-	{
-		Cbuf_AddText("vid_restart\n");
-	}
+   if ( !gl_driver ) {
+     gl_driver = Cvar_Get ( "gl_driver", LIBGL, 0 );
+   }
 
-	M_ForceMenuOff();
-}
+   if ( !gl_picmip ) {
+     gl_picmip = Cvar_Get ( "gl_picmip", "0", 0 );
+   }
 
-void
-VID_MenuInit(void)
-{
-	static const char *resolutions[] = {
-		"[320 240  ]",
-		"[400 300  ]",
-		"[512 384  ]",
-		"[640 400  ]",
-		"[640 480  ]",
-		"[800 500  ]",
-		"[800 600  ]",
-		"[960 720  ]",
-		"[1024 480 ]",
-		"[1024 640 ]",
-		"[1024 768 ]",
-		"[1152 768 ]",
-		"[1152 864 ]",
-		"[1280 800 ]",
-		"[1280 854 ]",
-		"[1280 960 ]",
-		"[1280 1024]",
-		"[1366 768 ]",
-		"[1440 900 ]",
-		"[1600 1200]",
-		"[1680 1050]",
-		"[1920 1080]",
-		"[1920 1200]",
-		"[2048 1536]",
-		"[Custom   ]",
-		0
-	};
+   if ( !gl_mode ) {
+     gl_mode = Cvar_Get ( "gl_mode", "5", 0 );
+   }
 
-	static const char *yesno_names[] = {
-		"no",
-		"yes",
-		0
-	};
+   if ( !gl_ext_palettedtexture ) {
+     gl_ext_palettedtexture = Cvar_Get ( "gl_ext_palettedtexture",
+                                         "0", CVAR_ARCHIVE );
+   }
 
-	static const char *aspect_names[] = {
-		"Auto",
-		"4:3",
-		"5:4",
-		"683:384",
-		"16:10",
-		"16:9",
-		"Custom",
-		0
-	};
+   if ( !horplus ) {
+     horplus = Cvar_Get ( "horplus", "1", CVAR_ARCHIVE );
+   }
 
-	if (!gl_driver)
-	{
-		gl_driver = Cvar_Get("gl_driver", LIBGL, 0);
-	}
+   if ( !fov ) {
+     fov = Cvar_Get ( "fov", "90",  CVAR_USERINFO | CVAR_ARCHIVE );
+   }
 
-	if (!gl_picmip)
-	{
-		gl_picmip = Cvar_Get("gl_picmip", "0", 0);
-	}
+   if ( horplus->value == 1 ) {
+     s_aspect_list.curvalue = 0;
+   } else if ( fov->value == 90 ) {
+     s_aspect_list.curvalue = 1;
+   } else if ( fov->value == 86 ) {
+     s_aspect_list.curvalue = 2;
+   } else if ( fov->value == 100 ) {
+     s_aspect_list.curvalue = 3;
+   } else if ( fov->value == 106 ) {
+     s_aspect_list.curvalue = 4;
+   } else {
+     s_aspect_list.curvalue = 5;
+   }
 
-	if (!gl_mode)
-	{
-		gl_mode = Cvar_Get("gl_mode", "5", 0);
-	}
+   /* custom mode */
+   if ( gl_mode->value >= 0 ) {
+     s_mode_list.curvalue = gl_mode->value;
+   } else {
+     s_mode_list.curvalue = CUSTOM_MODE;
+   }
 
-	if (!gl_ext_palettedtexture)
-	{
-		gl_ext_palettedtexture = Cvar_Get("gl_ext_palettedtexture",
-				"0", CVAR_ARCHIVE);
-	}
+   if ( !scr_viewsize ) {
+     scr_viewsize = Cvar_Get ( "viewsize", "100", CVAR_ARCHIVE );
+   }
 
-	if (!horplus)
-	{
-		horplus = Cvar_Get("horplus", "1", CVAR_ARCHIVE);
-	}
+   if ( !vid_gamma ) {
+     vid_gamma = Cvar_Get ( "vid_gamma", "1.0", CVAR_ARCHIVE );
+   }
 
-	if (!fov)
-	{
-		fov = Cvar_Get("fov", "90",  CVAR_USERINFO | CVAR_ARCHIVE);
-	}
+   s_opengl_menu.x = viddef.width * 0.50;
+   s_opengl_menu.nitems = 0;
+   s_mode_list.generic.type = MTYPE_SPINCONTROL;
+   s_mode_list.generic.name = "video mode";
+   s_mode_list.generic.x = 0;
+   s_mode_list.generic.y = 0;
+   s_mode_list.itemnames = resolutions;
+   s_aspect_list.generic.type = MTYPE_SPINCONTROL;
+   s_aspect_list.generic.name = "aspect ratio";
+   s_aspect_list.generic.x = 0;
+   s_aspect_list.generic.y = 10;
+   s_aspect_list.itemnames = aspect_names;
+   s_screensize_slider.generic.type = MTYPE_SLIDER;
+   s_screensize_slider.generic.x = 0;
+   s_screensize_slider.generic.y = 20;
+   s_screensize_slider.generic.name = "screen size";
+   s_screensize_slider.minvalue = 3;
+   s_screensize_slider.maxvalue = 12;
+   s_screensize_slider.generic.callback = ScreenSizeCallback;
+   s_screensize_slider.curvalue = scr_viewsize->value / 10;
+   s_brightness_slider.generic.type = MTYPE_SLIDER;
+   s_brightness_slider.generic.x = 0;
+   s_brightness_slider.generic.y = 40;
+   s_brightness_slider.generic.name = "brightness";
+   s_brightness_slider.generic.callback = BrightnessCallback;
+   s_brightness_slider.minvalue = 1;
+   s_brightness_slider.maxvalue = 20;
+   s_brightness_slider.curvalue = vid_gamma->value * 10;
+   s_fs_box.generic.type = MTYPE_SPINCONTROL;
+   s_fs_box.generic.x = 0;
+   s_fs_box.generic.y = 50;
+   s_fs_box.generic.name = "fullscreen";
+   s_fs_box.itemnames = yesno_names;
+   s_fs_box.curvalue = vid_fullscreen->value;
+   s_tq_slider.generic.type = MTYPE_SLIDER;
+   s_tq_slider.generic.x = 0;
+   s_tq_slider.generic.y = 70;
+   s_tq_slider.generic.name = "texture quality";
+   s_tq_slider.minvalue = 0;
+   s_tq_slider.maxvalue = 3;
+   s_tq_slider.curvalue = 3 - gl_picmip->value;
+   s_paletted_texture_box.generic.type = MTYPE_SPINCONTROL;
+   s_paletted_texture_box.generic.x = 0;
+   s_paletted_texture_box.generic.y = 80;
+   s_paletted_texture_box.generic.name = "8-bit textures";
+   s_paletted_texture_box.itemnames = yesno_names;
+   s_paletted_texture_box.curvalue = gl_ext_palettedtexture->value;
+   s_defaults_action.generic.type = MTYPE_ACTION;
+   s_defaults_action.generic.name = "reset to default";
+   s_defaults_action.generic.x = 0;
+   s_defaults_action.generic.y = 100;
+   s_defaults_action.generic.callback = ResetDefaults;
+   s_apply_action.generic.type = MTYPE_ACTION;
+   s_apply_action.generic.name = "apply";
+   s_apply_action.generic.x = 0;
+   s_apply_action.generic.y = 110;
+   s_apply_action.generic.callback = ApplyChanges;
+   Menu_AddItem ( &s_opengl_menu, ( void * ) &s_mode_list );
+   Menu_AddItem ( &s_opengl_menu, ( void * ) &s_aspect_list );
+   Menu_AddItem ( &s_opengl_menu, ( void * ) &s_screensize_slider );
+   Menu_AddItem ( &s_opengl_menu, ( void * ) &s_brightness_slider );
+   Menu_AddItem ( &s_opengl_menu, ( void * ) &s_fs_box );
+   Menu_AddItem ( &s_opengl_menu, ( void * ) &s_tq_slider );
+   Menu_AddItem ( &s_opengl_menu, ( void * ) &s_paletted_texture_box );
+   Menu_AddItem ( &s_opengl_menu, ( void * ) &s_defaults_action );
+   Menu_AddItem ( &s_opengl_menu, ( void * ) &s_apply_action );
+   Menu_Center ( &s_opengl_menu );
+   s_opengl_menu.x -= 8;
+ }
 
-	if (horplus->value == 1)
-	{
-		s_aspect_list.curvalue = 0;
-	}
-	else if (fov->value == 90)
-	{
-		s_aspect_list.curvalue = 1;
-	}
-	else if (fov->value == 86)
-	{
-		s_aspect_list.curvalue = 2;
-	}
-	else if (fov->value == 100)
-	{
-		s_aspect_list.curvalue = 3;
-	}
-	else if (fov->value == 106)
-	{
-		s_aspect_list.curvalue = 4;
-	}
-	else
-	{
-		s_aspect_list.curvalue = 5;
-	}
+ void
+ VID_MenuDraw ( void )
+ {
+   int w, h;
+   /* draw the banner */
+   Draw_GetPicSize ( &w, &h, "m_banner_video" );
+   Draw_Pic ( viddef.width / 2 - w / 2, viddef.height / 2 - 110,
+              "m_banner_video" );
+   /* move cursor to a reasonable starting position */
+   Menu_AdjustCursor ( &s_opengl_menu, 1 );
+   /* draw the menu */
+   Menu_Draw ( &s_opengl_menu );
+ }
 
-	/* custom mode */
-	if (gl_mode->value >= 0)
-	{
-		s_mode_list.curvalue = gl_mode->value;
-	}
-	else
-	{
-		s_mode_list.curvalue = CUSTOM_MODE;
-	}
+ const char *
+ VID_MenuKey ( int key )
+ {
+   extern void M_PopMenu ( void );
+   menuframework_s *m = &s_opengl_menu;
+   static const char *sound = "misc/menu1.wav";
 
-	if (!scr_viewsize)
-	{
-		scr_viewsize = Cvar_Get("viewsize", "100", CVAR_ARCHIVE);
-	}
+   switch ( key ) {
+   case K_ESCAPE:
+     M_PopMenu();
+     return NULL;
 
-	if (!vid_gamma)
-	{
-		vid_gamma = Cvar_Get("vid_gamma", "1.0", CVAR_ARCHIVE);
-	}
+   case K_UPARROW:
+     m->cursor--;
+     Menu_AdjustCursor ( m, -1 );
+     break;
 
-	s_opengl_menu.x = viddef.width * 0.50;
-	s_opengl_menu.nitems = 0;
+   case K_DOWNARROW:
+     m->cursor++;
+     Menu_AdjustCursor ( m, 1 );
+     break;
 
-	s_mode_list.generic.type = MTYPE_SPINCONTROL;
-	s_mode_list.generic.name = "video mode";
-	s_mode_list.generic.x = 0;
-	s_mode_list.generic.y = 0;
-	s_mode_list.itemnames = resolutions;
+   case K_LEFTARROW:
+     Menu_SlideItem ( m, -1 );
+     break;
 
-	s_aspect_list.generic.type = MTYPE_SPINCONTROL;
-	s_aspect_list.generic.name = "aspect ratio";
-	s_aspect_list.generic.x = 0;
-	s_aspect_list.generic.y = 10;
-	s_aspect_list.itemnames = aspect_names;
+   case K_RIGHTARROW:
+     Menu_SlideItem ( m, 1 );
+     break;
 
-	s_screensize_slider.generic.type = MTYPE_SLIDER;
-	s_screensize_slider.generic.x = 0;
-	s_screensize_slider.generic.y = 20;
-	s_screensize_slider.generic.name = "screen size";
-	s_screensize_slider.minvalue = 3;
-	s_screensize_slider.maxvalue = 12;
-	s_screensize_slider.generic.callback = ScreenSizeCallback;
-	s_screensize_slider.curvalue = scr_viewsize->value / 10;
+   case K_ENTER:
+     Menu_SelectItem ( m );
+     break;
+   }
 
-	s_brightness_slider.generic.type = MTYPE_SLIDER;
-	s_brightness_slider.generic.x = 0;
-	s_brightness_slider.generic.y = 40;
-	s_brightness_slider.generic.name = "brightness";
-	s_brightness_slider.generic.callback = BrightnessCallback;
-	s_brightness_slider.minvalue = 1;
-	s_brightness_slider.maxvalue = 20;
-	s_brightness_slider.curvalue = vid_gamma->value * 10;
-
-	s_fs_box.generic.type = MTYPE_SPINCONTROL;
-	s_fs_box.generic.x = 0;
-	s_fs_box.generic.y = 50;
-	s_fs_box.generic.name = "fullscreen";
-	s_fs_box.itemnames = yesno_names;
-	s_fs_box.curvalue = vid_fullscreen->value;
-
-	s_tq_slider.generic.type = MTYPE_SLIDER;
-	s_tq_slider.generic.x = 0;
-	s_tq_slider.generic.y = 70;
-	s_tq_slider.generic.name = "texture quality";
-	s_tq_slider.minvalue = 0;
-	s_tq_slider.maxvalue = 3;
-	s_tq_slider.curvalue = 3 - gl_picmip->value;
-
-	s_paletted_texture_box.generic.type = MTYPE_SPINCONTROL;
-	s_paletted_texture_box.generic.x = 0;
-	s_paletted_texture_box.generic.y = 80;
-	s_paletted_texture_box.generic.name = "8-bit textures";
-	s_paletted_texture_box.itemnames = yesno_names;
-	s_paletted_texture_box.curvalue = gl_ext_palettedtexture->value;
-
-	s_defaults_action.generic.type = MTYPE_ACTION;
-	s_defaults_action.generic.name = "reset to default";
-	s_defaults_action.generic.x = 0;
-	s_defaults_action.generic.y = 100;
-	s_defaults_action.generic.callback = ResetDefaults;
-
-	s_apply_action.generic.type = MTYPE_ACTION;
-	s_apply_action.generic.name = "apply";
-	s_apply_action.generic.x = 0;
-	s_apply_action.generic.y = 110;
-	s_apply_action.generic.callback = ApplyChanges;
-
-	Menu_AddItem(&s_opengl_menu, (void *)&s_mode_list);
-	Menu_AddItem(&s_opengl_menu, (void *)&s_aspect_list);
-	Menu_AddItem(&s_opengl_menu, (void *)&s_screensize_slider);
-	Menu_AddItem(&s_opengl_menu, (void *)&s_brightness_slider);
-	Menu_AddItem(&s_opengl_menu, (void *)&s_fs_box);
-	Menu_AddItem(&s_opengl_menu, (void *)&s_tq_slider);
-	Menu_AddItem(&s_opengl_menu, (void *)&s_paletted_texture_box);
-	Menu_AddItem(&s_opengl_menu, (void *)&s_defaults_action);
-	Menu_AddItem(&s_opengl_menu, (void *)&s_apply_action);
-
-	Menu_Center(&s_opengl_menu);
-	s_opengl_menu.x -= 8;
-}
-
-void
-VID_MenuDraw(void)
-{
-	int w, h;
-
-	/* draw the banner */
-	Draw_GetPicSize(&w, &h, "m_banner_video");
-	Draw_Pic(viddef.width / 2 - w / 2, viddef.height / 2 - 110,
-			"m_banner_video");
-
-	/* move cursor to a reasonable starting position */
-	Menu_AdjustCursor(&s_opengl_menu, 1);
-
-	/* draw the menu */
-	Menu_Draw(&s_opengl_menu);
-}
-
-const char *
-VID_MenuKey(int key)
-{
-	extern void M_PopMenu(void);
-
-	menuframework_s *m = &s_opengl_menu;
-	static const char *sound = "misc/menu1.wav";
-
-	switch (key)
-	{
-		case K_ESCAPE:
-			M_PopMenu();
-			return NULL;
-		case K_UPARROW:
-			m->cursor--;
-			Menu_AdjustCursor(m, -1);
-			break;
-		case K_DOWNARROW:
-			m->cursor++;
-			Menu_AdjustCursor(m, 1);
-			break;
-		case K_LEFTARROW:
-			Menu_SlideItem(m, -1);
-			break;
-		case K_RIGHTARROW:
-			Menu_SlideItem(m, 1);
-			break;
-		case K_ENTER:
-			Menu_SelectItem(m);
-			break;
-	}
-
-	return sound;
-}
-
+   return sound;
+ }

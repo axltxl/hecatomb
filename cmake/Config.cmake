@@ -22,6 +22,10 @@ elseif(${CMAKE_SYSTEM_NAME} MATCHES "Linux")
   set (LINUX 1)
 elseif(${CMAKE_SYSTEM_NAME} MATCHES "FreeBSD")
   set (BSD 1)
+  set (FREEBSD 1)
+elseif(${CMAKE_SYSTEM_NAME} MATCHES "OpenBSD")
+  set (BSD 1)
+  set (OPENBSD 1)
 elseif(${CMAKE_SYSTEM_NAME} MATCHES "Darwin")
   set (OSX 1)
 
@@ -64,7 +68,7 @@ if ("${CMAKE_C_COMPILER_ID}" MATCHES "GNU")
   set (CMAKE_C_FLAGS_RELEASE "-O2 -fno-strict-aliasing -fomit-frame-pointer -g")
 
   # -MMD to generate header dependencies. (They cannot be
-  #  generated if building universal binaries on OSX)
+  #  generated if building universal binaries on OSX)a
   if (OSX)
     set (CMAKE_C_FLAGS "${CMAKE_C_FLAGS} -MMD")
   endif()
@@ -85,7 +89,7 @@ elseif ("${CMAKE_C_COMPILER_ID}" MATCHES "Clang")
   else ()
     set (CMAKE_C_FLAGS_RELEASE "-O3")
   endif()
-  
+
   # -g to build always with debug symbols. Please DO NOT
   #  CHANGE THIS, since it's our only chance to debug this
   #  crap when random crashes happen!a

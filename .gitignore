@@ -1,4 +1,9 @@
+/bin/*/ht
+/bin/*/htded
 /build
+src/include/config.h
 bin/*/baseq2
 *.exe
 *.pak
+*~
+.*

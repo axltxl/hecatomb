@@ -28,10 +28,11 @@
  * =======================================================================
  */
 
-#include "../header/client.h"
-#include "../../backends/generic/header/qal.h"
-#include "header/local.h"
-#include "header/vorbis.h"
+#include "prereqs.h"
+#include "client/client.h"
+#include "backend/generic/qal.h"
+#include "client/sound/local.h"
+#include "client/sound/vorbis.h"
 
 /* During registration it is possible to have more sounds
    than could actually be referenced during gameplay,
@@ -136,7 +137,7 @@ S_LoadSound(sfx_t *s)
 		return NULL;
 	}
 
-#if USE_OPENAL
+#ifdef HT_WITH_OPENAL
 	if (sound_started == SS_OAL)
 	{
 		sc = AL_UploadSfx(s, &info, data + info.dataofs);
@@ -471,7 +472,7 @@ S_PickChannel(int entnum, int entchannel)
 
 	ch = &channels[first_to_die];
 
-#if USE_OPENAL
+#ifdef HT_WITH_OPENAL
 	if ((sound_started == SS_OAL) && ch->sfx)
 	{
 		/* Make sure the channel is dead */
@@ -580,7 +581,7 @@ S_IssuePlaysound(playsound_t *ps)
 	VectorCopy(ps->origin, ch->origin);
 	ch->fixed_origin = ps->fixed_origin;
 
-#if USE_OPENAL
+#ifdef HT_WITH_OPENAL
 	if (sound_started == SS_OAL)
 	{
 		/* This is clamped to 1.0 in AL_PlayChannel() */
@@ -669,7 +670,7 @@ S_StartSound(vec3_t origin, int entnum, int entchannel, sfx_t *sfx,
 	ps->attenuation = attenuation;
 	ps->sfx = sfx;
 
-#if USE_OPENAL
+#ifdef HT_WITH_OPENAL
 	if (sound_started == SS_OAL)
 	{
 		ps->begin = paintedtime + timeofs * 1000;
@@ -751,7 +752,7 @@ S_StopAllSounds(void)
 		s_playsounds[i].next->prev = &s_playsounds[i];
 	}
 
-#if USE_OPENAL
+#ifdef HT_WITH_OPENAL
 	if (sound_started == SS_OAL)
 	{
 		AL_StopAllChannels();
@@ -823,7 +824,7 @@ S_RawSamples(int samples, int rate, int width,
 		s_rawend = paintedtime;
 	}
 
-#if USE_OPENAL
+#ifdef HT_WITH_OPENAL
 	if (sound_started == SS_OAL)
 	{
 		volume = volume * (s_volume->value);
@@ -858,7 +859,7 @@ S_Update(vec3_t origin, vec3_t forward, vec3_t right, vec3_t up)
 	VectorCopy(right, listener_right);
 	VectorCopy(up, listener_up);
 
-#if USE_OPENAL
+#ifdef HT_WITH_OPENAL
 	if (sound_started == SS_OAL)
 	{
 		AL_Update();
@@ -976,7 +977,7 @@ S_SoundInfo_f(void)
 		return;
 	}
 
-#if USE_OPENAL
+#ifdef HT_WITH_OPENAL
 	if (sound_started == SS_OAL)
 	{
 		QAL_SoundInfo();
@@ -1020,12 +1021,12 @@ S_Init(void)
 	Cmd_AddCommand("stopsound", S_StopAllSounds);
 	Cmd_AddCommand("soundlist", S_SoundList);
 	Cmd_AddCommand("soundinfo", S_SoundInfo_f);
-#ifdef OGG
+#ifdef HT_WITH_OGG
 	Cmd_AddCommand("ogg_init", OGG_Init);
 	Cmd_AddCommand("ogg_shutdown", OGG_Shutdown);
 #endif
 
-#if USE_OPENAL
+#ifdef HT_WITH_OPENAL
 	cv = Cvar_Get("s_openal", "1", CVAR_ARCHIVE);
 
 	if (cv->value && AL_Init())
@@ -1049,7 +1050,7 @@ S_Init(void)
 	num_sfx = 0;
 	paintedtime = 0;
 
-#ifdef OGG
+#ifdef HT_WITH_OGG
 	OGG_Init();
 #endif
 
@@ -1076,7 +1077,7 @@ S_Shutdown(void)
 
 	S_StopAllSounds();
 
-#ifdef OGG
+#ifdef HT_WITH_OGG
 	OGG_Shutdown();
 #endif
 
@@ -1088,7 +1089,7 @@ S_Shutdown(void)
 			continue;
 		}
 
-#if USE_OPENAL
+#ifdef HT_WITH_OPENAL
 		if (sound_started == SS_OAL)
 		{
 			AL_DeleteSfx(sfx);
@@ -1109,7 +1110,7 @@ S_Shutdown(void)
 	memset(known_sfx, 0, sizeof(known_sfx));
 	num_sfx = 0;
 
-#if USE_OPENAL
+#ifdef HT_WITH_OPENAL
 	if (sound_started == SS_OAL)
 	{
 		AL_Shutdown();
@@ -1130,7 +1131,7 @@ S_Shutdown(void)
 	Cmd_RemoveCommand("soundinfo");
 	Cmd_RemoveCommand("play");
 	Cmd_RemoveCommand("stopsound");
-#ifdef OGG
+#ifdef HT_WITH_OGG
 	Cmd_RemoveCommand("ogg_init");
 	Cmd_RemoveCommand("ogg_shutdown");
 #endif

@@ -24,76 +24,72 @@
  * =======================================================================
  */
 
-#include "../../../common/header/common.h"
-#include "../header/winquake.h"
+ #include "prereqs.h"
+ #include "backend/windows/winquake.h"
 
-byte *membase;
-int hunkcount;
-int hunkmaxsize;
-int cursize;
+ byte *membase;
+ int hunkcount;
+ int hunkmaxsize;
+ int cursize;
 
-void *
-Hunk_Begin(int maxsize)
-{
-	/* reserve a huge chunk of memory,
-	   but don't commit any yet */
-	cursize = 0;
-	hunkmaxsize = maxsize;
-	membase = VirtualAlloc(NULL, maxsize, MEM_RESERVE, PAGE_NOACCESS);
+ void *
+ Hunk_Begin ( int maxsize )
+ {
+   /* reserve a huge chunk of memory,
+      but don't commit any yet */
+   cursize = 0;
+   hunkmaxsize = maxsize;
+   membase = VirtualAlloc ( NULL, maxsize, MEM_RESERVE, PAGE_NOACCESS );
 
-	if (!membase)
-	{
-		Sys_Error("VirtualAlloc reserve failed");
-	}
+   if ( !membase ) {
+     Sys_Error ( "VirtualAlloc reserve failed" );
+   }
 
-	return (void *)membase;
-}
+   return ( void * ) membase;
+ }
 
-void *
-Hunk_Alloc(int size)
-{
-	void *buf;
+ void *
+ Hunk_Alloc ( int size )
+ {
+   void *buf;
 
-	/* round to cacheline */
-	size = (size + 31) & ~31;
+   /* round to cacheline */
+   size = ( size + 31 ) & ~31;
 
-	/* commit pages as needed */
-	buf = VirtualAlloc(membase, cursize + size, MEM_COMMIT, PAGE_READWRITE);
+   /* commit pages as needed */
+   buf = VirtualAlloc ( membase, cursize + size, MEM_COMMIT, PAGE_READWRITE );
 
-	if (!buf)
-	{
-		FormatMessage(FORMAT_MESSAGE_ALLOCATE_BUFFER | FORMAT_MESSAGE_FROM_SYSTEM,
-				NULL, GetLastError(), MAKELANGID(LANG_NEUTRAL, SUBLANG_DEFAULT),
-				(LPTSTR)&buf, 0, NULL);
-		Sys_Error("VirtualAlloc commit failed.\n%s", buf);
-	}
+   if ( !buf ) {
+     FormatMessage ( FORMAT_MESSAGE_ALLOCATE_BUFFER | FORMAT_MESSAGE_FROM_SYSTEM,
+                     NULL, GetLastError(), MAKELANGID ( LANG_NEUTRAL, SUBLANG_DEFAULT ),
+                     ( LPTSTR ) &buf, 0, NULL );
+     Sys_Error ( "VirtualAlloc commit failed.\n%s", buf );
+   }
 
-	cursize += size;
+   cursize += size;
 
-	if (cursize > hunkmaxsize)
-	{
-		Sys_Error("Hunk_Alloc overflow");
-	}
+   if ( cursize > hunkmaxsize ) {
+     Sys_Error ( "Hunk_Alloc overflow" );
+   }
 
-	return (void *)(membase + cursize - size);
-}
+   return ( void * ) ( membase + cursize - size );
+ }
 
-int
-Hunk_End(void)
-{
-	hunkcount++;
+ int
+ Hunk_End ( void )
+ {
+   hunkcount++;
 
-	return cursize;
-}
+   return cursize;
+ }
 
-void
-Hunk_Free(void *base)
-{
-	if (base)
-	{
-		VirtualFree(base, 0, MEM_RELEASE);
-	}
+ void
+ Hunk_Free ( void *base )
+ {
+   if ( base ) {
+     VirtualFree ( base, 0, MEM_RELEASE );
+   }
 
-	hunkcount--;
-}
+   hunkcount--;
+ }
 
