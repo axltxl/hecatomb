@@ -77,6 +77,7 @@
  menulayer_t m_layers[MAX_MENU_DEPTH];
  int m_menudepth;
 
+ /* ========================================================================= */
  static void
  M_Banner ( char *name )
  {
@@ -85,6 +86,7 @@
    Draw_Pic ( viddef.width / 2 - w / 2, viddef.height / 2 - 110, name );
  }
 
+ /* ========================================================================= */
  void
  M_ForceMenuOff ( void )
  {
@@ -96,6 +98,7 @@
    Cvar_Set ( "paused", "0" );
  }
 
+ /* ========================================================================= */
  void
  M_PopMenu ( void )
  {
@@ -328,6 +331,7 @@
    }
  }
 
+ /* ========================================================================= */
  void
  M_DrawPic ( int x, int y, char *pic )
  {
@@ -362,6 +366,7 @@
    Draw_Pic ( x, y, cursorname );
  }
 
+ /* ========================================================================= */
  static void
  M_DrawTextBox ( int x, int y, int width, int lines )
  {
@@ -410,6 +415,7 @@
  static char *m_popup_string;
  static int m_popup_endtime;
 
+ /* ========================================================================= */
  static void
  M_Popup ( void )
  {
@@ -460,6 +466,7 @@
 
  #define MAIN_ITEMS 5
 
+ /* ========================================================================= */
  static void
  M_Main_Draw ( void )
  {
@@ -508,6 +515,7 @@
    Draw_Pic ( xoffset - 30 - w, ystart + h + 5, "m_main_logo" );
  }
 
+ /* ========================================================================= */
  const char *
  M_Main_Key ( int key )
  {
@@ -564,6 +572,7 @@
    return NULL;
  }
 
+ /* ========================================================================= */
  void
  M_Menu_Main_f ( void )
  {
@@ -579,6 +588,7 @@
  static menuaction_s s_start_network_server_action;
  static menuaction_s s_player_setup_action;
 
+ /* ========================================================================= */
  static void
  Multiplayer_MenuDraw ( void )
  {
@@ -587,24 +597,28 @@
    Menu_Draw ( &s_multiplayer_menu );
  }
 
+ /* ========================================================================= */
  static void
  PlayerSetupFunc ( void *unused )
  {
    M_Menu_PlayerConfig_f();
  }
 
+ /* ========================================================================= */
  static void
  JoinNetworkServerFunc ( void *unused )
  {
    M_Menu_JoinServer_f();
  }
 
+ /* ========================================================================= */
  static void
  StartNetworkServerFunc ( void *unused )
  {
    M_Menu_StartServer_f();
  }
 
+ /* ========================================================================= */
  static void
  Multiplayer_MenuInit ( void )
  {
@@ -635,12 +649,14 @@
    Menu_Center ( &s_multiplayer_menu );
  }
 
+ /* ========================================================================= */
  static const char *
  Multiplayer_MenuKey ( int key )
  {
    return Default_MenuKey ( &s_multiplayer_menu, key );
  }
 
+ /* ========================================================================= */
  static void
  M_Menu_Multiplayer_f ( void )
  {
@@ -686,6 +702,7 @@
  static menuframework_s s_keys_menu;
  static menuaction_s s_keys_actions[NUM_BINDNAMES];
 
+ /* ========================================================================= */
  static void
  M_UnbindCommand ( char *command )
  {
@@ -707,6 +724,7 @@
    }
  }
 
+ /* ========================================================================= */
  static void
  M_FindKeysForCommand ( char *command, int *twokeys )
  {
@@ -736,6 +754,7 @@
    }
  }
 
+ /* ========================================================================= */
  static void
  KeyCursorDrawFunc ( menuframework_s *menu )
  {
@@ -917,12 +936,14 @@
    Cvar_SetValue ( "cl_run", ( float ) s_options_alwaysrun_box.curvalue );
  }
 
+ /* ========================================================================= */
  static void
  FreeLookFunc ( void *unused )
  {
    Cvar_SetValue ( "freelook", ( float ) s_options_freelook_box.curvalue );
  }
 
+ /* ========================================================================= */
  static void
  MouseSpeedFunc ( void *unused )
  {
