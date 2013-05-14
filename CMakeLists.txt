@@ -95,11 +95,11 @@ ht_set_option(HT_WITH_CDA TRUE BOOL "CD audio playback support")
 # until I find the right binaries for it
 ht_set_option(HT_WITH_OGG TRUE BOOL "OGG/Vorbis support")
 
-if (NOT WINDOWS)
-  # Enables retexturing support. Adds
-  # a dependency to libjpeg
-  ht_set_option(HT_WITH_RETEXTURE FALSE BOOL "Retexturing support")
+# Enables retexturing support. Adds
+# a dependency to libjpeg
+ht_set_option(HT_WITH_RETEXTURE FALSE BOOL "Retexturing support")
 
+if (NOT WINDOWS)
   # Enables opening of ZIP files (also known as .pk3 packs).
   # Adds a dependency to libz
   ht_set_option(HT_WITH_ZIP FALSE BOOL
@@ -174,14 +174,14 @@ if (HT_WITH_OGG)
   find_package (VORBIS REQUIRED)
 endif()
 
+# libjpeg
+if (HT_WITH_RETEXTURE)
+  find_package (JPEG REQUIRED)
+endif()
+
 # This features won't be present on Windows
 # until I find the right binaries for it
 if (NOT WINDOWS)
- 
-  # libjpeg
-  if (HT_WITH_RETEXTURE)
-    find_package (JPEG REQUIRED)
-  endif()
 
   # zlib
   if (HT_WITH_ZIP)
