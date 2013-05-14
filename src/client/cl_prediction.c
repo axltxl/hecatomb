@@ -28,6 +28,7 @@
  #include "prereqs.h"
  #include "client/client.h"
 
+ /* ========================================================================= */
  void
  CL_CheckPredictionError ( void )
  {
@@ -70,6 +71,7 @@
    }
  }
 
+ /* ========================================================================= */
  void
  CL_ClipMoveToEntities ( vec3_t start, vec3_t mins, vec3_t maxs,
                          vec3_t end, trace_t *tr )
@@ -142,6 +144,7 @@
    }
  }
 
+ /* ========================================================================= */
  trace_t
  CL_PMTrace ( vec3_t start, vec3_t mins, vec3_t maxs, vec3_t end )
  {
@@ -158,6 +161,7 @@
    return t;
  }
 
+ /* ========================================================================= */
  int
  CL_PMpointcontents ( vec3_t point )
  {

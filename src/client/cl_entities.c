@@ -30,6 +30,7 @@
  extern struct model_s *cl_mod_powerscreen;
  int vidref_val;
 
+ /* ========================================================================= */
  struct model_s *
  S_RegisterSexedModel ( entity_state_t *ent, char *base )
  {
@@ -88,6 +89,7 @@
 
  extern int Developer_searchpath ( int who );
 
+ /* ========================================================================= */
  void
  CL_AddPacketEntities ( frame_t *frame )
  {
@@ -495,6 +497,7 @@
    }
  }
 
+ /* ========================================================================= */
  void
  CL_AddViewWeapon ( player_state_t *ps, player_state_t *ops )
  {

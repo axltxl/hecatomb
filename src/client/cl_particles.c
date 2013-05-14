@@ -31,6 +31,7 @@
  cparticle_t particles[MAX_PARTICLES];
  int cl_numparticles = MAX_PARTICLES;
 
+ /* ========================================================================= */
  void
  CL_ClearParticles ( void )
  {
@@ -45,6 +46,7 @@
    particles[cl_numparticles - 1].next = NULL;
  }
 
+ /* ========================================================================= */
  void
  CL_ParticleEffect ( vec3_t org, vec3_t dir, int color, int count )
  {
@@ -77,6 +79,7 @@
    }
  }
 
+ /* ========================================================================= */
  void
  CL_ParticleEffect2 ( vec3_t org, vec3_t dir, int color, int count )
  {
@@ -111,6 +114,7 @@
    }
  }
 
+ /* ========================================================================= */
  void
  CL_ParticleEffect3 ( vec3_t org, vec3_t dir, int color, int count )
  {
@@ -145,6 +149,7 @@
    }
  }
 
+ /* ========================================================================= */
  void
  CL_AddParticles ( void )
  {
@@ -204,6 +209,7 @@
    active_particles = active;
  }
 
+ /* ========================================================================= */
  void
  CL_GenericParticleEffect ( vec3_t org, vec3_t dir, int color,
                             int count, int numcolors, int dirspread, float alphavel )

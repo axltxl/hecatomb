@@ -48,6 +48,7 @@
  #define ENV_CNT (CS_PLAYERSKINS + MAX_CLIENTS * PLAYER_MULT)
  #define TEXTURE_CNT (ENV_CNT + 13)
 
+ /* ========================================================================= */
  void
  CL_RequestNextDownload ( void )
  {
@@ -354,6 +355,7 @@
    MSG_WriteString ( &cls.netchan.message, va ( "begin %i\n", precache_spawncount ) );
  }
 
+ /* ========================================================================= */
  void
  CL_DownloadFileName ( char *dest, int destlen, char *fn )
  {
