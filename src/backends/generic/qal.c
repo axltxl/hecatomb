@@ -31,9 +31,6 @@
  */
 
  #include "prereqs.h"
-
- #ifdef HT_WITH_OPENAL
-
  #include "client/sound/local.h"
  #include "backend/generic/qal.h"
 
@@ -480,5 +477,3 @@
    Com_Printf ( "\n" );
    return true;
  }
-
- #endif /* HT_WITH_OPENAL */
