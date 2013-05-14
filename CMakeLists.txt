@@ -99,12 +99,12 @@ if (NOT WINDOWS)
   # Enables retexturing support. Adds
   # a dependency to libjpeg
   ht_set_option(HT_WITH_RETEXTURE FALSE BOOL "Retexturing support")
-
-  # Enables opening of ZIP files (also known as .pk3 packs).
-  # Adds a dependency to libz
-  ht_set_option(HT_WITH_ZIP FALSE BOOL
-    "ZIP files support (for opening .pk3 packs)")
 endif()
+
+# Enables opening of ZIP files (also known as .pk3 packs).
+# Adds a dependency to libz
+ht_set_option(HT_WITH_ZIP FALSE BOOL
+  "ZIP files support (for opening .pk3 packs)")
 
 # Enables the optional OpenAL sound system.
 # To use it your system needs libopenal.so.1
@@ -174,6 +174,11 @@ if (HT_WITH_OGG)
   find_package (VORBIS REQUIRED)
 endif()
 
+# zlib
+if (HT_WITH_ZIP)
+  find_package (ZLIB REQUIRED)
+endif()
+
 # This features won't be present on Windows
 # until I find the right binaries for it
 if (NOT WINDOWS)
@@ -183,10 +188,6 @@ if (NOT WINDOWS)
     find_package (JPEG REQUIRED)
   endif()
 
-  # zlib
-  if (HT_WITH_ZIP)
-    find_package (ZLIB REQUIRED)
-  endif()
 endif()
 
 # Source files
