@@ -179,6 +179,7 @@
    cls.key_dest = key_menu;
  }
 
+ /* ========================================================================= */
  const char *
  Default_MenuKey ( menuframework_s *m, int key )
  {
@@ -746,6 +747,7 @@
    }
  }
 
+ /* ========================================================================= */
  static void
  DrawKeyBindingFunc ( void *self )
  {
@@ -774,6 +776,7 @@
    }
  }
 
+ /* ========================================================================= */
  static void
  KeyBindingFunc ( void *self )
  {
@@ -789,6 +792,7 @@
    Menu_SetStatusBar ( &s_keys_menu, "press a key or button for this action" );
  }
 
+ /* ========================================================================= */
  static void
  Keys_MenuInit ( void )
  {
@@ -813,6 +817,7 @@
    Menu_Center ( &s_keys_menu );
  }
 
+ /* ========================================================================= */
  static void
  Keys_MenuDraw ( void )
  {
@@ -820,6 +825,7 @@
    Menu_Draw ( &s_keys_menu );
  }
 
+ /* ========================================================================= */
  static const char *
  Keys_MenuKey ( int key )
  {
@@ -855,6 +861,7 @@
    }
  }
 
+ /* ========================================================================= */
  static void
  M_Menu_Keys_f ( void )
  {
@@ -889,18 +896,21 @@
  static menulist_s s_options_quality_list;
  static menulist_s s_options_console_action;
 
+ /* ========================================================================= */
  static void
  CrosshairFunc ( void *unused )
  {
    Cvar_SetValue ( "crosshair", ( float ) s_options_crosshair_box.curvalue );
  }
 
+ /* ========================================================================= */
  static void
  CustomizeControlsFunc ( void *unused )
  {
    M_Menu_Keys_f();
  }
 
+ /* ========================================================================= */
  static void
  AlwaysRunFunc ( void *unused )
  {
@@ -919,6 +929,7 @@
    Cvar_SetValue ( "sensitivity", s_options_sensitivity_slider.curvalue / 2.0F );
  }
 
+ /* ========================================================================= */
  static float
  ClampCvar ( float min, float max, float value )
  {
@@ -933,6 +944,7 @@
    return value;
  }
 
+ /* ========================================================================= */
  static void
  ControlsSetMenuItemValues ( void )
  {
@@ -967,6 +979,7 @@
    s_options_crosshair_box.curvalue = crosshair->value;
  }
 
+ /* ========================================================================= */
  static void
  ControlsResetDefaultsFunc ( void *unused )
  {
@@ -976,24 +989,28 @@
    ControlsSetMenuItemValues();
  }
 
+ /* ========================================================================= */
  static void
  InvertMouseFunc ( void *unused )
  {
    Cvar_SetValue ( "m_pitch", -m_pitch->value );
  }
 
+ /* ========================================================================= */
  static void
  LookspringFunc ( void *unused )
  {
    Cvar_SetValue ( "lookspring", ( float ) !lookspring->value );
  }
 
+ /* ========================================================================= */
  static void
  LookstrafeFunc ( void *unused )
  {
    Cvar_SetValue ( "lookstrafe", ( float ) !lookstrafe->value );
  }
 
+ /* ========================================================================= */
  static void
  UpdateVolumeFunc ( void *unused )
  {
@@ -1001,6 +1018,7 @@
  }
 
  #if defined(HT_WITH_OGG) || defined(HT_WITH_CDA)
+  /* ========================================================================= */
  static void
  CDShuffleFunc ( void *unused )
  {
@@ -1036,6 +1054,7 @@
  #endif
 
  #ifdef HT_WITH_CDA
+ /* ========================================================================= */
  static void
  UpdateCDVolumeFunc ( void *unused )
  {
@@ -1064,6 +1083,7 @@
  #endif
 
  #ifdef HT_WITH_OGG
+ /* ========================================================================= */
  static void
  UpdateOGGVolumeFunc ( void *unused )
  {
@@ -1094,6 +1114,7 @@
 
  extern void Key_ClearTyping ( void );
 
+ /* ========================================================================= */
  static void
  ConsoleFunc ( void *unused )
  {
@@ -1115,6 +1136,7 @@
    }
  }
 
+ /* ========================================================================= */
  static void
  UpdateSoundQualityFunc ( void *unused )
  {
@@ -1136,6 +1158,7 @@
    CL_Snd_Restart_f();
  }
 
+ /* ========================================================================= */
  static void
  Options_MenuInit ( void )
  {
@@ -1303,6 +1326,7 @@
    Menu_AddItem ( &s_options_menu, ( void * ) &s_options_console_action );
  }
 
+ /* ========================================================================= */
  static void
  Options_MenuDraw ( void )
  {
@@ -1312,6 +1336,7 @@
    M_Popup();
  }
 
+ /* ========================================================================= */
  static const char *
  Options_MenuKey ( int key )
  {
@@ -1323,6 +1348,7 @@
    return Default_MenuKey ( &s_options_menu, key );
  }
 
+ /* ========================================================================= */
  static void
  M_Menu_Options_f ( void )
  {
@@ -1334,6 +1360,7 @@
   * VIDEO MENU
   */
 
+ /* ========================================================================= */
  static void
  M_Menu_Video_f ( void )
  {
@@ -1696,6 +1723,7 @@
    0
  };
 
+ /* ========================================================================= */
  static void
  M_Credits_MenuDraw ( void )
  {
@@ -1739,6 +1767,7 @@
    }
  }
 
+ /* ========================================================================= */
  const char *
  M_Credits_Key ( int key )
  {
@@ -1757,6 +1786,7 @@
 
  extern int Developer_searchpath ( void );
 
+ /* ========================================================================= */
  static void
  M_Menu_Credits_f ( void )
  {
@@ -1830,6 +1860,7 @@
  static menuaction_s s_credits_action;
  static menuseparator_s s_blankline;
 
+ /* ========================================================================= */
  static void
  StartGame ( void )
  {
@@ -1842,6 +1873,7 @@
    cls.key_dest = key_game;
  }
 
+ /* ========================================================================= */
  static void
  EasyGameFunc ( void *data )
  {
@@ -1849,6 +1881,7 @@
    StartGame();
  }
 
+ /* ========================================================================= */
  static void
  MediumGameFunc ( void *data )
  {
@@ -1856,6 +1889,7 @@
    StartGame();
  }
 
+ /* ========================================================================= */
  static void
  HardGameFunc ( void *data )
  {
@@ -1863,6 +1897,7 @@
    StartGame();
  }
 
+ /* ========================================================================= */
  static void
  HardpGameFunc ( void *data )
  {
@@ -1870,24 +1905,28 @@
    StartGame();
  }
 
+ /* ========================================================================= */
  static void
  LoadGameFunc ( void *unused )
  {
    M_Menu_LoadGame_f();
  }
 
+ /* ========================================================================= */
  static void
  SaveGameFunc ( void *unused )
  {
    M_Menu_SaveGame_f();
  }
 
+ /* ========================================================================= */
  static void
  CreditsFunc ( void *unused )
  {
    M_Menu_Credits_f();
  }
 
+ /* ========================================================================= */
  void
  Game_MenuInit ( void )
  {
@@ -1948,6 +1987,7 @@
    Menu_Center ( &s_game_menu );
  }
 
+ /* ========================================================================= */
  static void
  Game_MenuDraw ( void )
  {
@@ -1956,12 +1996,14 @@
    Menu_Draw ( &s_game_menu );
  }
 
+ /* ========================================================================= */
  static const char *
  Game_MenuKey ( int key )
  {
    return Default_MenuKey ( &s_game_menu, key );
  }
 
+ /* ========================================================================= */
  static void
  M_Menu_Game_f ( void )
  {
@@ -1989,6 +2031,7 @@
  static menuframework_s s_savegame_menu;
  static menuaction_s s_savegame_actions[MAX_SAVESLOTS];
 
+ /* ========================================================================= */
  static void
  Create_Savestrings ( void )
  {
@@ -2011,6 +2054,7 @@
    }
  }
 
+ /* ========================================================================= */
  static void
  LoadSave_AdjustPage ( int dir )
  {
@@ -2026,6 +2070,7 @@
                  "page %d/%d", m_loadsave_page + 1, MAX_SAVEPAGES );
  }
 
+ /* ========================================================================= */
  static void
  LoadGameCallback ( void *self )
  {
@@ -2034,6 +2079,7 @@
    M_ForceMenuOff();
  }
 
+ /* ========================================================================= */
  static void
  LoadGame_MenuInit ( void )
  {
@@ -2063,6 +2109,7 @@
    Menu_SetStatusBar ( &s_loadgame_menu, m_loadsave_statusbar );
  }
 
+ /* ========================================================================= */
  static void
  LoadGame_MenuDraw ( void )
  {
@@ -2071,6 +2118,7 @@
    Menu_Draw ( &s_loadgame_menu );
  }
 
+ /* ========================================================================= */
  static const char *
  LoadGame_MenuKey ( int key )
  {
@@ -2116,6 +2164,7 @@
    return Default_MenuKey ( m, key );
  }
 
+ /* ========================================================================= */
  static void
  M_Menu_LoadGame_f ( void )
  {
@@ -2128,6 +2177,7 @@
   * SAVEGAME MENU
   */
 
+ /* ========================================================================= */
  static void
  SaveGameCallback ( void *self )
  {
@@ -2146,6 +2196,7 @@
    M_ForceMenuOff();
  }
 
+ /* ========================================================================= */
  static void
  SaveGame_MenuDraw ( void )
  {
@@ -2155,6 +2206,7 @@
    M_Popup();
  }
 
+ /* ========================================================================= */
  static void
  SaveGame_MenuInit ( void )
  {
@@ -2179,6 +2231,7 @@
    Menu_SetStatusBar ( &s_savegame_menu, m_loadsave_statusbar );
  }
 
+ /* ========================================================================= */
  static const char *
  SaveGame_MenuKey ( int key )
  {
@@ -2229,6 +2282,7 @@
    return Default_MenuKey ( m, key );
  }
 
+ /* ========================================================================= */
  static void
  M_Menu_SaveGame_f ( void )
  {
@@ -2263,6 +2317,7 @@
  static char local_server_names[MAX_LOCAL_SERVERS][80];
  static char local_server_netadr_strings[MAX_LOCAL_SERVERS][80];
 
+ /* ========================================================================= */
  void
  M_AddToServerList ( netadr_t adr, char *info )
  {
@@ -2295,6 +2350,7 @@
    m_num_servers++;
  }
 
+ /* ========================================================================= */
  static void
  JoinServerFunc ( void *self )
  {
@@ -2316,12 +2372,14 @@
    M_ForceMenuOff();
  }
 
+ /* ========================================================================= */
  static void
  AddressBookFunc ( void *self )
  {
    M_Menu_AddressBook_f();
  }
 
+ /* ========================================================================= */
  static void
  SearchLocalGames ( void )
  {
@@ -2344,12 +2402,14 @@
    CL_PingServers_f();
  }
 
+ /* ========================================================================= */
  static void
  SearchLocalGamesFunc ( void *self )
  {
    SearchLocalGames();
  }
 
+ /* ========================================================================= */
  static void
  JoinServer_MenuInit ( void )
  {
@@ -2397,6 +2457,7 @@
    SearchLocalGames();
  }
 
+ /* ========================================================================= */
  static void
  JoinServer_MenuDraw ( void )
  {
@@ -2405,6 +2466,7 @@
    M_Popup();
  }
 
+ /* ========================================================================= */
  static const char *
  JoinServer_MenuKey ( int key )
  {
@@ -2416,6 +2478,7 @@
    return Default_MenuKey ( &s_joinserver_menu, key );
  }
 
+ /* ========================================================================= */
  static void
  M_Menu_JoinServer_f ( void )
  {
@@ -2440,12 +2503,14 @@
  static menulist_s s_startmap_list;
  static menulist_s s_rules_box;
 
+ /* ========================================================================= */
  static void
  DMOptionsFunc ( void *self )
  {
    M_Menu_DMOptions_f();
  }
 
+ /* ========================================================================= */
  static void
  RulesChangeFunc ( void *self )
  {
@@ -2463,6 +2528,7 @@
    }
  }
 
+ /* ========================================================================= */
  static void
  StartServerActionFunc ( void *self )
  {
@@ -2523,6 +2589,7 @@
    M_ForceMenuOff();
  }
 
+ /* ========================================================================= */
  static void
  StartServer_MenuInit ( void )
  {
@@ -2708,18 +2775,21 @@
    RulesChangeFunc ( NULL );
  }
 
+ /* ========================================================================= */
  static void
  StartServer_MenuDraw ( void )
  {
    Menu_Draw ( &s_startserver_menu );
  }
 
+ /* ========================================================================= */
  static const char *
  StartServer_MenuKey ( int key )
  {
    return Default_MenuKey ( &s_startserver_menu, key );
  }
 
+ /* ========================================================================= */
  static void
  M_Menu_StartServer_f ( void )
  {
@@ -2755,6 +2825,7 @@
  static menulist_s s_stack_double_box;
  static menulist_s s_no_spheres_box;
 
+ /* ========================================================================= */
  static void
  DMFlagCallback ( void *self )
  {
@@ -2859,6 +2930,7 @@
                  "dmflags = %d", flags );
  }
 
+ /* ========================================================================= */
  static void
  DMOptions_MenuInit ( void )
  {
@@ -3037,18 +3109,21 @@
    Menu_SetStatusBar ( &s_dmoptions_menu, dmoptions_statusbar );
  }
 
+ /* ========================================================================= */
  static void
  DMOptions_MenuDraw ( void )
  {
    Menu_Draw ( &s_dmoptions_menu );
  }
 
+ /* ========================================================================= */
  const char *
  DMOptions_MenuKey ( int key )
  {
    return Default_MenuKey ( &s_dmoptions_menu, key );
  }
 
+ /* ========================================================================= */
  static void
  M_Menu_DMOptions_f ( void )
  {
@@ -3069,6 +3144,7 @@
  static menulist_s s_allow_download_players_box;
  static menulist_s s_allow_download_sounds_box;
 
+ /* ========================================================================= */
  static void
  DownloadCallback ( void *self )
  {
@@ -3087,6 +3163,7 @@
    }
  }
 
+ /* ========================================================================= */
  static void
  DownloadOptions_MenuInit ( void )
  {
@@ -3153,18 +3230,21 @@
    }
  }
 
+ /* ========================================================================= */
  static void
  DownloadOptions_MenuDraw ( void )
  {
    Menu_Draw ( &s_downloadoptions_menu );
  }
 
+ /* ========================================================================= */
  static const char *
  DownloadOptions_MenuKey ( int key )
  {
    return Default_MenuKey ( &s_downloadoptions_menu, key );
  }
 
+ /* ========================================================================= */
  static void
  M_Menu_DownloadOptions_f ( void )
  {
@@ -3181,6 +3261,7 @@
  static menuframework_s s_addressbook_menu;
  static menufield_s s_addressbook_fields[NUM_ADDRESSBOOK_ENTRIES];
 
+ /* ========================================================================= */
  static void
  AddressBook_MenuInit ( void )
  {
@@ -3208,6 +3289,7 @@
    }
  }
 
+ /* ========================================================================= */
  const char *
  AddressBook_MenuKey ( int key )
  {
@@ -3224,6 +3306,7 @@
    return Default_MenuKey ( &s_addressbook_menu, key );
  }
 
+ /* ========================================================================= */
  static void
  AddressBook_MenuDraw ( void )
  {
@@ -3231,6 +3314,7 @@
    Menu_Draw ( &s_addressbook_menu );
  }
 
+ /* ========================================================================= */
  static void
  M_Menu_AddressBook_f ( void )
  {
@@ -3274,18 +3358,21 @@
                                     0
                                    };
 
+ /* ========================================================================= */
  static void
  DownloadOptionsFunc ( void *self )
  {
    M_Menu_DownloadOptions_f();
  }
 
+ /* ========================================================================= */
  static void
  HandednessCallback ( void *unused )
  {
    Cvar_SetValue ( "hand", ( float ) s_player_handedness_box.curvalue );
  }
 
+ /* ========================================================================= */
  static void
  RateCallback ( void *unused )
  {
@@ -3294,6 +3381,7 @@
    }
  }
 
+ /* ========================================================================= */
  static void
  ModelCallback ( void *unused )
  {
@@ -3302,6 +3390,7 @@
    s_player_skin_box.curvalue = 0;
  }
 
+ /* ========================================================================= */
  static void
  FreeFileList ( char **list, int n )
  {
@@ -3317,6 +3406,7 @@
    free ( list );
  }
 
+ /* ========================================================================= */
  static qboolean
  IconOfSkinExists ( char *skin, char **pcxfiles, int npcxfiles )
  {
@@ -3337,6 +3427,7 @@
 
  extern char **FS_ListFiles ( char *, int *, unsigned, unsigned );
 
+ /* ========================================================================= */
  static qboolean
  PlayerConfig_ScanDirectories ( void )
  {
@@ -3483,6 +3574,7 @@
    return true;
  }
 
+ /* ========================================================================= */
  static int
  pmicmpfnc ( const void *_a, const void *_b )
  {
@@ -3505,6 +3597,7 @@
    return strcmp ( a->directory, b->directory );
  }
 
+ /* ========================================================================= */
  static qboolean
  PlayerConfig_MenuInit ( void )
  {
@@ -3652,6 +3745,7 @@
 
  extern float CalcFov ( float fov_x, float w, float h );
 
+ /* ========================================================================= */
  static void
  PlayerConfig_MenuDraw ( void )
  {
@@ -3712,6 +3806,7 @@
    }
  }
 
+ /* ========================================================================= */
  static const char *
  PlayerConfig_MenuKey ( int key )
  {
@@ -3746,6 +3841,7 @@
    return Default_MenuKey ( &s_player_config_menu, key );
  }
 
+ /* ========================================================================= */
  static void
  M_Menu_PlayerConfig_f ( void )
  {
@@ -3785,6 +3881,7 @@
    return NULL;
  }
 
+ /* ========================================================================= */
  static void
  M_Quit_Draw ( void )
  {
@@ -3793,12 +3890,14 @@
    Draw_Pic ( ( viddef.width - w ) / 2, ( viddef.height - h ) / 2, "quit" );
  }
 
+ /* ========================================================================= */
  static void
  M_Menu_Quit_f ( void )
  {
    M_PushMenu ( M_Quit_Draw, M_Quit_Key );
  }
 
+ /* ========================================================================= */
  void
  M_Init ( void )
  {
@@ -3820,6 +3919,7 @@
    Cmd_AddCommand ( "menu_quit", M_Menu_Quit_f );
  }
 
+ /* ========================================================================= */
  void
  M_Draw ( void )
  {
@@ -3848,6 +3948,7 @@
    }
  }
 
+ /* ========================================================================= */
  void
  M_Keydown ( int key )
  {
