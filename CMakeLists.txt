@@ -88,14 +88,14 @@ endif()
 # CD playback is supported by SDL.
 ht_set_option(HT_WITH_CDA TRUE BOOL "CD audio playback support")
 
-if (NOT WINDOWS)
-  # Enables OGG/Vorbis support. OGG/Vorbis files can be
-  # used as a substitute of CD audio playback. Adds
-  # dependencies to libogg, libvorbis and libvorbisfile.
-  # This features won't be present on Windows
-  # until I find the right binaries for it
-  ht_set_option(HT_WITH_OGG TRUE BOOL "OGG/Vorbis support")
+# Enables OGG/Vorbis support. OGG/Vorbis files can be
+# used as a substitute of CD audio playback. Adds
+# dependencies to libogg, libvorbis and libvorbisfile.
+# This features won't be present on Windows
+# until I find the right binaries for it
+ht_set_option(HT_WITH_OGG TRUE BOOL "OGG/Vorbis support")
 
+if (NOT WINDOWS)
   # Enables retexturing support. Adds
   # a dependency to libjpeg
   ht_set_option(HT_WITH_RETEXTURE FALSE BOOL "Retexturing support")
@@ -169,14 +169,15 @@ endif()
 # SDL
 find_package (SDL REQUIRED)
 
+# OGG and Vorbis
+if (HT_WITH_OGG)
+  find_package (VORBIS REQUIRED)
+endif()
+
 # This features won't be present on Windows
 # until I find the right binaries for it
 if (NOT WINDOWS)
-  # OGG and Vorbis
-  if (HT_WITH_OGG)
-    find_package (VORBIS REQUIRED)
-  endif()
-
+ 
   # libjpeg
   if (HT_WITH_RETEXTURE)
     find_package (JPEG REQUIRED)
