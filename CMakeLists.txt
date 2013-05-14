@@ -135,7 +135,7 @@ else()
   set (SYSTEMDIR_DEFAULT /usr/share/games/quake2)
 endif()
 ht_set_option(HT_WITH_SYSTEMDIR "${SYSTEMDIR_DEFAULT}"
-    STRING "Location of system-wide game assets installation")
+    PATH "Location of system-wide game assets installation")
 
 # Architecture name string
 if (ARCH_32)
