@@ -1,13 +1,13 @@
 #
 # Hecatomb
-# A Quake II convolution  
-# Copyright (c) 2013, Alejandro Ricoveri
+# A Quake II Engine Extension
+# http://github.com/alericoveri/hecatomb
 #
-# CMake build script
-#
-
+# CMake build automation scripts
+# Author: Alejandro Ricoveri <alejandroricoveri@gmail.com>
 #
 # Refresher source files
+# --------------------------------
 #
 
 set (REF_DIR ${SRC_DIR}/refresh)
