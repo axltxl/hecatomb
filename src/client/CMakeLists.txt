@@ -1,7 +1,7 @@
 #
-# Yamagi Quake II
-# http://www.yamagi.org/quake2
-# http://github.com/yquake2
+# Hecatomb
+# A Quake II Engine Extension
+# http://github.com/alericoveri/hecatomb
 #
 # CMake build automation scripts
 # Author: Alejandro Ricoveri <alejandroricoveri@gmail.com>

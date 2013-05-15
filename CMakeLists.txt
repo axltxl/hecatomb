@@ -88,23 +88,21 @@ endif()
 # CD playback is supported by SDL.
 ht_set_option(HT_WITH_CDA TRUE BOOL "CD audio playback support")
 
-if (NOT WINDOWS)
-  # Enables OGG/Vorbis support. OGG/Vorbis files can be
-  # used as a substitute of CD audio playback. Adds
-  # dependencies to libogg, libvorbis and libvorbisfile.
-  # This features won't be present on Windows
-  # until I find the right binaries for it
-  ht_set_option(HT_WITH_OGG TRUE BOOL "OGG/Vorbis support")
+# Enables OGG/Vorbis support. OGG/Vorbis files can be
+# used as a substitute of CD audio playback. Adds
+# dependencies to libogg, libvorbis and libvorbisfile.
+# This features won't be present on Windows
+# until I find the right binaries for it
+ht_set_option(HT_WITH_OGG TRUE BOOL "OGG/Vorbis support")
 
-  # Enables retexturing support. Adds
-  # a dependency to libjpeg
-  ht_set_option(HT_WITH_RETEXTURE FALSE BOOL "Retexturing support")
+# Enables retexturing support. Adds
+# a dependency to libjpeg
+ht_set_option(HT_WITH_RETEXTURE FALSE BOOL "Retexturing support")
 
-  # Enables opening of ZIP files (also known as .pk3 packs).
-  # Adds a dependency to libz
-  ht_set_option(HT_WITH_ZIP FALSE BOOL
-    "ZIP files support (for opening .pk3 packs)")
-endif()
+# Enables opening of ZIP files (also known as .pk3 packs).
+# Adds a dependency to libz
+ht_set_option(HT_WITH_ZIP FALSE BOOL
+  "ZIP files support (for opening .pk3 packs)")
 
 # Enables the optional OpenAL sound system.
 # To use it your system needs libopenal.so.1
@@ -169,23 +167,19 @@ endif()
 # SDL
 find_package (SDL REQUIRED)
 
-# This features won't be present on Windows
-# until I find the right binaries for it
-if (NOT WINDOWS)
-  # OGG and Vorbis
-  if (HT_WITH_OGG)
-    find_package (VORBIS REQUIRED)
-  endif()
+# OGG and Vorbis
+if (HT_WITH_OGG)
+  find_package (VORBIS REQUIRED)
+endif()
 
-  # libjpeg
-  if (HT_WITH_RETEXTURE)
-    find_package (JPEG REQUIRED)
-  endif()
+# libjpeg
+if (HT_WITH_RETEXTURE)
+  find_package (JPEG REQUIRED)
+endif()
 
-  # zlib
-  if (HT_WITH_ZIP)
-    find_package (ZLIB REQUIRED)
-  endif()
+# zlib
+if (HT_WITH_ZIP)
+  find_package (ZLIB REQUIRED)
 endif()
 
 # Source files

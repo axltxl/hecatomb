@@ -119,7 +119,8 @@ endif()
 # Windows specific libraries
 if (WINDOWS)
   # Winsock and WinMM
-  list (APPEND LIBS ws2_32 winmm )
+  list (APPEND LIBS ws2_32 winmm)
+  list (APPEND CLIENT_LIBS -mwindows)
 endif()
 
 # Unix specific libraries
