@@ -94,7 +94,7 @@ endif()
 # for the background music and doesn't add any further
 # dependencies. It should work on all platforms where
 # CD playback is supported by SDL.
-ht_set_option(HT_WITH_CDA TRUE BOOL "CD audio playback support")
+ht_set_option(HT_WITH_CDA FALSE BOOL "CD audio playback support")
 
 # Enables OGG/Vorbis support. OGG/Vorbis files can be
 # used as a substitute of CD audio playback. Adds
