@@ -49,6 +49,14 @@ else()
   set (HT_CC_CFLAGS "${CMAKE_C_FLAGS} ${CMAKE_C_FLAGS_RELEASE}")
 endif()
 
+# All goodies are available on Windows
+if (WINDOWS)
+  set (HT_WITH_OGG TRUE)
+  set (HT_WITH_OPENAL TRUE)
+  set (HT_WITH_ZIP TRUE)
+  set (HT_WITH_RETEXTURE TRUE)
+endif()
+
 # let CMake know about our additional libraries paths (on Windows and OS X)
 # Thanks to SFML guys for this snippet
 set (EXTLIBS_BASE "${PROJECT_SOURCE_DIR}/extlibs")
