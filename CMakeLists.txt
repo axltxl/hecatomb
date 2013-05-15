@@ -175,6 +175,7 @@ endif()
 # libjpeg
 if (HT_WITH_RETEXTURE)
   find_package (JPEG REQUIRED)
+endif()
 
 # zlib
 if (HT_WITH_ZIP)
