@@ -255,7 +255,7 @@
    }
 
  #endif
-   Com_Printf ( "==== Yamagi Quake II Initialized ====\n\n" );
+   Com_Printf ( "==== %s Initialized ====\n\n", HT_DEV_NAME );
    Com_Printf ( "*************************************\n\n" );
  }
 
