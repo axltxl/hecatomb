@@ -26,6 +26,7 @@
  */
 
  #include "prereqs.h"
+ #include "filesystem.h"
  #include "common/glob.h"
 
  #ifdef HT_WITH_ZIP

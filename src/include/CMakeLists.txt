@@ -56,6 +56,7 @@ set (
 	${HEADER_DIR}/refresh/constants/warpsin.h
 	${HEADER_DIR}/server/server.h
 	${HEADER_DIR}/prereqs.h
+	${HEADER_DIR}/filesystem.h
 	${HEADER_DIR}/config.h
 
 	PARENT_SCOPE

@@ -25,6 +25,7 @@
  */
 
  #include "prereqs.h"
+ #include "filesystem.h"
  #include "common/zone.h"
 
  FILE *log_stats_file;

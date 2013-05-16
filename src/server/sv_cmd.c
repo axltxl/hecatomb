@@ -27,6 +27,7 @@
  */
 
  #include "prereqs.h"
+ #include "filesystem.h"
  #include "server/server.h"
 
  /*

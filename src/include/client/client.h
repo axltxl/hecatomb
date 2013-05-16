@@ -28,6 +28,7 @@
  #define CL_CLIENT_H
 
  #include "prereqs.h"
+ #include "filesystem.h"
  #include "client/ref.h"
  #include "client/vid.h"
  #include "client/screen.h"
