@@ -25,6 +25,7 @@
  */
 
  #include "prereqs.h"
+ #include "filesystem.h"
  #include "backend/unix/prereqs.h"
  #include "common/glob.h"
  #include "backend/generic/input.h"

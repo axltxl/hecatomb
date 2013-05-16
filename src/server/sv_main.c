@@ -25,6 +25,7 @@
  */
 
  #include "prereqs.h"
+ #include "filesystem.h"
  #include "server/server.h"
 
  #define HEARTBEAT_SECONDS 300

@@ -33,6 +33,7 @@
  */
 
  #include "prereqs.h"
+ #include "filesystem.h"
  #include "refresh/local.h"
  #include "backend/generic/glwindow.h"
 

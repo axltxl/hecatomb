@@ -26,6 +26,7 @@
  */
 
  #include "prereqs.h"
+ #include "filesystem.h"
 
  typedef struct {
    cplane_t  *plane;

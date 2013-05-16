@@ -25,6 +25,7 @@
  */
 
  #include "prereqs.h"
+ #include "filesystem.h"
  #include "refresh/local.h"
 
  #ifdef HT_WITH_RETEXTURE

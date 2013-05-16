@@ -27,6 +27,7 @@
  */
 
  #include "prereqs.h"
+ #include "filesystem.h"
 
  #define MAX_ALIAS_NAME 32
  #define ALIAS_LOOP_COUNT 16
