@@ -31,6 +31,7 @@
  */
 
  #include "prereqs.h"
+ #include "system.h"
  #include "client/sound/local.h"
  #include "backend/generic/qal.h"
 

@@ -724,22 +724,22 @@
  /* this is in the client code, but can be used for debugging from server */
  void SCR_DebugGraph ( float value, int color );
 
- /* NON-PORTABLE SYSTEM SERVICES */
-
- void Sys_Init ( void );
- void Sys_UnloadGame ( void );
- void *Sys_GetGameAPI ( void *parms );
-
- char *Sys_ConsoleInput ( void );
- void Sys_ConsoleOutput ( char *string );
- void Sys_SendKeyEvents ( void );
- void Sys_Error ( char *error, ... );
- void Sys_Quit ( void );
- char *Sys_GetHomeDir ( void );
-
- void Sys_FreeLibrary ( void *handle );
- void *Sys_LoadLibrary ( const char *path, const char *sym, void **handle );
- void *Sys_GetProcAddress ( void *handle, const char *sym );
+// /* NON-PORTABLE SYSTEM SERVICES */
+//
+// void Sys_Init ( void );
+// void Sys_UnloadGame ( void );
+// void *Sys_GetGameAPI ( void *parms );
+//
+// char *Sys_ConsoleInput ( void );
+// void Sys_ConsoleOutput ( char *string );
+// void Sys_SendKeyEvents ( void );
+// void Sys_Error ( char *error, ... );
+// void Sys_Quit ( void );
+// char *Sys_GetHomeDir ( void );
+//
+// void Sys_FreeLibrary ( void *handle );
+// void *Sys_LoadLibrary ( const char *path, const char *sym, void **handle );
+// void *Sys_GetProcAddress ( void *handle, const char *sym );
 
  /* CLIENT / SERVER SYSTEMS */
 
