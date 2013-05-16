@@ -523,6 +523,8 @@
  /*
   * Draws the console with the solid background
   */
+
+ #define VERMAX 48
  void
  Con_DrawConsole ( float frac )
  {
@@ -531,7 +533,7 @@
    char *text;
    int row;
    int lines;
-   char version[48];
+   char version[VERMAX];
    char dlbar[1024];
    char timebuf[48];
    char tmpbuf[48];
@@ -552,20 +554,22 @@
                      viddef.height, "conback" );
    SCR_AddDirtyPoint ( 0, 0 );
    SCR_AddDirtyPoint ( viddef.width - 1, lines - 1 );
-   Com_sprintf ( version, sizeof ( version ), "Yamagi Quake II v%s", VERSION );
 
-   for ( x = 0; x < 21; x++ ) {
-     Draw_Char ( viddef.width - 173 + x * 8, lines - 35, 128 + version[x] );
+   // Why is strlen(version) != VERMAX apparently?!
+   // This must go to the debugger!
+   Com_sprintf ( version, sizeof ( version ), "%s v%s", HT_PRODUCT_NAME, HT_VERSION );
+   for ( x = 0; x < VERMAX; x++ ) {
+     Draw_Char ( viddef.width + 8 * (x - strlen(version)), lines - 35, 128 + version[x] );
    }
 
-   t = time ( NULL );
+   /*t = time ( NULL );
    today = localtime ( &t );
    strftime ( timebuf, sizeof ( timebuf ), "%H:%M:%S - %m/%d/%Y", today );
    Com_sprintf ( tmpbuf, sizeof ( tmpbuf ), "%s", timebuf );
 
    for ( x = 0; x < 21; x++ ) {
      Draw_Char ( viddef.width - 173 + x * 8, lines - 25, 128 + tmpbuf[x] );
-   }
+   }*/
 
    /* draw the text */
    con.vislines = lines;
