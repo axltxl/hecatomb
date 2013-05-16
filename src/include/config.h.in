@@ -23,6 +23,17 @@
  #ifndef CONFIG_H
  #define CONFIG_H
 
+ /* Essential info */
+ #define HT_DEV_NAME "@PROJ_DEVNAME@"
+ #define HT_PRODUCT_NAME "@PROJ_PRODUCT_NAME@"
+ #define HT_VERSION "@VERSION@"
+ #define HT_VERSION_MAJOR @VERSION_MAJOR@
+ #define HT_VERSION_MINOR @VERSION_MINOR@
+ #define HT_VERSION_PATCH @VERSION_PATCH@
+ #define HT_URL "@PROJ_URL@"
+ #define HT_GIT_URL "@PROJ_GIT_URL@"
+ #define HT_EMAIL "@PROJ_EMAIL@"
+
  /* Build type */
  #cmakedefine HT_BUILD_DEBUG
  #cmakedefine HT_BUILD_RELEASE
@@ -100,6 +111,32 @@
 
  #ifdef HT_WITH_ZIP
  #  define NOUNCRYPT
+ #endif
+
+ /* Should have 4 characters. */
+ //#define VERSION "5.10"
+
+ #define BASEDIRNAME "baseq2"
+
+/* */
+ #define BUILDSTRING HT_OS_NAME
+ #define CPUSTRING HT_ARCH_NAME
+
+ /* Configuration directory for the current user */
+ #ifdef HT_OS_WINDOWS
+ #define CFGDIR "YamagiQ2"
+ #else
+ #define CFGDIR ".yq2"
+ #endif
+
+ #ifdef HT_OS_WINDOWS
+ #define LIBGL "opengl32.dll"
+ #elif defined HT_OS_OPENBSD
+ #define LIBGL "libGL.so"
+ #elif defined HT_OS_OSX
+ #define LIBGL "/System/Library/Frameworks/OpenGL.framework/OpenGL"
+ #else
+ #define LIBGL "libGL.so.1"
  #endif
 
  #endif /* CONFIG_H */

@@ -32,54 +32,6 @@
  #include "common/shared.h"
  #include "common/crc.h"
 
- /* Should have 4 characters. */
- #define VERSION "5.10"
-
- #define BASEDIRNAME "baseq2"
-
- #if defined __linux__
- #define BUILDSTRING "Linux"
- #elif defined __FreeBSD__
- #define BUILDSTRING "FreeBSD"
- #elif defined __OpenBSD__
- #define BUILDSTRING "OpenBSD"
- #elif defined _WIN32
- #define BUILDSTRING "Windows"
- #elif defined __APPLE__
- #define BUILDSTRING "MacOS X"
- #else
- #define BUILDSTRING "Unknown"
- #endif
-
- #ifdef __i386__
- #define CPUSTRING "i386"
- #elif defined __x86_64__
- #define CPUSTRING "amd64"
- #elif defined __sparc__
- #define CPUSTRING "sparc64"
- #elif defined __ia64__
- #define CPUSTRING "ia64"
- #else
- #define CPUSTRING "Unknown"
- #endif
-
- #ifdef _WIN32
- #define CFGDIR "YamagiQ2"
- #else
- #define CFGDIR ".yq2"
- #endif
-
- #ifdef _WIN32
- #define LIBGL "opengl32.dll"
- #elif defined __OpenBSD__
- #define LIBGL "libGL.so"
- #elif defined __APPLE__
- #define LIBGL "/System/Library/Frameworks/OpenGL.framework/OpenGL"
- #else
- #define LIBGL "libGL.so.1"
- #endif
-
-
  /* ================================================================== */
 
  typedef struct sizebuf_s {
