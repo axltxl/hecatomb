@@ -27,15 +27,13 @@
  #include "prereqs.h"
  #include "refresh/local.h"
 
+ // This shouldn't be like this!
  #ifdef HT_WITH_RETEXTURE
 
- #ifdef HT_OS_OSX
- # include <libjpeg/jpeglib.h>
- # include <libjpeg/jerror.h>
- #else
- # include <jpeglib.h>
- # include <jerror.h>
- #endif
+ // libjpeg (www.ijg.org) 
+ #include <jpeglib.h>
+ #include <jerror.h>
+
 
  void jpeg_memory_src ( j_decompress_ptr cinfo,
                         unsigned char *inbuffer,

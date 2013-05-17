@@ -176,6 +176,9 @@ endif()
 
 # libjpeg
 if (HT_WITH_RETEXTURE)
+  if (OSX)
+    set (JPEG_NAMES libjpeg)
+  endif()
   find_package (JPEG REQUIRED)
 endif()
 
