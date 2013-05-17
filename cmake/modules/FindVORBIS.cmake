@@ -32,7 +32,7 @@ FIND_LIBRARY(
 
 FIND_LIBRARY(
 	VORBIS_FILE_LIBRARY
-	NAMES vorbisfile
+	NAMES vorbisfile vorbis
 	HINTS "${VORBIS_ROOT}/lib"
 )
 

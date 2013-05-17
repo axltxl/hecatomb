@@ -60,8 +60,8 @@ else()
   set (HT_CC_CFLAGS "${CMAKE_C_FLAGS} ${CMAKE_C_FLAGS_RELEASE}")
 endif()
 
-# All goodies are available on Windows
-if (WINDOWS)
+# All goodies are available on Windows and OSX
+if (WINDOWS OR OSX)
   set (HT_WITH_OGG TRUE)
   set (HT_WITH_OPENAL TRUE)
   set (HT_WITH_ZIP TRUE)
@@ -187,6 +187,9 @@ endif()
 
 # libjpeg
 if (HT_WITH_RETEXTURE)
+  if (OSX)
+    set (JPEG_NAMES libjpeg)
+  endif()
   find_package (JPEG REQUIRED)
 endif()
 
