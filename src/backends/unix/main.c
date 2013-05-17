@@ -26,6 +26,7 @@
  */
 
  #include "prereqs.h"
+ #include "system.h"
  #include "backend/unix/prereqs.h"
  #include "backend/unix/unix.h"
 
@@ -33,6 +34,7 @@
  # include "backend/generic/sdl.h"
  #endif
 
+ /* ================================================================ */
  int
  main ( int argc, char **argv )
  {
@@ -61,7 +63,7 @@
 
    /* enforce C locale */
    setenv ( "LC_ALL", "C", 1 );
-   printf ( "\nYamagi Quake II v%s\n", VERSION );
+   printf ( "\n%s v%s\n", HT_PRODUCT_NAME, HT_VERSION );
    printf ( "=====================\n\n" );
  #ifndef DEDICATED_ONLY
    printf ( "Client build options:\n" );
@@ -86,8 +88,8 @@
    printf ( " - Zip file support\n" );
  #endif
  #endif
-   printf ( "Platform: %s\n", BUILDSTRING );
-   printf ( "Architecture: %s\n", CPUSTRING );
+   printf ( "Platform: %s\n", HT_OS_NAME );
+   printf ( "Architecture: %s\n", HT_ARCH_NAME );
 
    /* Seed PRNG */
    randk_seed();

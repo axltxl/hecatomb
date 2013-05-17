@@ -25,6 +25,8 @@
  */
 
  #include "prereqs.h"
+ #include "system.h"
+ #include "filesystem.h"
  #include "server/server.h"
 
  #define HEARTBEAT_SECONDS 300
@@ -179,6 +181,7 @@
    }
  }
 
+ /* ================================================================ */
  void
  SV_ReadPackets ( void )
  {
@@ -296,6 +299,7 @@
    }
  }
 
+ /* ================================================================ */
  void
  SV_RunGameFrame ( void )
  {

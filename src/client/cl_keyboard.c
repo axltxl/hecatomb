@@ -28,6 +28,7 @@
  */
 
  #include "prereqs.h"
+ #include "system.h"
  #include "client/client.h"
 
  static cvar_t *cfg_unbindall;

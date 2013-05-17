@@ -40,12 +40,7 @@
  #include <time.h>
  #include <locale.h>
  #include <errno.h>
-
- // Standard integer types
- #if HT_HAVE_STDINT_H
- # include <stdint.h>
- #else
- #endif
+ #include <stdint.h>
 
  // Common
  #include "common/common.h"

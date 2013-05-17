@@ -25,6 +25,8 @@
  */
 
  #include "prereqs.h"
+ #include "system.h"a
+ #include "filesystem.h"
  #include "backend/unix/prereqs.h"
  #include "common/glob.h"
  #include "backend/generic/input.h"
@@ -42,6 +44,7 @@
  qboolean stdin_active = true;
  extern FILE *logfile;
 
+ /* ========================================================================= */
  static qboolean
  CompareAttributes ( char *path, char *name, unsigned musthave, unsigned canthave )
  {
@@ -70,11 +73,13 @@
    return true;
  }
 
+ /* ========================================================================= */
  void
  Sys_Init ( void )
  {
  }
 
+ /* ========================================================================= */
  int
  Sys_Milliseconds ( void )
  {
@@ -92,12 +97,14 @@
    return curtime;
  }
 
+ /* ========================================================================= */
  void
  Sys_Mkdir ( char *path )
  {
    mkdir ( path, 0755 );
  }
 
+ /* ========================================================================= */
  char *
  Sys_GetCurrentDirectory ( void )
  {
@@ -110,6 +117,7 @@
    return dir;
  }
 
+ /* ========================================================================= */
  char *
  Sys_FindFirst ( char *path, unsigned musthave, unsigned canhave )
  {
@@ -149,6 +157,7 @@
    return NULL;
  }
 
+/* ========================================================================= */
  char *
  Sys_FindNext ( unsigned musthave, unsigned canhave )
  {
@@ -170,6 +179,7 @@
    return NULL;
  }
 
+ /* ========================================================================= */
  void
  Sys_FindClose ( void )
  {
@@ -180,12 +190,15 @@
    fdir = NULL;
  }
 
+ /* ========================================================================= */
  void
  Sys_ConsoleOutput ( char *string )
  {
    fputs ( string, stdout );
  }
 
+ /* ========================================================================= */
+  // I don't see this being actually used
  void
  Sys_Printf ( char *fmt, ... )
  {
@@ -207,6 +220,7 @@
    }
  }
 
+ /* ========================================================================= */
  void
  Sys_Quit ( void )
  {
@@ -225,6 +239,7 @@
    exit ( 0 );
  }
 
+ /* ========================================================================= */
  void
  Sys_Error ( char *error, ... )
  {
@@ -245,6 +260,7 @@
 
  /*
   * returns -1 if not present
+  * I don't see this being actually used
   */
  int
  Sys_FileTime ( char *path )
@@ -258,12 +274,15 @@
    return buf.st_mtime;
  }
 
+ /* ========================================================================= */
+ // I don't see this being actually used
  void
  floating_point_exception_handler ( int whatever )
  {
    signal ( SIGFPE, floating_point_exception_handler );
  }
 
+ /* ========================================================================= */
  char *
  Sys_ConsoleInput ( void )
  {
@@ -304,6 +323,7 @@
    return text;
  }
 
+ /* ========================================================================= */
  void
  Sys_UnloadGame ( void )
  {
@@ -314,9 +334,7 @@
    game_library = NULL;
  }
 
- /*
-  * Loads the game dll
-  */
+  /* ========================================================================= */
  void *
  Sys_GetGameAPI ( void *parms )
  {
@@ -325,7 +343,10 @@
    char name[MAX_OSPATH];
    char *path;
    char *str_p;
+
+   /** @todo this needs to be more dynamic */
    const char *gamename = "game.so";
+
    setreuid ( getuid(), getuid() );
    setegid ( getgid() );
 
@@ -384,6 +405,7 @@
    return GetGameAPI ( parms );
  }
 
+ /* ========================================================================= */
  void
  Sys_SendKeyEvents ( void )
  {
@@ -394,6 +416,7 @@
    sys_frame_time = Sys_Milliseconds();
  }
 
+ /* ========================================================================= */
  char *
  Sys_GetHomeDir ( void )
  {
@@ -409,12 +432,14 @@
    return gdir;
  }
 
+ /* ========================================================================= */
  void *
  Sys_GetProcAddress ( void *handle, const char *sym )
  {
    return dlsym ( handle, sym );
  }
 
+ /* ========================================================================= */
  void *
  Sys_LoadLibrary ( const char *path, const char *sym, void **handle )
  {
@@ -444,6 +469,7 @@
    return entry;
  }
 
+ /* ========================================================================= */
  void
  Sys_FreeLibrary ( void *handle )
  {

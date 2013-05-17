@@ -25,6 +25,7 @@
  */
 
  #include "prereqs.h"
+ #include "filesystem.h"
  #include "server/server.h"
 
  server_static_t svs; /* persistant server info */

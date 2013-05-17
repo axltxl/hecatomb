@@ -26,12 +26,14 @@
  */
 
  #include "prereqs.h"
+ #include "system.h"
+ #include "filesystem.h"
  #include "common/glob.h"
 
  #ifdef HT_WITH_ZIP
  # include "common/unzip/unzip.h"
  #endif
-
+ #define SFF_INPACK 0x20
  #define MAX_HANDLES 512
  #define MAX_READ 0x10000
  #define MAX_WRITE 0x10000
@@ -123,7 +125,7 @@
  cvar_t *fs_debug;
 
  fsHandle_t *FS_GetFileByHandle ( fileHandle_t f );
- char *Sys_GetCurrentDirectory ( void );
+ void FS_DPrintf ( const char *format, ... );
 
  /*
   * All of Quake's data access is through a hierchal file system, but the
@@ -168,6 +170,7 @@
    }
  }
 
+ /* ========================================================================= */
  int
  FS_FileLength ( FILE *f )
  {
@@ -180,9 +183,7 @@
    return end;
  }
 
- /*
-  * Creates any directories needed to store the given filename.
-  */
+ /* ========================================================================= */
  void
  FS_CreatePath ( char *path )
  {
@@ -209,6 +210,7 @@
    }
  }
 
+ /* ========================================================================= */
  void
  FS_DPrintf ( const char *format, ... )
  {
@@ -225,6 +227,7 @@
    Com_Printf ( "%s", msg );
  }
 
+ /* ========================================================================= */
  char *
  FS_Gamedir ( void )
  {
@@ -458,9 +461,7 @@
    return -1;
  }
 
- /*
-  * Other dll's can't just call fclose() on files returned by FS_FOpenFile.
-  */
+ /* ========================================================================= */
  void
  FS_FCloseFile ( fileHandle_t f )
  {
@@ -481,6 +482,7 @@
    memset ( handle, 0, sizeof ( *handle ) );
  }
 
+ /* ================================================================ */
  int
  Developer_searchpath ( int who )
  {
@@ -499,6 +501,7 @@
    return 0;
  }
 
+ /* ================================================================ */
  qboolean
  modType ( char *name )
  {
@@ -513,10 +516,7 @@
    return 0;
  }
 
- /*
-  * Finds the file in the search path. Returns filesize and an open FILE *. Used
-  * for streaming data out of either a pak file or a seperate file.
-  */
+ /* ========================================================================= */
  int
  FS_FOpenFile ( const char *name, fileHandle_t *f, fsMode_t mode )
  {
@@ -554,9 +554,7 @@
    return -1;
  }
 
- /*
-  * Properly handles partial reads.
-  */
+ /* ========================================================================= */
  int
  FS_Read ( void *buffer, int size, fileHandle_t f )
  {
@@ -608,10 +606,7 @@
    return size;
  }
 
- /*
-  * Properly handles partial reads of size up to count times. No error if it
-  * can't read.
-  */
+ /* ========================================================================= */
  int
  FS_FRead ( void *buffer, int size, int count, fileHandle_t f )
  {
@@ -919,6 +914,7 @@
    }
  }
 
+ /* ========================================================================= */
  void
  FS_DeleteFile ( const char *path )
  {
@@ -929,10 +925,7 @@
    }
  }
 
- /*
-  * Filename are reletive to the quake search path. A null buffer will just
-  * return the file length without loading.
-  */
+ /* ================================================================ */
  int
  FS_LoadFile ( char *path, void **buffer )
  {
@@ -962,6 +955,7 @@
    return size;
  }
 
+ /* ================================================================ */
  void
  FS_FreeFile ( void *buffer )
  {
@@ -1241,9 +1235,7 @@
  }
  #endif
 
- /*
-  * Allows enumerating all of the directories in the search path.
-  */
+ /* ================================================================ */
  char *
  FS_NextPath ( char *prevPath )
  {
@@ -1271,6 +1263,7 @@
    return NULL;
  }
 
+ /* ================================================================ */
  void
  FS_Path_f ( void )
  {
@@ -1315,6 +1308,7 @@
  #endif
  }
 
+ /* ================================================================ */
  void
  FS_Startup ( void )
  {
@@ -1383,6 +1377,7 @@
    FS_Path_f();
  }
 
+ /* ================================================================ */
  void
  FS_ExecAutoexec ( void )
  {
@@ -1405,9 +1400,7 @@
    Sys_FindClose();
  }
 
- /*
-  * Sets the gamedir and path to a different directory.
-  */
+ /* ================================================================ */
  void
  FS_SetGamedir ( char *dir )
  {
@@ -1524,9 +1517,7 @@
    l->to = CopyString ( Cmd_Argv ( 2 ) );
  }
 
- /*
-  * Create a list of files that match a criteria.
-  */
+ /* ========================================================================= */
  char **
  FS_ListFiles ( char *findname, int *numfiles,
                 unsigned musthave, unsigned canthave )
@@ -1627,11 +1618,7 @@
    return retval;
  }
 
- /*
-  * Create a list of files that match a criteria.
-  * Searchs are relative to the game directory and use all the search paths
-  * including .pak and .pk3 files.
-  */
+ /* ========================================================================= */
  char **
  FS_ListFiles2 ( char *findname, int *numfiles,
                  unsigned musthave, unsigned canthave )
@@ -1740,9 +1727,7 @@
    return list;
  }
 
- /*
-  * Free list of files created by FS_ListFiles().
-  */
+ /* ========================================================================= */
  void
  FS_FreeList ( char **list, int nfiles )
  {
@@ -1795,6 +1780,7 @@
    }
  }
 
+/* ========================================================================= */
  void
  FS_InitFilesystem ( void )
  {
@@ -1842,6 +1828,7 @@
    Com_Printf ( "Using '%s' for writing.\n", fs_gamedir );
  }
 
+ /* ========================================================================= */
  void
  FS_Shutdown ( void )
  {

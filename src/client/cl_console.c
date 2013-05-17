@@ -523,6 +523,9 @@
  /*
   * Draws the console with the solid background
   */
+
+ #define VERMAX 48
+ #define URLMAX 128
  void
  Con_DrawConsole ( float frac )
  {
@@ -530,14 +533,10 @@
    int rows;
    char *text;
    int row;
-   int lines;
-   char version[48];
+   int lines = viddef.height * frac;
+   char version[VERMAX]; // Version info goes in here
+   char url [URLMAX]; // Project URL info goes in here
    char dlbar[1024];
-   char timebuf[48];
-   char tmpbuf[48];
-   time_t t;
-   struct tm *today;
-   lines = viddef.height * frac;
 
    if ( lines <= 0 ) {
      return;
@@ -552,20 +551,29 @@
                      viddef.height, "conback" );
    SCR_AddDirtyPoint ( 0, 0 );
    SCR_AddDirtyPoint ( viddef.width - 1, lines - 1 );
-   Com_sprintf ( version, sizeof ( version ), "Yamagi Quake II v%s", VERSION );
 
-   for ( x = 0; x < 21; x++ ) {
-     Draw_Char ( viddef.width - 173 + x * 8, lines - 35, 128 + version[x] );
-   }
+   /* Draw version info */
+   //n = strlen (version); // n is used here for 'version' length
+   y = lines - 35; // y is used here for y-offset before printing version info
+   Com_sprintf ( version, sizeof ( version ), "%s v%s", HT_PRODUCT_NAME, HT_VERSION );
+   for ( x = 0; x < VERMAX; x++ )
+     Draw_Char ( viddef.width + 8 * (x - strlen(version)), y, 128 + version[x] );
 
-   t = time ( NULL );
+   /* Draw URL info */
+   //n = strlen (url); // n is used here for 'url' length
+   y = lines - 25; // y is used here for y-offset before printing url info
+   Com_sprintf ( url, sizeof ( url ), "%s", HT_URL );
+   for ( x = 0; x < URLMAX; x++ )
+     Draw_Char ( viddef.width + 8 * (x - strlen(url)), y, 128 + url[x] );
+
+   /*t = time ( NULL );
    today = localtime ( &t );
    strftime ( timebuf, sizeof ( timebuf ), "%H:%M:%S - %m/%d/%Y", today );
    Com_sprintf ( tmpbuf, sizeof ( tmpbuf ), "%s", timebuf );
 
    for ( x = 0; x < 21; x++ ) {
      Draw_Char ( viddef.width - 173 + x * 8, lines - 25, 128 + tmpbuf[x] );
-   }
+   }*/
 
    /* draw the text */
    con.vislines = lines;

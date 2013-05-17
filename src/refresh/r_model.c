@@ -25,6 +25,7 @@
  */
 
  #include "prereqs.h"
+ #include "filesystem.h"
  #include "refresh/local.h"
 
  #define MAX_MOD_KNOWN 512

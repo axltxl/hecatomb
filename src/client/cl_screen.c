@@ -26,6 +26,7 @@
  */
 
  #include "prereqs.h"
+ #include "system.h"
  #include "client/client.h"
 
  float scr_con_current; /* aproaches scr_conlines at scr_conspeed */

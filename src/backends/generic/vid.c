@@ -36,6 +36,7 @@
  */
 
 #include "prereqs.h"
+#include "system.h"
 #include "client/client.h"
 #include "backend/generic/input.h"
 

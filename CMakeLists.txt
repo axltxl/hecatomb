@@ -32,6 +32,17 @@ set (PROJ_NAME "hecatomb")
 # set project name
 project (${PROJ_NAME})
 
+# Essential info
+set (PROJ_DEVNAME "hecatomb")
+set (PROJ_URL "http://github.com/alericoveri/hecatomb")
+set (PROJ_GIT_URL "git://github.com/alericoveri/hecatomb.git")
+set (PROJ_PRODUCT_NAME "Hecatomb Quake II")
+set (PROJ_EMAIL "alejandroricoveri@gmail.com")
+set (VERSION_MAJOR 1)
+set (VERSION_MINOR 0)
+set (VERSION_PATCH 0)
+set (VERSION "${VERSION_MAJOR}.${VERSION_MINOR}${VERSION_PATCH}")
+
 # Helpful modules are here
 set (CMAKE_GOODIES_PATH ${CMAKE_SOURCE_DIR}/cmake)
 set (CMAKE_MODULE_PATH "${CMAKE_GOODIES_PATH}/modules" ${CMAKE_MODULE_PATH})

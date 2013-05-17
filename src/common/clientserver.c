@@ -25,6 +25,8 @@
  */
 
  #include "prereqs.h"
+ #include "system.h"
+ #include "filesystem.h"
 
  #define MAXPRINTMSG 4096
 

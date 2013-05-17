@@ -25,6 +25,8 @@
  */
 
  #include "prereqs.h"
+ #include "system.h"
+ #include "filesystem.h"
  #include "common/zone.h"
 
  FILE *log_stats_file;
@@ -220,7 +222,7 @@
  #else
    dedicated = Cvar_Get ( "dedicated", "0", CVAR_NOSET );
  #endif
-   s = va ( "%s %s %s %s", VERSION, CPUSTRING, __DATE__, BUILDSTRING );
+   s = va ( "%s %s %s %s", HT_VERSION, HT_ARCH_NAME, __DATE__, HT_OS_NAME );
    Cvar_Get ( "version", s, CVAR_SERVERINFO | CVAR_NOSET );
 
    if ( dedicated->value ) {
@@ -255,7 +257,7 @@
    }
 
  #endif
-   Com_Printf ( "==== Yamagi Quake II Initialized ====\n\n" );
+   Com_Printf ( "==== %s Initialized ====\n\n", HT_DEV_NAME );
    Com_Printf ( "*************************************\n\n" );
  }
 
