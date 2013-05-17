@@ -11,8 +11,8 @@
 #
 
 # Define sources and executable
-set (CLIENT_EXEC "ht")
-set (SERVER_EXEC "htded")
+set (CLIENT_EXEC "htq2")
+set (SERVER_EXEC "htq2d")
 
 #
 # Definitions

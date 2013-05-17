@@ -1,5 +1,4 @@
-/bin/*/ht
-/bin/*/htded
+/bin/*/ht*
 /build
 src/include/config.h
 bin/*/baseq2
