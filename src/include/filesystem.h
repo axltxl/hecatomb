@@ -30,68 +30,136 @@
 
  #include "prereqs.h"
 
- #define SFF_INPACK 0x20
-
- extern int file_from_pak;
-
+/**
+ * A handle to a file
+ */
  typedef int fileHandle_t;
 
+/**
+ * File access mode
+ */
  typedef enum {
    FS_READ,
    FS_WRITE,
    FS_APPEND
  } fsMode_t;
 
+/**
+ *
+ */
  typedef enum {
    FS_SEEK_CUR,
    FS_SEEK_SET,
    FS_SEEK_END
  } fsOrigin_t;
 
+/**
+ * Search criteria
+ */
  typedef enum {
    FS_SEARCH_PATH_EXTENSION,
    FS_SEARCH_BY_FILTER,
    FS_SEARCH_FULL_PATH
  } fsSearchType_t;
 
+/**
+ * Boot up the filesystem
+ */
  void FS_Startup ( void );
+
+ /**
+  * Shut down the filesystem
+  */
  void FS_Shutdown ( void );
- void FS_DPrintf ( const char *format, ... );
- FILE *FS_FileForHandle ( fileHandle_t f );
+
+ /**
+  * Finds the file in the search path. Returns filesize and an open FILE *. Used
+  * for streaming data out of either a pak file or a separate file.
+  */
  int FS_FOpenFile ( const char *name, fileHandle_t *f, fsMode_t mode );
+
+ /**
+  * Other dll's can't just call fclose() on files returned by FS_FOpenFile.
+  */
  void FS_FCloseFile ( fileHandle_t f );
+
+ /**
+  * Read a chunk of data from a file
+  */
  int FS_Read ( void *buffer, int size, fileHandle_t f );
+
+ /**
+  * Read a chunk of data from a file.
+  * Properly handles partial reads of size up to count times. No error if it
+  * can't read.
+  */
  int FS_FRead ( void *buffer, int size, int count, fileHandle_t f );
- int FS_Write ( const void *buffer, int size, fileHandle_t f );
- void FS_Seek ( fileHandle_t f, int offset, fsOrigin_t origin );
- int FS_FTell ( fileHandle_t f );
- int FS_Tell ( fileHandle_t f );
- qboolean FS_FileExists ( char *path );
- void FS_CopyFile ( const char *srcPath, const char *dstPath );
- void FS_RenameFile ( const char *oldPath, const char *newPath );
+
+ /**
+  * Delete a file
+  */
  void FS_DeleteFile ( const char *path );
- int FS_GetFileList ( const char *path, const char *extension,
-                      char *buffer, int size, fsSearchType_t searchType );
- char **FS_ListPak ( char *find, int *num );
+
+ /**
+  * Create a list of files that match a criteria.
+  */
  char **FS_ListFiles ( char *findname, int *numfiles,
                        unsigned musthave, unsigned canthave );
+
+
+ /**
+  * Create a list of files that match a criteria.
+  * Searchs are relative to the game directory and use all the search paths
+  * including .pak and .pk3 files.
+  */
  char **FS_ListFiles2 ( char *findname, int *numfiles,
                         unsigned musthave, unsigned canthave );
+
+ /**
+  * Free list of files created by FS_ListFiles().
+  */
  void FS_FreeList ( char **list, int nfiles );
 
+ /**
+  * Setup the filesystem cvars and initial (game) directory
+  */
  void FS_InitFilesystem ( void );
+
+ /**
+  * Sets the gamedir and path to a different directory.
+  */
  void FS_SetGamedir ( char *dir );
+
+ /**
+  * Get game directory
+  */
  char *FS_Gamedir ( void );
+
+ /**
+  * Allows enumerating all of the directories in the search path.
+  */
  char *FS_NextPath ( char *prevpath );
+
+ /**
+  * Execute autoexec.cfg
+  */
  void FS_ExecAutoexec ( void );
+
+ /**
+  * Filename are relative to the quake search path. A null buffer will just
+  * return the file length without loading. It returns -1 if file doesn't exists.
+  */
  int FS_LoadFile ( char *path, void **buffer );
 
- /* a null buffer will just return the file length without loading */
- /* a -1 length is not present */
 
- /* properly handles partial reads */
-
+ /**
+  * Free buffer created from file
+  */
  void FS_FreeFile ( void *buffer );
+
+ /**
+  * Creates any directories needed to store the given filename.
+  */
  void FS_CreatePath ( char *path );
 
  #endif /* FS_H */
