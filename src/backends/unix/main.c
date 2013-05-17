@@ -26,6 +26,7 @@
  */
 
  #include "prereqs.h"
+ #include "system.h"
  #include "backend/unix/prereqs.h"
  #include "backend/unix/unix.h"
 
@@ -33,6 +34,7 @@
  # include "backend/generic/sdl.h"
  #endif
 
+ /* ================================================================ */
  int
  main ( int argc, char **argv )
  {

@@ -25,6 +25,7 @@
  */
 
  #include "prereqs.h"
+ #include "system.h"
  #include "filesystem.h"
  #include "server/server.h"
 
@@ -180,6 +181,7 @@
    }
  }
 
+ /* ================================================================ */
  void
  SV_ReadPackets ( void )
  {
@@ -297,6 +299,7 @@
    }
  }
 
+ /* ================================================================ */
  void
  SV_RunGameFrame ( void )
  {

@@ -25,6 +25,7 @@
  */
 
  #include "prereqs.h"
+ #include "system.h"
  #include "client/client.h"
 
  void CL_DownloadFileName ( char *dest, int destlen, char *fn );

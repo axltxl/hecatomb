@@ -25,6 +25,7 @@
  */
 
  #include "prereqs.h"
+ #include "system.h"
 
  /*
   * packet header

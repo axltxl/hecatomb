@@ -25,6 +25,7 @@
  */
 
  #include "prereqs.h"
+ #include "system.h"
  #include "server/server.h"
 
  #ifndef DEDICATED_ONLY
