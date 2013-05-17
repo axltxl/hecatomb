@@ -1,4 +1,5 @@
 /*
+ * Copyright (C) 2013 Alejandro Ricoveri
  * Copyright (C) 1997-2001 Id Software, Inc.
  *
  * This program is free software; you can redistribute it and/or modify
@@ -29,21 +30,94 @@
 
  #include "prereqs.h"
 
-/* NON-PORTABLE SYSTEM SERVICES */
-
+ /**
+  * Boot up system implementation
+  */
  void Sys_Init ( void );
- void Sys_UnloadGame ( void );
+
+  /**
+   * Loads the game dll
+   */
  void *Sys_GetGameAPI ( void *parms );
 
+ /**
+  * Unloads game DLL
+  */
+ void Sys_UnloadGame ( void );
+
+ /**
+  * Read from (not necessarily) stdin
+  */
  char *Sys_ConsoleInput ( void );
+
+ /**
+  * Print to (not necessarily) stdout
+  */
  void Sys_ConsoleOutput ( char *string );
+
+ /**
+  * Grab input from backend (this is the main capture function called each frame)
+  */
  void Sys_SendKeyEvents ( void );
+
+ /**
+  * Print some error
+  */
  void Sys_Error ( char *error, ... );
+
+ /**
+  * Shut down the whole thing
+  */
  void Sys_Quit ( void );
+
+ /**
+  * Get user home directory (e.g. /home/alericoveri on unix systems)
+  */
  char *Sys_GetHomeDir ( void );
 
- void Sys_FreeLibrary ( void *handle );
+ /**
+  * Load a dynamic library (e.g. dlopen on unix systems)
+  */
  void *Sys_LoadLibrary ( const char *path, const char *sym, void **handle );
+
+  /**
+   * Release a dynamic library
+   */
+ void Sys_FreeLibrary ( void *handle );
+
+ /**
+  * Get a pointer to a dynamic library function
+  */
  void *Sys_GetProcAddress ( void *handle, const char *sym );
+
+ /**
+  * pass in an attribute mask of things you wish to REJECT
+  */
+ char *Sys_FindFirst ( char *path, unsigned musthave, unsigned canthave );
+
+ /**
+  *
+  */
+ char *Sys_FindNext ( unsigned musthave, unsigned canthave );
+
+ /**
+  *
+  */
+ void Sys_FindClose ( void );
+
+ /**
+  * Get time (in milliseconds) since last frame
+  */
+ int Sys_Milliseconds ( void );
+
+ /**
+  * Create a directory
+  */
+ void Sys_Mkdir ( char *path );
+
+ /**
+  * Get current working directory
+  */
+ char *Sys_GetCurrentDirectory ( void );
 
  #endif /* SYSTEM_H */

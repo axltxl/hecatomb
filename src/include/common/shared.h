@@ -257,8 +257,6 @@
 
  extern int curtime; /* time returned by last Sys_Milliseconds */
 
- int Sys_Milliseconds ( void );
- void Sys_Mkdir ( char *path );
  char *strlwr ( char *s );
 
  /* large block stack allocation routines */
@@ -274,14 +272,8 @@
  #define SFF_SUBDIR 0x08
  #define SFF_SYSTEM 0x10
 
- /* pass in an attribute mask of things you wish to REJECT */
- char *Sys_FindFirst ( char *path, unsigned musthave, unsigned canthave );
- char *Sys_FindNext ( unsigned musthave, unsigned canthave );
- void Sys_FindClose ( void );
-
  /* this is only here so the functions in shared source files can link */
- void Sys_Error ( char *error, ... );
- void Com_Printf ( char *msg, ... );
+  void Com_Printf ( char *msg, ... );
 
  /*
   * ==========================================================

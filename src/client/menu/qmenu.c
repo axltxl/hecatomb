@@ -25,6 +25,7 @@
  */
 
  #include "prereqs.h"
+ #include "system.h"
  #include "client/client.h"
  #include "client/menu/qmenu.h"
 

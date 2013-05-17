@@ -25,6 +25,7 @@
  */
 
  #include "prereqs.h"
+ #include "system.h"
  #include "refresh/local.h"
 
  byte dottexture[8][8] = {
@@ -46,6 +47,7 @@
    unsigned char pixel_size, attributes;
  } TargaHeader;
 
+ /* ================================================================ */
  void
  R_InitParticleTexture ( void )
  {
@@ -79,6 +81,7 @@
                              8, 0, 8, 0, it_wall, 32 );
  }
 
+ /* ================================================================ */
  void
  R_ScreenShot ( void )
  {

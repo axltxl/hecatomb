@@ -26,6 +26,7 @@
  */
 
  #include "prereqs.h"
+ #include "system.h"
  #include "backend/generic/input.h"
  #include "backend/windows/resource.h"
  #include "backend/windows/winquake.h"
@@ -57,7 +58,6 @@
  char *argv[MAX_NUM_ARGVS];
 
  /* ================================================================ */
-
  void
  Sys_Error ( char *error, ... )
  {
@@ -93,6 +93,7 @@
    exit ( 1 );
  }
 
+ /* ================================================================ */
  void
  Sys_Quit ( void )
  {
@@ -118,6 +119,7 @@
    exit ( 0 );
  }
 
+ /* ================================================================ */
  void
  WinError ( void )
  {
@@ -135,7 +137,6 @@
  }
 
  /* ================================================================ */
-
  void
  Sys_Init ( void )
  {
@@ -167,6 +168,7 @@
    }
  }
 
+ /* ================================================================ */
  char *
  Sys_ConsoleInput ( void )
  {
@@ -239,6 +241,7 @@
    return NULL;
  }
 
+ /* ================================================================ */
  void
  Sys_ConsoleOutput ( char *string )
  {
@@ -264,6 +267,7 @@
    }
  }
 
+ /* ================================================================ */
  void
  Sys_SendKeyEvents ( void )
  {
@@ -276,7 +280,6 @@
  }
 
  /* ================================================================ */
-
  void
  Sys_UnloadGame ( void )
  {
@@ -287,6 +290,7 @@
    game_library = NULL;
  }
 
+ /* ================================================================ */
  void *
  Sys_GetGameAPI ( void *parms )
  {
@@ -338,7 +342,6 @@
  }
 
  /* ======================================================================= */
-
  void
  ParseCommandLine ( LPSTR lpCmdLine )
  {
@@ -367,7 +370,6 @@
  }
 
  /* ======================================================================= */
-
  int
  Sys_Milliseconds ( void )
  {
@@ -386,7 +388,6 @@
  }
 
  /* ======================================================================= */
-
  static qboolean
  CompareAttributes ( unsigned found, unsigned musthave, unsigned canthave )
  {
@@ -433,6 +434,7 @@
    return true;
  }
 
+ /* ================================================================ */
  char *
  Sys_FindFirst ( char *path, unsigned musthave, unsigned canthave )
  {
@@ -459,6 +461,7 @@
    return findpath;
  }
 
+ /* ================================================================ */
  char *
  Sys_FindNext ( unsigned musthave, unsigned canthave )
  {
@@ -480,6 +483,7 @@
    return findpath;
  }
 
+ /* ================================================================ */
  void
  Sys_FindClose ( void )
  {
@@ -490,12 +494,14 @@
    findhandle = 0;
  }
 
+ /* ================================================================ */
  void
  Sys_Mkdir ( char *path )
  {
    _mkdir ( path );
  }
 
+ /* ================================================================ */
  char *
  Sys_GetCurrentDirectory ( void )
  {
@@ -508,6 +514,7 @@
    return dir;
  }
 
+ /* ================================================================ */
  char *
  Sys_GetHomeDir ( void )
  {
@@ -569,6 +576,7 @@
    return gdir;
  }
 
+ /* ================================================================ */
  void
  Sys_RedirectStdout ( void )
  {
@@ -634,7 +642,7 @@
    Sys_RedirectStdout();
  #endif
 
-   printf ( "Yamagi Quake II v%s\n", VERSION );
+   printf ( "%s v%s\n", HT_PRODUCT_NAME, HT_VERSION );
    printf ( "=====================\n\n" );
 
  #ifndef DEDICATED_ONLY
@@ -708,6 +716,7 @@
    return TRUE;
  }
 
+ /* ================================================================ */
  void
  Sys_FreeLibrary ( void *handle )
  {
@@ -720,6 +729,7 @@
    }
  }
 
+ /* ================================================================ */
  void *
  Sys_LoadLibrary ( const char *path, const char *sym, void **handle )
  {
@@ -756,6 +766,7 @@
    return entry;
  }
 
+ /* ================================================================ */
  void *
  Sys_GetProcAddress ( void *handle, const char *sym )
  {

@@ -124,7 +124,6 @@
  cvar_t *fs_debug;
 
  fsHandle_t *FS_GetFileByHandle ( fileHandle_t f );
- char *Sys_GetCurrentDirectory ( void );
 
  /*
   * All of Quake's data access is through a hierchal file system, but the

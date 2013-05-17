@@ -25,6 +25,7 @@
  */
 
  #include "prereqs.h"
+ #include "system.h"
  #include "server/server.h"
 
  void CM_ReadPortalState ( fileHandle_t f );
