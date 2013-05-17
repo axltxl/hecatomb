@@ -78,8 +78,10 @@ if (WINDOWS)
     endif()
   endif()
 elseif (OSX)
-  set (CMAKE_INCLUDE_PATH ${CMAKE_INCLUDE_PATH} "${EXTLIBS_HEADERS}")
-  set (CMAKE_LIBRARY_PATH ${CMAKE_LIBRARY_PATH} "${EXTLIBS_LIBS_OSX}/osx")
+  # default to searching for frameworks first
+  set (CMAKE_FIND_FRAMEWORK FIRST)
+  # set up the default search directories for frameworks
+  set (CMAKE_SYSTEM_FRAMEWORK_PATH "${EXTLIBS_LIBS}/osx" ${CMAKE_SYSTEM_FRAMEWORK_PATH})
 endif()
 
 # Enables CD audio playback. CD audio playback is used
