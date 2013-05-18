@@ -49,6 +49,10 @@
    printf ( "cc = %s-%d.%d.%d\n", HT_CC_ID, HT_CC_VERSION_MAJOR,
                                   HT_CC_VERSION_MINOR, HT_CC_VERSION_PATCH );
    printf ( "signal = %i\n", sig );
+#ifdef HT_WITH_GIT
+   printf ("git refspec = %s\n", HT_GIT_REFSPEC);
+   printf ("git hash = %s\n", HT_GIT_SHA1);
+#endif
    printf ( "\nBacktrace:\n" );
  #if HT_HAVE_EXECINFO
    for ( i = 0; i < size; i++ ) {

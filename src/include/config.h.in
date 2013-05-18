@@ -141,10 +141,10 @@
     + HT_CXX_VERSION_MINOR * 100 + HT_CXX_VERSION_PATCH * 10)
  #define HT_CXX_CFLAGS "@HT_CXX_CFLAGS@"
 
- /* git-related information (for future use) */
+ /* git-related information */
  #cmakedefine HT_WITH_GIT
- #cmakedefine HT_GIT_COMMIT "@HT_GIT_COMMIT@"
- #cmakedefine HT_GIT_BRANCH "@HT_GIT_BRANCH@"
+ #define HT_GIT_REFSPEC "@GIT_REFSPEC@"
+ #define HT_GIT_SHA1 "@GIT_SHA1@"
 
  /* Byte order */
  #cmakedefine HT_ENDIAN_BIG
