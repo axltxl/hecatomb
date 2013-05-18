@@ -555,7 +555,7 @@
 
    /* Draw version info */
    y = lines - 35; // y is used here for y-offset before printing version info
-   Com_sprintf ( version, sizeof ( version ), "%s v%s [%s - %s]",
+   Com_sprintf ( version, sizeof ( version ), "%s v%s [%s - %s] ",
     HT_DEV_NAME, HT_VERSION, HT_OS_NAME, HT_ARCH_NAME );
    if (!info_ver_length)
     info_ver_length = strlen ( version );
