@@ -34,7 +34,7 @@ project (${PROJ_NAME})
 
 # Essential info
 set (PROJ_DEVNAME "hecatomb")
-set (PROJ_URL "http://github.com/alericoveri/hecatomb")
+set (PROJ_URL "github.com/alericoveri/hecatomb")
 set (PROJ_GIT_URL "git://github.com/alericoveri/hecatomb.git")
 set (PROJ_PRODUCT_NAME "Hecatomb Quake II")
 set (PROJ_EMAIL "alejandroricoveri@gmail.com")
