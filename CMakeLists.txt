@@ -164,6 +164,13 @@ elseif (COMPILER_CLANG)
     set (HT_CC_CLANG 1)
 endif()
 
+# Git related information
+include(GetGitRevisionDescription)
+get_git_head_revision(GIT_REFSPEC GIT_SHA1)
+if (NOT ${GIT_SHA1} STREQUAL "GITDIR-NOTFOUND")
+  set (HT_WITH_GIT 1) # This is not a git repo based copy
+endif()
+
 # X11 libraries
 if (HT_WITH_X11GAMMA)
   find_package (X11 REQUIRED)
