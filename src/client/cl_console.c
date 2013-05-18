@@ -524,8 +524,8 @@
   * Draws the console with the solid background
   */
 
- #define VERMAX 48
- #define URLMAX 128
+ #define MAX_VER 128
+ #define MAX_URL 128
  void
  Con_DrawConsole ( float frac )
  {
@@ -534,8 +534,9 @@
    char *text;
    int row;
    int lines = viddef.height * frac;
-   char version[VERMAX]; // Version info goes in here
-   char url [URLMAX]; // Project URL info goes in here
+   char version[MAX_VER]; // Version info goes in here
+   static uint8_t info_ver_length, info_url_length = 0;
+   char url [MAX_URL]; // Project URL info goes in here
    char dlbar[1024];
 
    if ( lines <= 0 ) {
@@ -553,27 +554,23 @@
    SCR_AddDirtyPoint ( viddef.width - 1, lines - 1 );
 
    /* Draw version info */
-   //n = strlen (version); // n is used here for 'version' length
    y = lines - 35; // y is used here for y-offset before printing version info
-   Com_sprintf ( version, sizeof ( version ), "%s v%s", HT_PRODUCT_NAME, HT_VERSION );
-   for ( x = 0; x < VERMAX; x++ )
-     Draw_Char ( viddef.width + 8 * (x - strlen(version)), y, 128 + version[x] );
+   Com_sprintf ( version, sizeof ( version ), "%s v%s [%s - %s]",
+    HT_DEV_NAME, HT_VERSION, HT_OS_NAME, HT_ARCH_NAME );
+   if (!info_ver_length)
+    info_ver_length = strlen ( version );
+   for ( x = 0; x < MAX_VER; x++ ) {
+     Draw_Char ( viddef.width + 8 * (x - info_ver_length), y, 128 + version[x] );
+   }
 
    /* Draw URL info */
-   //n = strlen (url); // n is used here for 'url' length
    y = lines - 25; // y is used here for y-offset before printing url info
-   Com_sprintf ( url, sizeof ( url ), "%s", HT_URL );
-   for ( x = 0; x < URLMAX; x++ )
-     Draw_Char ( viddef.width + 8 * (x - strlen(url)), y, 128 + url[x] );
-
-   /*t = time ( NULL );
-   today = localtime ( &t );
-   strftime ( timebuf, sizeof ( timebuf ), "%H:%M:%S - %m/%d/%Y", today );
-   Com_sprintf ( tmpbuf, sizeof ( tmpbuf ), "%s", timebuf );
-
-   for ( x = 0; x < 21; x++ ) {
-     Draw_Char ( viddef.width - 173 + x * 8, lines - 25, 128 + tmpbuf[x] );
-   }*/
+   Com_sprintf ( url, sizeof ( url ), "%s ", HT_URL );
+   if (!info_url_length)
+    info_url_length = strlen ( url );
+   for ( x = 0; x < MAX_URL; x++ ) {
+     Draw_Char ( viddef.width + 8 * (x - info_url_length), y, 128 + url[x] );
+   }
 
    /* draw the text */
    con.vislines = lines;
@@ -582,6 +579,7 @@
 
    /* draw from the bottom up */
    if ( con.display != con.current ) {
+
      /* draw arrows to show the buffer is backscrolled */
      for ( x = 0; x < con.linewidth; x += 4 ) {
        Draw_Char ( ( x + 1 ) << 3, y, '^' );
