@@ -1,5 +1,5 @@
 #Hecatomb
-A Quake II Extension  
+A portable Quake II client  
 
 [![Build Status](https://drone.io/github.com/alericoveri/hecatomb/status.png)](https://drone.io/github.com/alericoveri/hecatomb/latest)
 
