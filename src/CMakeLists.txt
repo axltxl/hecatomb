@@ -10,12 +10,16 @@
 # --------------------------------
 #
 
+#
 # Define sources and executable
+# ---------------------
+
 set (CLIENT_EXEC "htq2")
 set (SERVER_EXEC "htq2d")
 
 #
 # Definitions
+# ---------------------
 #
 
 # Windows
@@ -65,7 +69,9 @@ endif()
 
 #
 # Client-specific
+# ---------------------
 #
+
 # Include directories
 set (INCLUDE_DIRS ${SRC_DIR}/include) # for future use
 list (APPEND INCLUDE_DIRS ${SDL_INCLUDE_DIR})    # libSDL
@@ -150,6 +156,7 @@ endif()
 
 #
 # Platform-specific backends
+# ---------------------
 #
 add_subdirectory (backends)
 
@@ -184,3 +191,10 @@ target_link_libraries(client ${LIBS} ${CLIENT_LIBS})
 # Set output directory
 set_target_properties (client server
     PROPERTIES RUNTIME_OUTPUT_DIRECTORY ${OUTPUT_DIR})
+
+# Install
+# ---------------------
+#
+if ( NOT WINDOWS )
+  install (TARGETS client server RUNTIME DESTINATION bin)
+endif()
