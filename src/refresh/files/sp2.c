@@ -25,6 +25,7 @@
  */
 
  #include "prereqs.h"
+ #include "memory.h"
  #include "refresh/local.h"
 
  extern int modfilelen;

@@ -72,9 +72,9 @@
  Hunk_End ( void )
  {
    byte *n = NULL;
- #if defined(__linux__)
+ #ifdef HT_OS_LINUX
    n = ( byte * ) mremap ( membase, maxhunksize, curhunksize + sizeof ( int ), 0 );
- #elif defined(__FreeBSD__)
+ #elif defined(HT_OS_FREEBSD)
    size_t old_size = maxhunksize;
    size_t new_size = curhunksize + sizeof ( int );
    void *unmap_base;

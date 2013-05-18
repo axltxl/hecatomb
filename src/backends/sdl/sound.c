@@ -34,6 +34,7 @@
  */
 
  #include "prereqs.h"
+ #include "common/zone.h"
  #include "backend/generic/sdl.h"
 
  /* Local includes */

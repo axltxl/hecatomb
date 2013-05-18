@@ -602,71 +602,6 @@
 
  void Pmove ( pmove_t *pmove );
 
- /* FILESYSTEM */
-//
-// #define SFF_INPACK 0x20
-//
-// extern int file_from_pak;
-//
-// typedef int fileHandle_t;
-//
-// typedef enum {
-//   FS_READ,
-//   FS_WRITE,
-//   FS_APPEND
-// } fsMode_t;
-//
-// typedef enum {
-//   FS_SEEK_CUR,
-//   FS_SEEK_SET,
-//   FS_SEEK_END
-// } fsOrigin_t;
-//
-// typedef enum {
-//   FS_SEARCH_PATH_EXTENSION,
-//   FS_SEARCH_BY_FILTER,
-//   FS_SEARCH_FULL_PATH
-// } fsSearchType_t;
-//
-// void FS_Startup ( void );
-// void FS_Shutdown ( void );
-// void FS_DPrintf ( const char *format, ... );
-// FILE *FS_FileForHandle ( fileHandle_t f );
-// int FS_FOpenFile ( const char *name, fileHandle_t *f, fsMode_t mode );
-// void FS_FCloseFile ( fileHandle_t f );
-// int FS_Read ( void *buffer, int size, fileHandle_t f );
-// int FS_FRead ( void *buffer, int size, int count, fileHandle_t f );
-// int FS_Write ( const void *buffer, int size, fileHandle_t f );
-// void FS_Seek ( fileHandle_t f, int offset, fsOrigin_t origin );
-// int FS_FTell ( fileHandle_t f );
-// int FS_Tell ( fileHandle_t f );
-// qboolean FS_FileExists ( char *path );
-// void FS_CopyFile ( const char *srcPath, const char *dstPath );
-// void FS_RenameFile ( const char *oldPath, const char *newPath );
-// void FS_DeleteFile ( const char *path );
-// int FS_GetFileList ( const char *path, const char *extension,
-//                      char *buffer, int size, fsSearchType_t searchType );
-// char **FS_ListPak ( char *find, int *num );
-// char **FS_ListFiles ( char *findname, int *numfiles,
-//                       unsigned musthave, unsigned canthave );
-// char **FS_ListFiles2 ( char *findname, int *numfiles,
-//                        unsigned musthave, unsigned canthave );
-// void FS_FreeList ( char **list, int nfiles );
-//
-// void FS_InitFilesystem ( void );
-// void FS_SetGamedir ( char *dir );
-// char *FS_Gamedir ( void );
-// char *FS_NextPath ( char *prevpath );
-// void FS_ExecAutoexec ( void );
-// int FS_LoadFile ( char *path, void **buffer );
-//
-// /* a null buffer will just return the file length without loading */
-// /* a -1 length is not present */
-//
-// /* properly handles partial reads */
-//
-// void FS_FreeFile ( void *buffer );
-// void FS_CreatePath ( char *path );
 
  /* MISC */
 
@@ -709,11 +644,6 @@
  extern int time_before_ref;
  extern int time_after_ref;
 
- void Z_Free ( void *ptr );
- void *Z_Malloc ( int size );        /* returns 0 filled memory */
- void *Z_TagMalloc ( int size, int tag );
- void Z_FreeTags ( int tag );
-
  void Qcommon_Init ( int argc, char **argv );
  void Qcommon_Frame ( int msec );
  void Qcommon_Shutdown ( void );
@@ -723,23 +653,6 @@
 
  /* this is in the client code, but can be used for debugging from server */
  void SCR_DebugGraph ( float value, int color );
-
-// /* NON-PORTABLE SYSTEM SERVICES */
-//
-// void Sys_Init ( void );
-// void Sys_UnloadGame ( void );
-// void *Sys_GetGameAPI ( void *parms );
-//
-// char *Sys_ConsoleInput ( void );
-// void Sys_ConsoleOutput ( char *string );
-// void Sys_SendKeyEvents ( void );
-// void Sys_Error ( char *error, ... );
-// void Sys_Quit ( void );
-// char *Sys_GetHomeDir ( void );
-//
-// void Sys_FreeLibrary ( void *handle );
-// void *Sys_LoadLibrary ( const char *path, const char *sym, void **handle );
-// void *Sys_GetProcAddress ( void *handle, const char *sym );
 
  /* CLIENT / SERVER SYSTEMS */
 

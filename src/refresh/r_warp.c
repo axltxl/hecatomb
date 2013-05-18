@@ -25,6 +25,7 @@
  */
 
  #include "prereqs.h"
+ #include "memory.h"
  #include "refresh/local.h"
 
  #define TURBSCALE (256.0 / (2 * M_PI))

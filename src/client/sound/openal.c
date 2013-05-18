@@ -40,6 +40,7 @@
  #include "backend/generic/qal.h"
  #include "client/sound/local.h"
  #include "client/sound/vorbis.h"
+ #include "common/zone.h"
 
 /* translates from AL coordinate system to quake */
 #define AL_UnpackVector(v) - v[1], v[2], -v[0]

@@ -1,4 +1,5 @@
 /*
+ * Copyright (C) 2013 Alejandro Ricoveri
  * Copyright (C) 1997-2001 Id Software, Inc.
  *
  * This program is free software; you can redistribute it and/or modify
@@ -19,49 +20,34 @@
  *
  * =======================================================================
  *
- * Header file to the zone malloc
+ * Low level part of the Hunk_* memory system
  *
  * =======================================================================
  */
 
- #ifndef CO_ZONE_H
- #define CO_ZONE_H
+ #ifndef MEM_H
+ #define MEM_H
 
  #include "prereqs.h"
 
  /**
+  * Reserve a huge chunk of memory, but don't commit any yet
+  */
+ void *Hunk_Begin ( int maxsize );
+
+ /**
+  * Do the actual allocation
+  */
+ void *Hunk_Alloc ( int size );
+
+ /**
+  * Free the chunk of memory pointed by buffer
+  */
+ void Hunk_Free ( void *buf );
+
+ /**
   *
   */
- typedef struct zhead_s {
-   struct zhead_s  *prev, *next;
-   short magic;
-   short tag; /* for group free */
-   int   size;
- } zhead_t;
+ int Hunk_End ( void );
 
- /**
-  * Get zone malloc statistics
-  */
- void Z_Stats_f ( void );
-
- /**
-  * Free some mem
-  */
- void Z_Free ( void *ptr );
-
- /**
-  * Allocate some mem
-  */
- void *Z_Malloc ( int size );        /* returns 0 filled memory */
-
-/**
-  * Allocate some tagged mem
-  */
- void *Z_TagMalloc ( int size, int tag );
-
- /**
-  * Free all tags
-  */
- void Z_FreeTags ( int tag );
-
- #endif /* CO_ZONE_H */
+ #endif /* MEM_H */

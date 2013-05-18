@@ -25,6 +25,7 @@
  */
 
  #include "prereqs.h"
+ #include "common/zone.h"
 
  #define MAX_NUM_ARGVS 50
 

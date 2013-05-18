@@ -30,6 +30,7 @@
  #include "prereqs.h"
  #include "system.h"
  #include "client/client.h"
+ #include "common/zone.h"
 
  static cvar_t *cfg_unbindall;
 

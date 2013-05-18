@@ -29,6 +29,7 @@
  #include "system.h"
  #include "filesystem.h"
  #include "common/glob.h"
+ #include "common/zone.h"
 
  #ifdef HT_WITH_ZIP
  # include "common/unzip/unzip.h"

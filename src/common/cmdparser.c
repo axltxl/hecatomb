@@ -27,6 +27,7 @@
  */
 
  #include "prereqs.h"
+ #include "common/zone.h"
  #include "filesystem.h"
 
  #define MAX_ALIAS_NAME 32

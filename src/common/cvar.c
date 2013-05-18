@@ -25,6 +25,7 @@
  */
 
  #include "prereqs.h"
+ #include "common/zone.h"
  #include "filesystem.h"
 
  cvar_t *cvar_vars;

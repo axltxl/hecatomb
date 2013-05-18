@@ -33,6 +33,7 @@
 #include "backend/generic/qal.h"
 #include "client/sound/local.h"
 #include "client/sound/vorbis.h"
+#include "common/zone.h"
 
 /* During registration it is possible to have more sounds
    than could actually be referenced during gameplay,
