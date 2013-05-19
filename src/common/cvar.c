@@ -30,6 +30,7 @@
 
  cvar_t *cvar_vars;
 
+ /* ========================================================================= */
  static qboolean
  Cvar_InfoValidate ( char *s )
  {
@@ -48,6 +49,7 @@
    return true;
  }
 
+ /* ========================================================================= */
  static cvar_t *
  Cvar_FindVar ( const char *var_name )
  {
@@ -62,6 +64,7 @@
    return NULL;
  }
 
+ /* ========================================================================= */
  float
  Cvar_VariableValue ( char *var_name )
  {
@@ -75,6 +78,7 @@
    return strtod ( var->string, ( char ** ) NULL );
  }
 
+ /* ========================================================================= */
  const char *
  Cvar_VariableString ( const char *var_name )
  {
@@ -88,6 +92,7 @@
    return var->string;
  }
 
+ /* ========================================================================= */
  char *
  Cvar_CompleteVariable ( char *partial )
  {
@@ -169,6 +174,7 @@
    return var;
  }
 
+ /* ========================================================================= */
  cvar_t *
  Cvar_Set2 ( char *var_name, char *value, qboolean force )
  {
@@ -243,18 +249,21 @@
    return var;
  }
 
+ /* ========================================================================= */
  cvar_t *
  Cvar_ForceSet ( char *var_name, char *value )
  {
    return Cvar_Set2 ( var_name, value, true );
  }
 
+ /* ========================================================================= */
  cvar_t *
  Cvar_Set ( char *var_name, char *value )
  {
    return Cvar_Set2 ( var_name, value, false );
  }
 
+ /* ========================================================================= */
  cvar_t *
  Cvar_FullSet ( char *var_name, char *value, int flags )
  {
@@ -278,6 +287,7 @@
    return var;
  }
 
+ /* ========================================================================= */
  void
  Cvar_SetValue ( char *var_name, float value )
  {
@@ -395,6 +405,7 @@
    fclose ( f );
  }
 
+ /* ========================================================================= */
  void
  Cvar_List_f ( void )
  {
@@ -437,6 +448,7 @@
 
  qboolean userinfo_modified;
 
+ /* ========================================================================= */
  char *
  Cvar_BitInfo ( int bit )
  {
