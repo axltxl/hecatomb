@@ -120,10 +120,16 @@ endif()
 
 # Unix specific libraries
 if (UNIX)
-  # dlopen, dlsym, dlclose, etc ...
-  find_package (LibDL REQUIRED)
+
+  # dl
   list (APPEND INCLUDE_DIRS ${LIBDL_INCLUDE_DIR})
   list (APPEND LIBS ${LIBDL_LIBRARY}) # libdl
+
+  # execinfo
+  if (HAVE_EXECINFO)
+    list (APPEND INCLUDE_DIRS ${LIBEXECINFO_INCLUDE_DIR})
+    list (APPEND LIBS ${LIBEXECINFO_LIBRARIES}) # libexecinfo
+  endif()
 endif()
 
 # Include path

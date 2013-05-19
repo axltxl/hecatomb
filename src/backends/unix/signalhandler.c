@@ -27,7 +27,7 @@
 
  #include "prereqs.h"
 
- #ifdef HT_OS_LINUX
+ #ifdef HAVE_EXECINFO
  # include <execinfo.h>
  #endif
 
@@ -35,7 +35,7 @@
  void
  printBacktrace ( int sig )
  {
- #ifdef HT_OS_LINUX
+ #ifdef HAVE_EXECINFO
    void *array[15];
    size_t size;
    char **strings;
@@ -50,7 +50,7 @@
                                   HT_CC_VERSION_MINOR, HT_CC_VERSION_PATCH );
    printf ( "signal = %i\n", sig );
    printf ( "\nBacktrace:\n" );
- #ifdef HT_OS_LINUX
+ #ifdef HAVE_EXECINFO
    for ( i = 0; i < size; i++ ) {
      printf ( "  %s\n", strings[i] );
    }

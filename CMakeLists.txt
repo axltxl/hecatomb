@@ -164,6 +164,18 @@ elseif (COMPILER_CLANG)
     set (HT_CC_CLANG 1)
 endif()
 
+if (UNIX)
+
+  # Optional execinfo support for backtracing on crashes
+  find_package (Libexecinfo)
+  if(LIBEXECINFO_LIB_FOUND)
+    set(HAVE_EXECINFO 1)
+  endif()
+
+  # dlopen, dlsym, dlclose, etc ...
+  find_package (LibDL REQUIRED)
+endif()
+
 # X11 libraries
 if (HT_WITH_X11GAMMA)
   find_package (X11 REQUIRED)

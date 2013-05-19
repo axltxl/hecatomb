@@ -109,6 +109,9 @@
  #cmakedefine HT_WITH_OGG
  #cmakedefine HT_WITH_ZIP
 
+ /* Optional features */
+ #cmakedefine HAVE_EXECINFO /* Nice and cool execinfo */
+
  #ifdef HT_WITH_ZIP
  #  define NOUNCRYPT
  #endif
