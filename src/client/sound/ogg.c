@@ -28,7 +28,7 @@
  */
 
  #include "prereqs.h"
- #include "client/client.h"
+ #include "client.h"
  #include "client/sound/local.h"
  #include "client/sound/vorbis.h"
 

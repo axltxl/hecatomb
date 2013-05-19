@@ -25,7 +25,7 @@
  */
 
  #include "prereqs.h"
- #include "server/server.h"
+ #include "server.h"
 
  extern cvar_t *hostname;
  extern cvar_t *rcon_password;

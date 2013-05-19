@@ -29,7 +29,7 @@ set (
 	${HEADER_DIR}/backend/windows/prereqs.h
 	${HEADER_DIR}/backend/windows/resource.h
 	${HEADER_DIR}/backend/windows/winquake.h
-	${HEADER_DIR}/client/client.h
+	${HEADER_DIR}/client.h
 	${HEADER_DIR}/client/input.h
 	${HEADER_DIR}/client/screen.h
 	${HEADER_DIR}/client/vid.h
@@ -41,6 +41,8 @@ set (
 	${HEADER_DIR}/client/sound/local.h
 	${HEADER_DIR}/client/sound/sound.h
 	${HEADER_DIR}/client/sound/vorbis.h
+	${HEADER_DIR}/game/game.h
+	${HEADER_DIR}/game/local.h
 	${HEADER_DIR}/common/common.h
 	${HEADER_DIR}/common/crc.h
 	${HEADER_DIR}/common/files.h
@@ -54,7 +56,7 @@ set (
 	${HEADER_DIR}/refresh/constants/anorms.h
 	${HEADER_DIR}/refresh/constants/anormtab.h
 	${HEADER_DIR}/refresh/constants/warpsin.h
-	${HEADER_DIR}/server/server.h
+	${HEADER_DIR}/server.h
 	${HEADER_DIR}/system.h
 	${HEADER_DIR}/prereqs.h
 	${HEADER_DIR}/filesystem.h

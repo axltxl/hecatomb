@@ -37,7 +37,7 @@
 
 #include "prereqs.h"
 #include "system.h"
-#include "client/client.h"
+#include "client.h"
 #include "backend/generic/input.h"
 
 typedef struct vidmode_s {

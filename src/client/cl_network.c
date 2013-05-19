@@ -26,7 +26,7 @@
 
  #include "prereqs.h"
  #include "system.h"
- #include "client/client.h"
+ #include "client.h"
 
  void CL_ParseStatusMessage ( void );
 

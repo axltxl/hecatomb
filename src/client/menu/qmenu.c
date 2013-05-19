@@ -26,7 +26,7 @@
 
  #include "prereqs.h"
  #include "system.h"
- #include "client/client.h"
+ #include "client.h"
  #include "client/menu/qmenu.h"
 
  static void Action_DoEnter ( menuaction_s *a );

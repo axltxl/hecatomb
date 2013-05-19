@@ -26,7 +26,7 @@
 
  #include "prereqs.h"
  #include "filesystem.h"
- #include "server/server.h"
+ #include "server.h"
 
  char sv_outputbuf[SV_OUTPUTBUF_LENGTH];
 

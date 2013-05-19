@@ -25,7 +25,7 @@
  */
 
  #include "prereqs.h"
- #include "client/client.h"
+ #include "client.h"
 
  console_t con;
  cvar_t *con_notifytime;

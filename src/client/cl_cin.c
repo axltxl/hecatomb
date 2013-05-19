@@ -27,7 +27,7 @@
 
  #include "prereqs.h"
  #include "system.h"
- #include "client/client.h"
+ #include "client.h"
  #include "common/zone.h"
 
  cvar_t *cin_force43;

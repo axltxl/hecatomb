@@ -26,7 +26,7 @@
  */
 
  #include "prereqs.h"
- #include "client/client.h"
+ #include "client.h"
 
  cvar_t *cl_nodelta;
 

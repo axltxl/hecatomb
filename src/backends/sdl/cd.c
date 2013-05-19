@@ -27,7 +27,7 @@
 
  #include "prereqs.h"
  #include "backend/generic/sdl.h"
- #include "client/client.h"
+ #include "client.h"
 
  #ifdef HT_WITH_CDA
 

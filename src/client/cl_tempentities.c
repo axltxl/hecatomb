@@ -25,7 +25,7 @@
  */
 
  #include "prereqs.h"
- #include "client/client.h"
+ #include "client.h"
 
  typedef enum {
    ex_free, ex_explosion, ex_misc, ex_flash, ex_mflash, ex_poly, ex_poly2

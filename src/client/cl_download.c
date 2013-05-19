@@ -25,7 +25,7 @@
  */
 
  #include "prereqs.h"
- #include "client/client.h"
+ #include "client.h"
 
  extern cvar_t *allow_download;
  extern cvar_t *allow_download_players;

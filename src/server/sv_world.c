@@ -25,7 +25,7 @@
  */
 
  #include "prereqs.h"
- #include "server/server.h"
+ #include "server.h"
 
  #define AREA_DEPTH 4
  #define AREA_NODES 32

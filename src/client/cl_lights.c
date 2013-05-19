@@ -25,7 +25,7 @@
  */
 
  #include "prereqs.h"
- #include "client/client.h"
+ #include "client.h"
 
  typedef struct {
    int length;

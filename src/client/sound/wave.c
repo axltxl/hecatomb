@@ -24,187 +24,192 @@
  * =======================================================================
  */
 
-#include "prereqs.h"
-#include "client/client.h"
-#include "client/sound/local.h"
+ #include "prereqs.h"
+ #include "client.h"
+ #include "client/sound/local.h"
 
-byte *data_p;
-byte *iff_end;
-byte *last_chunk;
-byte *iff_data;
-int iff_chunk_len;
+ byte *data_p;
+ byte *iff_end;
+ byte *last_chunk;
+ byte *iff_data;
+ int iff_chunk_len;
 
-short
-GetLittleShort(void)
-{
-	short val = 0;
+ /* ========================================================================= */
+ short
+ GetLittleShort(void)
+ {
+     short val = 0;
 
-	val = *data_p;
-	val = val + (*(data_p + 1) << 8);
-	data_p += 2;
-	return val;
-}
+     val = *data_p;
+     val = val + (*(data_p + 1) << 8);
+     data_p += 2;
+     return val;
+ }
 
-int
-GetLittleLong(void)
-{
-	int val = 0;
+ /* ========================================================================= */
+ int
+ GetLittleLong(void)
+ {
+     int val = 0;
 
-	val = *data_p;
-	val = val + (*(data_p + 1) << 8);
-	val = val + (*(data_p + 2) << 16);
-	val = val + (*(data_p + 3) << 24);
-	data_p += 4;
-	return val;
-}
+     val = *data_p;
+     val = val + (*(data_p + 1) << 8);
+     val = val + (*(data_p + 2) << 16);
+     val = val + (*(data_p + 3) << 24);
+     data_p += 4;
+     return val;
+ }
 
-void
-FindNextChunk(char *name)
-{
-	while (1)
-	{
-		data_p = last_chunk;
-		data_p += 4;
+ /* ========================================================================= */
+ void
+ FindNextChunk(char *name)
+ {
+     while (1)
+     {
+         data_p = last_chunk;
+         data_p += 4;
 
-		if (data_p >= iff_end)
-		{
-			data_p = NULL;
-			return;
-		}
+         if (data_p >= iff_end)
+         {
+             data_p = NULL;
+             return;
+         }
 
-		iff_chunk_len = GetLittleLong();
+         iff_chunk_len = GetLittleLong();
 
-		if (iff_chunk_len < 0)
-		{
-			data_p = NULL;
-			return;
-		}
+         if (iff_chunk_len < 0)
+         {
+             data_p = NULL;
+             return;
+         }
 
-		data_p -= 8;
-		last_chunk = data_p + 8 + ((iff_chunk_len + 1) & ~1);
+         data_p -= 8;
+         last_chunk = data_p + 8 + ((iff_chunk_len + 1) & ~1);
 
-		if (!strncmp((const char *)data_p, name, 4))
-		{
-			return;
-		}
-	}
-}
+         if (!strncmp((const char *)data_p, name, 4))
+         {
+             return;
+         }
+     }
+ }
 
-void
-FindChunk(char *name)
-{
-	last_chunk = iff_data;
-	FindNextChunk(name);
-}
+ /* ========================================================================= */
+ void
+ FindChunk(char *name)
+ {
+     last_chunk = iff_data;
+     FindNextChunk(name);
+ }
 
-wavinfo_t
-GetWavinfo(char *name, byte *wav, int wavlength)
-{
-	wavinfo_t info;
-	int i;
-	int format;
-	int samples;
+ /* ========================================================================= */
+ wavinfo_t
+ GetWavinfo(char *name, byte *wav, int wavlength)
+ {
+     wavinfo_t info;
+     int i;
+     int format;
+     int samples;
 
-	memset(&info, 0, sizeof(info));
+     memset(&info, 0, sizeof(info));
 
-	if (!wav)
-	{
-		return info;
-	}
+     if (!wav)
+     {
+         return info;
+     }
 
-	iff_data = wav;
-	iff_end = wav + wavlength;
+     iff_data = wav;
+     iff_end = wav + wavlength;
 
-	/* find "RIFF" chunk */
-	FindChunk("RIFF");
+     /* find "RIFF" chunk */
+     FindChunk("RIFF");
 
-	if (!(data_p && !strncmp((const char *)data_p + 8, "WAVE", 4)))
-	{
-		Com_Printf("Missing RIFF/WAVE chunks\n");
-		return info;
-	}
+     if (!(data_p && !strncmp((const char *)data_p + 8, "WAVE", 4)))
+     {
+         Com_Printf("Missing RIFF/WAVE chunks\n");
+         return info;
+     }
 
-	/* get "fmt " chunk */
-	iff_data = data_p + 12;
+     /* get "fmt " chunk */
+     iff_data = data_p + 12;
 
-	FindChunk("fmt ");
+     FindChunk("fmt ");
 
-	if (!data_p)
-	{
-		Com_Printf("Missing fmt chunk\n");
-		return info;
-	}
+     if (!data_p)
+     {
+         Com_Printf("Missing fmt chunk\n");
+         return info;
+     }
 
-	data_p += 8;
-	format = GetLittleShort();
+     data_p += 8;
+     format = GetLittleShort();
 
-	if (format != 1)
-	{
-		Com_Printf("Microsoft PCM format only\n");
-		return info;
-	}
+     if (format != 1)
+     {
+         Com_Printf("Microsoft PCM format only\n");
+         return info;
+     }
 
-	info.channels = GetLittleShort();
-	info.rate = GetLittleLong();
-	data_p += 4 + 2;
-	info.width = GetLittleShort() / 8;
+     info.channels = GetLittleShort();
+     info.rate = GetLittleLong();
+     data_p += 4 + 2;
+     info.width = GetLittleShort() / 8;
 
-	/* get cue chunk */
-	FindChunk("cue ");
+     /* get cue chunk */
+     FindChunk("cue ");
 
-	if (data_p)
-	{
-		data_p += 32;
-		info.loopstart = GetLittleLong();
+     if (data_p)
+     {
+         data_p += 32;
+         info.loopstart = GetLittleLong();
 
-		/* if the next chunk is a LIST chunk,
-		   look for a cue length marker */
-		FindNextChunk("LIST");
+         /* if the next chunk is a LIST chunk,
+            look for a cue length marker */
+         FindNextChunk("LIST");
 
-		if (data_p)
-		{
-			if (((data_p - wav) + 32 <= wavlength) &&
-				!strncmp((const char *)data_p + 28, "mark", 4))
-			{
-				/* this is not a proper parse,
-				   but it works with cooledit... */
-				data_p += 24;
-				i = GetLittleLong(); /* samples in loop */
-				info.samples = info.loopstart + i;
-			}
-		}
-	}
-	else
-	{
-		info.loopstart = -1;
-	}
+         if (data_p)
+         {
+             if (((data_p - wav) + 32 <= wavlength) &&
+                     !strncmp((const char *)data_p + 28, "mark", 4))
+             {
+                 /* this is not a proper parse,
+                    but it works with cooledit... */
+                 data_p += 24;
+                 i = GetLittleLong(); /* samples in loop */
+                 info.samples = info.loopstart + i;
+             }
+         }
+     }
+     else
+     {
+         info.loopstart = -1;
+     }
 
-	/* find data chunk */
-	FindChunk("data");
+     /* find data chunk */
+     FindChunk("data");
 
-	if (!data_p)
-	{
-		Com_Printf("Missing data chunk\n");
-		return info;
-	}
+     if (!data_p)
+     {
+         Com_Printf("Missing data chunk\n");
+         return info;
+     }
 
-	data_p += 4;
-	samples = GetLittleLong() / info.width;
+     data_p += 4;
+     samples = GetLittleLong() / info.width;
 
-	if (info.samples)
-	{
-		if (samples < info.samples)
-		{
-			Com_Error(ERR_DROP, "Sound %s has a bad loop length", name);
-		}
-	}
-	else
-	{
-		info.samples = samples;
-	}
+     if (info.samples)
+     {
+         if (samples < info.samples)
+         {
+             Com_Error(ERR_DROP, "Sound %s has a bad loop length", name);
+         }
+     }
+     else
+     {
+         info.samples = samples;
+     }
 
-	info.dataofs = (int)(data_p - wav);
+     info.dataofs = (int)(data_p - wav);
 
-	return info;
-}
+     return info;
+ }
 

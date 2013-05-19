@@ -38,7 +38,7 @@
  #include "backend/generic/sdl.h"
 
  /* Local includes */
- #include "client/client.h"
+ #include "client.h"
  #include "client/sound/local.h"
 
  /* Defines */

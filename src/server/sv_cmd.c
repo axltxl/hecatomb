@@ -28,7 +28,7 @@
 
  #include "prereqs.h"
  #include "filesystem.h"
- #include "server/server.h"
+ #include "server.h"
 
  /*
   * Specify a list of master servers

@@ -25,7 +25,7 @@
  */
 
  #include "prereqs.h"
- #include "client/client.h"
+ #include "client.h"
 
  extern struct model_s *cl_mod_powerscreen;
  int vidref_val;

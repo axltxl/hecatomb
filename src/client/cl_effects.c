@@ -26,7 +26,7 @@
  */
 
  #include "prereqs.h"
- #include "client/client.h"
+ #include "client.h"
 
  void CL_LogoutEffect ( vec3_t org, int type );
  void CL_ItemRespawnParticles ( vec3_t org );

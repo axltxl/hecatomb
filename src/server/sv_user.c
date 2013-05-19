@@ -26,7 +26,7 @@
 
  #include "prereqs.h"
  #include "filesystem.h"
- #include "server/server.h"
+ #include "server.h"
 
  #define MAX_STRINGCMDS 8
 

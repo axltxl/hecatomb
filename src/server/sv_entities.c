@@ -27,7 +27,7 @@
  */
 
  #include "prereqs.h"
- #include "server/server.h"
+ #include "server.h"
 
  byte fatpvs[65536 / 8];
 

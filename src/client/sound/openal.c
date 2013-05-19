@@ -36,7 +36,7 @@
 
  #ifdef HT_WITH_OPENAL
 
- #include "client/client.h"
+ #include "client.h"
  #include "backend/generic/qal.h"
  #include "client/sound/local.h"
  #include "client/sound/vorbis.h"

@@ -27,7 +27,7 @@
  #include "prereqs.h"
  #include "system.h"
  #include "common/zone.h"
- #include "server/server.h"
+ #include "server.h"
 
  #ifndef DEDICATED_ONLY
  void SCR_DebugGraph ( float value, int color );
