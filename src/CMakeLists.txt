@@ -96,23 +96,12 @@ endif()
 # OpenAL
 if (HT_WITH_OPENAL)
 
-  # AL driver for QAL
-  if (UNIX)
-    set (AL_DRIVER libopenal.so)
-  endif()
-
-  if (WINDOWS)
-    set (AL_DRIVER openal32.dll)
-  endif()
-
-  # Necessary definitions
-  add_definitions (-DDEFAULT_OPENAL_DRIVER="${AL_DRIVER}")
-
   # OpenAL headers
   list (APPEND INCLUDE_DIRS ${OPENAL_INCLUDE_DIR})
 
   # OpenAL libraries
   list (APPEND CLIENT_LIBS ${OPENAL_LIBRARY})
+
 endif()
 
 # OGG Vorbis
