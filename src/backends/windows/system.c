@@ -669,8 +669,8 @@
  #endif
  #endif
 
-   printf ( "Platform: %s\n", BUILDSTRING );
-   printf ( "Architecture: %s\n", CPUSTRING );
+   printf ( "Platform: %s\n", HT_OS_NAME );
+   printf ( "Architecture: %s\n", HT_ARCH_NAME );
 
    /* Seed PRNG */
    randk_seed();
