@@ -113,14 +113,7 @@
  #  define NOUNCRYPT
  #endif
 
- /* Should have 4 characters. */
- //#define VERSION "5.10"
-
  #define BASEDIRNAME "baseq2"
-
-/* */
- #define BUILDSTRING HT_OS_NAME
- #define CPUSTRING HT_ARCH_NAME
 
  /* Configuration directory for the current user */
  #ifdef HT_OS_WINDOWS
