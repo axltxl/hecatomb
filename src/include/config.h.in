@@ -117,11 +117,12 @@
 
  /* Configuration directory for the current user */
  #ifdef HT_OS_WINDOWS
- #define CFGDIR "YamagiQ2"
+ #define CFGDIR "@PROJ_PRODUCT_NAME@"
  #else
- #define CFGDIR ".yq2"
+ #define CFGDIR ".@PROJ_DEVNAME@"
  #endif
 
+ /* OpenGL driver */
  #ifdef HT_OS_WINDOWS
  #define LIBGL "opengl32.dll"
  #elif defined HT_OS_OPENBSD
