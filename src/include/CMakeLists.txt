@@ -42,7 +42,6 @@ set (
 	${HEADER_DIR}/client/sound/sound.h
 	${HEADER_DIR}/client/sound/vorbis.h
 	${HEADER_DIR}/game/game.h
-	${HEADER_DIR}/game/local.h
 	${HEADER_DIR}/common/common.h
 	${HEADER_DIR}/common/crc.h
 	${HEADER_DIR}/common/files.h
