@@ -56,7 +56,7 @@
  #define MAX_STRING_TOKENS 80        /* max tokens resulting from Cmd_TokenizeString */
  #define MAX_TOKEN_CHARS 128         /* max length of an individual token */
 
- #define MAX_QPATH 64                /* max length of a quake game pathname */
+ #define MAX_QPATH 128               /* max length of a quake game pathname */
 
  #ifdef _WIN32
  #define MAX_OSPATH 256             /* max length of a filesystem pathname (same as MAX_PATH) */

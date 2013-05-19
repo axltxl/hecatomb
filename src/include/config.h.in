@@ -138,7 +138,7 @@
 
  /* OpenAL driver */
  #ifdef HT_OS_WINDOWS
- #define DEFAULT_OPENAL_DRIVER "opengl32.dll"
+ #define DEFAULT_OPENAL_DRIVER "openal32.dll"
  //#elif defined HT_OS_OSX
  //#define DEFAULT_OPENAL_DRIVER "/System/Library/Frameworks/OpenAL.framework/OpenAL"
  #else
