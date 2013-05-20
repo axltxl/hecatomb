@@ -91,7 +91,7 @@ elseif ("${CMAKE_C_COMPILER_ID}" MATCHES "Clang")
 
 # Unsupported compiler
 else()
-    message(FATAL_ERROR "Unsupported compiler. Current supported compilers are gcc and clang.")
+    message(WARNING "Unsupported compiler. Current supported compilers are gcc and clang.")
     return()
 endif()
 
