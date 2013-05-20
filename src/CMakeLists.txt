@@ -55,6 +55,11 @@ if (UNIX)
 
 endif()
 
+# An unknown operating system
+if (UNK_OS)
+  set (HT_OS_UNKNOWN 1)
+endif()
+
 # Source files root directory
 set (SRC_DIR ${CMAKE_CURRENT_SOURCE_DIR})
 

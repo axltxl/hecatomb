@@ -1,7 +1,5 @@
 # the name of the target operating system
 set (CMAKE_SYSTEM_NAME Windows)
-set (CROSS_COMPILE 1)
-set (ARCH_64 1)
 
 # Compiler prefix
 # for 64 bits mingw-w64

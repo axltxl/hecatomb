@@ -40,46 +40,68 @@
 
  /* Operating system */
  #define HT_OS_NAME "@CMAKE_SYSTEM_NAME@"
+
+ /* Wonderful Unix */
  #cmakedefine HT_OS_UNIX
+
+ /* Linux */
  #cmakedefine HT_OS_LINUX
- #cmakedefine HT_OS_WINDOWS
+
+ /* Apple Darwin/OSX */
  #cmakedefine HT_OS_OSX
+
+ /* BSD Unix flavors */
  #cmakedefine HT_OS_BSD
  #cmakedefine HT_OS_FREEBSD
  #cmakedefine HT_OS_OPENBSD
 
- /* Architecture */
- #cmakedefine HT_ARCH_NAME "@HT_ARCH_NAME@"
+ /* Stupid Windows always claims some attention */
+ #cmakedefine HT_OS_WINDOWS
+
+ /* Unknown OS/platform */
+ #cmakedefine HT_OS_UNKNOWN
+
+ /* Architecture name */
+ #define HT_ARCH_NAME "@ARCH@"
+
+ /* IA-32 */
  #cmakedefine HT_ARCH_x86
+
+ /* AMD64 */
  #cmakedefine HT_ARCH_x86_64
+
+ /* ARM */
  #cmakedefine HT_ARCH_arm
  #cmakedefine HT_ARCH_armv7
- #cmakedefine HT_ARCH_arm
  #cmakedefine HT_ARCH_armv6
- #cmakedefine HT_ARCH_arm
  #cmakedefine HT_ARCH_armv5
- #cmakedefine HT_ARCH_arm
+
+ /* Intel Itanium */
  #cmakedefine HT_ARCH_ia64
+
+ /* PowerPC */
  #cmakedefine HT_ARCH_ppc64
  #cmakedefine HT_ARCH_ppc
 
  /* Compiler information */
  #cmakedefine HT_CC_GCC
  #cmakedefine HT_CC_CLANG
+
+ /* Compiler ID */
  #define HT_CC_ID "@CMAKE_C_COMPILER_ID@"
 
  /* gcc */
  #ifdef HT_CC_GCC
- #  define HT_CC_VERSION_MAJOR __GNUC__
- #  define HT_CC_VERSION_MINOR __GNUC_MINOR__
- #  define HT_CC_VERSION_PATCH __GNUC_PATCHLEVEL__
+ # sdefine HT_CC_VERSION_MAJOR __GNUC__
+ # define HT_CC_VERSION_MINOR __GNUC_MINOR__
+ # define HT_CC_VERSION_PATCH __GNUC_PATCHLEVEL__
  #endif
 
  /* clang */
  #ifdef HT_CC_CLANG
- #  define HT_CC_VERSION_MAJOR __clang_major__
- #  define HT_CC_VERSION_MINOR __clang_minor__
- #  define HT_CC_VERSION_PATCH __clang_patchlevel__
+ # define HT_CC_VERSION_MAJOR __clang_major__
+ # define HT_CC_VERSION_MINOR __clang_minor__
+ # define HT_CC_VERSION_PATCH __clang_patchlevel__
  #endif
 
  /* Compiler version */
@@ -123,36 +145,36 @@
  #cmakedefine HAVE_EXECINFO /* Nice and cool execinfo */
 
  #ifdef HT_WITH_ZIP
- #  define NOUNCRYPT
+ # define NOUNCRYPT
  #endif
 
  #define BASEDIRNAME "baseq2"
 
  /* Configuration directory for the current user */
  #ifdef HT_OS_WINDOWS
- #define CFGDIR "@PROJ_PRODUCT_NAME@"
+ # define CFGDIR "@PROJ_PRODUCT_NAME@"
  #else
- #define CFGDIR ".@PROJ_DEVNAME@"
+ # define CFGDIR ".@PROJ_DEVNAME@"
  #endif
 
  /* OpenGL driver */
  #ifdef HT_OS_WINDOWS
- #define LIBGL "opengl32.dll"
+ # define LIBGL "opengl32.dll"
  #elif defined HT_OS_OPENBSD
- #define LIBGL "libGL.so"
+ # define LIBGL "libGL.so"
  #elif defined HT_OS_OSX
- #define LIBGL "/System/Library/Frameworks/OpenGL.framework/OpenGL"
+ # define LIBGL "/System/Library/Frameworks/OpenGL.framework/OpenGL"
  #else
- #define LIBGL "libGL.so.1"
+ # define LIBGL "libGL.so.1"
  #endif
 
  /* OpenAL driver */
  #ifdef HT_OS_WINDOWS
- #define DEFAULT_OPENAL_DRIVER "openal32.dll"
- //#elif defined HT_OS_OSX
- //#define DEFAULT_OPENAL_DRIVER "/System/Library/Frameworks/OpenAL.framework/OpenAL"
+ # define DEFAULT_OPENAL_DRIVER "openal32.dll"
+ #elif defined HT_OS_OSX
+ # define DEFAULT_OPENAL_DRIVER "/System/Library/Frameworks/OpenAL.framework/OpenAL"
  #else
- #define DEFAULT_OPENAL_DRIVER "libopenal.so"
+ # define DEFAULT_OPENAL_DRIVER "libopenal.so"
  #endif
 
 
