@@ -24,8 +24,8 @@
  * =======================================================================
  */
 
- #include "../../header/local.h"
- #include "insane.h"
+ #include "game/local.h"
+ #include "game/monster/insane/insane.h"
 
  static int sound_fist;
  static int sound_shake;

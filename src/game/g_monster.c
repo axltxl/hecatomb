@@ -24,7 +24,7 @@
  * =======================================================================
  */
 
- #include "header/local.h"
+ #include "game/local.h"
 
  void monster_start_go ( edict_t *self );
 

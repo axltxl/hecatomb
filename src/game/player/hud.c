@@ -24,7 +24,7 @@
  * =======================================================================
  */
 
- #include "../header/local.h"
+ #include "game/local.h"
 
  void
  MoveClientToIntermission ( edict_t *ent )

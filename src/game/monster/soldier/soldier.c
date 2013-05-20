@@ -26,8 +26,8 @@
  * =======================================================================
  */
 
- #include "../../header/local.h"
- #include "soldier.h"
+ #include "game/local.h"
+ #include "game/monster/soldier/soldier.h"
 
  static int sound_idle;
  static int sound_sight1;

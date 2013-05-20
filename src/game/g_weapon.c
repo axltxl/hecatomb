@@ -24,7 +24,7 @@
  * =======================================================================
  */
 
- #include "header/local.h"
+ #include "game/local.h"
 
  /*
   * This is a support routine used when a client is firing

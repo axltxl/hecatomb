@@ -24,8 +24,8 @@
  * =======================================================================
  */
 
- #include "../../header/local.h"
- #include "infantry.h"
+ #include "game/local.h"
+ #include "game/monster/infantry/infantry.h"
 
  void InfantryMachineGun ( edict_t *self );
 

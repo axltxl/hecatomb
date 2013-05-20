@@ -24,8 +24,8 @@
  * =======================================================================
  */
 
- #include "../header/local.h"
- #include "../monster/misc/player.h"
+ #include "game/local.h"
+ #include "game/monster/misc/player.h"
 
  void ClientUserinfoChanged ( edict_t *ent, char *userinfo );
  void SP_misc_teleporter_dest ( edict_t *ent );

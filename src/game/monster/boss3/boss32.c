@@ -24,8 +24,8 @@
  * =======================================================================
  */
 
- #include "../../header/local.h"
- #include "boss32.h"
+ #include "game/local.h"
+ #include "game/monster/boss3/boss32.h"
 
  qboolean visible ( edict_t *self, edict_t *other );
 

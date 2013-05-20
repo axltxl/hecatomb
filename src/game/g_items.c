@@ -24,7 +24,7 @@
  * =======================================================================
  */
 
- #include "header/local.h"
+ #include "game/local.h"
 
  #define HEALTH_IGNORE_MAX 1
  #define HEALTH_TIMED 2

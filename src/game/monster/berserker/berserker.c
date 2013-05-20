@@ -24,8 +24,8 @@
  * =======================================================================
  */
 
- #include "../../header/local.h"
- #include "berserker.h"
+ #include "game/local.h"
+ #include "game/monster/berserker/berserker.h"
 
  static int sound_pain;
  static int sound_die;

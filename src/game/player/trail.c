@@ -24,7 +24,7 @@
  * =======================================================================
  */
 
- #include "../header/local.h"
+ #include "game/local.h"
 
  /*
   * This is a circular list containing the a list of points of where

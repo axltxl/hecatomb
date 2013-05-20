@@ -24,8 +24,8 @@
  * =======================================================================
  */
 
- #include "../../header/local.h"
- #include "supertank.h"
+ #include "game/local.h"
+ #include "game/monster/supertank/supertank.h"
 
  qboolean visible ( edict_t *self, edict_t *other );
 

@@ -24,7 +24,7 @@
  * =======================================================================
  */
 
- #include "header/local.h"
+ #include "game/local.h"
 
  #define MAX_IPFILTERS 1024
 

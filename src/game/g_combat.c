@@ -24,7 +24,7 @@
  * =======================================================================
  */
 
- #include "header/local.h"
+ #include "game/local.h"
 
  /*
   * Returns true if the inflictor can

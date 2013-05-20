@@ -24,8 +24,8 @@
  * =======================================================================
  */
 
- #include "../../header/local.h"
- #include "brain.h"
+ #include "game/local.h"
+ #include "game/monster/brain/brain.h"
 
  static int sound_chest_open;
  static int sound_tentacles_extend;

@@ -24,8 +24,8 @@
  * =======================================================================
  */
 
- #include "../../header/local.h"
- #include "tank.h"
+ #include "game/local.h"
+ #include "game/monster/tank/tank.h"
 
  void tank_refire_rocket ( edict_t *self );
  void tank_doattack_rocket ( edict_t *self );

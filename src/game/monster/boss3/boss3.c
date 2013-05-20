@@ -24,8 +24,8 @@
  * =======================================================================
  */
 
- #include "../../header/local.h"
- #include "boss32.h"
+ #include "game/local.h"
+ #include "game/monster/boss3/boss32.h"
 
  void
  Use_Boss3 ( edict_t *ent, edict_t *other /* unused */, edict_t *activator /* unused */ )

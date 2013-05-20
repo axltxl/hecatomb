@@ -24,8 +24,8 @@
  * =======================================================================
  */
 
- #include "../../header/local.h"
- #include "gladiator.h"
+ #include "game/local.h"
+ #include "game/monster/gladiator/gladiator.h"
 
  static int sound_pain1;
  static int sound_pain2;

@@ -24,8 +24,8 @@
  * =======================================================================
  */
 
- #include "../../header/local.h"
- #include "boss31.h"
+ #include "game/local.h"
+ #include "game/monster/boss3/boss31.h"
 
  extern void SP_monster_makron ( edict_t *self );
  qboolean visible ( edict_t *self, edict_t *other );

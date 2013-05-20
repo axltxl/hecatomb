@@ -24,7 +24,7 @@
  * =======================================================================
  */
 
- #include "../../header/local.h"
+ #include "game/local.h"
 
  #define STEPSIZE 18
  #define DI_NODIR -1

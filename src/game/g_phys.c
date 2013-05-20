@@ -25,7 +25,7 @@
  */
 
 
- #include "header/local.h"
+ #include "game/local.h"
 
  #define STOP_EPSILON 0.1
  #define MAX_CLIP_PLANES 5

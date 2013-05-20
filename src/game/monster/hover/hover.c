@@ -24,8 +24,8 @@
  * =======================================================================
  */
 
- #include "../../header/local.h"
- #include "hover.h"
+ #include "game/local.h"
+ #include "game/monster/hover/hover.h"
 
  qboolean visible ( edict_t *self, edict_t *other );
 

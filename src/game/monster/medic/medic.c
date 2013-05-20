@@ -24,8 +24,8 @@
  * =======================================================================
  */
 
- #include "../../header/local.h"
- #include "medic.h"
+ #include "game/local.h"
+ #include "game/monster/medic/medic.h"
 
  qboolean visible ( edict_t *self, edict_t *other );
 

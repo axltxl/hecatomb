@@ -24,7 +24,7 @@
  * =======================================================================
  */
 
- #include "header/local.h"
+ #include "game/local.h"
 
  void infantry_die ( edict_t *self, edict_t *inflictor, edict_t *attacker,
                      int damage );

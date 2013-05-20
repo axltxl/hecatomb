@@ -24,8 +24,8 @@
  * =======================================================================
  */
 
- #include "../../header/local.h"
- #include "gunner.h"
+ #include "game/local.h"
+ #include "game/monster/gunner/gunner.h"
 
  static int sound_pain;
  static int sound_pain2;

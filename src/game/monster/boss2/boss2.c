@@ -24,8 +24,8 @@
  * =======================================================================
  */
 
- #include "../../header/local.h"
- #include "boss2.h"
+ #include "game/local.h"
+ #include "game/monster/boss2/boss2.h"
 
  void BossExplode ( edict_t *self );
 

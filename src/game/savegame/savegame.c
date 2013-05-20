@@ -64,7 +64,7 @@
  * system and architecture are in the hands of the user.
  */
 
- #include "../header/local.h"
+ #include "game/local.h"
 
 /*
  * When ever the savegame version
@@ -137,7 +137,7 @@
  * declaration for all game
  * functions.
  */
- #include "tables/gamefunc_decs.h"
+ #include "game/savegame/tables/gamefunc_decs.h"
 
 /*
  * List with function pointer
@@ -145,7 +145,7 @@
  * prototyped above.
  */
 functionList_t functionList[] = {
- #include "tables/gamefunc_list.h"
+ #include "game/savegame/tables/gamefunc_list.h"
 };
 
 /*
@@ -153,7 +153,7 @@ functionList_t functionList[] = {
  * declaration for all game
  * mmove_t functions.
  */
- #include "tables/gamemmove_decs.h"
+ #include "game/savegame/tables/gamemmove_decs.h"
 
 /*
  * List with pointers to
@@ -162,14 +162,14 @@ functionList_t functionList[] = {
  * above.
  */
 mmoveList_t mmoveList[] = {
- #include "tables/gamemmove_list.h"
+ #include "game/savegame/tables/gamemmove_list.h"
 };
 
 /*
  * Fields to be saved
  */
 field_t fields[] = {
- #include "tables/fields.h"
+ #include "game/savegame/tables/fields.h"
 };
 
 /*
@@ -177,7 +177,7 @@ field_t fields[] = {
  * be saved
  */
 field_t levelfields[] = {
- #include "tables/levelfields.h"
+ #include "game/savegame/tables/levelfields.h"
 };
 
 /*
@@ -185,7 +185,7 @@ field_t levelfields[] = {
  * be saved
  */
 field_t clientfields[] = {
- #include "tables/clientfields.h"
+ #include "game/savegame/tables/clientfields.h"
 };
 
 /* ========================================================= */

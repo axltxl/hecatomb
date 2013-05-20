@@ -24,8 +24,8 @@
  * =======================================================================
  */
 
- #include "../../header/local.h"
- #include "parasite.h"
+ #include "game/local.h"
+ #include "game/monster/parasite/parasite.h"
 
  static int sound_pain1;
  static int sound_pain2;

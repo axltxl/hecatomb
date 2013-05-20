@@ -24,8 +24,8 @@
  * =======================================================================
  */
 
- #include "../../header/local.h"
- #include "float.h"
+ #include "game/local.h"
+ #include "game/monster/float/float.h"
 
  static int sound_attack2;
  static int sound_attack3;
