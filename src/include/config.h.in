@@ -56,6 +56,7 @@
  /* Compiler information */
  #cmakedefine HT_CC_GCC
  #cmakedefine HT_CC_CLANG
+ #cmakedefine HT_CC_UNK
  #define HT_CC_ID "@CMAKE_C_COMPILER_ID@"
 
  /* gcc */
@@ -70,6 +71,12 @@
  #  define HT_CC_VERSION_MAJOR __clang_major__
  #  define HT_CC_VERSION_MINOR __clang_minor__
  #  define HT_CC_VERSION_PATCH __clang_patchlevel__
+ #endif
+ 
+ #ifdef HT_CC_UNK
+ #  define HT_CC_VERSION_MAJOR 0
+ #  define HT_CC_VERSION_MINOR 0
+ #  define HT_CC_VERSION_PATCH 0
  #endif
 
  /* Compiler version */

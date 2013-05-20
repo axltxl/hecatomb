@@ -28,8 +28,6 @@ elseif(${CMAKE_SYSTEM_NAME} MATCHES "FreeBSD")
 elseif(${CMAKE_SYSTEM_NAME} MATCHES "OpenBSD")
   set (BSD 1)
   set (OPENBSD 1)
-elseif(${CMAKE_SYSTEM_NAME} MATCHES "Wii")
-  set (WII 1)
 elseif(${CMAKE_SYSTEM_NAME} MATCHES "Darwin")
   set (OSX 1)
 
@@ -101,7 +99,7 @@ elseif ("${CMAKE_C_COMPILER_ID}" MATCHES "Clang")
 
 # Unsupported compiler
 else()
-    message(FATAL_ERROR "Unsupported compiler. Current supported compilers are gcc and clang.")
+    message(WARNING "Unsupported compiler. Current supported compilers are gcc and clang.")
     return()
 endif()
 

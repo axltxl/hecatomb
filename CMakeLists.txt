@@ -162,6 +162,8 @@ if (COMPILER_GCC)
     set (HT_CC_GCC 1)
 elseif (COMPILER_CLANG)
     set (HT_CC_CLANG 1)
+else()
+  set (HT_CC_UNK 1)
 endif()
 
 if (UNIX)
