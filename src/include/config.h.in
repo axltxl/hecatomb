@@ -49,9 +49,19 @@
  #cmakedefine HT_OS_OPENBSD
 
  /* Architecture */
- #define HT_ARCH_NAME "@HT_ARCH_NAME@"
- #cmakedefine HT_ARCH_32
- #cmakedefine HT_ARCH_64
+ #cmakedefine HT_ARCH_NAME "@HT_ARCH_NAME@"
+ #cmakedefine HT_ARCH_x86
+ #cmakedefine HT_ARCH_x86_64
+ #cmakedefine HT_ARCH_arm
+ #cmakedefine HT_ARCH_armv7
+ #cmakedefine HT_ARCH_arm
+ #cmakedefine HT_ARCH_armv6
+ #cmakedefine HT_ARCH_arm
+ #cmakedefine HT_ARCH_armv5
+ #cmakedefine HT_ARCH_arm
+ #cmakedefine HT_ARCH_ia64
+ #cmakedefine HT_ARCH_ppc64
+ #cmakedefine HT_ARCH_ppc
 
  /* Compiler information */
  #cmakedefine HT_CC_GCC

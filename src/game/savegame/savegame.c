@@ -76,40 +76,6 @@
  */
  #define SAVEGAMEVER "YQ2-1"
 
-/*
- * This macros are used to
- * prohibit loading of savegames
- * created on other systems or
- * architectures. This will
- * crash q2 in spectecular
- * ways
- */
- #if defined(__APPLE__)
- #define OS "MacOS X"
- #elif defined(__FreeBSD__)
- #define OS "FreeBSD"
- #elif defined(__OpenBSD__)
- #define OS "OpenBSD"
- #elif defined(__linux__)
- #define OS "Linux"
- #elif defined(_WIN32)
- #define OS "Windows"
- #else
- #define OS "Unknown"
- #endif
-
- #if defined(__i386__)
- #define ARCH "i386"
- #elif defined(__x86_64__)
- #define ARCH "amd64"
- #elif defined(__sparc__)
- #define ARCH "sparc64"
- #elif defined(__ia64__)
- #define ARCH "ia64"
- #else
- #define ARCH "unknown"
- #endif
-
  /*
   * Connects a human readable
   * function signature with
@@ -709,8 +675,8 @@ field_t clientfields[] = {
 
    strncpy ( str_ver, SAVEGAMEVER, sizeof ( str_ver ) );
    strncpy ( str_game, GAMEVERSION, sizeof ( str_game ) );
-   strncpy ( str_os, OS, sizeof ( str_os ) );
-   strncpy ( str_arch, ARCH, sizeof ( str_arch ) );
+   strncpy ( str_os, HT_OS_NAME, sizeof ( str_os ) );
+   strncpy ( str_arch, HT_ARCH_NAME, sizeof ( str_arch ) );
 
    fwrite ( str_ver, sizeof ( str_ver ), 1, f );
    fwrite ( str_game, sizeof ( str_game ), 1, f );
@@ -763,12 +729,12 @@ field_t clientfields[] = {
    } else if ( strcmp ( str_game, GAMEVERSION ) ) {
      fclose ( f );
      gi.error ( "Savegame from an other game.so.\n" );
-   } else if ( strcmp ( str_os, OS ) ) {
+   } else if ( strcmp ( str_os, HT_OS_NAME ) ) {
      fclose ( f );
      gi.error ( "Savegame from an other os.\n" );
    }
 
-   else if ( strcmp ( str_arch, ARCH ) ) {
+   else if ( strcmp ( str_arch, HT_ARCH_NAME ) ) {
      fclose ( f );
      gi.error ( "Savegame from an other architecure.\n" );
    }

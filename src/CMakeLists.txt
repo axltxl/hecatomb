@@ -142,12 +142,7 @@ add_subdirectory (include)
 configure_file (${SRC_DIR}/include/config.h.in ${SRC_DIR}/include/config.h)
 
 # Set output directory
-set (OUTPUT_DIR ${PROJECT_SOURCE_DIR}/bin)
-if (ARCH_32)
-  set (OUTPUT_DIR "${OUTPUT_DIR}/x86")
-else()
-  set (OUTPUT_DIR "${OUTPUT_DIR}/x64")
-endif()
+set (OUTPUT_DIR "${PROJECT_SOURCE_DIR}/bin/${ARCH}")
 
 #
 # Platform-specific backends

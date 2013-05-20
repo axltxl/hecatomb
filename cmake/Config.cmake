@@ -4,17 +4,12 @@
 #
 
 # detect the architecture (note: this test won't work for cross-compilation)
-if (NOT CROSS_COMPILE)
- include(CheckTypeSize)
- check_type_size(void* SIZEOF_VOID_PTR)
- if("${SIZEOF_VOID_PTR}" STREQUAL "4")
-   set(ARCH_32 1)
- elseif("${SIZEOF_VOID_PTR}" STREQUAL "8")
-   set(ARCH_64 1)
- else()
-   message(FATAL_ERROR "Unsupported architecture")
-   return()
- endif()
+include (TargetArch)
+target_architecture(ARCH)
+if (ARCH STREQUAL "unknown")
+  message (FATAL_ERROR "Unknown architecture!")
+else()
+  message ("Target architecture is \"${ARCH}\" ...")
 endif()
 
 # detect the OS
