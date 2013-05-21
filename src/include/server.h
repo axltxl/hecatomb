@@ -205,6 +205,22 @@
  extern edict_t *sv_player;
 
  /**
+  * Only called at quake2.exe startup, not for each game
+  */
+ void SV_Init ( void );
+
+ /**
+  * Called when each game quits,
+  * before Sys_Quit or Sys_Error
+  */
+ void SV_Shutdown ( char *finalmsg, qboolean reconnect );
+
+ /**
+  *
+  */
+ void SV_Frame ( int msec );
+
+ /**
   * Used by SV_Shutdown to send a final message to all
   * connected clients before the server goes down. The
   * messages are sent immediately, not just stuck on the

@@ -334,6 +334,7 @@
  #endif
  }
 
+ /* ========================================================================= */
  void
  SV_Frame ( int msec )
  {
@@ -496,9 +497,7 @@
    }
  }
 
- /*
-  * Only called at quake2.exe startup, not for each game
-  */
+ /* ========================================================================= */
  void
  SV_Init ( void )
  {
@@ -564,10 +563,7 @@
    }
  }
 
- /*
-  * Called when each game quits,
-  * before Sys_Quit or Sys_Error
-  */
+ /* ========================================================================= */
  void
  SV_Shutdown ( char *finalmsg, qboolean reconnect )
  {
