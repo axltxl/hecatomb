@@ -63,6 +63,9 @@
  #define BLASTER_PARTICLE_COLOR 0xe0
  #define INSTANT_PARTICLE -10000.0
 
+ /**
+  *
+  */
  typedef struct {
    qboolean    valid; /* cleared if delta parsing was invalid */
    int       serverframe;
@@ -74,6 +77,9 @@
    int       parse_entities; /* non-masked index into cl_parse_entities array */
  } frame_t;
 
+ /**
+  *
+  */
  typedef struct {
    entity_state_t  baseline; /* delta from this if not from a previous frame */
    entity_state_t  current;
@@ -104,8 +110,10 @@
  extern char cl_weaponmodels[MAX_CLIENTWEAPONMODELS][MAX_QPATH];
  extern int num_cl_weaponmodels;
 
- /* the client_state_t structure is wiped
-    completely at every server map change */
+ /**
+  * the client_state_t structure is wiped
+  * completely at every server map change
+  */
  typedef struct {
    int     timeoutcount;
 
@@ -183,8 +191,10 @@
 
  extern  client_state_t  cl;
 
- /* the client_static_t structure is persistant through
-    an arbitrary number of server connections */
+ /**
+  * The client_static_t structure is persistant through
+  * an arbitrary number of server connections
+  */
  typedef enum {
    ca_uninitialized,
    ca_disconnected,  /* not talking to a server */
@@ -193,6 +203,9 @@
    ca_active /* game views should be displayed */
  } connstate_t;
 
+ /**
+  *
+  */
  typedef enum {
    dl_none,
    dl_model,
@@ -201,8 +214,19 @@
    dl_single
  } dltype_t;
 
- typedef enum {key_game, key_console, key_message, key_menu} keydest_t;
+ /**
+  *
+  */
+ typedef enum {
+   key_game,
+   key_console,
+   key_message,
+   key_menu
+ } keydest_t;
 
+ /**
+  *
+  */
  typedef struct {
    connstate_t state;
    keydest_t key_dest;
@@ -282,6 +306,9 @@
  extern  cvar_t  *horplus;
  extern  cvar_t  *cin_force43;
 
+ /**
+  *
+  */
  typedef struct {
    int   key; /* so entities can reuse same entry */
    vec3_t  color;
@@ -306,6 +333,9 @@
 
  void CL_AddNetgraph ( void );
 
+ /**
+  *
+  */
  typedef struct cl_sustain {
    int     id;
    int     type;
@@ -320,15 +350,16 @@
    void ( *think ) ( struct cl_sustain *self );
  } cl_sustain_t;
 
- void CL_ParticleSteamEffect2 ( cl_sustain_t *self );
 
+ void CL_ParticleSteamEffect2 ( cl_sustain_t *self );
  void CL_TeleporterParticles ( entity_state_t *ent );
  void CL_ParticleEffect ( vec3_t org, vec3_t dir, int color, int count );
  void CL_ParticleEffect2 ( vec3_t org, vec3_t dir, int color, int count );
-
  void CL_ParticleEffect3 ( vec3_t org, vec3_t dir, int color, int count );
 
-
+ /**
+  *
+  */
  typedef struct particle_s {
 
    struct particle_s *next;
@@ -351,9 +382,7 @@
  void CL_RailTrail ( vec3_t start, vec3_t end );
  void CL_BubbleTrail ( vec3_t start, vec3_t end );
  void CL_FlagTrail ( vec3_t start, vec3_t end, int color );
-
  void CL_IonripperTrail ( vec3_t start, vec3_t end );
-
  void CL_BlasterParticles2 ( vec3_t org, vec3_t dir, unsigned int color );
  void CL_BlasterTrail2 ( vec3_t start, vec3_t end );
  void CL_DebugTrail ( vec3_t start, vec3_t end );
@@ -376,39 +405,28 @@
  void CL_Widowbeamout ( cl_sustain_t *self );
  void CL_Nukeblast ( cl_sustain_t *self );
  void CL_WidowSplash ( vec3_t org );
-
  int CL_ParseEntityBits ( unsigned *bits );
  void CL_ParseDelta ( entity_state_t *from, entity_state_t *to, int number, int bits );
  void CL_ParseFrame ( void );
-
  void CL_ParseTEnt ( void );
  void CL_ParseConfigString ( void );
  void CL_AddMuzzleFlash ( void );
  void CL_AddMuzzleFlash2 ( void );
  void SmokeAndFlash ( vec3_t origin );
-
  void CL_SetLightstyle ( int i );
-
  void CL_RunParticles ( void );
  void CL_RunDLights ( void );
  void CL_RunLightStyles ( void );
-
  void CL_AddEntities ( void );
  void CL_AddDLights ( void );
  void CL_AddTEnts ( void );
  void CL_AddLightStyles ( void );
-
  void CL_PrepRefresh ( void );
  void CL_RegisterSounds ( void );
-
  void CL_Quit_f ( void );
-
  void IN_Accumulate ( void );
-
  void CL_ParseLayout ( void );
-
  void CL_Init ( void );
-
  void CL_FixUpGender ( void );
  void CL_Disconnect ( void );
  void CL_Disconnect_f ( void );
@@ -417,6 +435,9 @@
  void CL_Snd_Restart_f ( void );
  void CL_RequestNextDownload ( void );
 
+ /**
+  *
+  */
  typedef struct {
    int     down[2]; /* key nums holding it down */
    unsigned  downtime; /* msec timestamp */
@@ -431,20 +452,14 @@
  void CL_InitInput ( void );
  void CL_SendCmd ( void );
  void CL_SendMove ( usercmd_t *cmd );
-
  void CL_ClearState ( void );
-
  void CL_ReadPackets ( void );
-
  int  CL_ReadFromServer ( void );
  void CL_WriteToServer ( usercmd_t *cmd );
  void CL_BaseMove ( usercmd_t *cmd );
-
  void IN_CenterView ( void );
-
  float CL_KeyState ( kbutton_t *key );
  char *Key_KeynumToString ( int keynum );
-
  void CL_WriteDemoMessage ( void );
  void CL_Stop_f ( void );
  void CL_Record_f ( void );
@@ -497,7 +512,6 @@
  void CL_ParseInventory ( void );
  void CL_KeyInventory ( int key );
  void CL_DrawInventory ( void );
-
  void CL_PredictMovement ( void );
 
  #endif /* CL_CLIENT_H */

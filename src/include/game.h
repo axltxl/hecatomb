@@ -42,6 +42,9 @@
 
  #define MAX_ENT_CLUSTERS 16
 
+ /**
+  *
+  */
  typedef enum {
    SOLID_NOT, /* no interaction with other objects */
    SOLID_TRIGGER, /* only touch when inside, after moving */
@@ -51,7 +54,9 @@
 
  /* =============================================================== */
 
- /* link_t is only used for entity area links now */
+ /**
+  * link_t is only used for entity area links now
+  */
  typedef struct link_s {
    struct link_s *prev, *next;
  } link_t;
@@ -62,6 +67,9 @@
 
  #ifndef GAME_INCLUDE
 
+ /**
+  *
+  */
  struct gclient_s {
    player_state_t ps;      /* communicated by server to clients */
    int ping;
@@ -69,6 +77,9 @@
       after  this point in the structure */
  };
 
+ /**
+  *
+  */
  struct edict_s {
    entity_state_t s;
    struct gclient_s *client;
@@ -97,7 +108,9 @@
 
  /* =============================================================== */
 
- /* functions provided by the main engine */
+ /**
+  * Functions provided by the main engine
+  */
  typedef struct {
    /* special messages */
    void ( *bprintf ) ( int printlevel, char *fmt, ... );
@@ -178,7 +191,9 @@
    void ( *DebugGraph ) ( float value, int color );
  } game_import_t;
 
- /* functions exported by the game subsystem */
+ /**
+  * Functions exported by the game subsystem
+  */
  typedef struct {
    int apiversion;
 
