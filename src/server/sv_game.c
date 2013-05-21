@@ -321,10 +321,7 @@
                    volume, attenuation, timeofs );
  }
 
- /*
-  * Called when either the entire server is being killed, or
-  * it is changing to a different game directory.
-  */
+ /* ========================================================================= */
  void
  SV_ShutdownGameProgs ( void )
  {
@@ -337,9 +334,7 @@
    ge = NULL;
  }
 
- /*
-  * Init the game subsystem for a new map
-  */
+ /* ========================================================================= */
  void
  SV_InitGameProgs ( void )
  {

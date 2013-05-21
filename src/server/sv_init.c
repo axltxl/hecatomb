@@ -68,18 +68,21 @@
    return i;
  }
 
+/* ========================================================================= */
  int
  SV_ModelIndex ( char *name )
  {
    return SV_FindIndex ( name, CS_MODELS, MAX_MODELS, true );
  }
 
+/* ========================================================================= */
  int
  SV_SoundIndex ( char *name )
  {
    return SV_FindIndex ( name, CS_SOUNDS, MAX_SOUNDS, true );
  }
 
+/* ========================================================================= */
  int
  SV_ImageIndex ( char *name )
  {
@@ -265,9 +268,7 @@
    Com_Printf ( "------------------------------------\n\n" );
  }
 
- /*
-  * A brand new game has been started
-  */
+ /* ========================================================================= */
  void
  SV_InitGame ( void )
  {

@@ -340,6 +340,7 @@
    Info_Print ( Cvar_Serverinfo() );
  }
 
+ /* ========================================================================= */
  void
  SV_Nextserver ( void )
  {
@@ -403,6 +404,7 @@
    {NULL, NULL}
  };
 
+/* ========================================================================= */
  void
  SV_ExecuteUserCommand ( char *s )
  {
@@ -439,9 +441,7 @@
    ge->ClientThink ( cl->edict, cmd );
  }
 
- /*
-  * The current net_message is parsed for the given client
-  */
+ /* ========================================================================= */
  void
  SV_ExecuteClientMessage ( client_t *cl )
  {

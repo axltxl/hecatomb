@@ -205,12 +205,18 @@
  extern edict_t *sv_player;
 
  /**
-  *
+  * Used by SV_Shutdown to send a final message to all
+  * connected clients before the server goes down. The
+  * messages are sent immediately, not just stuck on the
+  * outgoing message list, because the server is going
+  * to totally exit after returning from this function.
   */
  void SV_FinalMessage ( char *message, qboolean reconnect );
 
  /**
-  *
+  * Called when the player is totally leaving the server, either willingly
+  * or unwillingly.  This is NOT called if the entire server is quiting
+  * or crashing.
   */
  void SV_DropClient ( client_t *drop );
 
@@ -232,11 +238,6 @@
  /**
   *
   */
- void SV_WriteClientdataToMessage ( client_t *client, sizebuf_t *msg );
-
- /**
-  *
-  */
  void SV_ExecuteUserCommand ( char *s );
 
  /**
@@ -245,27 +246,13 @@
  void SV_InitOperatorCommands ( void );
 
  /**
-  *
-  */
- void SV_SendServerinfo ( client_t *client );
-
- /**
-  *
+  * Pull specific info from a newly changed userinfo string
+  * into a more C freindly form.
   */
  void SV_UserinfoChanged ( client_t *cl );
 
  /**
-  *
-  */
- void Master_Heartbeat ( void );
-
- /**
-  *
-  */
- void Master_Packet ( void );
-
- /**
-  *
+  * A brand new game has been started
   */
  void SV_InitGame ( void );
 
@@ -276,14 +263,25 @@
 
 
  /**
-  *
+  * Send a message to the master every few minutes to
+  * let it know we are alive, and log information
+  */
+ void Master_Heartbeat ( void );
+
+ /**
+  * This has to be done before the world logic, because
+  * player processing happens outside RunWorldFrame
   */
  void SV_PrepWorldFrame ( void );
 
  /**
   *
   */
- typedef enum {RD_NONE, RD_CLIENT, RD_PACKET} redirect_t;
+ typedef enum {
+    RD_NONE,
+    RD_CLIENT,
+    RD_PACKET
+  } redirect_t;
 
  extern char sv_outputbuf[SV_OUTPUTBUF_LENGTH];
 
@@ -303,29 +301,51 @@
  void SV_SendClientMessages ( void );
 
  /**
+  * Sends the contents of sv.multicast to a subset of the clients,
+  * then clears sv.multicast.
   *
+  * MULTICAST_ALL  same as broadcast (origin can be NULL)
+  * MULTICAST_PVS  send to clients potentially visible from org
+  * MULTICAST_PHS  send to clients potentially hearable from org
   */
  void SV_Multicast ( vec3_t origin, multicast_t to );
 
  /**
+  * Each entity can have eight independant sound sources, like voice,
+  * weapon, feet, etc.
   *
+  * If cahnnel & 8, the sound will be sent to everyone, not just
+  * things in the PHS.
+  *
+  * Channel 0 is an auto-allocate channel, the others override anything
+  * already running on that entity/channel pair.
+  *
+  * An attenuation of 0 will play full volume everywhere in the level.
+  * Larger attenuations will drop off.  (max 4 attenuation)
+  *
+  * Timeofs can range from 0.0 to 0.1 to cause sounds to be started
+  * later in the frame than they normally would.
+  *
+  * If origin is NULL, the origin is determined from the entity origin
+  * or the midpoint of the entity box for bmodels.
   */
  void SV_StartSound ( vec3_t origin, edict_t *entity, int channel,
                       int soundindex, float volume, float attenuation,
                       float timeofs );
 
+
  /**
-  *
+  * Sends text across to be displayed if the level passes
   */
  void SV_ClientPrintf ( client_t *cl, int level, char *fmt, ... );
 
  /**
-  *
+  * Sends text to all active clients
   */
  void SV_BroadcastPrintf ( int level, char *fmt, ... );
 
  /**
-  *
+  * Sends text to all active clients
   */
  void SV_BroadcastCommand ( char *fmt, ... );
 
@@ -335,7 +355,7 @@
  void SV_Nextserver ( void );
 
  /**
-  *
+  * The current net_message is parsed for the given client
   */
  void SV_ExecuteClientMessage ( client_t *cl );
 
@@ -355,42 +375,37 @@
  void SV_WriteFrameToClient ( client_t *client, sizebuf_t *msg );
 
  /**
-  *
+  * Save everything in the world out without deltas.
+  * Used for recording footage for merged or assembled demos
   */
  void SV_RecordDemoMessage ( void );
 
  /**
-  *
+  * Decides which entities are going to be visible to the client, and
+  * copies off the playerstat and areabits.
   */
  void SV_BuildClientFrame ( client_t *client );
 
- /**
-  *
-  */
- void SV_Error ( char *error, ... );
-
+ //
  extern game_export_t *ge;
 
  /**
-  *
+  * Init the game subsystem for a new map
   */
  void SV_InitGameProgs ( void );
 
  /**
-  *
+  * Called when either the entire server is being killed, or
+  * it is changing to a different game directory.
   */
  void SV_ShutdownGameProgs ( void );
 
- /**
-  *
-  */
- void SV_InitEdict ( edict_t *e );
 
  /* server side savegame stuff */
  /*----------------------------*/
 
  /**
-  *
+  * Delete save/<XXX>/
   */
  void SV_WipeSavegame ( char *savename );
 
@@ -450,7 +465,8 @@
  int SV_PointContents ( vec3_t p );
 
  /**
-  *
+  * Moves the given mins/maxs volume through the world from start to end.
+  * Passedict and edicts owned by passedict are explicitly not checked.
   */
  trace_t SV_Trace ( vec3_t start, vec3_t mins, vec3_t maxs,
                     vec3_t end, edict_t *passedict, int contentmask );

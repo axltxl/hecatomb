@@ -30,6 +30,7 @@
 
  char sv_outputbuf[SV_OUTPUTBUF_LENGTH];
 
+ /* ========================================================================= */
  void
  SV_FlushRedirect ( int sv_redirected, char *outputbuf )
  {
@@ -42,9 +43,7 @@
    }
  }
 
- /*
-  * Sends text across to be displayed if the level passes
-  */
+ /* ========================================================================= */
  void
  SV_ClientPrintf ( client_t *cl, int level, char *fmt, ... )
  {
@@ -63,9 +62,7 @@
    MSG_WriteString ( &cl->netchan.message, string );
  }
 
- /*
-  * Sends text to all active clients
-  */
+ /* ========================================================================= */
  void
  SV_BroadcastPrintf ( int level, char *fmt, ... )
  {
@@ -106,9 +103,7 @@
    }
  }
 
- /*
-  * Sends text to all active clients
-  */
+ /* ========================================================================= */
  void
  SV_BroadcastCommand ( char *fmt, ... )
  {
@@ -127,14 +122,7 @@
    SV_Multicast ( NULL, MULTICAST_ALL_R );
  }
 
- /*
-  * Sends the contents of sv.multicast to a subset of the clients,
-  * then clears sv.multicast.
-  *
-  * MULTICAST_ALL  same as broadcast (origin can be NULL)
-  * MULTICAST_PVS  send to clients potentially visible from org
-  * MULTICAST_PHS  send to clients potentially hearable from org
-  */
+ /* ========================================================================= */
  void
  SV_Multicast ( vec3_t origin, multicast_t to )
  {
@@ -224,25 +212,7 @@
    SZ_Clear ( &sv.multicast );
  }
 
- /*
-  * Each entity can have eight independant sound sources, like voice,
-  * weapon, feet, etc.
-  *
-  * If cahnnel & 8, the sound will be sent to everyone, not just
-  * things in the PHS.
-  *
-  * Channel 0 is an auto-allocate channel, the others override anything
-  * already running on that entity/channel pair.
-  *
-  * An attenuation of 0 will play full volume everywhere in the level.
-  * Larger attenuations will drop off.  (max 4 attenuation)
-  *
-  * Timeofs can range from 0.0 to 0.1 to cause sounds to be started
-  * later in the frame than they normally would.
-  *
-  * If origin is NULL, the origin is determined from the entity origin
-  * or the midpoint of the entity box for bmodels.
-  */
+ /* ========================================================================= */
  void
  SV_StartSound ( vec3_t origin, edict_t *entity, int channel, int soundindex,
                  float volume, float attenuation, float timeofs )
@@ -398,6 +368,7 @@
    return true;
  }
 
+ /* ========================================================================= */
  void
  SV_DemoCompleted ( void )
  {
@@ -439,6 +410,7 @@
    return false;
  }
 
+ /* ========================================================================= */
  void
  SV_SendClientMessages ( void )
  {

@@ -57,11 +57,7 @@
  void Master_Shutdown ( void );
  void SV_ConnectionlessPacket ( void );
 
- /*
-  * Called when the player is totally leaving the server, either willingly
-  * or unwillingly.  This is NOT called if the entire server is quiting
-  * or crashing.
-  */
+ /* ========================================================================= */
  void
  SV_DropClient ( client_t *drop )
  {
@@ -283,10 +279,7 @@
    }
  }
 
- /*
-  * This has to be done before the world logic, because
-  * player processing happens outside RunWorldFrame
-  */
+ /* ========================================================================= */
  void
  SV_PrepWorldFrame ( void )
  {
@@ -392,10 +385,7 @@
    SV_PrepWorldFrame();
  }
 
- /*
-  * Send a message to the master every few minutes to
-  * let it know we are alive, and log information
-  */
+ /* ========================================================================= */
  void
  Master_Heartbeat ( void )
  {
@@ -463,10 +453,7 @@
    }
  }
 
- /*
-  * Pull specific info from a newly changed userinfo string
-  * into a more C freindly form.
-  */
+ /* ========================================================================= */
  void
  SV_UserinfoChanged ( client_t *cl )
  {
@@ -544,13 +531,7 @@
    SZ_Init ( &net_message, net_message_buffer, sizeof ( net_message_buffer ) );
  }
 
- /*
-  * Used by SV_Shutdown to send a final message to all
-  * connected clients before the server goes down. The
-  * messages are sent immediately, not just stuck on the
-  * outgoing message list, because the server is going
-  * to totally exit after returning from this function.
-  */
+ /* ========================================================================= */
  void
  SV_FinalMessage ( char *message, qboolean reconnect )
  {

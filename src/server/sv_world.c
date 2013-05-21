@@ -59,6 +59,7 @@
    l->prev = l->next = l;
  }
 
+ /* ========================================================================= */
  void
  RemoveLink ( link_t *l )
  {
@@ -66,6 +67,7 @@
    l->prev->next = l->next;
  }
 
+ /* ========================================================================= */
  void
  InsertLinkBefore ( link_t *l, link_t *before )
  {
@@ -122,6 +124,7 @@
    SV_CreateAreaNode ( 0, sv.models[1]->mins, sv.models[1]->maxs );
  }
 
+ /* ========================================================================= */
  void
  SV_UnlinkEdict ( edict_t *ent )
  {
@@ -133,6 +136,7 @@
    ent->area.prev = ent->area.next = NULL;
  }
 
+ /* ========================================================================= */
  void
  SV_LinkEdict ( edict_t *ent )
  {
@@ -392,6 +396,7 @@
    }
  }
 
+ /* ========================================================================= */
  int
  SV_AreaEdicts ( vec3_t mins, vec3_t maxs, edict_t **list,
                  int maxcount, int areatype )
@@ -411,6 +416,7 @@
    return area_count;
  }
 
+ /* ========================================================================= */
  int
  SV_PointContents ( vec3_t p )
  {
@@ -566,10 +572,7 @@
    }
  }
 
- /*
-  * Moves the given mins/maxs volume through the world from start to end.
-  * Passedict and edicts owned by passedict are explicitly not checked.
-  */
+ /* ========================================================================= */
  trace_t
  SV_Trace ( vec3_t start, vec3_t mins, vec3_t maxs, vec3_t end,
             edict_t *passedict, int contentmask )

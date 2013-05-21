@@ -322,6 +322,7 @@
    }
  }
 
+ /* ========================================================================= */
  void
  SV_WriteFrameToClient ( client_t *client, sizebuf_t *msg )
  {
@@ -411,10 +412,7 @@
    }
  }
 
- /*
-  * Decides which entities are going to be visible to the client, and
-  * copies off the playerstat and areabits.
-  */
+ /* ========================================================================= */
  void
  SV_BuildClientFrame ( client_t *client )
  {
@@ -554,10 +552,7 @@
    }
  }
 
- /*
-  * Save everything in the world out without deltas.
-  * Used for recording footage for merged or assembled demos
-  */
+ /* ========================================================================= */
  void
  SV_RecordDemoMessage ( void )
  {

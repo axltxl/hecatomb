@@ -277,6 +277,7 @@
    sv_client->lastmessage = svs.realtime; /* min case there is a funny zombie */
  }
 
+ /* ========================================================================= */
  void
  SV_Status_f ( void )
  {
@@ -539,6 +540,7 @@
    ge->ServerCommand();
  }
 
+ /* ========================================================================= */
  void
  SV_InitOperatorCommands ( void )
  {
