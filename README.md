@@ -3,7 +3,7 @@ A portable Quake II client
 
 [![Build Status](https://drone.io/github.com/alericoveri/hecatomb/status.png)](https://drone.io/github.com/alericoveri/hecatomb/latest)
 
-This is the Hecatomb Quake II Client, an enhanced Version of [Yamagi's Quake II](http://github.com/yquake2) 
+This is the Hecatomb *Quake II Client*, an enhanced Version of [Yamagi's Quake II](http://github.com/yquake2) 
 who's being intensely developed towards *portability*. Serious decisions are being made. 
 The main focus is engine portability, modernization and expansion capabilities, that means HTQ2 is not only portable but also extensible. 
 With the power and stability of Yamagi Quake II, 
@@ -31,4 +31,4 @@ file for further information.
 * PhysFS backend for FS_ calls
 * GLEW backend for dealing with OpenGL context and extensions on refresher
 
-Please watch the FAQ before doing anything!
+#***Please watch the FAQ before doing anything!***
