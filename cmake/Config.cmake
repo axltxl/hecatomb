@@ -92,7 +92,6 @@ elseif ("${CMAKE_C_COMPILER_ID}" MATCHES "Clang")
 # Unsupported compiler
 else()
     message(WARNING "Unsupported compiler '${CMAKE_C_COMPILER_ID}'. Current supported compilers are gcc and clang.")
-    return()
 endif()
 
 # clang++ (Only for OS X)

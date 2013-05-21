@@ -127,6 +127,12 @@
  #  define HT_CC_VERSION_PATCH 0
  #endif
 
+ #ifdef HT_CC_UNK
+ #  define HT_CC_VERSION_MAJOR 0
+ #  define HT_CC_VERSION_MINOR 0
+ #  define HT_CC_VERSION_PATCH 0
+ #endif
+
  /* Compiler version */
  #define HT_CC_VERSION (HT_CC_VERSION_MAJOR * 1000 \
     + HT_CC_VERSION_MINOR * 100 + HT_CC_VERSION_PATCH * 10)
