@@ -119,19 +119,19 @@
  extern LPALDELETEFILTERS qalDeleteFilters;
  #endif
 
- /*
+ /**
   * Gives information over the OpenAL
   * implementation and it's state
   */
  void QAL_SoundInfo ( void );
 
- /*
+ /**
   * Loads the OpenAL shared lib, creates
   * a context and device handle.
   */
  qboolean QAL_Init ( void );
 
- /*
+ /**
   * Shuts OpenAL down, frees all context and
   * device handles and unloads the shared lib.
   */
