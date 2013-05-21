@@ -111,6 +111,7 @@
  static int current;
  static graphsamp_t values[2024];
 
+ /* ========================================================================= */
  void
  SCR_DebugGraph ( float value, int color )
  {
@@ -155,10 +156,7 @@
  int scr_center_lines;
  int scr_erase_center;
 
- /*
-  * Called for important messages that should stay
-  * in the center of the screen for a few moments
-  */
+ /* ========================================================================= */
  void
  SCR_CenterPrint ( char *str )
  {
@@ -219,6 +217,7 @@
    Con_ClearNotify();
  }
 
+ /* ========================================================================= */
  void
  SCR_DrawCenterString ( void )
  {
@@ -431,9 +430,7 @@
    Draw_Pic ( ( viddef.width - w ) / 2, ( viddef.height - h ) / 2, "loading" );
  }
 
- /*
-  * Scroll it up or down
-  */
+ /* ========================================================================= */
  void
  SCR_RunConsole ( void )
  {
@@ -556,6 +553,7 @@
    }
  }
 
+ /* ========================================================================= */
  void
  SCR_TimeRefresh_f ( void )
  {
@@ -852,9 +850,7 @@
    }
  }
 
- /*
-  * Allows rendering code to cache all needed sbar graphics
-  */
+ /* ========================================================================= */
  void
  SCR_TouchPics ( void )
  {
@@ -1206,10 +1202,7 @@
    SCR_ExecuteLayoutString ( cl.layout );
  }
 
- /*
-  * This is called every frame, and can also be called
-  * explicitly to flush text to the screen.
-  */
+ /* ========================================================================= */
  void
  SCR_UpdateScreen ( void )
  {

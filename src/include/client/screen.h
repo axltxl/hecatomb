@@ -35,22 +35,15 @@
  void  SCR_Init ( void );
 
  /**
-  *
+  * This is called every frame, and can also be called
+  * explicitly to flush text to the screen.
   */
  void  SCR_UpdateScreen ( void );
 
- /**
-  *
-  */
- void  SCR_SizeUp ( void );
 
  /**
-  *
-  */
- void  SCR_SizeDown ( void );
-
- /**
-  *
+  * Called for important messages that should stay
+  * in the center of the screen for a few moments
   */
  void  SCR_CenterPrint ( char *str );
 
@@ -70,12 +63,12 @@
  void  SCR_DebugGraph ( float value, int color );
 
  /**
-  *
+  * Allows rendering code to cache all needed sbar graphics
   */
  void  SCR_TouchPics ( void );
 
  /**
-  *
+  * Scroll it up or down
   */
  void  SCR_RunConsole ( void );
 

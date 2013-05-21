@@ -44,11 +44,7 @@
    qglTexParameteri ( GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST );
  }
 
- /*
-  * Draws one 8*8 graphics character with 0 being transparent.
-  * It can be clipped to the top of the screen to allow the console to be
-  * smoothly scrolled off.
-  */
+ /* ========================================================================= */
  void
  Draw_Char ( int x, int y, int num )
  {
@@ -82,6 +78,7 @@
    qglEnd();
  }
 
+ /* ========================================================================= */
  image_t *
  Draw_FindPic ( char *name )
  {
@@ -98,6 +95,7 @@
    return gl;
  }
 
+ /* ========================================================================= */
  void
  Draw_GetPicSize ( int *w, int *h, char *pic )
  {
@@ -113,6 +111,7 @@
    *h = gl->height;
  }
 
+ /* ========================================================================= */
  void
  Draw_StretchPic ( int x, int y, int w, int h, char *pic )
  {
@@ -141,6 +140,7 @@
    qglEnd();
  }
 
+ /* ========================================================================= */
  void
  Draw_Pic ( int x, int y, char *pic )
  {
@@ -169,11 +169,7 @@
    qglEnd();
  }
 
- /*
-  * This repeats a 64*64 tile graphic to fill
-  * the screen around a sized down
-  * refresh window.
-  */
+ /* ========================================================================= */
  void
  Draw_TileClear ( int x, int y, int w, int h, char *pic )
  {
@@ -198,9 +194,7 @@
    qglEnd();
  }
 
- /*
-  * Fills a box of pixels with a single color
-  */
+ /* ========================================================================= */
  void
  Draw_Fill ( int x, int y, int w, int h, int c )
  {
@@ -227,6 +221,7 @@
    qglEnable ( GL_TEXTURE_2D );
  }
 
+ /* ========================================================================= */
  void
  Draw_FadeScreen ( void )
  {
@@ -244,6 +239,7 @@
    qglDisable ( GL_BLEND );
  }
 
+ /* ========================================================================= */
  void
  Draw_StretchRaw ( int x, int y, int w, int h, int cols, int rows, byte *data )
  {

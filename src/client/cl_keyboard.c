@@ -680,9 +680,7 @@
    Key_SetBinding ( b, cmd );
  }
 
- /*
-  * Writes lines containing "bind key value"
-  */
+ /* ========================================================================= */
  void
  Key_WriteBindings ( FILE *f )
  {
@@ -807,11 +805,7 @@
    Cmd_AddCommand ( "bindlist", Key_Bindlist_f );
  }
 
- /*
-  * Called by the system between frames
-  * for both key up and key down events
-  * Should NOT be called during an interrupt!
-  */
+ /* ========================================================================= */
  void
  Key_Event ( int key, qboolean down, unsigned time )
  {

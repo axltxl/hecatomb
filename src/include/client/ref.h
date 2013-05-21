@@ -133,11 +133,11 @@
  } refdef_t;
 
  /*
-  * Refresh API
+  * Refresh public API
   */
 
  /**
-  *
+  * Specifies the model that will be used as the world
   */
  void R_BeginRegistration ( char *map );
 
@@ -192,17 +192,21 @@
  void Draw_StretchPic ( int x, int y, int w, int h, char *name );
 
  /**
-  *
+  * Draws one 8*8 graphics character with 0 being transparent.
+  * It can be clipped to the top of the screen to allow the console to be
+  * smoothly scrolled off.
   */
  void Draw_Char ( int x, int y, int c );
 
  /**
-  *
+  * This repeats a 64*64 tile graphic to fill
+  * the screen around a sized down
+  * refresh window.
   */
  void Draw_TileClear ( int x, int y, int w, int h, char *name );
 
  /**
-  *
+  * Fills a box of pixels with a single color
   */
  void Draw_Fill ( int x, int y, int w, int h, int c );
 
@@ -217,12 +221,12 @@
  void Draw_StretchRaw ( int x, int y, int w, int h, int cols, int rows, byte *data );
 
  /**
-  *
+  * Initiate the refresher
   */
  int R_Init ( void *hinstance, void *hWnd );
 
  /**
-  *
+  * Shutdown the refresher
   */
  void R_Shutdown ( void );
 
@@ -237,7 +241,7 @@
  void R_BeginFrame ( float camera_separation );
 
  /**
-  *
+  * Swaps the buffers to show the new frame
   */
  void GLimp_EndFrame ( void );
 

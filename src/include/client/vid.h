@@ -58,7 +58,10 @@
  void  VID_Shutdown ( void );
 
  /**
-  *
+  * This function gets called once just before drawing each frame, and
+  * it's sole purpose in life is to check to see if any of the video mode
+  * parameters have changed, and if they have to update the refresh
+  * and/or video mode to match.
   */
  void  VID_CheckChanges ( void );
 

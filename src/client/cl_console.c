@@ -118,6 +118,7 @@
    Con_ClearNotify();
  }
 
+ /* ========================================================================= */
  void
  Con_Clear_f ( void )
  {
@@ -223,9 +224,7 @@
    cls.key_dest = key_message;
  }
 
- /*
-  * If the line width has changed, reformat the buffer.
-  */
+ /* ========================================================================= */
  void
  Con_CheckResize ( void )
  {
@@ -311,11 +310,7 @@
             ' ', con.linewidth );
  }
 
- /*
-  * Handles cursor positioning, line wrapping, etc All console printing
-  * must go through this in order to be logged to disk If no console is
-  * visible, the text will appear at the top of the game window
-  */
+ /* ========================================================================= */
  void
  Con_Print ( char *txt )
  {
@@ -448,9 +443,7 @@
    key_lines[edit_line][key_linepos] = 0;
  }
 
- /*
-  * Draws the last few lines of output transparently over the game top
-  */
+ /* ========================================================================= */
  void
  Con_DrawNotify ( void )
  {
@@ -520,10 +513,7 @@
    }
  }
 
- /*
-  * Draws the console with the solid background
-  */
-
+ /* ========================================================================= */
  #define MAX_VER 128
  #define MAX_URL 128
  void

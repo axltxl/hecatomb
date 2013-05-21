@@ -56,6 +56,7 @@
  static menuaction_s s_apply_action;
  static menuaction_s s_defaults_action;
 
+ /* ========================================================================= */
  static void
  ScreenSizeCallback ( void *s )
  {
@@ -63,6 +64,7 @@
    Cvar_SetValue ( "viewsize", slider->curvalue * 10 );
  }
 
+ /* ========================================================================= */
  static void
  BrightnessCallback ( void *s )
  {
@@ -71,12 +73,14 @@
    Cvar_SetValue ( "vid_gamma", gamma );
  }
 
+ /* ========================================================================= */
  static void
  ResetDefaults ( void *unused )
  {
    VID_MenuInit();
  }
 
+ /* ========================================================================= */
  static void
  ApplyChanges ( void *unused )
  {
@@ -145,6 +149,7 @@
    M_ForceMenuOff();
  }
 
+ /* ========================================================================= */
  void
  VID_MenuInit ( void )
  {
@@ -316,6 +321,7 @@
    s_opengl_menu.x -= 8;
  }
 
+ /* ========================================================================= */
  void
  VID_MenuDraw ( void )
  {
@@ -330,6 +336,7 @@
    Menu_Draw ( &s_opengl_menu );
  }
 
+ /* ========================================================================= */
  const char *
  VID_MenuKey ( int key )
  {

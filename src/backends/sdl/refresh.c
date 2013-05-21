@@ -261,9 +261,7 @@
    return true;
  }
 
- /*
-  * Swaps the buffers to show the new frame
-  */
+ /* ========================================================================= */
  void
  GLimp_EndFrame ( void )
  {

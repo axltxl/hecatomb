@@ -59,12 +59,7 @@
  extern  console_t con;
 
  /**
-  *
-  */
- void Con_DrawCharacter ( int cx, int line, int num );
-
- /**
-  *
+  * If the line width has changed, reformat the buffer.
   */
  void Con_CheckResize ( void );
 
@@ -74,12 +69,14 @@
  void Con_Init ( void );
 
  /**
-  *
+  * Draws the console with the solid background
   */
  void Con_DrawConsole ( float frac );
 
  /**
-  *
+  * Handles cursor positioning, line wrapping, etc All console printing
+  * must go through this in order to be logged to disk If no console is
+  * visible, the text will appear at the top of the game window
   */
  void Con_Print ( char *txt );
 
@@ -94,7 +91,7 @@
  void Con_Clear_f ( void );
 
  /**
-  *
+  * Draws the last few lines of output transparently over the game top
   */
  void Con_DrawNotify ( void );
 
