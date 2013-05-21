@@ -81,7 +81,7 @@ endif()
 #
 # Architecture settings
 # ---------------------
-if (ARCH STREQUAL "i386")
+if (ARCH STREQUAL "x86")
     set (HT_ARCH_x86 1)
 elseif (ARCH STREQUAL "x86_64")
     set (HT_ARCH_x86_64 1)
