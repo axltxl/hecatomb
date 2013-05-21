@@ -92,7 +92,7 @@
 
  /* gcc */
  #ifdef HT_CC_GCC
- # sdefine HT_CC_VERSION_MAJOR __GNUC__
+ # define HT_CC_VERSION_MAJOR __GNUC__
  # define HT_CC_VERSION_MINOR __GNUC_MINOR__
  # define HT_CC_VERSION_PATCH __GNUC_PATCHLEVEL__
  #endif
