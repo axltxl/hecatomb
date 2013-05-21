@@ -34,18 +34,6 @@ ht_set_option(CMAKE_BUILD_TYPE Debug STRING
 set (PROJ_NAME "hecatomb")
 project (${PROJ_NAME})
 
-# Essential info
-# ---------------------
-set (PROJ_DEVNAME "htq2")
-set (PROJ_URL "github.com/alericoveri/hecatomb")
-set (PROJ_GIT_URL "git://github.com/alericoveri/hecatomb.git")
-set (PROJ_PRODUCT_NAME "Hecatomb Quake II")
-set (PROJ_EMAIL "alejandroricoveri@gmail.com")
-set (VERSION_MAJOR 1)
-set (VERSION_MINOR 0)
-set (VERSION_PATCH 0)
-set (VERSION "${VERSION_MAJOR}.${VERSION_MINOR}${VERSION_PATCH}")
-
 # Helpful modules are here
 # ---------------------
 set (CMAKE_GOODIES_PATH ${CMAKE_SOURCE_DIR}/cmake)
@@ -65,6 +53,21 @@ else()
   add_definitions (-DNDEBUG)
   set (HT_CC_CFLAGS "${CMAKE_C_FLAGS} ${CMAKE_C_FLAGS_RELEASE}")
 endif()
+
+# Essential info
+# ---------------------
+set (PROJ_DEVNAME "htq2")
+set (PROJ_URL "github.com/alericoveri/hecatomb")
+set (PROJ_GIT_URL "git://github.com/alericoveri/hecatomb.git")
+set (PROJ_PRODUCT_NAME "Hecatomb Quake II")
+set (PROJ_EMAIL "alejandroricoveri@gmail.com")
+set (VERSION_MAJOR 0)
+set (VERSION_MINOR 1)
+set (VERSION_PATCH 0)
+if (HT_BUILD_DEBUG)
+  set (VERSION_STATE "a1")
+endif()
+set (VERSION "${VERSION_MAJOR}.${VERSION_MINOR}.${VERSION_PATCH}-${VERSION_STATE}")
 
 # All goodies are available on Windows and OSX
 # ---------------------
