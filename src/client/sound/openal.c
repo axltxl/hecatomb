@@ -619,7 +619,7 @@ AL_Update(void)
 void
 AL_Underwater()
 {
-#if !defined (__APPLE__)
+#if !defined (HT_OS_OSX)
 	int i;
 
 	if (sound_started != SS_OAL)
@@ -641,7 +641,7 @@ AL_Underwater()
 void
 AL_Overwater()
 {
-#if !defined (__APPLE__)
+#if !defined (HT_OS_OSX)
 	int i;
 
 	if (sound_started != SS_OAL)
@@ -677,10 +677,10 @@ AL_InitStreamSource()
 /*
  * Set up the underwater filter
  */
+#if !defined (HT_OS_OSX)
 static void
 AL_InitUnderwaterFilter()
 {
-#if !defined (__APPLE__)
 	/* Generate a filter */
 	qalGenFilters(1, &underwaterFilter);
 
@@ -702,8 +702,8 @@ AL_InitUnderwaterFilter()
 	/* The effect */
 	qalFilterf(underwaterFilter, AL_LOWPASS_GAIN, 1.5);
 	qalFilterf(underwaterFilter, AL_LOWPASS_GAINHF, 0.25);
-#endif
 }
+#endif
 
 /*
  * Initializes the OpenAL backend
@@ -764,7 +764,7 @@ AL_Init(void)
 	s_numchannels = i;
 	AL_InitStreamSource();
 
-#ifndef __APPLE__
+#ifndef HT_OS_OSX
 	AL_InitUnderwaterFilter();
 #endif
 
@@ -783,7 +783,7 @@ AL_Shutdown(void)
 	AL_StreamDie();
 
 	qalDeleteSources(1, &streamSource);
-#if !defined (__APPLE__)
+#if !defined (HT_OS_OSX)
 	qalDeleteFilters(1, &underwaterFilter);
 #endif
 	if (s_numchannels)
