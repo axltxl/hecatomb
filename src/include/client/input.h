@@ -28,14 +28,24 @@
  #ifndef CL_HEADER_INPUT_H
  #define CL_HEADER_INPUT_H
 
+ /**
+  *
+  */
  void IN_Shutdown ( void );
 
- /* oportunity for devices to stick commands on the script buffer */
+ /**
+  * Oportunity for devices to stick commands on the script buffer
+  */
  void IN_Commands ( void );
 
+ /**
+  *
+  */
  void IN_Frame ( void );
 
- /* add additional movement on top of the keyboard move cmd */
+ /**
+   * Add additional movement on top of the keyboard move cmd
+   */
  void IN_Move ( usercmd_t *cmd );
 
  #endif /* CL_HEADER_INPUT_H */

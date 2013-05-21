@@ -29,10 +29,16 @@
 
  #include "prereqs.h"
 
+ /**
+  *
+  */
  typedef struct vrect_s {
    int       x, y, width, height;
  } vrect_t;
 
+ /**
+  *
+  */
  typedef struct {
    int   width, height; /* coordinates from main game */
  } viddef_t;
@@ -40,18 +46,55 @@
  extern  viddef_t  viddef; /* global video state */
 
  /* Video module initialisation, etc */
+
+ /**
+  *
+  */
  void  VID_Init ( void );
+
+ /**
+  *
+  */
  void  VID_Shutdown ( void );
+
+ /**
+  *
+  */
  void  VID_CheckChanges ( void );
 
+ /**
+  *
+  */
  void  VID_MenuInit ( void );
+
+ /**
+  *
+  */
  void  VID_MenuDraw ( void );
+
+ /**
+  *
+  */
  const char *VID_MenuKey ( int );
 
+ /**
+  *
+  */
  void VID_Printf ( int print_level, char *fmt, ... );
+
+ /**
+  *
+  */
  void VID_Error ( int err_level, char *fmt, ... );
 
+ /**
+  *
+  */
  void VID_NewWindow ( int width, int height );
+
+ /**
+  *
+  */
  qboolean VID_GetModeInfo ( int *width, int *height, int mode );
 
  #endif /* CL_VID_H */

@@ -32,6 +32,10 @@
  #define NUM_CON_TIMES 4
  #define CON_TEXTSIZE  32768
 
+
+ /**
+  *
+  */
  typedef struct {
    qboolean  initialized;
 
@@ -54,15 +58,54 @@
 
  extern  console_t con;
 
+ /**
+  *
+  */
  void Con_DrawCharacter ( int cx, int line, int num );
+
+ /**
+  *
+  */
  void Con_CheckResize ( void );
+
+ /**
+  *
+  */
  void Con_Init ( void );
+
+ /**
+  *
+  */
  void Con_DrawConsole ( float frac );
+
+ /**
+  *
+  */
  void Con_Print ( char *txt );
+
+ /**
+  *
+  */
  void Con_CenteredPrint ( char *text );
+
+ /**
+  *
+  */
  void Con_Clear_f ( void );
+
+ /**
+  *
+  */
  void Con_DrawNotify ( void );
+
+ /**
+  *
+  */
  void Con_ClearNotify ( void );
+
+ /**
+  *
+  */
  void Con_ToggleConsole_f ( void );
 
  #endif /* CL_HEADER_CONSOLE_H */

@@ -54,6 +54,9 @@
  #define ENTITY_FLAGS  68
  #define API_VERSION   3
 
+/**
+  *
+  */
  typedef struct entity_s {
    struct model_s    *model; /* opaque type outside refresh */
    float       angles[3];
@@ -77,23 +80,35 @@
    int   flags;
  } entity_t;
 
+/**
+  *
+  */
  typedef struct {
    vec3_t  origin;
    vec3_t  color;
    float intensity;
  } dlight_t;
 
+/**
+  *
+  */
  typedef struct {
    vec3_t  origin;
    int   color;
    float alpha;
  } particle_t;
 
+/**
+  *
+  */
  typedef struct {
    float   rgb[3]; /* 0.0 - 2.0 */
    float   white; /* highest of rgb */
  } lightstyle_t;
 
+/**
+  *
+  */
  typedef struct {
    int     x, y, width, height; /* in virtual screen coordinates */
    float   fov_x, fov_y;
@@ -120,26 +135,110 @@
  /*
   * Refresh API
   */
+
+ /**
+  *
+  */
  void R_BeginRegistration ( char *map );
+
+ /**
+  *
+  */
  void R_Clear ( void );
+
+ /**
+  *
+  */
  struct model_s *R_RegisterModel ( char *name );
+
+ /**
+  *
+  */
  struct image_s *R_RegisterSkin ( char *name );
+
+ /**
+  *
+  */
  void R_SetSky ( char *name, float rotate, vec3_t axis );
+
+ /**
+  *
+  */
  void R_EndRegistration ( void );
+
+ /**
+  *
+  */
  struct image_s *Draw_FindPic ( char *name );
+
+ /**
+  *
+  */
  void R_RenderFrame ( refdef_t *fd );
+
+ /**
+  *
+  */
  void Draw_GetPicSize ( int *w, int *h, char *name );
+
+ /**
+  *
+  */
  void Draw_Pic ( int x, int y, char *name );
+
+ /**
+  *
+  */
  void Draw_StretchPic ( int x, int y, int w, int h, char *name );
+
+ /**
+  *
+  */
  void Draw_Char ( int x, int y, int c );
+
+ /**
+  *
+  */
  void Draw_TileClear ( int x, int y, int w, int h, char *name );
+
+ /**
+  *
+  */
  void Draw_Fill ( int x, int y, int w, int h, int c );
+
+ /**
+  *
+  */
  void Draw_FadeScreen ( void );
+
+ /**
+  *
+  */
  void Draw_StretchRaw ( int x, int y, int w, int h, int cols, int rows, byte *data );
+
+ /**
+  *
+  */
  int R_Init ( void *hinstance, void *hWnd );
+
+ /**
+  *
+  */
  void R_Shutdown ( void );
+
+ /**
+  *
+  */
  void R_SetPalette ( const unsigned char *palette );
+
+ /**
+  *
+  */
  void R_BeginFrame ( float camera_separation );
+
+ /**
+  *
+  */
  void GLimp_EndFrame ( void );
 
  #endif /* CL_REF_H */
