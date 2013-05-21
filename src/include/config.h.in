@@ -34,6 +34,22 @@
  #define HT_GIT_URL "@PROJ_GIT_URL@"
  #define HT_EMAIL "@PROJ_EMAIL@"
 
+ /* Available headers and functions */
+ #cmakedefine HT_HAVE_ASSERT_H 1
+ #cmakedefine HT_HAVE_MATH_H 1
+ #cmakedefine HT_HAVE_STRING_H 1
+ #cmakedefine HT_HAVE_STDARG_H 1
+ #cmakedefine HT_HAVE_STDIO_H 1
+ #cmakedefine HT_HAVE_STDLIB_H 1
+ #cmakedefine HT_HAVE_CTYPE_H 1
+ #cmakedefine HT_HAVE_SETJMP_H 1
+ #cmakedefine HT_HAVE_SIGNAL_H 1
+ #cmakedefine HT_HAVE_CTYPE_H 1
+ #cmakedefine HT_HAVE_TIME_H 1
+ #cmakedefine HT_HAVE_LOCALE_H 1
+ #cmakedefine HT_HAVE_ERRNO_H 1
+ #cmakedefine HT_HAVE_STDINT_H 1
+
  /* Build type */
  #cmakedefine HT_BUILD_DEBUG
  #cmakedefine HT_BUILD_RELEASE
@@ -130,10 +146,6 @@
  #cmakedefine HT_GIT_COMMIT "@HT_GIT_COMMIT@"
  #cmakedefine HT_GIT_BRANCH "@HT_GIT_BRANCH@"
 
- /* Available headers and functions */
- #cmakedefine HT_HAVE_MALLOC_H
- #cmakedefine HT_HAVE_STDINT_H
-
  /* Byte order */
  #cmakedefine HT_ENDIAN_BIG
  #cmakedefine HT_ENDIAN_LITTLE
@@ -149,7 +161,7 @@
  #cmakedefine HT_WITH_ZIP
 
  /* Optional features */
- #cmakedefine HAVE_EXECINFO /* Nice and cool execinfo */
+ #cmakedefine HT_HAVE_EXECINFO 1/* Nice and cool execinfo */
 
  #ifdef HT_WITH_ZIP
  # define NOUNCRYPT

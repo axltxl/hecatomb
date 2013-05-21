@@ -27,20 +27,45 @@
  #include "config.h"
 
  // ISO C headers
- #include <assert.h>
- #include <math.h>
- #include <string.h>
- #include <stdarg.h>
- #include <stdio.h>
- #include <stdlib.h>
- #include <ctype.h>
- #include <setjmp.h>
- #include <signal.h>
- #include <ctype.h>
- #include <time.h>
- #include <locale.h>
- #include <errno.h>
- #include <stdint.h>
+ #if HT_HAVE_ASSERT_H
+ # include <assert.h>
+ #endif
+ #if HT_HAVE_MATH_H
+ # include <math.h>
+ #endif
+ #if HT_HAVE_STRING_H
+ # include <string.h>
+ #endif
+ #if HT_HAVE_STDARG_H
+ # include <stdarg.h>
+ #endif
+ #if HT_HAVE_STDIO_H
+ # include <stdio.h>
+ #endif
+ #if HT_HAVE_STDLIB_H
+ # include <stdlib.h>
+ #endif
+ #if HT_HAVE_CTYPE_H
+ # include <ctype.h>
+ #endif
+ #if HT_HAVE_SETJMP_H
+ # include <setjmp.h>
+ #endif
+ #if HT_HAVE_SIGNAL_H
+ # include <signal.h>
+ #endif
+ #if HT_HAVE_TIME_H
+ # include <time.h>
+ #endif
+ #if HT_HAVE_LOCALE_H
+ # include <locale.h>
+ #endif
+ #if HT_HAVE_ASSERT_H
+ # include <errno.h>
+ #endif
+ #if HT_HAVE_ASSERT_H
+ # include <stdint.h>
+ #endif
 
  // Common
  #include "common/common.h"

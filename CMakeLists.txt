@@ -101,6 +101,23 @@ elseif (ARCH STREQUAL "ppc")
     set (HT_ARCH_ppc 1)
 endif()
 
+# Check basic C headers
+# ---------------------
+include (CheckIncludeFiles)
+check_include_files (assert.h HT_HAVE_ASSERT_H)
+check_include_files (math.h HT_HAVE_MATH_H)
+check_include_files (string.h HT_HAVE_STRING_H)
+check_include_files (stdarg.h HT_HAVE_STDARG_H)
+check_include_files (stdio.h HT_HAVE_STDIO_H)
+check_include_files (stdlib.h HT_HAVE_STDLIB_H)
+check_include_files (ctype.h HT_HAVE_CTYPE_H)
+check_include_files (setjmp.h HT_HAVE_SETJMP_H)
+check_include_files (signal.h HT_HAVE_SIGNAL_H)
+check_include_files (time.h HT_HAVE_TIME_H)
+check_include_files (locale.h HT_HAVE_LOCALE_H)
+check_include_files (errno.h HT_HAVE_ERRNO_H)
+check_include_files (stdint.h HT_HAVE_STDINT_H)
+
 # let CMake know about our additional libraries paths (on Windows and OS X)
 # Thanks to SFML guys for this snippet
 # ---------------------
@@ -206,7 +223,7 @@ if (UNIX)
   # ---------------------
   find_package (Libexecinfo)
   if(LIBEXECINFO_LIB_FOUND)
-    set(HAVE_EXECINFO 1)
+    set(HT_HAVE_EXECINFO 1)
   endif()
 
   # dlopen, dlsym, dlclose, etc ...
