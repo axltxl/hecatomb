@@ -19,7 +19,6 @@ set (
   ${HEADER_DIR}/backend/generic/glwindow.h
   ${HEADER_DIR}/backend/generic/input.h
   ${HEADER_DIR}/backend/generic/qal.h
-  ${HEADER_DIR}/backend/generic/al.h
   ${HEADER_DIR}/backend/generic/qgl.h
   ${HEADER_DIR}/backend/generic/gl.h
   ${HEADER_DIR}/backend/generic/sdl.h

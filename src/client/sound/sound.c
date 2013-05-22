@@ -30,7 +30,9 @@
 
 #include "prereqs.h"
 #include "client.h"
-#include "backend/generic/qal.h"
+#ifdef HT_WITH_OPENAL
+# include "backend/generic/qal.h"
+#endif
 #include "client/sound/local.h"
 #include "client/sound/vorbis.h"
 #include "common/zone.h"
