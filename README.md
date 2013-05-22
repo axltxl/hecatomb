@@ -30,12 +30,15 @@ OK, so you want to try it out?. Here's what you'll need:
 This code is based upon the solid codebase of Yamagi Quake II, which itself is based upon Icculus Quake II, which itself is built upon id
 Software's original code drop indeed, oh well ... 
 
-##Current milestone is 0.1
-* Good layout/organization of the code, that includes 2-space indentation and better header layout
+##Current milestone is *0.1*
+* Layout/refactoring of the code
 * CMake build system fully automated for all supported platforms
-* No QAL/QGL whatsoever
+* No QAL whatsoever
 * Get rid of CD-Audio playback (it's like playing LP's on a Commodore64)
-* Several bug fixes
+* Bug fixes
+
+### Milestone 0.2
+* No QGL
 
 At this point, you may wish to visit the wiki for more info!
 Namaste!
