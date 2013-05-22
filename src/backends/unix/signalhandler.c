@@ -44,13 +44,13 @@
    strings = backtrace_symbols ( array, size );
  #endif
    printf ( "%s - v%s\n", HT_DEV_NAME, HT_VERSION);
-   printf ( "OS = %s\n", HT_OS_NAME );
-   printf ( "arch = %s\n", HT_ARCH_NAME );
-   printf ( "cc = %s-%d.%d.%d\n", HT_CC_ID, HT_CC_VERSION_MAJOR,
+   printf ( "OS\t = %s\n", HT_OS_NAME );
+   printf ( "arch\t = %s\n", HT_ARCH_NAME );
+   printf ( "cc\t = %s-%d.%d.%d\n", HT_CC_ID, HT_CC_VERSION_MAJOR,
                                   HT_CC_VERSION_MINOR, HT_CC_VERSION_PATCH );
-   printf ( "signal = %i\n", sig );
+   printf ( "signal\t = %s\n", strsignal(sig) );
 #ifdef HT_WITH_GIT
-   printf ("git refspec = %s\n", HT_GIT_REFSPEC);
+   printf ("git ref\t = %s\n", HT_GIT_REFSPEC);
    printf ("git hash = %s\n", HT_GIT_SHA1);
 #endif
    printf ( "\nBacktrace:\n" );
@@ -59,7 +59,7 @@
      printf ( "  %s\n", strings[i] );
    }
  #else
-   printf ( "  Not available on this plattform.\n\n" );
+   printf ( "[Not available on this plattform.]\n\n" );
  #endif
  }
 
@@ -71,14 +71,14 @@
    printf ( "%s HAS CRASHED! This is embarassing indeed...\n", HT_PRODUCT_NAME );
    printf ( "\nMake sure that you're using the last version. It can\n" );
    printf ( "be found at %s. If you do,\n", HT_URL );
-   printf ( "send a bug report to %s and include:\n\n", HT_EMAIL );
+   printf ( "open up an issue on %s and include:\n\n", HT_URL );
    printf ( " - This output\n" );
    printf ( " - The conditions that triggered the crash\n" );
    printf ( " - How to reproduce the crash (if known)\n" );
    printf ( " - The following files. None of them contains private\n" );
    printf ( "   data. They're necessary to analyze the backtrace:\n\n" );
-   printf ( "    - quake2 (the executable / binary)\n\n" );
-   printf ( "    - game.so (the game.so of the mod you were playing\n" );
+   printf ( "    - %s (the executable / binary)\n\n", HT_DEV_NAME );
+   printf ( "    - game%s.so (the game.so of the mod you were playing\n", HT_ARCH_NAME );
    printf ( "      when the game crashed. %s/game.so for the\n", BASEDIRNAME );
    printf ( "      main game)\n\n" );
    printf ( " - Any other data which you think might be usefull\n" );
