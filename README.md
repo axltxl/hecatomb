@@ -28,15 +28,15 @@ OK, so you want to try it out?. Here's what you'll need:
 * IA64 (Intel Itanium)
 
 ##Current milestone is *0.1*
-* Layout/refactoring of the code
-* Solid codebase with pòrting capabilities
+* Code layout/refactoring
+* Solid codebase with porting capabilities
 * CMake build system fully automated for all supported platforms
-* No QAL whatsoever
-* Get rid of CD-Audio playback (it's like playing LP's on a Commodore64)
+* No QAL pointers
+* Get rid of CD-Audio playback (it's like playing tapes on a Commodore64)
 * Bug fixes
 
 ### Milestone 0.2
-* No QGL
+* No QGL pointers
 
 At this point, you may wish to visit the wiki for more info!
 Namaste!
