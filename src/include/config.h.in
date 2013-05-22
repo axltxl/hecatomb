@@ -34,6 +34,22 @@
  #define HT_GIT_URL "@PROJ_GIT_URL@"
  #define HT_EMAIL "@PROJ_EMAIL@"
 
+ /* Available headers and functions */
+ #cmakedefine HT_HAVE_ASSERT_H 1
+ #cmakedefine HT_HAVE_MATH_H 1
+ #cmakedefine HT_HAVE_STRING_H 1
+ #cmakedefine HT_HAVE_STDARG_H 1
+ #cmakedefine HT_HAVE_STDIO_H 1
+ #cmakedefine HT_HAVE_STDLIB_H 1
+ #cmakedefine HT_HAVE_CTYPE_H 1
+ #cmakedefine HT_HAVE_SETJMP_H 1
+ #cmakedefine HT_HAVE_SIGNAL_H 1
+ #cmakedefine HT_HAVE_CTYPE_H 1
+ #cmakedefine HT_HAVE_TIME_H 1
+ #cmakedefine HT_HAVE_LOCALE_H 1
+ #cmakedefine HT_HAVE_ERRNO_H 1
+ #cmakedefine HT_HAVE_STDINT_H 1
+
  /* Build type */
  #cmakedefine HT_BUILD_DEBUG
  #cmakedefine HT_BUILD_RELEASE
@@ -86,6 +102,7 @@
  /* Compiler information */
  #cmakedefine HT_CC_GCC
  #cmakedefine HT_CC_CLANG
+ #cmakedefine HT_CC_UNK /* Unknown compiler */
 
  /* Compiler ID */
  #define HT_CC_ID "@CMAKE_C_COMPILER_ID@"
@@ -102,6 +119,12 @@
  # define HT_CC_VERSION_MAJOR __clang_major__
  # define HT_CC_VERSION_MINOR __clang_minor__
  # define HT_CC_VERSION_PATCH __clang_patchlevel__
+ #endif
+
+ #ifdef HT_CC_UNK
+ #  define HT_CC_VERSION_MAJOR 0
+ #  define HT_CC_VERSION_MINOR 0
+ #  define HT_CC_VERSION_PATCH 0
  #endif
 
  /* Compiler version */
@@ -123,10 +146,6 @@
  #cmakedefine HT_GIT_COMMIT "@HT_GIT_COMMIT@"
  #cmakedefine HT_GIT_BRANCH "@HT_GIT_BRANCH@"
 
- /* Available headers and functions */
- #cmakedefine HT_HAVE_MALLOC_H
- #cmakedefine HT_HAVE_STDINT_H
-
  /* Byte order */
  #cmakedefine HT_ENDIAN_BIG
  #cmakedefine HT_ENDIAN_LITTLE
@@ -142,7 +161,7 @@
  #cmakedefine HT_WITH_ZIP
 
  /* Optional features */
- #cmakedefine HAVE_EXECINFO /* Nice and cool execinfo */
+ #cmakedefine HT_HAVE_EXECINFO 1 /* Nice and cool execinfo */
 
  #ifdef HT_WITH_ZIP
  # define NOUNCRYPT
@@ -160,9 +179,9 @@
  /* OpenGL driver */
  #ifdef HT_OS_WINDOWS
  # define LIBGL "opengl32.dll"
- #elif defined HT_OS_OPENBSD
+ #elif defined(HT_OS_OPENBSD)
  # define LIBGL "libGL.so"
- #elif defined HT_OS_OSX
+ #elif defined(HT_OS_OSX)
  # define LIBGL "/System/Library/Frameworks/OpenGL.framework/OpenGL"
  #else
  # define LIBGL "libGL.so.1"
@@ -171,7 +190,7 @@
  /* OpenAL driver */
  #ifdef HT_OS_WINDOWS
  # define DEFAULT_OPENAL_DRIVER "openal32.dll"
- #elif defined HT_OS_OSX
+ #elif defined(HT_OS_OSX)
  # define DEFAULT_OPENAL_DRIVER "/System/Library/Frameworks/OpenAL.framework/OpenAL"
  #else
  # define DEFAULT_OPENAL_DRIVER "libopenal.so"

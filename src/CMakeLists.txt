@@ -131,7 +131,7 @@ if (UNIX)
   list (APPEND LIBS ${LIBDL_LIBRARY}) # libdl
 
   # execinfo
-  if (HAVE_EXECINFO)
+  if (HT_HAVE_EXECINFO)
     list (APPEND INCLUDE_DIRS ${LIBEXECINFO_INCLUDE_DIR})
     list (APPEND LIBS ${LIBEXECINFO_LIBRARIES}) # libexecinfo
   endif()

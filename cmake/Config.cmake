@@ -91,8 +91,7 @@ elseif ("${CMAKE_C_COMPILER_ID}" MATCHES "Clang")
 
 # Unsupported compiler
 else()
-    message(FATAL_ERROR "Unsupported compiler. Current supported compilers are gcc and clang.")
-    return()
+    message(WARNING "Unsupported compiler '${CMAKE_C_COMPILER_ID}'. Current supported compilers are gcc and clang.")
 endif()
 
 # clang++ (Only for OS X)
@@ -103,4 +102,14 @@ if (OSX)
     set (CMAKE_CXX_FLAGS "-Weverything")
     set (CMAKE_CXX_FLAGS_RELEASE "-O4 -g")
   endif()
+endif()
+
+# Test the compiler
+try_compile(
+  RESULT_VAR
+  "${CMAKE_GOODIES_PATH}"
+  "${CMAKE_GOODIES_PATH}/wes.c"
+)
+if (NOT RESULT_VAR)
+  message (FATAL_ERROR "Compiler '${CMAKE_C_COMPILER}' has failed to build a single source file!")
 endif()

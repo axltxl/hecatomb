@@ -34,18 +34,6 @@ ht_set_option(CMAKE_BUILD_TYPE Debug STRING
 set (PROJ_NAME "hecatomb")
 project (${PROJ_NAME})
 
-# Essential info
-# ---------------------
-set (PROJ_DEVNAME "htq2")
-set (PROJ_URL "github.com/alericoveri/hecatomb")
-set (PROJ_GIT_URL "git://github.com/alericoveri/hecatomb.git")
-set (PROJ_PRODUCT_NAME "Hecatomb Quake II")
-set (PROJ_EMAIL "alejandroricoveri@gmail.com")
-set (VERSION_MAJOR 1)
-set (VERSION_MINOR 0)
-set (VERSION_PATCH 0)
-set (VERSION "${VERSION_MAJOR}.${VERSION_MINOR}${VERSION_PATCH}")
-
 # Helpful modules are here
 # ---------------------
 set (CMAKE_GOODIES_PATH ${CMAKE_SOURCE_DIR}/cmake)
@@ -66,6 +54,21 @@ else()
   set (HT_CC_CFLAGS "${CMAKE_C_FLAGS} ${CMAKE_C_FLAGS_RELEASE}")
 endif()
 
+# Essential info
+# ---------------------
+set (PROJ_DEVNAME "htq2")
+set (PROJ_URL "github.com/alericoveri/hecatomb")
+set (PROJ_GIT_URL "git://github.com/alericoveri/hecatomb.git")
+set (PROJ_PRODUCT_NAME "Hecatomb Quake II")
+set (PROJ_EMAIL "alejandroricoveri@gmail.com")
+set (VERSION_MAJOR 0)
+set (VERSION_MINOR 1)
+set (VERSION_PATCH 0)
+if (HT_BUILD_DEBUG)
+  set (VERSION_STATE "a1")
+endif()
+set (VERSION "${VERSION_MAJOR}.${VERSION_MINOR}.${VERSION_PATCH}-${VERSION_STATE}")
+
 # All goodies are available on Windows and OSX
 # ---------------------
 if (WINDOWS OR OSX)
@@ -78,7 +81,7 @@ endif()
 #
 # Architecture settings
 # ---------------------
-if (ARCH STREQUAL "i386")
+if (ARCH STREQUAL "x86")
     set (HT_ARCH_x86 1)
 elseif (ARCH STREQUAL "x86_64")
     set (HT_ARCH_x86_64 1)
@@ -100,6 +103,23 @@ elseif (ARCH STREQUAL "ppc64")
 elseif (ARCH STREQUAL "ppc")
     set (HT_ARCH_ppc 1)
 endif()
+
+# Check basic C headers
+# ---------------------
+include (CheckIncludeFiles)
+check_include_files (assert.h HT_HAVE_ASSERT_H)
+check_include_files (math.h HT_HAVE_MATH_H)
+check_include_files (string.h HT_HAVE_STRING_H)
+check_include_files (stdarg.h HT_HAVE_STDARG_H)
+check_include_files (stdio.h HT_HAVE_STDIO_H)
+check_include_files (stdlib.h HT_HAVE_STDLIB_H)
+check_include_files (ctype.h HT_HAVE_CTYPE_H)
+check_include_files (setjmp.h HT_HAVE_SETJMP_H)
+check_include_files (signal.h HT_HAVE_SIGNAL_H)
+check_include_files (time.h HT_HAVE_TIME_H)
+check_include_files (locale.h HT_HAVE_LOCALE_H)
+check_include_files (errno.h HT_HAVE_ERRNO_H)
+check_include_files (stdint.h HT_HAVE_STDINT_H)
 
 # let CMake know about our additional libraries paths (on Windows and OS X)
 # Thanks to SFML guys for this snippet
@@ -196,6 +216,8 @@ if (COMPILER_GCC)
     set (HT_CC_GCC 1)
 elseif (COMPILER_CLANG)
     set (HT_CC_CLANG 1)
+else()
+  set (HT_CC_UNK 1)
 endif()
 
 if (UNIX)
@@ -204,7 +226,7 @@ if (UNIX)
   # ---------------------
   find_package (Libexecinfo)
   if(LIBEXECINFO_LIB_FOUND)
-    set(HAVE_EXECINFO 1)
+    set(HT_HAVE_EXECINFO 1)
   endif()
 
   # dlopen, dlsym, dlclose, etc ...
