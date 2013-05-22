@@ -39,6 +39,16 @@
  static ALCdevice *device;
  static cvar_t *al_device;
 
+ /* ========================================================================= */
+ void
+ QAL_Strings ( void )
+ {
+   Com_Printf ( "AL_VENDOR: %s\n", qalGetString ( AL_VENDOR ) );
+   Com_Printf ( "AL_RENDERER: %s\n", qalGetString ( AL_RENDERER ) );
+   Com_Printf ( "AL_VERSION: %s\n", qalGetString ( AL_VERSION ) );
+   Com_Printf ( "AL_EXTENSIONS: %s\n", qalGetString ( AL_EXTENSIONS ) );
+ }
+
  /*
   * Gives information over the OpenAL
   * implementation and it's state
@@ -46,10 +56,7 @@
  void QAL_SoundInfo()
  {
    Com_Printf ( "OpenAL settings:\n" );
-   Com_Printf ( "AL_VENDOR: %s\n", qalGetString ( AL_VENDOR ) );
-   Com_Printf ( "AL_RENDERER: %s\n", qalGetString ( AL_RENDERER ) );
-   Com_Printf ( "AL_VERSION: %s\n", qalGetString ( AL_VERSION ) );
-   Com_Printf ( "AL_EXTENSIONS: %s\n", qalGetString ( AL_EXTENSIONS ) );
+   QAL_Strings();
 
    if ( qalcIsExtensionPresent ( NULL, "ALC_ENUMERATE_ALL_EXT" ) ) {
      const char *devs = qalcGetString ( NULL, ALC_ALL_DEVICES_SPECIFIER );
@@ -106,6 +113,7 @@
  QAL_Init()
  {
    al_device = Cvar_Get ( "al_device", "", CVAR_ARCHIVE );
+   Cmd_AddCommand ( "al_strings", QAL_Strings );
 
    /* Open the OpenAL device */
    Com_Printf ( "Opening OpenAL device: " );
