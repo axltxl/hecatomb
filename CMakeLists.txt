@@ -238,14 +238,8 @@ endif()
 include(GetGitRevisionDescription)
 get_git_head_revision(GIT_REFSPEC GIT_SHA1)
 if (NOT ${GIT_SHA1} STREQUAL "GITDIR-NOTFOUND")
-  set (HT_WITH_GIT 1) # This is not a git repo based copy
-endif()
-
-# Git related information
-include(GetGitRevisionDescription)
-get_git_head_revision(GIT_REFSPEC GIT_SHA1)
-if (NOT ${GIT_SHA1} STREQUAL "GITDIR-NOTFOUND")
-  set (HT_WITH_GIT 1) # This is not a git repo based copy
+  # This is not a fresh copy (from a git repo)
+  set (HT_WITH_GIT 1)
 endif()
 
 # X11 libraries
