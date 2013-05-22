@@ -44,14 +44,14 @@
    strings = backtrace_symbols ( array, size );
  #endif
    printf ( "%s - v%s\n", HT_DEV_NAME, HT_VERSION);
-   printf ( "OS\t = %s\n", HT_OS_NAME );
-   printf ( "arch\t = %s\n", HT_ARCH_NAME );
-   printf ( "cc\t = %s-%d.%d.%d\n", HT_CC_ID, HT_CC_VERSION_MAJOR,
+   printf ( "OS       => %s\n", HT_OS_NAME );
+   printf ( "arch     => %s\n", HT_ARCH_NAME );
+   printf ( "cc       => %s-%d.%d.%d\n", HT_CC_ID, HT_CC_VERSION_MAJOR,
                                   HT_CC_VERSION_MINOR, HT_CC_VERSION_PATCH );
-   printf ( "signal\t = %s\n", strsignal(sig) );
+   printf ( "signal   => %s\n", strsignal(sig) );
 #ifdef HT_WITH_GIT
-   printf ("git ref\t = %s\n", HT_GIT_REFSPEC);
-   printf ("git hash = %s\n", HT_GIT_SHA1);
+   printf ("git ref  => %s\n", HT_GIT_REFSPEC);
+   printf ("git hash => %s\n", HT_GIT_SHA1);
 #endif
    printf ( "\nBacktrace:\n" );
  #if HT_HAVE_EXECINFO
