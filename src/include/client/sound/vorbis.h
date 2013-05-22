@@ -27,8 +27,6 @@
 
  #include "prereqs.h"
 
- #ifdef HT_WITH_OGG
-
  /* The OGG codec can return the samples in a number
   * of different formats, we use the standard signed
   * short format. */
@@ -160,5 +158,4 @@
   */
  void OGG_StatusCmd ( void );
 
- #endif /* HT_WITH_OGG */
  #endif /* CL_SOUND_VORBIS_H */

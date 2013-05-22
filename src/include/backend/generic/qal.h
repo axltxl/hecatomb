@@ -22,8 +22,9 @@
  * =======================================================================
  *
  * Header file to the low level "qal" API implementation. This source file
- * was taken from Q2Pro and modified by the YQ2 authors, but it defines qal
- * functions as their analogous OpenAL functions like in Urban Terror.
+ * was almost entirely rewritten to include direct OpenAL function calls
+ * instead of pointers, qal* functions are replaced by their analogous OAL
+ * function. This code is based upon YQ2 and Urban Terror QAL implementation.
  *
  * =======================================================================
  */

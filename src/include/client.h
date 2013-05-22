@@ -37,7 +37,9 @@
  #include "client/console.h"
  #include "client/sound/cdaudio.h"
  #include "client/sound/sound.h"
- #include "client/sound/vorbis.h"
+ #ifdef HT_WITH_OGG
+ # include "client/sound/vorbis.h"
+ #endif
 
  #ifdef HT_ARCH_x86_64
  #define INT long int

@@ -22,10 +22,9 @@
  *
  * Low level, platform depended "qal" API implementation. This files
  * provides functions to load, initialize, shutdown und unload the
- * OpenAL library and connects the "qal" funtion pointers to the
- * OpenAL functions. It shopuld work on Windows and unixoid Systems,
+ * OpenAL library. It shopuld work on Windows and unixoid Systems,
  * other platforms may need an own implementation. This source file
- * was taken from Q2Pro and modified by the YQ2 authors.
+ * was taken from Q2Pro+UT and modified by the YQ2 and HTQ2 authors.
  *
  * =======================================================================
  */
@@ -49,10 +48,7 @@
    Com_Printf ( "AL_EXTENSIONS: %s\n", qalGetString ( AL_EXTENSIONS ) );
  }
 
- /*
-  * Gives information over the OpenAL
-  * implementation and it's state
-  */
+ /* ========================================================================= */
  void QAL_SoundInfo()
  {
    Com_Printf ( "OpenAL settings:\n" );
@@ -86,10 +82,7 @@
    }
  }
 
- /*
-  * Shuts OpenAL down, frees all context and
-  * device handles and unloads the shared lib.
-  */
+ /* ========================================================================= */
  void
  QAL_Shutdown()
  {
@@ -105,10 +98,7 @@
    }
  }
 
- /*
-  * Loads the OpenAL shared lib, creates
-  * a context and device handle.
-  */
+ /* ========================================================================= */
  qboolean
  QAL_Init()
  {

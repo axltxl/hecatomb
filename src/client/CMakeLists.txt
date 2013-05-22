@@ -37,7 +37,6 @@ set (
   ${CLIENT_DIR}/menu/menu.c
   ${CLIENT_DIR}/menu/qmenu.c
   ${CLIENT_DIR}/menu/videomenu.c
-  ${CLIENT_DIR}/sound/ogg.c
   ${CLIENT_DIR}/sound/sound.c
   ${CLIENT_DIR}/sound/wave.c
 )
@@ -45,6 +44,11 @@ set (
 # OpenAL support
 if (HT_WITH_OPENAL)
   list (APPEND CLIENT_SRC ${CLIENT_DIR}/sound/openal.c)
+endif()
+
+# OGG support
+if (HT_WITH_OGG)
+  list (APPEND CLIENT_SRC ${CLIENT_DIR}/sound/ogg.c)
 endif()
 
 # Export the whole thing
