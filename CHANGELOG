@@ -1,3 +1,12 @@
+htq2 0.1.0
+- CMake integrated build automation
+- Huge code refactoring
+- Direct use of OpenAL (no QAL)
+- Generic Hunk memory allocator
+- New cvar "hunk_driver" 
+  which tells which Hunk allocator is being used
+- New dev cvars "git_ref" and "git_hash"
+
 Quake II 5.00 to 5.10
 - Support for OS X. (by W. Beser)
 - Correct field of view handling (by Ricardo Garci)
