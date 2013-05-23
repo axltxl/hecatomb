@@ -5,6 +5,8 @@ htq2 0.1.0
 - Generic Hunk memory allocator
 - New cvar "hunk_driver" 
   which tells which Hunk allocator is being used
+- New cvar "al_strings" which is the OAL equivalent
+  of "gl_strings"
 - New dev cvars "git_ref" and "git_hash"
 
 Quake II 5.00 to 5.10
