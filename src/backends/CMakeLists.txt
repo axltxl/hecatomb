@@ -39,7 +39,6 @@ set (
   ${BACKEND_SDL_DIR}/sound.c
 )
 
-
 # SDLMain.m (OSX)
 if (OSX)
   list (APPEND BACKEND_SDL_SRC ${BACKEND_DIR}/sdl_osx/SDLMain.m)
@@ -52,13 +51,17 @@ if (UNIX)
   set (BACKEND_UNIX_DIR ${BACKEND_DIR}/unix)
   set (
     BACKEND_UNIX_SRC
-	 
+
     ${BACKEND_UNIX_DIR}/main.c
     ${BACKEND_UNIX_DIR}/network.c
     ${BACKEND_UNIX_DIR}/signalhandler.c
     ${BACKEND_UNIX_DIR}/system.c
-    ${BACKEND_UNIX_DIR}/shared/hunk.c
   )
+  if (NOT HT_HUNKDRIVER_GENERIC)
+    list (APPEND BACKEND_UNIX_SRC ${BACKEND_UNIX_DIR}/hunk.c)
+  else()
+    list (APPEND BACKEND_UNIX_SRC ${BACKEND_GENERIC_DIR}/hunk.c)
+  endif()
   list (APPEND BACKEND_CLIENT_SRC ${BACKEND_UNIX_SRC})
   list (APPEND BACKEND_SERVER_SRC ${BACKEND_UNIX_SRC})
 endif()
@@ -71,10 +74,14 @@ if (WINDOWS)
 
     ${BACKEND_WINDOWS_DIR}/network.c
     ${BACKEND_WINDOWS_DIR}/system.c
-    ${BACKEND_WINDOWS_DIR}/shared/mem.c
   )
-list (APPEND BACKEND_CLIENT_SRC ${BACKEND_WINDOWS_SRC})
-list (APPEND BACKEND_SERVER_SRC ${BACKEND_WINDOWS_SRC})
+  if (NOT HT_HUNKDRIVER_GENERIC)
+    list (APPEND BACKEND_WINDOWS_SRC ${BACKEND_WINDOWS_DIR}/hunk.c)
+  else()
+    list (APPEND BACKEND_WINDOWS_SRC ${BACKEND_GENERIC_DIR}/hunk.c)
+  endif()
+  list (APPEND BACKEND_CLIENT_SRC ${BACKEND_WINDOWS_SRC})
+  list (APPEND BACKEND_SERVER_SRC ${BACKEND_WINDOWS_SRC})
 endif()
 
 # OSX backend

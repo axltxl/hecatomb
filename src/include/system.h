@@ -120,4 +120,30 @@
   */
  char *Sys_GetCurrentDirectory ( void );
 
+ /**
+  * Returns the name of the low level Hunk memory allocator
+  * currently in use
+  */
+ char *Sys_HunkDriver ( void );
+
+ /**
+  * Reserve a huge chunk of base memory, but don't commit any yet
+  */
+ void * Sys_HunkBegin ( int maxsize );
+
+ /**
+  * Commit a portion of the previous allocated base memory
+  */
+ void *Sys_HunkAlloc ( int size );
+
+ /**
+  * Release current portion of the previous allocated base memory in use
+  */
+ int Sys_HunkEnd ( void );
+
+ /**
+  * Release the chunk of base memory
+  */
+ void Sys_HunkFree ( void *base );
+
  #endif /* SYSTEM_H */

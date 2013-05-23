@@ -227,19 +227,20 @@
 
    SCR_AddDirtyPoint ( 0, 0 );
    SCR_AddDirtyPoint ( viddef.width - 1, viddef.height - 1 );
+
    /* let the refresher load the map */
    strcpy ( mapname, cl.configstrings[CS_MODELS + 1] + 5 ); /* skip "maps/" */
    mapname[strlen ( mapname ) - 4] = 0; /* cut off ".bsp" */
+
    /* register models, pics, and skins */
-   Com_Printf ( "Map: %s\r", mapname );
+   Com_Printf ( "Map: %s\n", mapname );
    SCR_UpdateScreen();
    R_BeginRegistration ( mapname );
-   Com_Printf ( "                                     \r" );
+
    /* precache status bar pics */
-   Com_Printf ( "pics\r" );
+   Com_Printf ( "pics\n" );
    SCR_UpdateScreen();
    SCR_TouchPics();
-   Com_Printf ( "                                     \r" );
    CL_RegisterTEntModels();
    num_cl_weaponmodels = 1;
    strcpy ( cl_weaponmodels[0], "weapon.md2" );
@@ -249,7 +250,7 @@
      name[37] = 0; /* never go beyond one line */
 
      if ( name[0] != '*' ) {
-       Com_Printf ( "%s\r", name );
+       Com_Printf ( "%s\n", name );
      }
 
      SCR_UpdateScreen();
@@ -272,13 +273,9 @@
          cl.model_clip[i] = NULL;
        }
      }
-
-     if ( name[0] != '*' ) {
-       Com_Printf ( "                                     \r" );
-     }
    }
 
-   Com_Printf ( "images\r", i );
+   Com_Printf ( "images\n", i );
    SCR_UpdateScreen();
 
    for ( i = 1; i < MAX_IMAGES && cl.configstrings[CS_IMAGES + i][0]; i++ ) {
@@ -286,30 +283,28 @@
      Sys_SendKeyEvents();
    }
 
-   Com_Printf ( "                                     \r" );
-
    for ( i = 0; i < MAX_CLIENTS; i++ ) {
      if ( !cl.configstrings[CS_PLAYERSKINS + i][0] ) {
        continue;
      }
 
-     Com_Printf ( "client %i\r", i );
+     Com_Printf ( "client %i\n", i );
      SCR_UpdateScreen();
      Sys_SendKeyEvents();
      CL_ParseClientinfo ( i );
-     Com_Printf ( "                                     \r" );
    }
 
    CL_LoadClientinfo ( &cl.baseclientinfo, "unnamed\\male/grunt" );
    /* set sky textures and speed */
-   Com_Printf ( "sky\r", i );
+   Com_Printf ( "sky\n", i );
    SCR_UpdateScreen();
    rotate = ( float ) strtod ( cl.configstrings[CS_SKYROTATE], ( char ** ) NULL );
    sscanf ( cl.configstrings[CS_SKYAXIS], "%f %f %f", &axis[0], &axis[1], &axis[2] );
    R_SetSky ( cl.configstrings[CS_SKY], rotate, axis );
-   Com_Printf ( "                                     \r" );
+
    /* the renderer can now free unneeded stuff */
    R_EndRegistration();
+
    /* clear any lines of console text */
    Con_ClearNotify();
    SCR_UpdateScreen();

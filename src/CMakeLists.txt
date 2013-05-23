@@ -143,9 +143,6 @@ include_directories (${INCLUDE_DIRS})
 # Add headers to the project
 add_subdirectory (include)
 
-# Configuration file
-configure_file (${SRC_DIR}/include/config.h.in ${SRC_DIR}/include/config.h)
-
 # Set output directory
 set (OUTPUT_DIR "${PROJECT_SOURCE_DIR}/bin/${ARCH}")
 
@@ -172,6 +169,9 @@ add_subdirectory (game)
 
 # Server exec
 add_executable (server ${SERVER_EXEC_SRC})
+
+# Configuration file
+configure_file (${SRC_DIR}/include/config.h.in ${SRC_DIR}/include/config.h)
 
 # -DDEDICATED_ONLY for dedicated server
 set_target_properties(server PROPERTIES COMPILE_DEFINITIONS "DEDICATED_ONLY")

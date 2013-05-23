@@ -36,6 +36,7 @@ set (
   ${COMMON_DIR}/glob.c
   ${COMMON_DIR}/md4.c
   ${COMMON_DIR}/movemsg.c
+  ${COMMON_DIR}/hunk.c
   ${COMMON_DIR}/misc.c
   ${COMMON_DIR}/netchan.c
   ${COMMON_DIR}/pmove.c

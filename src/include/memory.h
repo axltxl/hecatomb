@@ -20,7 +20,9 @@
  *
  * =======================================================================
  *
- * Low level part of the Hunk_* memory system
+ * High level part of the Hunk_* memory system
+ * This is actually an interface to the low level Hunk_* memory allocator
+ * which varies among platforms. See Sys_Hunk* functions @ system.h.
  *
  * =======================================================================
  */
@@ -36,17 +38,17 @@
  void *Hunk_Begin ( int maxsize );
 
  /**
-  * Do the actual allocation
+  * Commit a portion of the previous allocated base memory
   */
  void *Hunk_Alloc ( int size );
 
  /**
-  * Free the chunk of memory pointed by buffer
+  * Release the chunk of base memory
   */
  void Hunk_Free ( void *buf );
 
  /**
-  *
+  * Release current portion of the previous allocated base memory in use
   */
  int Hunk_End ( void );
 
