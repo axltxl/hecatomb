@@ -24,7 +24,7 @@
  * provides functions to load, initialize, shutdown und unload the
  * OpenAL library. It shopuld work on Windows and unixoid Systems,
  * other platforms may need an own implementation. This source file
- * was taken from Q2Pro+UT and modified by the YQ2 and HTQ2 authors.
+ * was taken from Q2Pro+ioquake3 and modified by the YQ2 and HTQ2 authors.
  *
  * =======================================================================
  */

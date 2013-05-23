@@ -24,7 +24,7 @@
  * Header file to the low level "qal" API implementation. This source file
  * was almost entirely rewritten to include direct OpenAL function calls
  * instead of pointers, qal* functions are replaced by their analogous OAL
- * function. This code is based upon YQ2 and Urban Terror QAL implementation.
+ * function. This code is based upon YQ2 and ioquake3 QAL implementation.
  *
  * =======================================================================
  */
