@@ -1047,7 +1047,7 @@
    Cvar_SetValue ( "cd_shuffle", s_options_cdshuffle_box.curvalue );
  #ifdef HT_WITH_OGG
    cvar_t *ogg;
-   ogg = Cvar_Get ( "ogg_enable", "1", CVAR_ARCHIVE );
+   ogg = Cvar_Get ( "ogg_enable", "0", CVAR_ARCHIVE );
 
    if ( s_options_cdshuffle_box.curvalue ) {
      Cvar_Set ( "ogg_sequence", "random" );

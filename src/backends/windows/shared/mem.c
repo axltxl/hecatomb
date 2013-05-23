@@ -25,6 +25,7 @@
  */
 
  #include "prereqs.h"
+ #include "system.h"
  #include "backend/windows/winquake.h"
 
  byte *membase;
@@ -32,6 +33,7 @@
  int hunkmaxsize;
  int cursize;
 
+ /* ========================================================================= */
  void *
  Hunk_Begin ( int maxsize )
  {
@@ -48,6 +50,7 @@
    return ( void * ) membase;
  }
 
+ /* ========================================================================= */
  void *
  Hunk_Alloc ( int size )
  {
@@ -75,6 +78,7 @@
    return ( void * ) ( membase + cursize - size );
  }
 
+ /* ========================================================================= */
  int
  Hunk_End ( void )
  {
@@ -83,6 +87,7 @@
    return cursize;
  }
 
+ /* ========================================================================= */
  void
  Hunk_Free ( void *base )
  {

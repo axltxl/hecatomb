@@ -27,6 +27,7 @@
 
  #include "prereqs.h"
  #include "system.h"
+ #include "filesystem.h"
  #include "backend/generic/input.h"
  #include "backend/windows/resource.h"
  #include "backend/windows/winquake.h"

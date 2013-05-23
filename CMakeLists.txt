@@ -69,13 +69,18 @@ if (HT_BUILD_DEBUG)
 endif()
 set (VERSION "${VERSION_MAJOR}.${VERSION_MINOR}.${VERSION_PATCH}-${VERSION_STATE}")
 
-# All goodies are available on Windows and OSX
+# Default values
 # ---------------------
 if (WINDOWS OR OSX)
-  set (HT_WITH_OGG TRUE)
-  set (HT_WITH_OPENAL TRUE)
-  set (HT_WITH_ZIP TRUE)
-  set (HT_WITH_RETEXTURE TRUE)
+  set (DEF_OGG TRUE)
+  set (DEF_OPENAL TRUE)
+  set (DEF_ZIP TRUE)
+  set (DEF_RETEXTURE TRUE)
+else()
+  set (DEF_OGG FALSE)
+  set (DEF_OPENAL FALSE)
+  set (DEF_ZIP FALSE)
+  set (DEF_RETEXTURE FALSE)
 endif()
 
 #
@@ -162,17 +167,17 @@ ht_set_option(HT_WITH_CDA FALSE BOOL "CD audio playback support")
 # This features won't be present on Windows
 # until I find the right binaries for it
 # ---------------------
-ht_set_option(HT_WITH_OGG TRUE BOOL "OGG/Vorbis support")
+ht_set_option(HT_WITH_OGG ${DEF_OGG} BOOL "OGG/Vorbis support")
 
 # Enables retexturing support. Adds
 # a dependency to libjpeg
 # ---------------------
-ht_set_option(HT_WITH_RETEXTURE FALSE BOOL "Retexturing support")
+ht_set_option(HT_WITH_RETEXTURE ${DEF_RETEXTURE} BOOL "Retexturing support")
 
 # Enables opening of ZIP files (also known as .pk3 packs).
 # Adds a dependency to libz
 # ---------------------
-ht_set_option(HT_WITH_ZIP FALSE BOOL
+ht_set_option(HT_WITH_ZIP ${DEF_ZIP} BOOL
   "ZIP files support (for opening .pk3 packs)")
 
 # Enables the optional OpenAL sound system.
@@ -180,7 +185,7 @@ ht_set_option(HT_WITH_ZIP FALSE BOOL
 # or openal32.dll (we recommend openal-soft)
 # installed
 # ---------------------
-ht_set_option(HT_WITH_OPENAL FALSE BOOL
+ht_set_option(HT_WITH_OPENAL ${DEF_OPENAL} BOOL
   "Use the OpenAL sound system")
 
 # Set the gamma via X11 and not via SDL. This works

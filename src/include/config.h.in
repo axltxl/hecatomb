@@ -187,14 +187,4 @@
  # define LIBGL "libGL.so.1"
  #endif
 
- /* OpenAL driver */
- #ifdef HT_OS_WINDOWS
- # define DEFAULT_OPENAL_DRIVER "openal32.dll"
- #elif defined(HT_OS_OSX)
- # define DEFAULT_OPENAL_DRIVER "/System/Library/Frameworks/OpenAL.framework/OpenAL"
- #else
- # define DEFAULT_OPENAL_DRIVER "libopenal.so"
- #endif
-
-
  #endif /* CONFIG_H */
