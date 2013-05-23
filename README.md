@@ -38,7 +38,7 @@ be greatly appreciated.
 * CMake build system fully automated for all supported platforms
 * No QAL pointers
 * Get rid of CD-Audio playback (it's like playing tapes on a Commodore64)
-* Generic Hunk allocator
+* Generic Hunk allocator (based on plain *malloc*)
 * Bug fixes
 
 ### Milestone 0.2
