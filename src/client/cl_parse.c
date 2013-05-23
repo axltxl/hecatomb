@@ -888,10 +888,6 @@
      CL_SetLightstyle ( i - CS_LIGHTS );
    } else if ( i == CS_CDTRACK ) {
      if ( cl.refresh_prepped ) {
- #ifdef HT_WITH_CDA
-       CDAudio_Play ( ( int ) strtol ( cl.configstrings[CS_CDTRACK],
-                                       ( char ** ) NULL, 10 ), true );
- #endif
  #ifdef HT_WITH_OGG
 
        /* OGG/Vorbis */

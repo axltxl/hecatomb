@@ -509,9 +509,6 @@
    byte *palette;
    char name[MAX_OSPATH], *dot;
    /* make sure background music is not playing */
- #ifdef HT_WITH_CDA
-   CDAudio_Stop();
- #endif
  #ifdef HT_WITH_OGG
    OGG_Stop();
  #endif

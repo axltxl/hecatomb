@@ -281,9 +281,6 @@
  #ifdef HT_WITH_OGG
    OGG_Stop();
  #endif
- #ifdef HT_WITH_CDA
-   CDAudio_Stop();
- #endif
 
    if ( cls.demorecording ) {
      CL_Stop_f();

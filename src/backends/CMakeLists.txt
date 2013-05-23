@@ -35,7 +35,6 @@ set (
 
   ${BACKEND_SDL_DIR}/input.c
   ${BACKEND_SDL_DIR}/refresh.c
-  ${BACKEND_SDL_DIR}/cd.c
   ${BACKEND_SDL_DIR}/sound.c
 )
 

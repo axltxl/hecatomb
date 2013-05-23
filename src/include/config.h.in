@@ -156,7 +156,6 @@
  #cmakedefine HT_WITH_X11GAMMA
  #cmakedefine HT_WITH_OPENAL
  #cmakedefine HT_WITH_RETEXTURE
- #cmakedefine HT_WITH_CDA
  #cmakedefine HT_WITH_OGG
  #cmakedefine HT_WITH_ZIP
 

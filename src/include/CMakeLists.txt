@@ -36,7 +36,6 @@ set (
   ${HEADER_DIR}/client/keyboard.h
   ${HEADER_DIR}/client/ref.h
   ${HEADER_DIR}/client/menu/qmenu.h
-  ${HEADER_DIR}/client/sound/cdaudio.h
   ${HEADER_DIR}/client/sound/local.h
   ${HEADER_DIR}/client/sound/sound.h
   ${HEADER_DIR}/client/sound/vorbis.h

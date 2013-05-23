@@ -68,6 +68,7 @@
    r_numparticles = 0;
  }
 
+ /* ========================================================================= */
  void
  V_AddEntity ( entity_t *ent )
  {
@@ -78,6 +79,7 @@
    r_entities[r_numentities++] = *ent;
  }
 
+ /* ========================================================================= */
  void
  V_AddParticle ( vec3_t org, unsigned int color, float alpha )
  {
@@ -93,6 +95,7 @@
    p->alpha = alpha;
  }
 
+ /* ========================================================================= */
  void
  V_AddLight ( vec3_t org, float intensity, float r, float g, float b )
  {
@@ -110,6 +113,7 @@
    dl->color[2] = b;
  }
 
+ /* ========================================================================= */
  void
  V_AddLightStyle ( int style, float r, float g, float b )
  {
@@ -310,19 +314,13 @@
    SCR_UpdateScreen();
    cl.refresh_prepped = true;
    cl.force_refdef = true; /* make sure we have a valid refdef */
- #if defined(HT_WITH_OGG) || defined(HT_WITH_CDA)
 
-   /* start the cd track */
-   if ( Cvar_VariableValue ( "cd_shuffle" ) ) {
- #ifdef HT_WITH_CDA
-     CDAudio_RandomPlay();
- #endif
-   } else {
- #ifdef HT_WITH_CDA
-     CDAudio_Play ( ( int ) strtol ( cl.configstrings[CS_CDTRACK], ( char ** ) NULL, 10 ), true );
- #endif
- #ifdef HT_WITH_OGG
-
+ #if defined(HT_WITH_OGG)
+   /* start the music track */
+   if ( !strcmp(Cvar_VariableString("ogg_sequence"), "random") ) {
+     OGG_ParseCmd("?");
+   }
+   else {
      /* OGG/Vorbis */
      if ( ( int ) strtol ( cl.configstrings[CS_CDTRACK], ( char ** ) NULL, 10 ) < 10 ) {
        char tmp[3] = "0";
@@ -330,13 +328,11 @@
      } else {
        OGG_ParseCmd ( cl.configstrings[CS_CDTRACK] );
      }
-
- #endif
    }
-
  #endif
  }
 
+ /* ========================================================================= */
  float
  CalcFov ( float fov_x, float width, float height )
  {
@@ -361,6 +357,7 @@
    Com_Printf ( "frame %i\n", gun_frame );
  }
 
+ /* ========================================================================= */
  void
  V_Gun_Prev_f ( void )
  {
@@ -373,6 +370,7 @@
    Com_Printf ( "frame %i\n", gun_frame );
  }
 
+ /* ========================================================================= */
  void
  V_Gun_Model_f ( void )
  {
@@ -387,6 +385,7 @@
    gun_model = R_RegisterModel ( name );
  }
 
+ /* ========================================================================= */
  void
  V_RenderView ( float stereo_separation )
  {
@@ -508,6 +507,7 @@
    SCR_DrawCrosshair();
  }
 
+ /* ========================================================================= */
  void
  V_Viewpos_f ( void )
  {
@@ -516,6 +516,7 @@
                 ( int ) cl.refdef.viewangles[YAW] );
  }
 
+ /* ========================================================================= */
  void
  V_Init ( void )
  {

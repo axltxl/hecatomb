@@ -35,7 +35,6 @@
  #include "client/input.h"
  #include "client/keyboard.h"
  #include "client/console.h"
- #include "client/sound/cdaudio.h"
  #include "client/sound/sound.h"
  #ifdef HT_WITH_OGG
  # include "client/sound/vorbis.h"

@@ -639,11 +639,6 @@
 
  #ifndef DEDICATED_ONLY
    printf ( "Client build options:\n" );
- #ifdef HT_WITH_CDA
-   printf ( " + CD audio\n" );
- #else
-   printf ( " - CD audio\n" );
- #endif
  #ifdef HT_WITH_OGG
    printf ( " + OGG/Vorbis\n" );
  #else

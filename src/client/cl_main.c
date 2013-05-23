@@ -707,9 +707,7 @@
 
    /* update audio */
    S_Update ( cl.refdef.vieworg, cl.v_forward, cl.v_right, cl.v_up );
- #ifdef HT_WITH_CDA
-   CDAudio_Update();
- #endif
+
    /* advance local effects for next frame */
    CL_RunDLights();
    CL_RunLightStyles();
@@ -755,9 +753,6 @@
    M_Init();
    SCR_Init();
    cls.disable_screen = true; /* don't draw yet */
- #ifdef HT_WITH_CDA
-   CDAudio_Init();
- #endif
    CL_InitLocal();
    FS_ExecAutoexec();
    Cbuf_Execute();
@@ -775,9 +770,6 @@
 
    isdown = true;
    CL_WriteConfiguration();
- #ifdef HT_WITH_CDA
-   CDAudio_Shutdown();
- #endif
  #ifdef HT_WITH_OGG
    OGG_Stop();
  #endif

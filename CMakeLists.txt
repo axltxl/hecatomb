@@ -164,13 +164,6 @@ elseif (OSX)
   set (CMAKE_SYSTEM_FRAMEWORK_PATH "${EXTLIBS_LIBS}/osx" ${CMAKE_SYSTEM_FRAMEWORK_PATH})
 endif()
 
-# Enables CD audio playback. CD audio playback is used
-# for the background music and doesn't add any further
-# dependencies. It should work on all platforms where
-# CD playback is supported by SDL.
-# ---------------------
-ht_set_option(HT_WITH_CDA FALSE BOOL "CD audio playback support")
-
 # Enables Generic Hunk Driver, a general purpose Hunk_* backend
 # based solely on plain malloc/free. Use this at your own risk as
 # it is an experimental feature.

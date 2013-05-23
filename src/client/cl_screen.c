@@ -490,9 +490,7 @@
  {
    S_StopAllSounds();
    cl.sound_prepped = false; /* don't play ambients */
- #ifdef HT_WITH_CDA
-   CDAudio_Stop();
- #endif
+
  #ifdef HT_WITH_OGG
    OGG_Stop();
  #endif

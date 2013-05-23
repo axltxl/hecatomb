@@ -312,6 +312,7 @@
    Draw_Char ( cx + ( ( viddef.width - 320 ) >> 1 ), cy + ( ( viddef.height - 240 ) >> 1 ), num );
  }
 
+ /* ========================================================================= */
  static void
  M_Print ( int x, int y, char *str )
  {
@@ -904,13 +905,9 @@
  static menulist_s s_options_lookstrafe_box;
  static menulist_s s_options_crosshair_box;
  static menuslider_s s_options_sfxvolume_slider;
- #ifdef HT_WITH_CDA
- static menulist_s s_options_cdvolume_box;
- #endif
- #if defined(HT_WITH_OGG) || defined(HT_WITH_CDA)
+
+ #if defined(HT_WITH_OGG)
  static menulist_s s_options_cdshuffle_box;
- #endif
- #ifdef HT_WITH_OGG
  static menulist_s s_options_oggvolume_box;
  #endif
  static menulist_s s_options_quality_list;
@@ -971,9 +968,7 @@
  ControlsSetMenuItemValues ( void )
  {
    s_options_sfxvolume_slider.curvalue = Cvar_VariableValue ( "s_volume" ) * 10;
- #ifdef HT_WITH_CDA
-   s_options_cdvolume_box.curvalue = !Cvar_VariableValue ( "cd_nocd" );
- #endif
+
  #ifdef HT_WITH_OGG
    s_options_oggvolume_box.curvalue = Cvar_VariableValue ( "ogg_enable" );
    cvar_t *ogg;
@@ -984,7 +979,6 @@
    } else {
      s_options_cdshuffle_box.curvalue = 0;
    }
-
  #endif
    s_options_quality_list.curvalue = !Cvar_VariableValue ( "s_loadas8bit" );
    s_options_sensitivity_slider.curvalue = ( sensitivity->value ) * 2;
@@ -1039,99 +1033,56 @@
    Cvar_SetValue ( "s_volume", s_options_sfxvolume_slider.curvalue / 10 );
  }
 
- #if defined(HT_WITH_OGG) || defined(HT_WITH_CDA)
-  /* ========================================================================= */
+ #ifdef HT_WITH_OGG
+ /* ========================================================================= */
  static void
  CDShuffleFunc ( void *unused )
  {
-   Cvar_SetValue ( "cd_shuffle", s_options_cdshuffle_box.curvalue );
- #ifdef HT_WITH_OGG
-   cvar_t *ogg;
-   ogg = Cvar_Get ( "ogg_enable", "0", CVAR_ARCHIVE );
+   //Cvar_SetValue ( "cd_shuffle", s_options_cdshuffle_box.curvalue );
+   cvar_t *ogg_enable = Cvar_Get ( "ogg_enable", "0", CVAR_ARCHIVE );
 
    if ( s_options_cdshuffle_box.curvalue ) {
      Cvar_Set ( "ogg_sequence", "random" );
 
-     if ( ogg->value ) {
+     if ( ogg_enable->value ) {
        OGG_ParseCmd ( "?" );
-       OGG_Stop();
      }
    } else {
      Cvar_Set ( "ogg_sequence", "loop" );
 
-     if ( ogg->value ) {
+     if ( ogg_enable->value ) {
        if ( ( int ) strtol ( cl.configstrings[CS_CDTRACK], ( char ** ) NULL,
                              10 ) < 10 ) {
-         char tmp[2] = "0";
+         char tmp[3] = "0";
          OGG_ParseCmd ( strcat ( tmp, cl.configstrings[CS_CDTRACK] ) );
-       } else {
+       }
+       else {
          OGG_ParseCmd ( cl.configstrings[CS_CDTRACK] );
        }
      }
    }
-
- #endif
  }
 
- #endif
-
- #ifdef HT_WITH_CDA
- /* ========================================================================= */
- static void
- UpdateCDVolumeFunc ( void *unused )
- {
-   Cvar_SetValue ( "cd_nocd", ( float ) !s_options_cdvolume_box.curvalue );
- #ifdef HT_WITH_OGG
-   Cvar_SetValue ( "ogg_enable", 0 );
- #endif
-
-   if ( s_options_cdvolume_box.curvalue ) {
- #ifdef HT_WITH_OGG
-     OGG_Shutdown();
- #endif
-     CDAudio_Init();
-
-     if ( s_options_cdshuffle_box.curvalue ) {
-       CDAudio_RandomPlay();
-     } else {
-       CDAudio_Play ( ( int ) strtol ( cl.configstrings[CS_CDTRACK],
-                                       ( char ** ) NULL, 10 ), true );
-     }
-   } else {
-     CDAudio_Stop();
-   }
- }
-
- #endif
-
- #ifdef HT_WITH_OGG
  /* ========================================================================= */
  static void
  UpdateOGGVolumeFunc ( void *unused )
  {
    Cvar_SetValue ( "ogg_enable", ( float ) s_options_oggvolume_box.curvalue );
- #ifdef HT_WITH_CDA
-   Cvar_SetValue ( "cd_nocd", 1 );
- #endif
-
    if ( s_options_oggvolume_box.curvalue ) {
- #ifdef HT_WITH_CDA
-     CDAudio_Stop();
- #endif
      OGG_Init();
      OGG_Stop();
-
      if ( ( int ) strtol ( cl.configstrings[CS_CDTRACK], ( char ** ) NULL, 10 ) < 10 ) {
        char tmp[3] = "0";
        OGG_ParseCmd ( strcat ( tmp, cl.configstrings[CS_CDTRACK] ) );
-     } else {
+     }
+     else {
        OGG_ParseCmd ( cl.configstrings[CS_CDTRACK] );
      }
-   } else {
+   }
+   else {
      OGG_Shutdown();
    }
  }
-
  #endif
 
  extern void Key_ClearTyping ( void );
@@ -1184,21 +1135,12 @@
  static void
  Options_MenuInit ( void )
  {
- #ifdef HT_WITH_CDA
-   static const char *cd_music_items[] = {
-     "disabled",
-     "enabled",
-     0
-   };
- #endif
  #ifdef HT_WITH_OGG
    static const char *ogg_music_items[] = {
      "disabled",
      "enabled",
      0
    };
- #endif
- #if defined(HT_WITH_OGG) || defined(HT_WITH_CDA)
    static const char *cd_shuffle[] = {
      "disabled",
      "enabled",
@@ -1232,15 +1174,6 @@
    s_options_sfxvolume_slider.minvalue = 0;
    s_options_sfxvolume_slider.maxvalue = 10;
    s_options_sfxvolume_slider.curvalue = Cvar_VariableValue ( "s_volume" ) * 10.0f;
- #ifdef HT_WITH_CDA
-   s_options_cdvolume_box.generic.type = MTYPE_SPINCONTROL;
-   s_options_cdvolume_box.generic.x = 0;
-   s_options_cdvolume_box.generic.y = 10;
-   s_options_cdvolume_box.generic.name = "CD music";
-   s_options_cdvolume_box.generic.callback = UpdateCDVolumeFunc;
-   s_options_cdvolume_box.itemnames = cd_music_items;
-   s_options_cdvolume_box.curvalue = !Cvar_VariableValue ( "cd_nocd" );
- #endif
  #ifdef HT_WITH_OGG
    s_options_oggvolume_box.generic.type = MTYPE_SPINCONTROL;
    s_options_oggvolume_box.generic.x = 0;
@@ -1249,15 +1182,13 @@
    s_options_oggvolume_box.generic.callback = UpdateOGGVolumeFunc;
    s_options_oggvolume_box.itemnames = ogg_music_items;
    s_options_oggvolume_box.curvalue = Cvar_VariableValue ( "ogg_enable" );
- #endif
- #if defined(HT_WITH_OGG) || defined(HT_WITH_CDA)
    s_options_cdshuffle_box.generic.type = MTYPE_SPINCONTROL;
    s_options_cdshuffle_box.generic.x = 0;
    s_options_cdshuffle_box.generic.y = 30;
    s_options_cdshuffle_box.generic.name = "Shuffle";
    s_options_cdshuffle_box.generic.callback = CDShuffleFunc;
    s_options_cdshuffle_box.itemnames = cd_shuffle;
-   s_options_cdshuffle_box.curvalue = Cvar_VariableValue ( "cd_shuffle" );
+   s_options_cdshuffle_box.curvalue = !strcmp("random", Cvar_VariableString("ogg_sequence"));
  #endif
    s_options_quality_list.generic.type = MTYPE_SPINCONTROL;
    s_options_quality_list.generic.x = 0;
@@ -1326,13 +1257,8 @@
    s_options_console_action.generic.callback = ConsoleFunc;
    ControlsSetMenuItemValues();
    Menu_AddItem ( &s_options_menu, ( void * ) &s_options_sfxvolume_slider );
- #ifdef HT_WITH_CDA
-   Menu_AddItem ( &s_options_menu, ( void * ) &s_options_cdvolume_box );
- #endif
  #ifdef HT_WITH_OGG
    Menu_AddItem ( &s_options_menu, ( void * ) &s_options_oggvolume_box );
- #endif
- #if defined(HT_WITH_OGG) || defined(HT_WITH_CDA)
    Menu_AddItem ( &s_options_menu, ( void * ) &s_options_cdshuffle_box );
  #endif
    Menu_AddItem ( &s_options_menu, ( void * ) &s_options_quality_list );
