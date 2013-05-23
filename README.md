@@ -27,16 +27,23 @@ OK, so you want to try it out?. Here's what you'll need:
 * AMD64 (a.k.a. *x86_64*)
 * IA64 (Intel Itanium)
 
+#You wish to contribute?
+That will be great from you!, *htq2* it's on its way to be a highly portable q2 client.
+These are the established milestones. Your contribution through proper pull request will
+be greatly appreciated.
+
 ##Current milestone is *0.1*
 * Code layout/refactoring
 * Solid codebase with porting capabilities
 * CMake build system fully automated for all supported platforms
 * No QAL pointers
 * Get rid of CD-Audio playback (it's like playing tapes on a Commodore64)
+* Generic Hunk allocator
 * Bug fixes
 
 ### Milestone 0.2
 * No QGL pointers
+* Use of several malloc implementations (dlmalloc, tcmalloc, nedmalloc, etc.)
 
 At this point, you may wish to visit the wiki for more info!
 Namaste!
