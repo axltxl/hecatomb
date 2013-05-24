@@ -11,7 +11,7 @@
 #
 
 # Library name
-set (GAME_DLL "game")
+set (GAME_DLL "game${ARCH}")
 
 # Game sources
 set (
@@ -68,17 +68,21 @@ set (
 set (GAME_DLL_SRC ${COMMON_SHARED_SRC} ${GAME_SRC})
 
 # Game DLL target
-add_library (${GAME_DLL} SHARED ${GAME_DLL_SRC})
-target_link_libraries(${GAME_DLL} ${LIBS} ${GAME_LIBS})
+add_library (game SHARED ${GAME_DLL_SRC})
+target_link_libraries(game ${LIBS} ${GAME_LIBS})
 
 # Remove "lib" prefix so it won't be like "libgame.so"
-set_target_properties(${GAME_DLL} PROPERTIES PREFIX "")
+set_target_properties(game PROPERTIES PREFIX "")
+set_target_properties(game PROPERTIES OUTPUT_NAME "${GAME_DLL}")
 
 # Set output directory
 if (WINDOWS)
-  set_target_properties (${GAME_DLL} PROPERTIES
+  set_target_properties (game PROPERTIES
     RUNTIME_OUTPUT_DIRECTORY "${OUTPUT_DIR}/baseq2")
 else()
-  set_target_properties (${GAME_DLL} PROPERTIES
+  set_target_properties (game PROPERTIES
     LIBRARY_OUTPUT_DIRECTORY "${OUTPUT_DIR}/baseq2")
 endif()
+
+# Export the dll name + suffix for use in the config
+set (GAME_DLL "${GAME_DLL}${CMAKE_SHARED_LIBRARY_SUFFIX}" PARENT_SCOPE)

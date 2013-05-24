@@ -345,7 +345,7 @@
    char *str_p;
 
    /** @todo this needs to be more dynamic */
-   const char *gamename = "game.so";
+   const char *gamename = HT_GAME_DLL;
 
    setreuid ( getuid(), getuid() );
    setegid ( getgid() );

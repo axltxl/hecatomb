@@ -313,17 +313,8 @@
        return NULL; /* couldn't find one anywhere */
      }
 
-     /* Try game.dll */
-     Com_sprintf ( name, sizeof ( name ), "%s/%s", path, "game.dll" );
-     game_library = LoadLibrary ( name );
-
-     if ( game_library ) {
-       Com_DPrintf ( "LoadLibrary (%s)\n", name );
-       break;
-     }
-
-     /* Try gamex86.dll as fallback */
-     Com_sprintf ( name, sizeof ( name ), "%s/%s", path, "gamex86.dll" );
+     /* Load game DLL */
+     Com_sprintf ( name, sizeof ( name ), "%s/%s", path, HT_GAME_DLL );
      game_library = LoadLibrary ( name );
 
      if ( game_library ) {

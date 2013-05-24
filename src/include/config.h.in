@@ -168,6 +168,7 @@
  #endif
 
  #define BASEDIRNAME "baseq2"
+ #define HT_GAME_DLL "@GAME_DLL@"
 
  /* Configuration directory for the current user */
  #ifdef HT_OS_WINDOWS
