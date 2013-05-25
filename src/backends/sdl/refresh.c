@@ -254,7 +254,7 @@
    VID_Printf ( PRINT_ALL, "Using hardware gamma via SDL.\n" );
  #endif
    /* Window title */
-   snprintf ( title, sizeof ( title ), "%s %s", HT_PRODUCT_NAME, HT_VERSION );
+   snprintf ( title, sizeof ( title ), "%s", HT_PRODUCT_NAME );
    SDL_WM_SetCaption ( title, title );
    /* No cursor */
    SDL_ShowCursor ( 0 );
