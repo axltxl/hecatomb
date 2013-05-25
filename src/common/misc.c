@@ -33,6 +33,8 @@
  cvar_t *host_speeds;
  cvar_t *log_stats;
  cvar_t *developer;
+ cvar_t *hunk_driver;
+ cvar_t *hunk_trace;
  #ifdef HT_WITH_GIT
  cvar_t *git_ref;
  cvar_t *git_hash;
@@ -209,17 +211,24 @@
    Cbuf_AddText ( "exec config.cfg\n" );
    Cbuf_AddEarlyCommands ( true );
    Cbuf_Execute();
+
    /* init commands and vars */
    Cmd_AddCommand ( "z_stats", Z_Stats_f );
    Cmd_AddCommand ( "error", Com_Error_f );
    host_speeds = Cvar_Get ( "host_speeds", "0", 0 );
    log_stats = Cvar_Get ( "log_stats", "0", 0 );
    developer = Cvar_Get ( "developer", "0", 0 );
+
    /* Git-related information */
    #ifdef HT_WITH_GIT
    git_ref = Cvar_Get ("git_ref", HT_GIT_REFSPEC, CVAR_NOSET);
    git_hash = Cvar_Get("git_hash", HT_GIT_SHA1, CVAR_NOSET);
    #endif
+
+   /* Hunk memory allocator information */
+   hunk_trace  = Cvar_Get ( "hunk_trace", "0", 0 );
+   hunk_driver = Cvar_Get ( "hunk_driver", Sys_HunkDriver(), CVAR_NOSET );
+
    modder = Cvar_Get ( "modder", "0", 0 );
    timescale = Cvar_Get ( "timescale", "1", 0 );
    fixedtime = Cvar_Get ( "fixedtime", "0", 0 );

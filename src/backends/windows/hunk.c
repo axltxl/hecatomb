@@ -19,7 +19,8 @@
  *
  * =======================================================================
  *
- * Memory handling functions.
+ * This file implements the low level part of the Hunk_* memory system
+ * Windows implementation
  *
  * =======================================================================
  */
@@ -30,29 +31,33 @@
 
  byte *membase;
  int hunkcount;
- int hunkmaxsize;
- int cursize;
+ int maxhunksize;
+ int curhunksize;
+
+ /* ========================================================================= */
+ char *
+ Sys_HunkDriver ( void )
+ {
+   return "VirtualAlloc-windows";
+ }
 
  /* ========================================================================= */
  void *
- Hunk_Begin ( int maxsize )
+ Sys_HunkBegin ( int maxsize )
  {
-   /* reserve a huge chunk of memory,
-      but don't commit any yet */
-   cursize = 0;
-   hunkmaxsize = maxsize;
+   curhunksize = 0;
+   maxhunksize = maxsize;
    membase = VirtualAlloc ( NULL, maxsize, MEM_RESERVE, PAGE_NOACCESS );
 
    if ( !membase ) {
      Sys_Error ( "VirtualAlloc reserve failed" );
    }
-
    return ( void * ) membase;
  }
 
  /* ========================================================================= */
  void *
- Hunk_Alloc ( int size )
+ Sys_HunkAlloc ( int size )
  {
    void *buf;
 
@@ -60,7 +65,7 @@
    size = ( size + 31 ) & ~31;
 
    /* commit pages as needed */
-   buf = VirtualAlloc ( membase, cursize + size, MEM_COMMIT, PAGE_READWRITE );
+   buf = VirtualAlloc ( membase, curhunksize + size, MEM_COMMIT, PAGE_READWRITE );
 
    if ( !buf ) {
      FormatMessage ( FORMAT_MESSAGE_ALLOCATE_BUFFER | FORMAT_MESSAGE_FROM_SYSTEM,
@@ -69,32 +74,30 @@
      Sys_Error ( "VirtualAlloc commit failed.\n%s", buf );
    }
 
-   cursize += size;
+   curhunksize += size;
 
-   if ( cursize > hunkmaxsize ) {
+   if ( curhunksize > maxhunksize ) {
      Sys_Error ( "Hunk_Alloc overflow" );
    }
 
-   return ( void * ) ( membase + cursize - size );
+   return ( void * ) ( membase + curhunksize - size );
  }
 
  /* ========================================================================= */
  int
- Hunk_End ( void )
+ Sys_HunkEnd ( void )
  {
    hunkcount++;
-
-   return cursize;
+   return curhunksize;
  }
 
  /* ========================================================================= */
  void
- Hunk_Free ( void *base )
+ Sys_HunkFree ( void *base )
  {
    if ( base ) {
      VirtualFree ( base, 0, MEM_RELEASE );
    }
-
    hunkcount--;
  }
 

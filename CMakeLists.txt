@@ -161,6 +161,17 @@ endif()
 # ---------------------
 ht_set_option(HT_WITH_CDA FALSE BOOL "CD audio playback support")
 
+# Enables Generic Hunk Driver, a general purpose Hunk_* backend
+# based solely on plain malloc/free. Use this at your own risk as
+# it is an experimental feature.
+# You're encouraged to use this allocator for having an easier way
+# to porting htq2 to other platforms, otherwise you should remain
+# using the platform-specific drivers, they're much faster and therefore
+# reliable.
+# ---------------------
+ht_set_option(HT_HUNKDRIVER_GENERIC FALSE BOOL
+  "Generic Hunk driver (based on malloc/free) [EXPERIMENTAL]")
+
 # Enables OGG/Vorbis support. OGG/Vorbis files can be
 # used as a substitute of CD audio playback. Adds
 # dependencies to libogg, libvorbis and libvorbisfile.

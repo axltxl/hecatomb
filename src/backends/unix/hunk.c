@@ -20,6 +20,7 @@
  * =======================================================================
  *
  * This file implements the low level part of the Hunk_* memory system
+ * Unix implementation
  *
  * =======================================================================
  */
@@ -33,8 +34,15 @@
  int curhunksize;
 
  /* ========================================================================= */
+ char *
+ Sys_HunkDriver ( void )
+ {
+   return "mmap-unix";
+ }
+
+ /* ========================================================================= */
  void *
- Hunk_Begin ( int maxsize )
+ Sys_HunkBegin ( int maxsize )
  {
    /* reserve a huge chunk of memory, but don't commit any yet */
    maxhunksize = maxsize + sizeof ( int );
@@ -52,7 +60,7 @@
 
  /* ========================================================================= */
  void *
- Hunk_Alloc ( int size )
+ Sys_HunkAlloc ( int size )
  {
    byte *buf;
    /* round to cacheline */
@@ -69,7 +77,7 @@
 
  /* ========================================================================= */
  int
- Hunk_End ( void )
+ Sys_HunkEnd ( void )
  {
    byte *n = NULL;
  #ifdef HT_OS_LINUX
@@ -129,7 +137,7 @@
 
  /* ========================================================================= */
  void
- Hunk_Free ( void *base )
+ Sys_HunkFree ( void *base )
  {
    byte *m;
 

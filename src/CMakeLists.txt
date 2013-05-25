@@ -173,6 +173,9 @@ configure_file (${SRC_DIR}/include/config.h.in ${SRC_DIR}/include/config.h)
 # Server exec
 add_executable (server ${SERVER_EXEC_SRC})
 
+# Configuration file
+configure_file (${SRC_DIR}/include/config.h.in ${SRC_DIR}/include/config.h)
+
 # -DDEDICATED_ONLY for dedicated server
 set_target_properties(server PROPERTIES COMPILE_DEFINITIONS "DEDICATED_ONLY")
 set_target_properties(server PROPERTIES OUTPUT_NAME "${SERVER_EXEC}")
