@@ -42,7 +42,7 @@
  {
    if (hunk_trace->value) {
      mbase = Sys_HunkBegin ( maxsize );
-     Com_DPrintf ( "> Hunk_Begin [%p]: %d bytes\n", mbase, maxsize );
+     Com_DPrintf ( "> [%p]: %d byte(s) allocated\n", mbase, maxsize );
      return mbase;
    }
    else {
@@ -55,7 +55,7 @@
  Hunk_Alloc ( int size )
  {
    if (hunk_trace->value)
-    Com_DPrintf ( "! Hunk_Alloc [%p]: %d bytes\n", mbase, size );
+    Com_DPrintf ( "! [%p]: %d byte(s) claimed\n", mbase, size );
   return Sys_HunkAlloc ( size );
  }
 
@@ -64,7 +64,7 @@
  Hunk_End ( void )
  {
    if (hunk_trace->value)
-    Com_DPrintf ( "< Hunk_End [%p]\n", mbase );
+    Com_DPrintf ( "< [%p]: Dismissed\n", mbase );
    return Sys_HunkEnd();
  }
 
@@ -73,7 +73,7 @@
  Hunk_Free ( void *base )
  {
    if (hunk_trace->value)
-    Com_DPrintf ( "* Hunk_Free [%p]\n", base);
+    Com_DPrintf ( "* [%p]: Deallocated\n", base);
    Sys_HunkFree ( base );
  }
 

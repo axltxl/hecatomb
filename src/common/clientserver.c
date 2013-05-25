@@ -117,23 +117,44 @@
    }
  }
 
+// File path separator
+#ifdef HT_OS_WINDOWS
+# define FSEP '\\' // Stupid Windows always wanting to be 'different'
+#else
+# define FSEP '/'
+#endif // HT_OS_WINDOWS
+/*
+ * Normally, compilers use full path on __FILE__, so it's best
+ * to just shrink them a bit, this macro is compiler-safe, that
+ * means that FLE will represent the full path to __FILE__ in
+ * case it fails to shrink the file path
+ */
+#define FILENAME (strrchr(file, FSEP) ? strrchr(file, FSEP) + 1 : file)
+
  /*
   * A Com_Printf that only shows up if the "developer" cvar is set
   */
  void
- Com_DPrintf ( char *fmt, ... )
+ Com_DPrintfEx ( const char *function, char *file, int line, char *fmt, ... )
  {
    va_list argptr;
-   char msg[MAXPRINTMSG];
+   char msg[MAXPRINTMSG], // Brute message goes in here
+        devstamp[MAXPRINTMSG];// Developer-stamp goes in here
 
    if ( !developer || !developer->value ) {
      return; /* don't confuse non-developers with techie stuff... */
    }
 
    va_start ( argptr, fmt );
+   // Format the message
    vsnprintf ( msg, MAXPRINTMSG, fmt, argptr );
    va_end ( argptr );
-   Com_Printf ( "%s", msg );
+
+   // Now, format the developer stamp (function, file and line)
+   snprintf(devstamp, MAXPRINTMSG, "%s/%s:%d", function, FILENAME, line);
+
+   // Forward a nice and pretty message to Com_Printf
+   Com_Printf ("%-20s %s", devstamp, msg);
  }
 
  /*

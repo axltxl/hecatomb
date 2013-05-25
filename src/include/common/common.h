@@ -619,7 +619,9 @@
  void Com_BeginRedirect ( int target, char *buffer, int buffersize, void ( *flush ) );
  void Com_EndRedirect ( void );
  void Com_Printf ( char *fmt, ... );
- void Com_DPrintf ( char *fmt, ... );
+ void Com_DPrintfEx ( const char *function, char *file, int line, char *fmt, ... );
+ #define Com_DPrintf(msg, ...) \
+  Com_DPrintfEx(__func__, __FILE__, __LINE__, msg, ##__VA_ARGS__)
  void Com_MDPrintf ( char *fmt, ... );
  void Com_Error ( int code, char *fmt, ... );
  void Com_Quit ( void );
