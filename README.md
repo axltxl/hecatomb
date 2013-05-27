@@ -46,5 +46,11 @@ be greatly appreciated.
 * Optional use of dlmalloc
 * C99 integer types *(proposed)*
 
+### Milestone 0.3
+* OpenGL extensions handling through GLEW *(proposed)*
+
+## Milestone 0.4
+* OpenGL ES 2.0+ support
+
 At this point, you may wish to visit the wiki for more info!
 Namaste!
