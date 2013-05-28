@@ -33,13 +33,13 @@ These are the established milestones. Your contribution through proper pull requ
 be greatly appreciated.
 
 ##Current milestone is *0.1*
-* Code layout/refactoring
-* Solid codebase with porting capabilities
-* CMake build system fully automated for all supported platforms
-* No QAL pointers
+* Code layout/refactoring [DONE]
+* Solid codebase with porting capabilities [DONE]
+* CMake build system fully automated for all supported platforms [DONE]
+* No QAL pointers [DONE]
 * Get rid of CD-Audio playback (it's like playing tapes on a Commodore64)
-* Generic Hunk allocator (based on plain *malloc*)
-* Bug fixes
+* Generic Hunk allocator (based on plain *malloc*) [DONE]
+* Bug fixes [DONE]
 
 ### Milestone 0.2
 * No QGL pointers
