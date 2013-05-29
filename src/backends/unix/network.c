@@ -52,6 +52,7 @@
  int NET_Socket ( char *net_interface, int port, netsrc_t type, int family );
  char *NET_ErrorString ( void );
 
+ /* ========================================================================= */
  void
  NetadrToSockadr ( netadr_t *a, struct sockaddr_storage *s )
  {
@@ -122,6 +123,7 @@
    }
  }
 
+ /* ========================================================================= */
  void
  SockadrToNetadr ( struct sockaddr_storage *s, netadr_t *a )
  {
@@ -150,11 +152,13 @@
    }
  }
 
+ /* ========================================================================= */
  void
  NET_Init()
  {
  }
 
+ /* ========================================================================= */
  qboolean
  NET_CompareAdr ( netadr_t a, netadr_t b )
  {
@@ -224,6 +228,7 @@
    return false;
  }
 
+ /* ========================================================================= */
  char *
  NET_BaseAdrToString ( netadr_t a )
  {
@@ -298,6 +303,7 @@
    return s;
  }
 
+ /* ========================================================================= */
  char *
  NET_AdrToString ( netadr_t a )
  {
@@ -308,6 +314,7 @@
    return s;
  }
 
+ /* ========================================================================= */
  qboolean
  NET_StringToSockaddr ( char *s, struct sockaddr_storage *sadr )
  {
@@ -373,6 +380,7 @@
    return true;
  }
 
+ /* ========================================================================= */
  qboolean
  NET_StringToAdr ( char *s, netadr_t *a )
  {
@@ -392,12 +400,14 @@
    return true;
  }
 
+ /* ========================================================================= */
  qboolean
  NET_IsLocalAddress ( netadr_t adr )
  {
    return NET_CompareAdr ( adr, net_local_adr );
  }
 
+ /* ========================================================================= */
  qboolean
  NET_GetLoopPacket ( netsrc_t sock, netadr_t *net_from, sizebuf_t *net_message )
  {
@@ -421,6 +431,7 @@
    return true;
  }
 
+ /* ========================================================================= */
  void
  NET_SendLoopPacket ( netsrc_t sock, int length, void *data, netadr_t to )
  {
@@ -433,6 +444,7 @@
    loop->msgs[i].datalen = length;
  }
 
+ /* ========================================================================= */
  qboolean
  NET_GetPacket ( netsrc_t sock, netadr_t *net_from, sizebuf_t *net_message )
  {
@@ -489,6 +501,7 @@
    return false;
  }
 
+ /* ========================================================================= */
  void
  NET_SendPacket ( netsrc_t sock, int length, void *data, netadr_t to )
  {
@@ -626,6 +639,7 @@
    }
  }
 
+ /* ========================================================================= */
  void
  NET_OpenIP ( void )
  {
@@ -687,7 +701,6 @@
  }
 
  /* =================================================================== */
-
  int
  NET_Socket ( char *net_interface, int port, netsrc_t type, int family )
  {
@@ -819,12 +832,14 @@
    return newsocket;
  }
 
+ /* ========================================================================= */
  void
  NET_Shutdown ( void )
  {
    NET_Config ( false ); /* close sockets */
  }
 
+ /* ========================================================================= */
  char *
  NET_ErrorString ( void )
  {

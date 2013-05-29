@@ -27,6 +27,8 @@
  #ifndef UNIX_UNIX_H
  #define UNIX_UNIX_H
 
- void registerHandler(void);
+ #include "prereqs.h"
+
+ void Sys_SigHandler ( int sig );
 
  #endif

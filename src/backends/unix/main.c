@@ -39,8 +39,12 @@
  main ( int argc, char **argv )
  {
    int time, oldtime, newtime;
+
    /* register signal handler */
-   registerHandler();
+   signal ( SIGSEGV, Sys_SigHandler );
+   signal ( SIGILL, Sys_SigHandler );
+   signal ( SIGFPE, Sys_SigHandler );
+   signal ( SIGABRT, Sys_SigHandler );
 
    /* Prevent running Quake II as root. Only very mad
       minded or stupid people even think about it. :) */

@@ -33,7 +33,7 @@
 
  /* ========================================================================= */
  void
- printBacktrace ( int sig )
+ Sys_Backtrace ( int sig )
  {
  #if HT_HAVE_EXECINFO
    void *array[15];
@@ -65,7 +65,7 @@
 
  /* ========================================================================= */
  void
- signalhandler ( int sig )
+ Sys_SigHandler ( int sig )
  {
    printf ( "\n=======================================================\n" );
    printf ( "%s HAS CRASHED! This is embarassing indeed...\n", HT_PRODUCT_NAME );
@@ -85,7 +85,7 @@
    printf ( "\nThank you very much for your help, making %s\n", HT_PRODUCT_NAME );
    printf ( "an even better source port. It's much appreciated.\n" );
    printf ( "=======================================================\n\n" );
-   printBacktrace ( sig );
+   Sys_Backtrace ( sig );
 
    /* make sure this is written */
    fflush ( stdout );
@@ -98,14 +98,4 @@
 
    /* pass signal to the os */
    raise ( sig );
- }
-
- /* ========================================================================= */
- void
- registerHandler ( void )
- {
-   signal ( SIGSEGV, signalhandler );
-   signal ( SIGILL, signalhandler );
-   signal ( SIGFPE, signalhandler );
-   signal ( SIGABRT, signalhandler );
  }
