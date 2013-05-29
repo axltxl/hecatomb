@@ -28,6 +28,7 @@
  #include "memory.h"
  #include "refresh/local.h"
 
+ /* ========================================================================= */
  void
  LoadMD2 ( model_t *mod, void *buffer )
  {

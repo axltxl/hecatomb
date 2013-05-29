@@ -28,6 +28,7 @@
  #include "filesystem.h"
  #include "refresh/local.h"
 
+ /* ========================================================================= */
  image_t *
  LoadWal ( char *origname )
  {
@@ -61,6 +62,7 @@
    return image;
  }
 
+ /* ========================================================================= */
  void
  GetWalInfo ( char *name, int *width, int *height )
  {

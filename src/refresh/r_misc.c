@@ -142,6 +142,7 @@
    VID_Printf ( PRINT_ALL, "Wrote %s\n", picname );
  }
 
+ /* ========================================================================= */
  void
  R_Strings ( void )
  {
@@ -151,6 +152,7 @@
    VID_Printf ( PRINT_ALL, "GL_EXTENSIONS: %s\n", gl_config.extensions_string );
  }
 
+ /* ========================================================================= */
  void
  R_SetDefaultState ( void )
  {

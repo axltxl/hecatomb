@@ -30,6 +30,7 @@
 
  extern int modfilelen;
 
+ /* ========================================================================= */
  void
  LoadSP2 ( model_t *mod, void *buffer )
  {

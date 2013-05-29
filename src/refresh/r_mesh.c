@@ -47,6 +47,7 @@
  extern vec3_t lightspot;
  extern qboolean have_stencil;
 
+ /* ========================================================================= */
  void
  R_LerpVerts ( int nverts, dtrivertx_t *v, dtrivertx_t *ov,
                dtrivertx_t *verts, float *lerp, float move[3],
@@ -251,6 +252,7 @@
    }
  }
 
+ /* ========================================================================= */
  void
  R_DrawAliasShadow ( dmdl_t *paliashdr, int posenum )
  {
@@ -303,6 +305,7 @@
    }
  }
 
+ /* ========================================================================= */
  static qboolean
  R_CullAliasModel ( vec3_t bbox[8], entity_t *e )
  {
@@ -421,6 +424,7 @@
    return false;
  }
 
+ /* ========================================================================= */
  void
  R_DrawAliasModel ( entity_t *e )
  {

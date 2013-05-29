@@ -35,6 +35,7 @@
  vec3_t lightspot;
  static float s_blocklights[34 * 34 * 3];
 
+ /* ========================================================================= */
  void
  R_RenderDlight ( dlight_t *light )
  {
@@ -69,6 +70,7 @@
    qglEnd();
  }
 
+ /* ========================================================================= */
  void
  R_RenderDlights ( void )
  {
@@ -99,6 +101,7 @@
    qglDepthMask ( 1 );
  }
 
+ /* ========================================================================= */
  void
  R_MarkLights ( dlight_t *light, int bit, mnode_t *node )
  {
@@ -153,6 +156,7 @@
    R_MarkLights ( light, bit, node->children[1] );
  }
 
+ /* ========================================================================= */
  void
  R_PushDlights ( void )
  {
@@ -277,6 +281,7 @@
    return R_RecursiveLightPoint ( node->children[!side], mid, end );
  }
 
+ /* ========================================================================= */
  void
  R_LightPoint ( vec3_t p, vec3_t color )
  {
@@ -320,6 +325,7 @@
    VectorScale ( color, gl_modulate->value, color );
  }
 
+ /* ========================================================================= */
  void
  R_AddDynamicLights ( msurface_t *surf )
  {
@@ -398,6 +404,7 @@
    }
  }
 
+ /* ========================================================================= */
  void
  R_SetCacheState ( msurface_t *surf )
  {

@@ -36,6 +36,7 @@
    unsigned char pixel_size, attributes;
  } TargaHeader;
 
+ /* ========================================================================= */
  void
  LoadTGA ( char *origname, byte **pic, int *width, int *height )
  {

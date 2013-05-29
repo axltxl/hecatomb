@@ -33,12 +33,14 @@
  void R_SetCacheState ( msurface_t *surf );
  void R_BuildLightMap ( msurface_t *surf, byte *dest, int stride );
 
+ /* ========================================================================= */
  void
  LM_InitBlock ( void )
  {
    memset ( gl_lms.allocated, 0, sizeof ( gl_lms.allocated ) );
  }
 
+ /* ========================================================================= */
  void
  LM_UploadBlock ( qboolean dynamic )
  {
@@ -120,6 +122,7 @@
    return true;
  }
 
+ /* ========================================================================= */
  void
  LM_BuildPolygonFromSurface ( msurface_t *fa )
  {
@@ -178,6 +181,7 @@
    poly->numverts = lnumverts;
  }
 
+ /* ========================================================================= */
  void
  LM_CreateSurfaceLightmap ( msurface_t *surf )
  {
@@ -208,6 +212,7 @@
    R_BuildLightMap ( surf, base, BLOCK_WIDTH * LIGHTMAP_BYTES );
  }
 
+ /* ========================================================================= */
  void
  LM_BeginBuildingLightmaps ( model_t *m )
  {
@@ -246,6 +251,7 @@
                    GL_UNSIGNED_BYTE, dummy );
  }
 
+ /* ========================================================================= */
  void
  LM_EndBuildingLightmaps ( void )
  {

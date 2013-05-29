@@ -28,6 +28,7 @@
  #include "filesystem.h"
  #include "refresh/local.h"
 
+ /* ========================================================================= */
  void
  LoadPCX ( char *origname, byte **pic, byte **palette, int *width, int *height )
  {
@@ -121,6 +122,7 @@
    FS_FreeFile ( pcx );
  }
 
+ /* ========================================================================= */
  void
  GetPCXInfo ( char *filename, int *width, int *height )
  {
