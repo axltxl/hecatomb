@@ -126,6 +126,16 @@ check_include_files (locale.h HT_HAVE_LOCALE_H)
 check_include_files (errno.h HT_HAVE_ERRNO_H)
 check_include_files (stdint.h HT_HAVE_STDINT_H)
 
+# Check machine endianness (Byte order)
+# ---------------------
+include (TestBigEndian)
+test_big_endian (BIG_ENDIAN)
+if (BIG_ENDIAN)
+  set (HT_ENDIAN_BIG 1)
+else()
+  set (HT_ENDIAN_LITTLE 1)
+endif()
+
 # let CMake know about our additional libraries paths (on Windows and OS X)
 # Thanks to SFML guys for this snippet
 # ---------------------
