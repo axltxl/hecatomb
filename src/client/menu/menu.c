@@ -1038,7 +1038,6 @@
  static void
  CDShuffleFunc ( void *unused )
  {
-   //Cvar_SetValue ( "cd_shuffle", s_options_cdshuffle_box.curvalue );
    cvar_t *ogg_enable = Cvar_Get ( "ogg_enable", "0", CVAR_ARCHIVE );
 
    if ( s_options_cdshuffle_box.curvalue ) {

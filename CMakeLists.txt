@@ -71,16 +71,17 @@ set (VERSION "${VERSION_MAJOR}.${VERSION_MINOR}.${VERSION_PATCH}-${VERSION_STATE
 
 # Default values
 # ---------------------
+set (DEF_OGG FALSE)
+set (DEF_OPENAL FALSE)
+set (DEF_ZIP FALSE)
+set (DEF_RETEXTURE FALSE)
 if (WINDOWS OR OSX)
   set (DEF_OGG TRUE)
-  set (DEF_OPENAL TRUE)
   set (DEF_ZIP TRUE)
   set (DEF_RETEXTURE TRUE)
-else()
-  set (DEF_OGG FALSE)
-  set (DEF_OPENAL FALSE)
-  set (DEF_ZIP FALSE)
-  set (DEF_RETEXTURE FALSE)
+endif()
+if (WINDOWS)
+  set (DEF_OPENAL TRUE)
 endif()
 
 #
