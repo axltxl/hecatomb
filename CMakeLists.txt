@@ -57,17 +57,14 @@ endif()
 # Essential info
 # ---------------------
 set (PROJ_DEVNAME "htq2")
-set (PROJ_URL "github.com/alericoveri/hecatomb")
+set (PROJ_URL "http://alericoveri.com.ve/htq2")
 set (PROJ_GIT_URL "git://github.com/alericoveri/hecatomb.git")
 set (PROJ_PRODUCT_NAME "Hecatomb Quake II")
 set (PROJ_EMAIL "alejandroricoveri@gmail.com")
 set (VERSION_MAJOR 0)
 set (VERSION_MINOR 1)
 set (VERSION_PATCH 0)
-if (HT_BUILD_DEBUG)
-  set (VERSION_STATE "a1")
-endif()
-set (VERSION "${VERSION_MAJOR}.${VERSION_MINOR}.${VERSION_PATCH}-${VERSION_STATE}")
+set (VERSION "${VERSION_MAJOR}.${VERSION_MINOR}.${VERSION_PATCH}")
 
 # Default values
 # ---------------------
