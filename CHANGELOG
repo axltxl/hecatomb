@@ -11,7 +11,8 @@ htq2 0.1.0
 - New git cvars "git_ref", who tells in which refspec
   was built the client/server, and "git_hash" who prints
   the SHA-1 commit hash
-- CD-Audio playback support has been ripped off
+- CD-Audio playback support has been ripped off in favor
+  of OGG music playback
 
 Quake II 5.00 to 5.10
 - Support for OS X. (by W. Beser)
