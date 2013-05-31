@@ -8,7 +8,9 @@ htq2 0.1.0
 - New cvar 'hunk_trace' for Hunk memory debugging
 - New cvar "al_strings" which is the OAL equivalent
   of "gl_strings"
-- New dev cvars "git_ref" and "git_hash"
+- New git cvars "git_ref", who tells in which refspec
+  was built the client/server, and "git_hash" who prints
+  the SHA-1 commit hash
 
 Quake II 5.00 to 5.10
 - Support for OS X. (by W. Beser)
