@@ -1,4 +1,5 @@
 /*
+ * Copyright (C) 2013 Alejandro Ricoveri
  * Copyright (C) 1997-2001 Id Software, Inc.
  * Copyright (C) 2010, 2013 Yamagi Burmeister
  * Copyright (C) 2005 Ryan C. Gordon

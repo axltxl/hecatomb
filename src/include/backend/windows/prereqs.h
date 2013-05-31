@@ -17,24 +17,28 @@
  * Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA
  * 02111-1307, USA.
  *
+ * =======================================================================
+ *
  * Windows Prequisites
+ *
+ * =======================================================================
  */
- 
+
  #ifndef WIN_PREREQS_H
  #define WIN_PREREQS_H
- 
+
  #include "prereqs.h"
 
  #define WIN32_MEAN_AND_LEAN
- 
+
  /* Require Win XP or higher */
  #define _WIN32_WINNT 0x0501
- 
+
  #include <windows.h>
  #include <winsock2.h>
  #include <ws2tcpip.h>
  #include <wsipx.h>
- 
+
  #include <float.h>
  #include <fcntl.h>
  #include <direct.h>

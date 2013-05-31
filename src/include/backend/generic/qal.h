@@ -1,4 +1,5 @@
 /*
+ * Copyright (C) 2013 Alejandro Ricoveri
  * Copyright (C) 2012 Yamagi Burmeister
  * Copyright (C) 2010 skuller.net
  * Copyright (C) 2005 Stuart Dalton (badcdev@gmail.com)
