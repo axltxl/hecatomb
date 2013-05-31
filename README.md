@@ -37,7 +37,7 @@ be greatly appreciated.
 * Solid codebase with porting capabilities [DONE]
 * CMake build system fully automated for all supported platforms [DONE]
 * No QAL pointers [DONE]
-* Get rid of CD-Audio playback (it's like playing tapes on a Commodore64)
+* Get rid of CD-Audio playback (it's like playing tapes on a Commodore64) [DONE]
 * Generic Hunk allocator (based on plain *malloc*) [DONE]
 * Bug fixes [DONE]
 
