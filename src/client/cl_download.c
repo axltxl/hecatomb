@@ -360,7 +360,7 @@
  CL_DownloadFileName ( char *dest, int destlen, char *fn )
  {
    if ( strncmp ( fn, "players", 7 ) == 0 ) {
-     Com_sprintf ( dest, destlen, "%s/%s", BASEDIRNAME, fn );
+     Com_sprintf ( dest, destlen, "%s/%s", HT_DIR_BASE, fn );
    } else {
      Com_sprintf ( dest, destlen, "%s/%s", FS_Gamedir(), fn );
    }

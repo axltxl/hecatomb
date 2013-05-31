@@ -1322,7 +1322,7 @@
         strstr ( fs_gamedirvar->string, "/" ) ||
         ( fs_gamedirvar->string[0] == '\0' ) ) {
      Com_Printf ( "Invalid game directory.\n" );
-     Cvar_ForceSet ( "fs_game", BASEDIRNAME );
+     Cvar_ForceSet ( "fs_game", HT_DIR_BASE );
    }
 
    /* Check for game override. */
@@ -1365,7 +1365,7 @@
      }
 
      /* Don't add baseq2 again. */
-     if ( Q_stricmp ( fs_gamedirvar->string, BASEDIRNAME ) == 0 ) {
+     if ( Q_stricmp ( fs_gamedirvar->string, HT_DIR_BASE ) == 0 ) {
        strncpy ( fs_gamedir, fs_basedir->string, sizeof ( fs_gamedir ) );
      } else {
        /* Add the directories. */
@@ -1391,7 +1391,7 @@
                    fs_basedir->string, dir );
    } else {
      Com_sprintf ( name, sizeof ( name ), "%s/%s/autoexec.cfg",
-                   fs_basedir->string, BASEDIRNAME );
+                   fs_basedir->string, HT_DIR_BASE );
    }
 
    if ( Sys_FindFirst ( name, 0, SFF_SUBDIR | SFF_HIDDEN | SFF_SYSTEM ) != NULL ) {
@@ -1456,7 +1456,7 @@
    Com_sprintf ( fs_gamedir, sizeof ( fs_gamedir ), "%s/%s",
                  fs_basedir->string, dir );
 
-   if ( ( strcmp ( dir, BASEDIRNAME ) == 0 ) || ( *dir == 0 ) ) {
+   if ( ( strcmp ( dir, HT_DIR_BASE ) == 0 ) || ( *dir == 0 ) ) {
      Cvar_FullSet ( "gamedir", "", CVAR_SERVERINFO | CVAR_NOSET );
      Cvar_FullSet ( "game", "", CVAR_LATCH | CVAR_SERVERINFO );
    } else {
@@ -1796,7 +1796,7 @@
    fs_cddir = Cvar_Get ( "cddir", "", CVAR_NOSET );
 
    if ( fs_cddir->string[0] != '\0' ) {
-     FS_AddGameDirectory ( va ( "%s/" BASEDIRNAME, fs_cddir->string ) );
+     FS_AddGameDirectory ( va ( "%s/" HT_DIR_BASE, fs_cddir->string ) );
    }
 
    /* Debug flag. */
@@ -1808,16 +1808,16 @@
    /* Current directory. */
    fs_homepath = Cvar_Get ( "homepath", Sys_GetCurrentDirectory(), CVAR_NOSET );
  #ifdef HT_WITH_SYSTEMWIDE
-   FS_AddSystemwideGameDirectory ( BASEDIRNAME );
+   FS_AddSystemwideGameDirectory ( HT_DIR_BASE );
  #endif
 
    /* Add baseq2 to search path. */
-   FS_AddGameDirectory ( va ( "%s/" BASEDIRNAME, fs_basedir->string ) );
-   FS_AddHomeAsGameDirectory ( BASEDIRNAME );
+   FS_AddGameDirectory ( va ( "%s/" HT_DIR_BASE, fs_basedir->string ) );
+   FS_AddHomeAsGameDirectory ( HT_DIR_BASE );
 
    /* Any set gamedirs will be freed up to here. */
    fs_baseSearchPaths = fs_searchPaths;
-   strncpy ( fs_currentGame, BASEDIRNAME, sizeof ( fs_currentGame ) );
+   strncpy ( fs_currentGame, HT_DIR_BASE, sizeof ( fs_currentGame ) );
 
    /* Check for game override. */
    if ( fs_gamedirvar->string[0] != '\0' ) {

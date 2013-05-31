@@ -428,7 +428,7 @@
      return NULL;
    }
 
-   snprintf ( gdir, sizeof ( gdir ), "%s/%s/", home, CFGDIR );
+   snprintf ( gdir, sizeof ( gdir ), "%s/%s/", home, HT_DIR_CONF );
    return gdir;
  }
 

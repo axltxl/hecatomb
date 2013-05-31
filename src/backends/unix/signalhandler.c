@@ -1,4 +1,5 @@
 /*
+ * Copyright (C) 2013 Alejandro Ricoveri
  * Copyright (C) 2011 Yamagi Burmeister
  *
  * This program is free software; you can redistribute it and/or modify
@@ -79,7 +80,7 @@
    printf ( "   data. They're necessary to analyze the backtrace:\n\n" );
    printf ( "    - %s (the executable / binary)\n\n", HT_DEV_NAME );
    printf ( "    - %s (the game DLL of the mod you were playing\n", HT_GAME_DLL );
-   printf ( "      when the game crashed, e.g. %s/gamex86.so for the\n", BASEDIRNAME );
+   printf ( "      when the game crashed, e.g. %s/gamex86.so for the\n", HT_DIR_BASE );
    printf ( "      main game on *nix x86 build)\n\n" );
    printf ( " - Any other data which you think might be usefull\n" );
    printf ( "\nThank you very much for your help, making %s\n", HT_PRODUCT_NAME );
