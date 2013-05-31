@@ -78,9 +78,9 @@
    printf ( " - The following files. None of them contains private\n" );
    printf ( "   data. They're necessary to analyze the backtrace:\n\n" );
    printf ( "    - %s (the executable / binary)\n\n", HT_DEV_NAME );
-   printf ( "    - game%s.so (the game.so of the mod you were playing\n", HT_ARCH_NAME );
-   printf ( "      when the game crashed. %s/game.so for the\n", BASEDIRNAME );
-   printf ( "      main game)\n\n" );
+   printf ( "    - %s (the game DLL of the mod you were playing\n", HT_GAME_DLL );
+   printf ( "      when the game crashed, e.g. %s/gamex86.so for the\n", BASEDIRNAME );
+   printf ( "      main game on *nix x86 build)\n\n" );
    printf ( " - Any other data which you think might be usefull\n" );
    printf ( "\nThank you very much for your help, making %s\n", HT_PRODUCT_NAME );
    printf ( "an even better source port. It's much appreciated.\n" );
