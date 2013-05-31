@@ -13,6 +13,17 @@ htq2 0.1.0
   the SHA-1 commit hash
 - CD-Audio playback support has been ripped off in favor
   of OGG music playback
+- *nix signal handler has been rewritten more in the style 
+  of ioquake3, new function names are Sys_SigHandler, 
+  Sys_Backtrace
+- Game DLL output name will vary depending on target platform,
+  e.g. gamex86_64.dylib on OSX 10.8, gamex86.dll on Windows 7 i386.
+  htq2 will look for that specific name, this name is generated at
+  configure time.
+- Dynamic inclusion of execinfo into backtrace signal handler
+  for all *nix platforms. That means that if libexecinfo is found
+  on target platform it will be used to express the backtrace on
+  Sys_SigHandler
 
 Quake II 5.00 to 5.10
 - Support for OS X. (by W. Beser)
