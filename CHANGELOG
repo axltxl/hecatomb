@@ -1,5 +1,7 @@
 htq2 0.1.0
 - CMake integrated build automation
+- Architecture detection on configure time
+- Inclusion of dynamic configuration header (config.h.in)
 - Huge code refactoring
 - Direct use of OpenAL (no QAL)
 - Generic Hunk memory allocator
