@@ -544,7 +544,7 @@
    }
 
    /* Check if path is too long */
-   if ( ( len + strlen ( CFGDIR ) + 3 ) >= 256 ) {
+   if ( ( len + strlen ( HT_DIR_CONF ) + 3 ) >= 256 ) {
      return NULL;
    }
 
@@ -563,7 +563,7 @@
      }
    }
 
-   snprintf ( gdir, sizeof ( gdir ), "%s/%s/", profile, CFGDIR );
+   snprintf ( gdir, sizeof ( gdir ), "%s/%s/", profile, HT_DIR_CONF );
 
    return gdir;
  }
