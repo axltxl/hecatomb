@@ -298,14 +298,16 @@
  void
  GLimp_Shutdown ( void )
  {
-   /* Clear the backbuffer and make it
+   if (glw_state.OpenGLLib) {
+     /* Clear the backbuffer and make it
       current. This may help some broken
       video drivers like the AMD Catalyst
       to avoid artifacts in unused screen
-      areas, */
-   qglClearColor ( 0.0, 0.0, 0.0, 0.0 );
-   qglClear ( GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT );
-   GLimp_EndFrame();
+      areas */
+     qglClearColor ( 0.0, 0.0, 0.0, 0.0 );
+     qglClear ( GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT );
+     GLimp_EndFrame();
+   }
 
    if ( surface ) {
      SDL_FreeSurface ( surface );
@@ -320,13 +322,11 @@
    }
 
  #ifdef HT_WITH_X11GAMMA
-
    if ( gl_state.hwgamma == true ) {
      XF86VidModeSetGamma ( dpy, screen, &x11_oldgamma );
      /* This forces X11 to update the gamma tables */
      XF86VidModeGetGamma ( dpy, screen, &x11_oldgamma );
    }
-
  #endif
    gl_state.hwgamma = false;
  }
