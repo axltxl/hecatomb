@@ -26,6 +26,8 @@ htq2 0.1.0
   for all *nix platforms. That means that if libexecinfo is found
   on target platform it will be used to express the backtrace on
   Sys_SigHandler
+- Fix bug that was causing a crash on GLimp_Shutdown when
+  systemwide installation was being used
 
 Quake II 5.00 to 5.10
 - Support for OS X. (by W. Beser)
