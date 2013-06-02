@@ -713,6 +713,7 @@
    return size;
  }
 
+ /* ========================================================================= */
  int
  FS_FTell ( fileHandle_t f )
  {
@@ -782,6 +783,7 @@
    return list;
  }
 
+ /* ========================================================================= */
  void
  FS_Seek ( fileHandle_t f, int offset, fsOrigin_t origin )
  {
@@ -890,6 +892,7 @@
    return -1;
  }
 
+ /* ========================================================================= */
  qboolean
  FS_FileExists ( char *path )
  {
@@ -904,6 +907,7 @@
    return false;
  }
 
+ /* ========================================================================= */
  void
  FS_RenameFile ( const char *oldPath, const char *newPath )
  {

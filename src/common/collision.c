@@ -119,6 +119,7 @@
  /* 1/32 epsilon to keep floating point happy */
  #define DIST_EPSILON (0.03125f)
 
+ /* ========================================================================= */
  void
  FloodArea_r ( carea_t *area, int floodnum )
  {
@@ -144,6 +145,7 @@
    }
  }
 
+ /* ========================================================================= */
  void
  FloodAreaConnections ( void )
  {
@@ -167,6 +169,7 @@
    }
  }
 
+ /* ========================================================================= */
  void
  CM_SetAreaPortalState ( int portalnum, qboolean open )
  {
@@ -178,6 +181,7 @@
    FloodAreaConnections();
  }
 
+ /* ========================================================================= */
  qboolean
  CM_AreasConnected ( int area1, int area2 )
  {
@@ -368,6 +372,7 @@
    return box_headnode;
  }
 
+ /* ========================================================================= */
  int
  CM_PointLeafnum_r ( vec3_t p, int num )
  {
@@ -398,6 +403,7 @@
    return -1 - num;
  }
 
+ /* ========================================================================= */
  int
  CM_PointLeafnum ( vec3_t p )
  {
@@ -449,6 +455,7 @@
    }
  }
 
+ /* ========================================================================= */
  int
  CM_BoxLeafnums_headnode ( vec3_t mins, vec3_t maxs, int *list,
                            int listsize, int headnode, int *topnode )
@@ -468,6 +475,7 @@
    return leaf_count;
  }
 
+ /* ========================================================================= */
  int
  CM_BoxLeafnums ( vec3_t mins, vec3_t maxs, int *list, int listsize, int *topnode )
  {
@@ -475,6 +483,7 @@
                                     listsize, map_cmodels[0].headnode, topnode );
  }
 
+ /* ========================================================================= */
  int
  CM_PointContents ( vec3_t p, int headnode )
  {
@@ -517,6 +526,7 @@
    return map_leafs[l].contents;
  }
 
+ /* ========================================================================= */
  void
  CM_ClipBoxToBrush ( vec3_t mins, vec3_t maxs, vec3_t p1,
                      vec3_t p2, trace_t *trace, cbrush_t *brush )
@@ -637,6 +647,7 @@
    }
  }
 
+ /* ========================================================================= */
  void
  CM_TestBoxInBrush ( vec3_t mins, vec3_t maxs, vec3_t p1,
                      trace_t *trace, cbrush_t *brush )
@@ -683,6 +694,7 @@
    trace->contents = brush->contents;
  }
 
+ /* ========================================================================= */
  void
  CM_TraceToLeaf ( int leafnum )
  {
@@ -720,6 +732,7 @@
    }
  }
 
+ /* ========================================================================= */
  void
  CM_TestInLeaf ( int leafnum )
  {
@@ -756,6 +769,7 @@
    }
  }
 
+ /* ========================================================================= */
  void
  CM_RecursiveHullCheck ( int num, float p1f, float p2f, vec3_t p1, vec3_t p2 )
  {
@@ -864,6 +878,7 @@
    CM_RecursiveHullCheck ( node->children[side ^ 1], midf, p2f, mid, p2 );
  }
 
+ /* ========================================================================= */
  trace_t
  CM_BoxTrace ( vec3_t start, vec3_t end, vec3_t mins, vec3_t maxs,
                int headnode, int brushmask )
@@ -1000,6 +1015,7 @@
    return trace;
  }
 
+ /* ========================================================================= */
  void
  CMod_LoadSubmodels ( lump_t *l )
  {
@@ -1038,6 +1054,7 @@
    }
  }
 
+ /* ========================================================================= */
  void
  CMod_LoadSurfaces ( lump_t *l )
  {
@@ -1071,6 +1088,7 @@
    }
  }
 
+ /* ========================================================================= */
  void
  CMod_LoadNodes ( lump_t *l )
  {
@@ -1107,6 +1125,7 @@
    }
  }
 
+ /* ========================================================================= */
  void
  CMod_LoadBrushes ( lump_t *l )
  {
@@ -1135,6 +1154,7 @@
    }
  }
 
+ /* ========================================================================= */
  void
  CMod_LoadLeafs ( lump_t *l )
  {
@@ -1194,6 +1214,7 @@
    }
  }
 
+ /* ========================================================================= */
  void
  CMod_LoadPlanes ( lump_t *l )
  {
@@ -1239,6 +1260,7 @@
    }
  }
 
+ /* ========================================================================= */
  void
  CMod_LoadLeafBrushes ( lump_t *l )
  {
@@ -1271,6 +1293,7 @@
    }
  }
 
+ /* ========================================================================= */
  void
  CMod_LoadBrushSides ( lump_t *l )
  {
@@ -1308,6 +1331,7 @@
    }
  }
 
+ /* ========================================================================= */
  void
  CMod_LoadAreas ( lump_t *l )
  {
@@ -1338,6 +1362,7 @@
    }
  }
 
+ /* ========================================================================= */
  void
  CMod_LoadAreaPortals ( lump_t *l )
  {
@@ -1361,6 +1386,7 @@
    memcpy ( out, in, sizeof ( dareaportal_t ) * count );
  }
 
+ /* ========================================================================= */
  void
  CMod_LoadVisibility ( lump_t *l )
  {
@@ -1374,6 +1400,7 @@
    map_vis->numclusters = LittleLong ( map_vis->numclusters );
  }
 
+ /* ========================================================================= */
  void
  CMod_LoadEntityString ( lump_t *l )
  {
@@ -1471,6 +1498,7 @@
    return &map_cmodels[0];
  }
 
+ /* ========================================================================= */
  cmodel_t *
  CM_InlineModel ( char *name )
  {
@@ -1489,24 +1517,28 @@
    return &map_cmodels[num];
  }
 
+ /* ========================================================================= */
  int
  CM_NumClusters ( void )
  {
    return numclusters;
  }
 
+ /* ========================================================================= */
  int
  CM_NumInlineModels ( void )
  {
    return numcmodels;
  }
 
+ /* ========================================================================= */
  char *
  CM_EntityString ( void )
  {
    return map_entitystring;
  }
 
+ /* ========================================================================= */
  int
  CM_LeafContents ( int leafnum )
  {
@@ -1517,6 +1549,7 @@
    return map_leafs[leafnum].contents;
  }
 
+ /* ========================================================================= */
  int
  CM_LeafCluster ( int leafnum )
  {
@@ -1527,6 +1560,7 @@
    return map_leafs[leafnum].cluster;
  }
 
+ /* ========================================================================= */
  int
  CM_LeafArea ( int leafnum )
  {
@@ -1537,6 +1571,7 @@
    return map_leafs[leafnum].area;
  }
 
+ /* ========================================================================= */
  void
  CM_DecompressVis ( byte *in, byte *out )
  {
@@ -1577,6 +1612,7 @@
    } while ( out_p - out < row );
  }
 
+ /* ========================================================================= */
  byte *
  CM_ClusterPVS ( int cluster )
  {
@@ -1590,6 +1626,7 @@
    return pvsrow;
  }
 
+ /* ========================================================================= */
  byte *
  CM_ClusterPHS ( int cluster )
  {

@@ -1,8 +1,6 @@
 #
 # Hecatomb
-# A Quake II Engine Extension
-# http://github.com/alericoveri/hecatomb
-#
+# A portable Quake II client
 # CMake build automation scripts
 # Author: Alejandro Ricoveri <alejandroricoveri@gmail.com>
 #

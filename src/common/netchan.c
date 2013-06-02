@@ -90,6 +90,7 @@
  sizebuf_t net_message;
  byte net_message_buffer[MAX_MSGLEN];
 
+ /* ========================================================================= */
  void
  Netchan_Init ( void )
  {
@@ -161,6 +162,7 @@
    return true;
  }
 
+ /* ========================================================================= */
  qboolean
  Netchan_NeedReliable ( netchan_t *chan )
  {

@@ -889,7 +889,6 @@
    } else if ( i == CS_CDTRACK ) {
      if ( cl.refresh_prepped ) {
  #ifdef HT_WITH_OGG
-
        /* OGG/Vorbis */
        if ( ( int ) strtol ( cl.configstrings[CS_CDTRACK], ( char ** ) NULL, 10 ) < 10 ) {
          char tmp[3] = "0";
@@ -897,7 +896,6 @@
        } else {
          OGG_ParseCmd ( cl.configstrings[CS_CDTRACK] );
        }
-
  #endif
      }
    } else if ( ( i >= CS_MODELS ) && ( i < CS_MODELS + MAX_MODELS ) ) {

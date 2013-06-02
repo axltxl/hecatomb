@@ -32,6 +32,7 @@
  server_static_t svs; /* persistant server info */
  server_t sv; /* local server */
 
+ /* ========================================================================= */
  int
  SV_FindIndex ( char *name, int start, int max, qboolean create )
  {

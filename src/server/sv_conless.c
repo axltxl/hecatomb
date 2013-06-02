@@ -40,6 +40,7 @@
    Netchan_OutOfBandPrint ( NS_SERVER, net_from, "print\n%s", SV_StatusString() );
  }
 
+ /* ========================================================================= */
  void
  SVC_Ack ( void )
  {
@@ -276,6 +277,7 @@
    newcl->lastconnect = svs.realtime;
  }
 
+ /* ========================================================================= */
  int
  Rcon_Validate ( void )
  {

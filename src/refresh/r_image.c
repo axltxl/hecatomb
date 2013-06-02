@@ -315,6 +315,7 @@
    gl_tex_alpha_format = gl_alpha_modes[i].mode;
  }
 
+ /* ========================================================================= */
  void
  R_TextureSolidMode ( char *string )
  {

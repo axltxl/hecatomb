@@ -26,6 +26,7 @@
 
  #include "prereqs.h"
 
+ /* ========================================================================= */
  void
  SZ_Init ( sizebuf_t *buf, byte *data, int length )
  {
@@ -34,6 +35,7 @@
    buf->maxsize = length;
  }
 
+ /* ========================================================================= */
  void
  SZ_Clear ( sizebuf_t *buf )
  {
@@ -41,6 +43,7 @@
    buf->overflowed = false;
  }
 
+ /* ========================================================================= */
  void *
  SZ_GetSpace ( sizebuf_t *buf, int length )
  {
@@ -66,12 +69,14 @@
    return data;
  }
 
+ /* ========================================================================= */
  void
  SZ_Write ( sizebuf_t *buf, void *data, int length )
  {
    memcpy ( SZ_GetSpace ( buf, length ), data, length );
  }
 
+ /* ========================================================================= */
  void
  SZ_Print ( sizebuf_t *buf, char *data )
  {

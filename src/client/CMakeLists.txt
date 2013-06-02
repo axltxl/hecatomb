@@ -1,6 +1,6 @@
 #
 # Hecatomb
-# A Quake II Engine Extension
+# A portable Quake II client
 # http://github.com/alericoveri/hecatomb
 #
 # CMake build automation scripts

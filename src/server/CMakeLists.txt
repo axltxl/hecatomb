@@ -1,6 +1,6 @@
 #
 # Hecatomb
-# A Quake II Engine Extension
+# A portable Quake II client
 # http://github.com/alericoveri/hecatomb
 #
 # CMake build automation scripts
@@ -30,9 +30,9 @@ set (
 # All q2ded necessary sources go in here
 set (
   SERVER_EXEC_SRC
-    
+
   ${COMMON_SRC}
-  ${BACKEND_SERVER_SRC} 
+  ${BACKEND_SERVER_SRC}
   ${SERVER_SRC}
 
   PARENT_SCOPE

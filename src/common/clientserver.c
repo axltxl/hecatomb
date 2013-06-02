@@ -40,6 +40,7 @@
  static int rd_buffersize;
  static void ( *rd_flush ) ( int target, char *buffer );
 
+ /* ========================================================================= */
  void
  Com_BeginRedirect ( int target, char *buffer, int buffersize, void ( *flush ) )
  {
@@ -54,6 +55,7 @@
    *rd_buffer = 0;
  }
 
+ /* ========================================================================= */
  void
  Com_EndRedirect ( void )
  {
@@ -240,12 +242,14 @@
    Sys_Quit();
  }
 
+ /* ========================================================================= */
  int
  Com_ServerState ( void )
  {
    return server_state;
  }
 
+ /* ========================================================================= */
  void
  Com_SetServerState ( int state )
  {

@@ -97,6 +97,7 @@
    D += DD;
  }
 
+ /* ========================================================================= */
  static void
  PerformMD4 ( const unsigned char *buf, int length, unsigned char *digest )
  {
@@ -192,6 +193,7 @@
    }
  }
 
+ /* ========================================================================= */
  unsigned
  Com_BlockChecksum ( void *buffer, int length )
  {

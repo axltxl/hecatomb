@@ -176,6 +176,7 @@
    }
  }
 
+ /* ========================================================================= */
  int
  R_RecursiveLightPoint ( mnode_t *node, vec3_t start, vec3_t end )
  {

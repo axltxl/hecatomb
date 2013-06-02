@@ -191,6 +191,7 @@
    { -0.688191, -0.587785, -0.425325}
  };
 
+ /* ========================================================================= */
  void
  MSG_WriteChar ( sizebuf_t *sb, int c )
  {
@@ -199,6 +200,7 @@
    buf[0] = c;
  }
 
+ /* ========================================================================= */
  void
  MSG_WriteByte ( sizebuf_t *sb, int c )
  {
@@ -207,6 +209,7 @@
    buf[0] = c;
  }
 
+ /* ========================================================================= */
  void
  MSG_WriteShort ( sizebuf_t *sb, int c )
  {
@@ -216,6 +219,7 @@
    buf[1] = c >> 8;
  }
 
+ /* ========================================================================= */
  void
  MSG_WriteLong ( sizebuf_t *sb, int c )
  {
@@ -227,6 +231,7 @@
    buf[3] = c >> 24;
  }
 
+ /* ========================================================================= */
  void
  MSG_WriteFloat ( sizebuf_t *sb, float f )
  {
@@ -239,6 +244,7 @@
    SZ_Write ( sb, &dat.l, 4 );
  }
 
+ /* ========================================================================= */
  void
  MSG_WriteString ( sizebuf_t *sb, char *s )
  {
@@ -249,12 +255,14 @@
    }
  }
 
+ /* ========================================================================= */
  void
  MSG_WriteCoord ( sizebuf_t *sb, float f )
  {
    MSG_WriteShort ( sb, ( int ) ( f * 8 ) );
  }
 
+ /* ========================================================================= */
  void
  MSG_WritePos ( sizebuf_t *sb, vec3_t pos )
  {
@@ -263,18 +271,21 @@
    MSG_WriteShort ( sb, ( int ) ( pos[2] * 8 ) );
  }
 
+ /* ========================================================================= */
  void
  MSG_WriteAngle ( sizebuf_t *sb, float f )
  {
    MSG_WriteByte ( sb, ( int ) ( f * 256 / 360 ) & 255 );
  }
 
+ /* ========================================================================= */
  void
  MSG_WriteAngle16 ( sizebuf_t *sb, float f )
  {
    MSG_WriteShort ( sb, ANGLE2SHORT ( f ) );
  }
 
+ /* ========================================================================= */
  void
  MSG_WriteDeltaUsercmd ( sizebuf_t *buf, usercmd_t *from, usercmd_t *cmd )
  {
@@ -352,6 +363,7 @@
    MSG_WriteByte ( buf, cmd->lightlevel );
  }
 
+ /* ========================================================================= */
  void
  MSG_WriteDir ( sizebuf_t *sb, vec3_t dir )
  {
@@ -378,6 +390,7 @@
    MSG_WriteByte ( sb, best );
  }
 
+ /* ========================================================================= */
  void
  MSG_ReadDir ( sizebuf_t *sb, vec3_t dir )
  {
@@ -637,12 +650,14 @@
    }
  }
 
+ /* ========================================================================= */
  void
  MSG_BeginReading ( sizebuf_t *msg )
  {
    msg->readcount = 0;
  }
 
+ /* ========================================================================= */
  int
  MSG_ReadChar ( sizebuf_t *msg_read )
  {
@@ -658,6 +673,7 @@
    return c;
  }
 
+ /* ========================================================================= */
  int
  MSG_ReadByte ( sizebuf_t *msg_read )
  {
@@ -673,6 +689,7 @@
    return c;
  }
 
+ /* ========================================================================= */
  int
  MSG_ReadShort ( sizebuf_t *msg_read )
  {
@@ -689,6 +706,7 @@
    return c;
  }
 
+ /* ========================================================================= */
  int
  MSG_ReadLong ( sizebuf_t *msg_read )
  {
@@ -707,6 +725,7 @@
    return c;
  }
 
+ /* ========================================================================= */
  float
  MSG_ReadFloat ( sizebuf_t *msg_read )
  {
@@ -730,6 +749,7 @@
    return dat.f;
  }
 
+ /* ========================================================================= */
  char *
  MSG_ReadString ( sizebuf_t *msg_read )
  {
@@ -752,6 +772,7 @@
    return string;
  }
 
+ /* ========================================================================= */
  char *
  MSG_ReadStringLine ( sizebuf_t *msg_read )
  {
@@ -774,12 +795,14 @@
    return string;
  }
 
+ /* ========================================================================= */
  float
  MSG_ReadCoord ( sizebuf_t *msg_read )
  {
    return MSG_ReadShort ( msg_read ) * ( 0.125f );
  }
 
+ /* ========================================================================= */
  void
  MSG_ReadPos ( sizebuf_t *msg_read, vec3_t pos )
  {
@@ -788,18 +811,21 @@
    pos[2] = MSG_ReadShort ( msg_read ) * ( 0.125f );
  }
 
+ /* ========================================================================= */
  float
  MSG_ReadAngle ( sizebuf_t *msg_read )
  {
    return MSG_ReadChar ( msg_read ) * 1.40625f;
  }
 
+ /* ========================================================================= */
  float
  MSG_ReadAngle16 ( sizebuf_t *msg_read )
  {
    return SHORT2ANGLE ( MSG_ReadShort ( msg_read ) );
  }
 
+ /* ========================================================================= */
  void
  MSG_ReadDeltaUsercmd ( sizebuf_t *msg_read, usercmd_t *from, usercmd_t *move )
  {
@@ -849,6 +875,7 @@
    move->lightlevel = MSG_ReadByte ( msg_read );
  }
 
+ /* ========================================================================= */
  void
  MSG_ReadData ( sizebuf_t *msg_read, void *data, int len )
  {

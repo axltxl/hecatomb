@@ -124,6 +124,7 @@
    MSG_WriteShort ( msg, 0 );
  }
 
+ /* ========================================================================= */
  void
  SV_WritePlayerstateToClient ( client_frame_t *from, client_frame_t *to,
                                sizebuf_t *msg )

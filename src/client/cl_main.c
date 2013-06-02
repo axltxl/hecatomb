@@ -246,6 +246,7 @@
    fwrite ( buf.data, buf.cursize, 1, cls.demofile );
  }
 
+ /* ========================================================================= */
  void
  CL_Setenv_f ( void )
  {
@@ -274,6 +275,7 @@
    }
  }
 
+ /* ========================================================================= */
  void
  CL_Pause_f ( void )
  {
@@ -286,6 +288,7 @@
    Cvar_SetValue ( "paused", !cl_paused->value );
  }
 
+ /* ========================================================================= */
  void
  CL_Quit_f ( void )
  {
@@ -369,6 +372,7 @@
    }
  }
 
+ /* ========================================================================= */
  void
  CL_Userinfo_f ( void )
  {
@@ -418,6 +422,7 @@
    CL_RequestNextDownload();
  }
 
+ /* ========================================================================= */
  void
  CL_InitLocal ( void )
  {
@@ -578,6 +583,7 @@
 
  int numcheatvars;
 
+ /* ========================================================================= */
  void
  CL_FixCvarCheats ( void )
  {
@@ -606,6 +612,7 @@
    }
  }
 
+ /* ========================================================================= */
  void
  CL_UpdateWindowedMouse ( void )
  {
@@ -625,25 +632,33 @@
    }
  }
 
+ /* ========================================================================= */
  void
  CL_SendCommand ( void )
  {
    /* update windowed_mouse cvar */
    CL_UpdateWindowedMouse();
+
    /* get new key events */
    Sys_SendKeyEvents();
+
    /* allow mice or other external controllers to add commands */
    IN_Commands();
+
    /* process console commands */
    Cbuf_Execute();
+
    /* fix any cheating cvars */
    CL_FixCvarCheats();
+
    /* send intentions now */
    CL_SendCmd();
+
    /* resend a connection request if necessary */
    CL_CheckForResend();
  }
 
+ /* ========================================================================= */
  void
  CL_Frame ( int msec )
  {
@@ -736,6 +751,7 @@
    }
  }
 
+ /* ========================================================================= */
  void
  CL_Init ( void )
  {
@@ -758,6 +774,7 @@
    Cbuf_Execute();
  }
 
+ /* ========================================================================= */
  void
  CL_Shutdown ( void )
  {

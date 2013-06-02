@@ -1,6 +1,6 @@
 #
 # Hecatomb
-# A Quake II Engine Extension
+# A portable Quake II client
 # http://github.com/alericoveri/hecatomb
 #
 # CMake build automation scripts
@@ -167,26 +167,27 @@ add_subdirectory (client)
 # The game itself
 add_subdirectory (game)
 
-# Configuration file
-configure_file (${SRC_DIR}/include/config.h.in ${SRC_DIR}/include/config.h)
-
 # Server exec
 add_executable (server ${SERVER_EXEC_SRC})
 
 # Configuration file
+# ---------------------
 configure_file (${SRC_DIR}/include/config.h.in ${SRC_DIR}/include/config.h)
 
 # -DDEDICATED_ONLY for dedicated server
+# ---------------------
 set_target_properties(server PROPERTIES COMPILE_DEFINITIONS "DEDICATED_ONLY")
 set_target_properties(server PROPERTIES OUTPUT_NAME "${SERVER_EXEC}")
 target_link_libraries (server ${LIBS})
 
 # Client exec
+# ---------------------
 add_executable (client ${CLIENT_EXEC_SRC} ${HEADERS})
 set_target_properties(client PROPERTIES OUTPUT_NAME "${CLIENT_EXEC}")
 target_link_libraries(client ${LIBS} ${CLIENT_LIBS})
 
 # Set output directory
+# ---------------------
 set_target_properties (client server
     PROPERTIES RUNTIME_OUTPUT_DIRECTORY ${OUTPUT_DIR})
 

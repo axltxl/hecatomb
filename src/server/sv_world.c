@@ -116,6 +116,7 @@
    return anode;
  }
 
+ /* ========================================================================= */
  void
  SV_ClearWorld ( void )
  {
@@ -343,6 +344,7 @@
    }
  }
 
+ /* ========================================================================= */
  void
  SV_AreaEdicts_r ( areanode_t *node )
  {
@@ -478,6 +480,7 @@
    return CM_HeadnodeForBox ( ent->mins, ent->maxs );
  }
 
+ /* ========================================================================= */
  void
  SV_ClipMoveToEntities ( moveclip_t *clip )
  {
@@ -555,6 +558,7 @@
    }
  }
 
+ /* ========================================================================= */
  void
  SV_TraceBounds ( vec3_t start, vec3_t mins, vec3_t maxs,
                   vec3_t end, vec3_t boxmins, vec3_t boxmaxs )

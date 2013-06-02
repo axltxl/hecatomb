@@ -1,6 +1,14 @@
 #
+# Hecatomb
+# A portable Quake II client
+# http://github.com/alericoveri/hecatomb
+#
+# CMake build automation scripts
+# Author: Alejandro Ricoveri <alejandroricoveri@gmail.com>
+#
 # Routine for OS and compiler detection
 # Thanks to SFML guys (www.sfml-dev.org)
+# --------------------------------
 #
 
 # detect the architecture (note: this test won't work for cross-compilation)
