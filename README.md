@@ -176,7 +176,7 @@ be greatly appreciated.
 * No QGL pointers
 * C99 fixed integer types
 * Memory allocation wrapper functions : `qmalloc`, `qrealloc` and `qfree` *-proposed-*
-* Optional use of `dlmalloc`
+* Optional use of [dlmalloc](http://g.oswego.edu/dl/html/malloc.html) and [libhoard](http://github.com/emeryberger/Hoard) as memory allocators
 * SDL 2.0 support (experimental option on Linux only) *-proposed-*
 
 ### Milestone 0.3
@@ -191,4 +191,3 @@ be greatly appreciated.
 
 ### Milestone 0.5
 * SDL 2.0 full support *-proposed-*
-* SDL 1.2 support purge
