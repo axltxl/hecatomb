@@ -233,7 +233,7 @@ be greatly appreciated.
 * SDL 2.0 support (experimental option on Linux only) *-proposed-*
 
 ### Milestone 0.3
-* OpenGL extensions handling through GLEW *-proposed-*
+* OpenGL extensions handling through [GLEW](http://glew.sourceforge.net) *-proposed-*
 * A more open music file system in the OGG backend *-proposed-*
 * SDL 2.0 support (FreeBSD and OSX)
 
