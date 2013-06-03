@@ -17,6 +17,7 @@ Software's original code drop indeed, oh well ...
 * On *nix you'll need at least: 
   * [SDL 1.2](http://www.libsdl.org/)
   * An OpenGL implementation ([Mesa3D](http://www.mesa3d.org), nvidia-glx, AMD Catalyst, etc.)
+* The following dependencies are optional:
   * [libjpeg](http://www.ijg.org/) (if `HT_WITH_RETEXTURE` option is set to `true`)
   * [libvorbisfile](http://www.vorbis.com/) (if `HT_WITH_OGG` option is set to `true`)
   * (On *nix but not OSX) libX11 (if `HT_WITH_X11GAMMA` option is set to `true`)
