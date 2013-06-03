@@ -22,6 +22,7 @@ Software's original code drop indeed, oh well ...
   * [libvorbisfile](http://www.vorbis.com/) (if `HT_WITH_OGG` option is set to `true`)
   * (On *nix but not OSX) libX11 (if `HT_WITH_X11GAMMA` option is set to `true`)
   * An [OpenAL](http://connect.creativelabs.com/openal) implementation (if `HT_WITH_OPENAL` option is set to `true`)
+  * [zlib](http://www.zlib.net) (if `HT_WITH_ZIP` option is set to `true`)
 * On Windows and OSX: dependencies are bundled into the source tree, so don't worry, it'll build out-of-the-box :)
 
 #####Now it's time to compile it:
@@ -61,6 +62,8 @@ Connect to *irc.freenode.net* and join *#htq2*.
 * IA32  (a.k.a. *x86*)
 * AMD64 (a.k.a. *x86_64*)
 * IA64 (Intel Itanium)
+
+##FAQ
 
 ####How do I open the console?   
 Press `^` or `~`, depending on your keyboard layout.
