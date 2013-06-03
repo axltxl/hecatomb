@@ -32,6 +32,60 @@ Software's original code drop indeed, oh well ...
   * [zlib](http://www.zlib.net) (if `HT_WITH_ZIP` option is set to `true`)
 * On Windows and OSX: dependencies are bundled into the source tree, so don't worry, it'll build out-of-the-box :)
 
+## CMake build options
+#####`HT_HUNKDRIVER_GENERIC` (Experimental)
+######default : `false`  
+Enable Generic Hunk Driver, a general purpose Hunk_* backend
+based solely on plain malloc/free. Use this at your own risk as
+it is an experimental feature.
+You're encouraged to use this allocator for having an easier way
+to porting htq2 to other platforms, otherwise you should remain
+using the platform-specific drivers, they're much faster and therefore
+reliable.
+#####`HT_WITH_OGG`
+######default : `false`  
+######default : `true` (Windows, OSX)  
+Enable OGG/Vorbis support for music playback. Adds
+dependencies to libogg, libvorbis and libvorbisfile.
+
+#####`HT_WITH_RETEXTURE`
+######default : `false`
+######default : `true` (Windows, OSX)  
+Enable high-res retexturing support. Adds
+a dependency to libjpeg
+
+#####`HT_WITH_ZIP`
+######default : `false`
+######default : `true` (Windows, OSX)  
+Enable ZIP file support (also known as .pk3 packs).
+Adds a dependency to libz
+
+#####`HT_WITH_OPENAL`
+######default : `false`
+######default : `true` (Windows)  
+Enables the optional OpenAL sound system.
+To use it your system needs libopenal.so.1
+or openal32.dll (we recommend openal-soft)
+installed
+
+#####`HT_WITH_X11GAMMA`
+######default : `false`
+Set the gamma via X11 and not via SDL. This works
+around problems in some SDL version. Adds dependencies
+to pkg-config, libX11 and libXxf86vm. Unsupported on
+Windows and OS X.
+
+#####`HT_WITH_SYSTEMWIDE`
+######default : `true`
+Enable systemwide installation of game assets
+
+#####`HT_WITH_SYSTEMWIDE`
+######default : `/usr/share/games/quake2`
+######default : `C:\quake2` (Windows)  
+This will set the default SYSTEMDIR, a non-empty string
+would actually be used. On Windows normals slashes (/)
+instead of backslashed (\) should be used!
+
 #####Now it's time to compile it:
 * Download latest snapshot of the source code  
   `$ git clone git://github.com/alericoveri/hecatomb.git /path/to/hecatomb`
