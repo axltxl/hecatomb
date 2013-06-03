@@ -174,12 +174,21 @@ be greatly appreciated.
 
 ### Milestone 0.2
 * No QGL pointers
-* Optional use of dlmalloc
 * C99 fixed integer types
+* Memory allocation wrapper functions : `qmalloc`, `qrealloc` and `qfree` *-proposed-*
+* Optional use of `dlmalloc`
+* SDL 2.0 support (experimental option on Linux only) *-proposed-*
 
 ### Milestone 0.3
 * OpenGL extensions handling through GLEW *-proposed-*
 * A more open music file system in the OGG backend *-proposed-*
+* SDL 2.0 support (FreeBSD and OSX)
 
 ### Milestone 0.4
 * OpenGL ES 2.0+ support
+* SDL 2.0 support (Windows)
+* SDL 1.2 deprecation
+
+### Milestone 0.5
+* SDL 2.0 full support *-proposed-*
+* SDL 1.2 support purge
