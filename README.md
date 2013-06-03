@@ -32,6 +32,26 @@ Software's original code drop indeed, oh well ...
   * [zlib](http://www.zlib.net) (if `HT_WITH_ZIP` option is set to `true`)
 * On Windows and OSX: dependencies are bundled into the source tree, so don't worry, it'll build out-of-the-box :)
 
+#####Now it's time to compile it:
+* Download latest snapshot of the source code  
+  `$ git clone git://github.com/alericoveri/hecatomb.git /path/to/hecatomb`
+* Create a build directory for holding up CMake-related files  
+  `$ mkdir /path/to/htq2-build`
+* Go to it and generate your CMake build files (it's your choice what you want to generate: a Makefile, a XCode project, etc.)  
+  `$ cd /path/to/htq2-build && cmake /path/to/hecatomb`
+* Let's say you wanted generate a sweet and plain Makefile, now you can actually build it:  
+  `$ make`
+* Le voilà, you can already see the binaries on `/path/to/htq2-build/bin/<architecture>`a and test them:  
+  `$ cd /path/to/htq2-build/bin/<architecture>`  
+  `$ ./htq2 +set vid_fullscreen 0 +set deathmatch 1 +map q2dm1`
+* It's highly probable that you'll be eager to edit your config files to your liking, they are located at your home directory:
+  * On *nix and OSX, user files are located at `~/.htq2`
+  * On Windows, user files are located at `%UserProfile%/Documents/Hecatomb Quake II`
+* (On *nix) When you're happy with it, you can install your binaries:  
+  `$ sudo make install`
+* Please take a time to read the [FAQ](#faq), thank you :)
+* Enjoy!. Happy fragging!, there are great Quake II servers [here](www.q2servers.com) ;) ...
+
 ## CMake build options
 #####`HT_HUNKDRIVER_GENERIC` (Experimental)
 ######default : `false`  
@@ -85,26 +105,6 @@ Enable systemwide installation of game assets
 This will set the default SYSTEMDIR, a non-empty string
 would actually be used. On Windows normals slashes (/)
 instead of backslashed (\) should be used!
-
-#####Now it's time to compile it:
-* Download latest snapshot of the source code  
-  `$ git clone git://github.com/alericoveri/hecatomb.git /path/to/hecatomb`
-* Create a build directory for holding up CMake-related files  
-  `$ mkdir /path/to/htq2-build`
-* Go to it and generate your CMake build files (it's your choice what you want to generate: a Makefile, a XCode project, etc.)  
-  `$ cd /path/to/htq2-build && cmake /path/to/hecatomb`
-* Let's say you wanted generate a sweet and plain Makefile, now you can actually build it:  
-  `$ make`
-* Le voilà, you can already see the binaries on `/path/to/htq2-build/bin/<architecture>`a and test them:  
-  `$ cd /path/to/htq2-build/bin/<architecture>`  
-  `$ ./htq2 +set vid_fullscreen 0 +set deathmatch 1 +map q2dm1`
-* It's highly probable that you'll be eager to edit your config files to your liking, they are located at your home directory:
-  * On *nix and OSX, user files are located at `~/.htq2`
-  * On Windows, user files are located at `%UserProfile%/Documents/Hecatomb Quake II`
-* (On *nix) When you're happy with it, you can install your binaries:  
-  `$ sudo make install`
-* Please take a time to read the [FAQ](#faq), thank you :)
-* Enjoy!. Happy fragging!, there are great Quake II servers [here](www.q2servers.com) ;) ...
 
 ##IRC
 Come and join us in our IRC channel to have realtime information and latest updates about Hecatomb Quake II.
