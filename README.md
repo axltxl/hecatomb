@@ -3,7 +3,14 @@ A portable Quake II client
 
 [![Build Status](https://drone.io/github.com/alericoveri/hecatomb/status.png)](https://drone.io/github.com/alericoveri/hecatomb/latest)
 
-This is the Hecatomb Quake II Client (a.k.a. *htq2*), another great Quake II client who's being intensely developed towards *high portability potential*. Serious decisions are being made. 
+* [Compiling](#compiling)
+* [IRC](#irc)
+* [Supported platforms](#supported-platforms)
+* [Supported architectures](#supported-architectures)
+* [FAQ](#faq)
+* [Contribute](#you-wish-to-contribute)
+
+This is the Hecatomb (a.k.a. *htq2*), a Quake II client who's being intensely developed towards *high portability*. Serious decisions are being made. 
 The main focus is portability, modernization and expansion capabilities, that means *htq2* is not only portable but also extensible. 
 With the power and stability of Yamagi Quake II, 
 Hecatomb has full support of 64-bit architectures.
@@ -42,9 +49,8 @@ Software's original code drop indeed, oh well ...
   * On Windows, user files are located at `%UserProfile%/Documents/Hecatomb Quake II`
 * (On *nix) When you're happy with it, you can install your binaries:  
   `$ sudo make install`
-* Enjoy!. Happy fragging!, there are great Q2 servers @ www.q2servers.com ;) ...
-* At this point, you may wish to visit the [wiki](https://github.com/alericoveri/hecatomb/wiki) for more info!
-* Please take a time to read the [FAQ](https://github.com/alericoveri/hecatomb/wiki/FAQ), thank you :)
+* Please take a time to read the [FAQ](#faq), thank you :)
+* Enjoy!. Happy fragging!, there are great Quake II servers [here](www.q2servers.com) ;) ...
 
 ##IRC
 Come and join us in our IRC channel to have realtime information and latest updates about Hecatomb Quake II.
@@ -67,7 +73,7 @@ Connect to *irc.freenode.net* and join *#htq2*.
 
 ####How do I open the console?   
 Press `^` or `~`, depending on your keyboard layout.
-Actually, pressing `Shift + Ctrl` will open up the console on any keyboard layout.
+Actually, pressing `Shift + Esc` will open up the console on any keyboard layout.
 
 ####How do I get the frame counter?
 Set `cl_drawfps` to 1
@@ -92,9 +98,6 @@ menu is opened set to 2. The default is 2.
 fixed amount of time!
 This is a known bug in some linux distributions. SDL fails to disable
 the screensaver even if we tell him to do so. See [this Ubuntu bugreport](https://bugs.launchpad.net/ubuntu/+source/gnome-screensaver/+bug/32457).
-As a work around use the startscript in stuff/quake-start.sh It deactivates
-the screensaver before starting Quake II and reenables it after exiting the
-game.
 
 ####The movement is screwed up! I can jump much higher and longer as it used to be! What's wrong?
 You're experiencing the Quake II version of the famous Q3A 125hz bug.
@@ -103,47 +106,41 @@ wrong and you can jump much higher. To solve this set `cl_maxfps` to about
 95 FPS. And no, we won't fix it since it would be very invasive and most
 likely break a lot of other things.
 
-####I'm creating a package or port for my system. Is a system wide install
-possible without patching the source?
-Yes. Just set -DSYSTEMWIDE. If you want to change the default
-directory from /usr/share/games/quake2/, just set -DSYSTEMDIR
+####I'm creating a package or port for my system. Is a system wide install possible without patching the source?
+Yes. Just set `HT_WITH_SYSTEMWIDE` to `true` on your CMake build. If you want to change the default
+directory from `/usr/share/games/quake2`, just set `HT_WITH_SYSTEMDIR`
 to the desired path.
 
 ####Can I connect to an IPv6 server?
 Yes, the same way as connecting to an IPv4 server. Since the Quake II console
 has problems with the characters `:`, `[` and `]` we suggest to submit the
 connection command as command line argument:
-  `ht +connect "[2001:db8::1]"`
+  `htq2 +connect "[2001:db8::1]"`
 If you want to connect to a server with a non-standard port use the following
 syntax:
-  `ht +connect "[2001:db8::1]:12345"`
+  `htq2 +connect "[2001:db8::1]:12345"`
 For your server to show up in the server list you need to supply a multicast
 interface to both the client and the server:
-  `htded +set multicast eth0`
-  `ht +set multicast eth0`
+  `htq2d +set multicast eth0`
+  `htq2 +set multicast eth0`
 Normaly the server will listen to all IPv4 and IPv6 addresses. You can bind
 it to an address with:
-  `htded +set ip "[2001:db8::1]"`
+  `htq2d +set ip "[2001:db8::1]"`
 
 ####Where can I find the configuration file?
-It's located at ~/.yq2/game/config.cfg (FreeBSD, Linux, OpenBSD and OS X) or
-...\Documents\YamagiQ2\game\config.cfg (Windows). Replace "game" by the mod
-name, e.g. "baseq2/" for the main game.
+It's located at `~/.htq2/game/config.cfg` (FreeBSD, Linux, OpenBSD and OS X) or
+`%UserProfile%\Documents\Hecatomb Quake II\<game>\config.cfg` (Windows). Replace `game` by the mod
+name, e.g. `baseq2` for the main game.
 
 ####My mod crashes at startup.
 This is known problem of some mods. A workaround is to create the working
 directory by hand:
-  `mkdir -p ~/.yq2/$moddir` (FreeBSD, Linux, OpenBSD and OS X)
-  `...\Documents\YamagiQ2\$moddir` (Windows)
+  `mkdir -p ~/.htq2/$moddir` (FreeBSD, Linux, OpenBSD and OS X)
+  `%UserProfile%\Documents\Hecatomb Quake II\$moddir` (Windows)
 
 ####Only parts of the maps are rendered!
 By default the maximum view distance is 2300 units. You can widen it up
 to 4096 units by setting `gl_farsee` to "1".
-
-####What is yq2.cfg for?
-yq2.cfg is an alternate startup script, used to override some bad
-decisions in the original defaults.cfg. Please do not alter it,
-unless you know what you're doing! It might break the game!.
 
 ####Why isn't there an "underwater sound effect" when playing under OS X?
 That's a limitation of OS X. Apple's OpenAL implementation doesn't
