@@ -20,7 +20,7 @@ Software's original code drop indeed, oh well ...
   * [libjpeg](http://www.ijg.org/) (if `HT_WITH_RETEXTURE` option is set to `true`)
   * [libvorbisfile](http://www.vorbis.com/) (if `HT_WITH_OGG` option is set to `true`)
   * (On *nix but not OSX) libX11 (if `HT_WITH_X11GAMMA` option is set to `true`)
-  * An [OpenAL](http://connect.creativelabs.com/openal) implementation
+  * An [OpenAL](http://connect.creativelabs.com/openal) implementation (if `HT_WITH_OPENAL` option is set to `true`)
 * On Windows and OSX: dependencies are bundled into the source tree, so don't worry, it'll build out-of-the-box :)
 
 #####Now it's time to compile it:
