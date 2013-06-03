@@ -80,7 +80,8 @@ be greatly appreciated.
 * C99 fixed integer types
 
 ### Milestone 0.3
-* OpenGL extensions handling through GLEW *(proposed)*
+* OpenGL extensions handling through GLEW *-proposed-*
+* A more open music file system in the OGG backend *-proposed-*
 
 ### Milestone 0.4
 * OpenGL ES 2.0+ support
