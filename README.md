@@ -4,6 +4,7 @@ A portable Quake II client
 [![Build Status](https://drone.io/github.com/alericoveri/hecatomb/status.png)](https://drone.io/github.com/alericoveri/hecatomb/latest)
 
 * [Compiling](#compiling)
+* [CMake build options](#cmake-build-options)
 * [IRC](#irc)
 * [Supported platforms](#supported-platforms)
 * [Supported architectures](#supported-architectures)
@@ -66,34 +67,32 @@ reliable.
 ######default : `false`  
 ######default : `true` (Windows, OSX)  
 Enable OGG/Vorbis support for music playback. Adds
-dependencies to libogg, libvorbis and libvorbisfile.
+dependencies to [libvorbisfile](http://www.vorbis.com).
 
 #####`HT_WITH_RETEXTURE`
 ######default : `false`
 ######default : `true` (Windows, OSX)  
 Enable high-res retexturing support. Adds
-a dependency to libjpeg
+a dependency to [libjpeg](http://www.ijg.org)
 
 #####`HT_WITH_ZIP`
 ######default : `false`
 ######default : `true` (Windows, OSX)  
 Enable ZIP file support (also known as .pk3 packs).
-Adds a dependency to libz
+Adds a dependency to [zlib](http://www.zlib.net)
 
 #####`HT_WITH_OPENAL`
 ######default : `false`
 ######default : `true` (Windows)  
-Enables the optional OpenAL sound system.
-To use it your system needs libopenal.so.1
-or openal32.dll (we recommend openal-soft)
+Enables the optional [OpenAL](http://connect.creativelabs.com/openal) sound system.
+To use it your system needs `libopenal.so.1`
+or `openal32.dll` (we recommend [openal-soft](http://kcat.strangesoft.net/openal.html))
 installed
 
-#####`HT_WITH_X11GAMMA`
+#####`HT_WITH_X11GAMMA` (Unsupported on Windows and OSX)
 ######default : `false`
 Set the gamma via X11 and not via SDL. This works
-around problems in some SDL version. Adds dependencies
-to pkg-config, libX11 and libXxf86vm. Unsupported on
-Windows and OS X.
+around problems in some SDL version. Adds dependencies libX11 and libXxf86vm. 
 
 #####`HT_WITH_SYSTEMWIDE`
 ######default : `true`
@@ -104,7 +103,7 @@ Enable systemwide installation of game assets
 ######default : `C:\quake2` (Windows)  
 This will set the default SYSTEMDIR, a non-empty string
 would actually be used. On Windows normals slashes (/)
-instead of backslashed (\) should be used!
+instead of backslashed (\\) should be used!
 
 ##IRC
 Come and join us in our IRC channel to have realtime information and latest updates about Hecatomb Quake II.
