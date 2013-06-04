@@ -162,6 +162,9 @@ elseif (OSX)
   set (CMAKE_SYSTEM_FRAMEWORK_PATH "${EXTLIBS_LIBS}/osx" ${CMAKE_SYSTEM_FRAMEWORK_PATH})
 endif()
 
+# SDL 2.0
+ht_set_option(HT_USE_SDL2 FALSE BOOL "Use libSDL-2.0 [EXPERIMENTAL]")
+
 # Enables Generic Hunk Driver, a general purpose Hunk_* backend
 # based solely on plain malloc/free. Use this at your own risk as
 # it is an experimental feature.
@@ -274,7 +277,11 @@ endif()
 
 # SDL
 # ---------------------
-find_package (SDL REQUIRED)
+if (HT_USE_SDL2)
+  find_package (SDL2 REQUIRED)
+else()
+  find_package (SDL REQUIRED)
+endif()
 
 # OGG and Vorbis
 # ---------------------

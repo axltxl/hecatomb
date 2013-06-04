@@ -79,12 +79,29 @@ endif()
 
 # Include directories
 set (INCLUDE_DIRS ${SRC_DIR}/include) # for future use
-list (APPEND INCLUDE_DIRS ${SDL_INCLUDE_DIR})    # libSDL
-list (APPEND INCLUDE_DIRS ${OPENGL_INCLUDE_DIR}) # OpenGL
+
+# SDL
+if (HT_USE_SDL2)
+  set (HT_WITH_SDL2 1)
+  list (APPEND INCLUDE_DIRS ${SDL2_INCLUDE_DIR})
+else()
+  list (APPEND INCLUDE_DIRS ${SDL_INCLUDE_DIR})
+endif()
+
+# OpenGL
+list (APPEND INCLUDE_DIRS ${OPENGL_INCLUDE_DIR})
 
 # Libraries
-set (CLIENT_LIBS ${OPENGL_LIBRARIES}) # OpenGL
-list (APPEND CLIENT_LIBS ${SDL_LIBRARY}) # SDL
+
+# OpenGL
+set (CLIENT_LIBS ${OPENGL_LIBRARIES})
+
+# SDL
+if (HT_USE_SDL2)
+  list (APPEND CLIENT_LIBS ${SDL2_LIBRARY})
+else()
+  list (APPEND CLIENT_LIBS ${SDL_LIBRARY})
+endif()
 
 # X11 hardware gamma
 if (HT_WITH_X11GAMMA)

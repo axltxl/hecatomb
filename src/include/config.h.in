@@ -175,6 +175,7 @@
 
  /* Optional features */
  #cmakedefine HT_HAVE_EXECINFO 1 /* Nice and cool execinfo */
+ #cmakedefine HT_WITH_SDL2 /* SDL 2.0 */
 
  #ifdef HT_WITH_ZIP
  # define NOUNCRYPT
