@@ -229,7 +229,7 @@ be greatly appreciated.
 * C99 fixed integer types
 * Memory allocation wrapper functions : `qmalloc`, `qrealloc` and `qfree` *-proposed-*
 * Optional use of [dlmalloc](http://g.oswego.edu/dl/html/malloc.html) and [libhoard](http://github.com/emeryberger/Hoard) as memory allocators
-* SDL 2.0 support (experimental option on Linux only) *-proposed-*
+* SDL 2.0 support (Linux)
 
 ### Milestone 0.3
 * OpenGL extensions handling through [GLEW](http://glew.sourceforge.net) *-proposed-*
@@ -239,7 +239,9 @@ be greatly appreciated.
 ### Milestone 0.4
 * OpenGL ES 2.0+ support
 * SDL 2.0 support (Windows)
-* SDL 1.2 deprecation
 
 ### Milestone 0.5
-* SDL 2.0 full support *-proposed-*
+* SDL 2.0 full support
+
+### Milestone 0.9
+* SDL 1.2 deprecation
