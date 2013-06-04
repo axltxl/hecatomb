@@ -4,6 +4,7 @@ A portable Quake II client
 [![Build Status](https://drone.io/github.com/alericoveri/hecatomb/status.png)](https://drone.io/github.com/alericoveri/hecatomb/latest)
 
 * [Compiling](#compiling)
+* [CMake build options](#cmake-build-options)
 * [IRC](#irc)
 * [Supported platforms](#supported-platforms)
 * [Supported architectures](#supported-architectures)
@@ -51,6 +52,57 @@ Software's original code drop indeed, oh well ...
   `$ sudo make install`
 * Please take a time to read the [FAQ](#faq), thank you :)
 * Enjoy!. Happy fragging!, there are great Quake II servers [here](www.q2servers.com) ;) ...
+
+## CMake build options
+#####`HT_HUNKDRIVER_GENERIC` (Experimental)
+######default : `false`  
+Enable Generic Hunk Driver, a general purpose `Hunk_*` backend
+based solely on plain `malloc`/`free`. **Use this at your own risk as
+it is an experimental feature**.
+You're encouraged to use this allocator for having an easier way
+to porting *htq2* to other platforms, otherwise you should remain
+using the platform-specific drivers, they're much faster and therefore
+reliable.
+#####`HT_WITH_OGG`
+######default : `false`  
+######default : `true` (Windows, OSX)  
+Enable OGG/Vorbis support for music playback. Adds
+dependencies to [libvorbisfile](http://www.vorbis.com).
+
+#####`HT_WITH_RETEXTURE`
+######default : `false`
+######default : `true` (Windows, OSX)  
+Enable high resolution retexturing support. Adds
+a dependency to [libjpeg](http://www.ijg.org)
+
+#####`HT_WITH_ZIP`
+######default : `false`
+######default : `true` (Windows, OSX)  
+Enable ZIP file support (also known as .pk3 packs).
+Adds a dependency to [zlib](http://www.zlib.net)
+
+#####`HT_WITH_OPENAL`
+######default : `false`
+######default : `true` (Windows)  
+Enables the optional [OpenAL](http://connect.creativelabs.com/openal) sound system.
+To use it your system needs `libopenal.so.1`
+or `openal32.dll` (we recommend [openal-soft](http://kcat.strangesoft.net/openal.html))
+installed
+
+#####`HT_WITH_X11GAMMA` (Unsupported on Windows and OSX)
+######default : `false`
+Set the gamma via X11 and not via SDL. This works
+around problems in some SDL versions. Adds dependencies libX11 and libXxf86vm. 
+
+#####`HT_WITH_SYSTEMWIDE`
+######default : `true`
+Enable systemwide installation of game assets
+
+#####`HT_WITH_SYSTEMDIR`
+######default : `/usr/share/games/quake2`
+######default : `c:/quake2` (Windows)  
+This will set the default system directory . On Windows normals slashes (/)
+instead of backslashed (\\) must be used!
 
 ##IRC
 Come and join us in our IRC channel to have realtime information and latest updates about Hecatomb Quake II.
@@ -174,12 +226,20 @@ be greatly appreciated.
 
 ### Milestone 0.2
 * No QGL pointers
-* Optional use of dlmalloc
 * C99 fixed integer types
+* Memory allocation wrapper functions : `qmalloc`, `qrealloc` and `qfree` *-proposed-*
+* Optional use of [dlmalloc](http://g.oswego.edu/dl/html/malloc.html) and [libhoard](http://github.com/emeryberger/Hoard) as memory allocators
+* SDL 2.0 support (experimental option on Linux only) *-proposed-*
 
 ### Milestone 0.3
-* OpenGL extensions handling through GLEW *-proposed-*
+* OpenGL extensions handling through [GLEW](http://glew.sourceforge.net) *-proposed-*
 * A more open music file system in the OGG backend *-proposed-*
+* SDL 2.0 support (FreeBSD and OSX)
 
 ### Milestone 0.4
 * OpenGL ES 2.0+ support
+* SDL 2.0 support (Windows)
+* SDL 1.2 deprecation
+
+### Milestone 0.5
+* SDL 2.0 full support *-proposed-*
