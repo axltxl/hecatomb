@@ -9,6 +9,8 @@
 # (unless you know what you're doing)
 # ==================================================
 #
+
+# Minimum CMake version
 cmake_minimum_required(VERSION 2.8)
 
 # define a macro that helps defining an option
@@ -174,18 +176,15 @@ ht_set_option(HT_HUNKDRIVER_GENERIC FALSE BOOL
 # Enables OGG/Vorbis support. OGG/Vorbis files can be
 # used as a substitute of CD audio playback. Adds
 # dependencies to libogg, libvorbis and libvorbisfile.
-# This features won't be present on Windows
-# until I find the right binaries for it
 # ---------------------
 ht_set_option(HT_WITH_OGG ${DEF_OGG} BOOL "OGG/Vorbis support")
 
-# Enables retexturing support. Adds
-# a dependency to libjpeg
+# Enables high resolution retexturing support. Adds a dependency to libjpeg
 # ---------------------
 ht_set_option(HT_WITH_RETEXTURE ${DEF_RETEXTURE} BOOL "Retexturing support")
 
 # Enables opening of ZIP files (also known as .pk3 packs).
-# Adds a dependency to libz
+# Adds a dependency to zlib
 # ---------------------
 ht_set_option(HT_WITH_ZIP ${DEF_ZIP} BOOL
   "ZIP files support (for opening .pk3 packs)")
@@ -199,8 +198,8 @@ ht_set_option(HT_WITH_OPENAL ${DEF_OPENAL} BOOL
   "Use the OpenAL sound system")
 
 # Set the gamma via X11 and not via SDL. This works
-# around problems in some SDL version. Adds dependencies
-# to pkg-config, libX11 and libXxf86vm. Unsupported on
+# around problems in some SDL versions. Adds dependencies
+# to libX11 and libXxf86vm. Unsupported on
 # Windows and OS X.
 # ---------------------
 if (UNIX AND NOT OSX)
@@ -213,9 +212,9 @@ endif()
 ht_set_option(HT_WITH_SYSTEMWIDE TRUE BOOL
   "Enable systemwide installation of game assets")
 
-# This will set the default SYSTEMDIR, a non-empty string
+# This will set the default system directory, a non-empty string
 # would actually be used. On Windows normals slashes (/)
-# instead of backslashed (\) should be used!
+# instead of backslashed (\) must be used!
 # ---------------------
 if (WINDOWS)
   set (SYSTEMDIR_DEFAULT c:/quake2)
