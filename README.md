@@ -56,11 +56,11 @@ Software's original code drop indeed, oh well ...
 ## CMake build options
 #####`HT_HUNKDRIVER_GENERIC` (Experimental)
 ######default : `false`  
-Enable Generic Hunk Driver, a general purpose Hunk_* backend
-based solely on plain malloc/free. Use this at your own risk as
-it is an experimental feature.
+Enable Generic Hunk Driver, a general purpose `Hunk_*` backend
+based solely on plain `malloc`/`free`. **Use this at your own risk as
+it is an experimental feature**.
 You're encouraged to use this allocator for having an easier way
-to porting htq2 to other platforms, otherwise you should remain
+to porting *htq2* to other platforms, otherwise you should remain
 using the platform-specific drivers, they're much faster and therefore
 reliable.
 #####`HT_WITH_OGG`
@@ -72,7 +72,7 @@ dependencies to [libvorbisfile](http://www.vorbis.com).
 #####`HT_WITH_RETEXTURE`
 ######default : `false`
 ######default : `true` (Windows, OSX)  
-Enable high-res retexturing support. Adds
+Enable high resolution retexturing support. Adds
 a dependency to [libjpeg](http://www.ijg.org)
 
 #####`HT_WITH_ZIP`
@@ -92,18 +92,17 @@ installed
 #####`HT_WITH_X11GAMMA` (Unsupported on Windows and OSX)
 ######default : `false`
 Set the gamma via X11 and not via SDL. This works
-around problems in some SDL version. Adds dependencies libX11 and libXxf86vm. 
+around problems in some SDL versions. Adds dependencies libX11 and libXxf86vm. 
 
 #####`HT_WITH_SYSTEMWIDE`
 ######default : `true`
 Enable systemwide installation of game assets
 
-#####`HT_WITH_SYSTEMWIDE`
+#####`HT_WITH_SYSTEMDIR`
 ######default : `/usr/share/games/quake2`
-######default : `C:\quake2` (Windows)  
-This will set the default SYSTEMDIR, a non-empty string
-would actually be used. On Windows normals slashes (/)
-instead of backslashed (\\) should be used!
+######default : `c:/quake2` (Windows)  
+This will set the default system directory . On Windows normals slashes (/)
+instead of backslashed (\\) must be used!
 
 ##IRC
 Come and join us in our IRC channel to have realtime information and latest updates about Hecatomb Quake II.
