@@ -56,7 +56,11 @@
 
  extern SDL_Surface *surface;
  static in_state_t *in_state;
+ #ifdef HT_WITH_SDL2
+ static unsigned char KeyStates[SDL_NUM_SCANCODES];
+ #else
  static unsigned char KeyStates[SDLK_LAST];
+ #endif
  static qboolean mlooking;
 
  static cvar_t *sensitivity;
@@ -81,8 +85,288 @@
  IN_TranslateSDLtoQ2Key ( unsigned int keysym )
  {
    int key = 0;
+#ifdef HT_WITH_SDL2
+   if ( ( keysym >= SDL_SCANCODE_SPACE ) && ( keysym < SDL_SCANCODE_DELETE ) ) {
+     /* These happen to match
+        the ASCII chars */
+     key = ( int ) keysym;
+   } else {
+     switch ( keysym ) {
+     case SDL_SCANCODE_PAGEUP:
+       key = K_PGUP;
+       break;
 
-   if ( ( keysym >= SDLK_SPACE ) && ( keysym < SDLK_DELETE ) ) {
+     case SDL_SCANCODE_KP_9:
+       key = K_KP_PGUP;
+       break;
+
+     case SDL_SCANCODE_PAGEDOWN:
+       key = K_PGDN;
+       break;
+
+     case SDL_SCANCODE_KP_3:
+       key = K_KP_PGDN;
+       break;
+
+     case SDL_SCANCODE_KP_7:
+       key = K_KP_HOME;
+       break;
+
+     case SDL_SCANCODE_HOME:
+       key = K_HOME;
+       break;
+
+     case SDL_SCANCODE_KP_1:
+       key = K_KP_END;
+       break;
+
+     case SDL_SCANCODE_END:
+       key = K_END;
+       break;
+
+     case SDL_SCANCODE_KP_4:
+       key = K_KP_LEFTARROW;
+       break;
+
+     case SDL_SCANCODE_LEFT:
+       key = K_LEFTARROW;
+       break;
+
+     case SDL_SCANCODE_KP_6:
+       key = K_KP_RIGHTARROW;
+       break;
+
+     case SDL_SCANCODE_RIGHT:
+       key = K_RIGHTARROW;
+       break;
+
+     case SDL_SCANCODE_KP_2:
+       key = K_KP_DOWNARROW;
+       break;
+
+     case SDL_SCANCODE_DOWN:
+       key = K_DOWNARROW;
+       break;
+
+     case SDL_SCANCODE_KP_8:
+       key = K_KP_UPARROW;
+       break;
+
+     case SDL_SCANCODE_UP:
+       key = K_UPARROW;
+       break;
+
+     case SDL_SCANCODE_ESCAPE:
+       key = K_ESCAPE;
+       break;
+
+     case SDL_SCANCODE_KP_ENTER:
+       key = K_KP_ENTER;
+       break;
+
+     case SDL_SCANCODE_RETURN:
+       key = K_ENTER;
+       break;
+
+     case SDL_SCANCODE_TAB:
+       key = K_TAB;
+       break;
+
+     case SDL_SCANCODE_F1:
+       key = K_F1;
+       break;
+
+     case SDL_SCANCODE_F2:
+       key = K_F2;
+       break;
+
+     case SDL_SCANCODE_F3:
+       key = K_F3;
+       break;
+
+     case SDL_SCANCODE_F4:
+       key = K_F4;
+       break;
+
+     case SDL_SCANCODE_F5:
+       key = K_F5;
+       break;
+
+     case SDL_SCANCODE_F6:
+       key = K_F6;
+       break;
+
+     case SDL_SCANCODE_F7:
+       key = K_F7;
+       break;
+
+     case SDL_SCANCODE_F8:
+       key = K_F8;
+       break;
+
+     case SDL_SCANCODE_F9:
+       key = K_F9;
+       break;
+
+     case SDL_SCANCODE_F10:
+       key = K_F10;
+       break;
+
+     case SDL_SCANCODE_F11:
+       key = K_F11;
+       break;
+
+     case SDL_SCANCODE_F12:
+       key = K_F12;
+       break;
+
+     case SDL_SCANCODE_F13:
+       key = K_F13;
+       break;
+
+     case SDL_SCANCODE_F14:
+       key = K_F14;
+       break;
+
+     case SDL_SCANCODE_F15:
+       key = K_F15;
+       break;
+
+     case SDL_SCANCODE_BACKSPACE:
+       key = K_BACKSPACE;
+       break;
+
+     case SDL_SCANCODE_KP_PERIOD:
+       key = K_KP_DEL;
+       break;
+
+     case SDL_SCANCODE_DELETE:
+       key = K_DEL;
+       break;
+
+     case SDL_SCANCODE_PAUSE:
+       key = K_PAUSE;
+       break;
+
+     case SDL_SCANCODE_LSHIFT:
+     case SDL_SCANCODE_RSHIFT:
+       key = K_SHIFT;
+       break;
+
+     case SDL_SCANCODE_LCTRL:
+     case SDL_SCANCODE_RCTRL:
+       key = K_CTRL;
+       break;
+
+     // We'll see about these
+     /*case SDL_SCANCODE_RMETA:
+     case SDL_SCANCODE_LMETA:
+       key = K_COMMAND;
+       break;*/
+
+     case SDL_SCANCODE_RALT:
+     case SDL_SCANCODE_LALT:
+       key = K_ALT;
+       break;
+
+     case SDL_SCANCODE_LGUI:
+     case SDL_SCANCODE_RGUI:
+       key = K_SUPER;
+       break;
+
+     case SDL_SCANCODE_KP_5:
+       key = K_KP_5;
+       break;
+
+     case SDL_SCANCODE_INSERT:
+       key = K_INS;
+       break;
+
+     case SDL_SCANCODE_KP_0:
+       key = K_KP_INS;
+       break;
+
+     case SDL_SCANCODE_KP_MULTIPLY:
+       key = K_KP_STAR;
+       break;
+
+     case SDL_SCANCODE_KP_PLUS:
+       key = K_KP_PLUS;
+       break;
+
+     case SDL_SCANCODE_KP_MINUS:
+       key = K_KP_MINUS;
+       break;
+
+     case SDL_SCANCODE_KP_DIVIDE:
+       key = K_KP_SLASH;
+       break;
+
+     case SDL_SCANCODE_MODE:
+       key = K_MODE;
+       break;
+
+     //case SDLK_COMPOSE:
+     case SDL_SCANCODE_APPLICATION:
+       key = K_COMPOSE;
+       break;
+
+     case SDL_SCANCODE_HELP:
+       key = K_HELP;
+       break;
+
+     //case SDLK_PRINT:
+     case SDL_SCANCODE_PRINTSCREEN:
+       key = K_PRINT;
+       break;
+
+     case SDL_SCANCODE_SYSREQ:
+       key = K_SYSREQ;
+       break;
+
+     //case SDLK_BREAK:
+    /*case SDL_SCANCODE_PAUSE:
+       key = K_BREAK;
+       break;*/
+
+     case SDL_SCANCODE_MENU:
+       key = K_MENU;
+       break;
+
+     case SDL_SCANCODE_POWER:
+       key = K_POWER;
+       break;
+
+     /*case SDL_SCANCODE_EURO:
+       key = K_EURO;
+       break;*/
+
+     case SDL_SCANCODE_UNDO:
+       key = K_UNDO;
+       break;
+
+     case SDL_SCANCODE_SCROLLLOCK:
+       key = K_SCROLLOCK;
+       break;
+
+     case SDL_SCANCODE_NUMLOCKCLEAR:
+       key = K_KP_NUMLOCK;
+       break;
+
+     case SDL_SCANCODE_CAPSLOCK:
+       key = K_CAPSLOCK;
+       break;
+
+     /*default:
+       if ( ( keysym >= SDL_SCANCODE_WORLD_0 ) && ( keysym <= SDL_SCANCODE_WORLD_95 ) ) {
+         key = ( keysym - SDL_SCANCODE_WORLD_0 ) + K_WORLD_0;
+       }
+
+       break;*/
+     }
+   }
+#else
+if ( ( keysym >= SDLK_SPACE ) && ( keysym < SDLK_DELETE ) ) {
      /* These happen to match
         the ASCII chars */
      key = ( int ) keysym;
@@ -357,6 +641,7 @@
        break;
      }
    }
+#endif
 
    return key;
  }
@@ -397,9 +682,15 @@
    case SDL_KEYDOWN:
 
      /* Fullscreen switch via Alt-Return */
-     if ( ( KeyStates[SDLK_LALT] ||
+#ifdef HT_WITH_SDL2
+     if ( ( KeyStates[SDL_SCANCODE_LALT] ||
+            KeyStates[SDL_SCANCODE_RALT] ) &&
+          ( event->key.keysym.sym == SDL_SCANCODE_RETURN ) ) {
+#else
+      if ( ( KeyStates[SDLK_LALT] ||
             KeyStates[SDLK_RALT] ) &&
           ( event->key.keysym.sym == SDLK_RETURN ) ) {
+#endif // HT_WITH_SDL2
        SDL_WM_ToggleFullScreen ( surface );
 
        if ( surface->flags & SDL_FULLSCREEN ) {
