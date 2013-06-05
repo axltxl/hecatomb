@@ -42,7 +42,12 @@
  # include <X11/extensions/xf86vmode.h>
  #endif
 
+ #ifdef HT_WITH_SDL2
+ SDL_Window *window;
+ #else
  SDL_Surface *surface;
+ #endif
+
  glwstate_t glw_state;
  qboolean have_stencil = false;
 
@@ -68,9 +73,13 @@
                     SDL_GetError() );
        return false;
      }
-
+#ifdef HT_WITH_SDL2
+    VID_Printf ( PRINT_ALL, "SDL video driver is \"%s\".\n",
+     SDL_GetCurrentVideoDriver() );
+#else
      SDL_VideoDriverName ( driverName, sizeof ( driverName ) - 1 );
      VID_Printf ( PRINT_ALL, "SDL video driver is \"%s\".\n", driverName );
+#endif
    }
 
    return true;
@@ -95,15 +104,24 @@
      return;
    }
 
+#ifdef HT_WITH_SDL2
+#else
    SDL_SetColorKey ( icon, SDL_SRCCOLORKEY, 0 );
+#endif
    color.r = 255;
    color.g = 255;
    color.b = 255;
+#ifdef HT_WITH_SDL2
+#else
    SDL_SetColors ( icon, &color, 0, 1 );
+#endif
    color.r = 0;
    color.g = 16;
    color.b = 0;
+#ifdef HT_WITH_SDL2
+#else
    SDL_SetColors ( icon, &color, 1, 1 );
+#endif
    ptr = ( Uint8 * ) icon->pixels;
 
    for ( i = 0; i < sizeof ( q2icon_bits ); i++ ) {
@@ -112,8 +130,11 @@
        ptr++;
      }
    }
-
+#ifdef HT_WITH_SDL2
+//   SDL_SetWindowIcon (window, icon);
+#else
    SDL_WM_SetIcon ( icon, NULL );
+#endif
    SDL_FreeSurface ( icon );
  }
 
@@ -141,7 +162,10 @@
  {
    float gamma;
    gamma = ( vid_gamma->value );
+#ifdef HT_WITH_SDL2
+#else
    SDL_SetGamma ( gamma, gamma, gamma );
+#endif
  }
  #endif
 
@@ -156,6 +180,37 @@
    int stencil_bits;
    char title[24];
 
+#ifdef HT_WITH_SDL2
+   SDL_Surface *surface = SDL_GetWindowSurface (window);
+//   if ( window ) {
+//     SDL_DisplayMode mode;
+//     SDL_GetDisplayMode(window, &mode);
+//
+//     if ( (mode->w == vid.width) && (mode->h == vid.height) ) {
+    if ( surface && ( surface->w == vid.width ) && ( surface->h == vid.height ) ) {
+       /* Are we running fullscreen? */
+       int isfullscreen = SDL_GetWindowFlags(window) & SDL_WINDOW_FULLSCREEN ? 1 : 0;
+
+       /* We should, but we don't */
+       if ( fullscreen != isfullscreen ) {
+         //SDL_WM_ToggleFullScreen ( surface );
+         SDL_SetWindowFullscreen ( window, fullscreen);
+       }
+
+       /* Do we now? */
+       isfullscreen = SDL_GetWindowFlags(window) & SDL_WINDOW_FULLSCREEN ? 1 : 0;
+
+       if ( fullscreen == isfullscreen ) {
+         return true;
+       }
+//    }
+   }
+
+   /* Is the surface used? */
+   /*if ( surface ) {
+     SDL_FreeSurface ( surface );
+   }*/
+#else
    if ( surface && ( surface->w == vid.width ) && ( surface->h == vid.height ) ) {
      /* Are we running fullscreen? */
      int isfullscreen = ( surface->flags & SDL_FULLSCREEN ) ? 1 : 0;
@@ -177,6 +232,7 @@
    if ( surface ) {
      SDL_FreeSurface ( surface );
    }
+#endif
 
    /* Create the window */
    VID_NewWindow ( vid.width, vid.height );
@@ -187,10 +243,18 @@
    SDL_GL_SetAttribute ( SDL_GL_DOUBLEBUFFER, 1 );
    SDL_GL_SetAttribute ( SDL_GL_STENCIL_SIZE, 8 );
    /* Initiate the flags */
+ #ifdef HT_WITH_SDL2
+  flags = SDL_WINDOW_OPENGL;
+ #else
    flags = SDL_OPENGL;
+ #endif
 
    if ( fullscreen ) {
+ #ifdef HT_WITH_SDL2
+    flags |= SDL_WINDOW_FULLSCREEN | SDL_WINDOW_SHOWN;
+ #else
      flags |= SDL_FULLSCREEN;
+ #endif
    }
 
    /* Set the icon */
@@ -198,11 +262,22 @@
 
    /* Enable vsync */
    if ( gl_swapinterval->value ) {
+ #ifdef HT_WITH_SDL2
+     SDL_GL_SetSwapInterval (1);
+ #else
      SDL_GL_SetAttribute ( SDL_GL_SWAP_CONTROL, 1 );
+ #endif
    }
 
+   /* Window title */
+   snprintf ( title, sizeof ( title ), "%s", HT_PRODUCT_NAME );
+
    while ( 1 ) {
+   #ifdef HT_WITH_SDL2
+     if ( ( window = SDL_CreateWindow (title, 0, 0, vid.width, vid.height, flags ) ) == NULL ) {
+   #else
      if ( ( surface = SDL_SetVideoMode ( vid.width, vid.height, 0, flags ) ) == NULL ) {
+   #endif
        if ( counter == 1 ) {
          VID_Error ( ERR_FATAL, "Failed to revert to gl_mode 5. Exiting...\n" );
          return false;
@@ -253,9 +328,9 @@
    vid_gamma->modified = true;
    VID_Printf ( PRINT_ALL, "Using hardware gamma via SDL.\n" );
  #endif
-   /* Window title */
-   snprintf ( title, sizeof ( title ), "%s", HT_PRODUCT_NAME );
+ #ifndef HT_WITH_SDL2
    SDL_WM_SetCaption ( title, title );
+ #endif
    /* No cursor */
    SDL_ShowCursor ( 0 );
    return true;
@@ -265,7 +340,11 @@
  void
  GLimp_EndFrame ( void )
  {
+ #ifdef HT_WITH_SDL2
+   SDL_GL_SwapWindow ( window );
+ #else
    SDL_GL_SwapBuffers();
+ #endif
  }
 
  /*
@@ -309,11 +388,17 @@
      GLimp_EndFrame();
    }
 
+ #ifdef HT_WITH_SDL2
+   if ( window ) {
+    SDL_DestroyWindow ( window );
+   }
+   window = NULL;
+ #else
    if ( surface ) {
      SDL_FreeSurface ( surface );
    }
-
    surface = NULL;
+ #endif
 
    if ( SDL_WasInit ( SDL_INIT_EVERYTHING ) == SDL_INIT_VIDEO ) {
      SDL_Quit();

@@ -54,14 +54,16 @@
 
  Key_Event_fp_t Key_Event_fp;
 
- extern SDL_Surface *surface;
  static in_state_t *in_state;
+ static qboolean mlooking;
+
  #ifdef HT_WITH_SDL2
+ extern SDL_Window *window;
  static unsigned char KeyStates[SDL_NUM_SCANCODES];
  #else
+ extern SDL_Surface *surface;
  static unsigned char KeyStates[SDLK_LAST];
  #endif
- static qboolean mlooking;
 
  static cvar_t *sensitivity;
  static cvar_t *exponential_speedup;
@@ -687,13 +689,17 @@ if ( ( keysym >= SDLK_SPACE ) && ( keysym < SDLK_DELETE ) ) {
             KeyStates[SDL_SCANCODE_RALT] ) &&
           ( event->key.keysym.sym == SDL_SCANCODE_RETURN ) ) {
 #else
-      if ( ( KeyStates[SDLK_LALT] ||
-            KeyStates[SDLK_RALT] ) &&
-          ( event->key.keysym.sym == SDLK_RETURN ) ) {
-#endif // HT_WITH_SDL2
-       SDL_WM_ToggleFullScreen ( surface );
+    if ( ( KeyStates[SDLK_LALT] ||
+          KeyStates[SDLK_RALT] ) &&
+        ( event->key.keysym.sym == SDLK_RETURN ) ) {
 
-       if ( surface->flags & SDL_FULLSCREEN ) {
+        SDL_WM_ToggleFullScreen ( surface );
+#endif // HT_WITH_SDL2
+#ifdef HT_WITH_SDL2
+       if ( SDL_GetWindowFlags(window) & SDL_WINDOW_FULLSCREEN ) {
+#else
+      if ( surface->flags & SDL_FULLSCREEN ) {
+#endif
          Cvar_SetValue ( "vid_fullscreen", 1 );
        } else {
          Cvar_SetValue ( "vid_fullscreen", 0 );
@@ -707,16 +713,27 @@ if ( ( keysym >= SDLK_SPACE ) && ( keysym < SDLK_DELETE ) ) {
         really belongs in Key_Event(), but since
         Key_ClearStates() can mess up the internal
         K_SHIFT state let's do it here instead. */
-     if ( ( KeyStates[SDLK_LSHIFT] ||
+#ifdef HT_WITH_SDL2
+    if ( ( KeyStates[SDL_SCANCODE_LSHIFT] ||
+            KeyStates[SDL_SCANCODE_RSHIFT] ) &&
+          ( event->key.keysym.sym == SDL_SCANCODE_ESCAPE ) ) {
+#else
+    if ( ( KeyStates[SDLK_LSHIFT] ||
             KeyStates[SDLK_RSHIFT] ) &&
           ( event->key.keysym.sym == SDLK_ESCAPE ) ) {
+#endif
        Cbuf_ExecuteText ( EXEC_NOW, "toggleconsole" );
        break;
      }
 
-     KeyStates[event->key.keysym.sym] = 1;
-     /* Get the pressed key and add it to the key list */
-     key = IN_TranslateSDLtoQ2Key ( event->key.keysym.sym );
+    /* Get the pressed key and add it to the key list */
+#ifdef HT_WITH_SDL2
+     KeyStates[event->key.keysym.scancode] = 1;
+     key = IN_TranslateSDLtoQ2Key ( event->key.keysym.scancode );
+#else
+    KeyStates[event->key.keysym.sym] = 1;
+    key = IN_TranslateSDLtoQ2Key ( event->key.keysym.sym );
+#endif
 
      if ( key ) {
        keyq[keyq_head].key = key;
@@ -799,30 +816,50 @@ if ( ( keysym >= SDLK_SPACE ) && ( keysym < SDLK_DELETE ) ) {
     * console or the menu is opened */
    if ( vid_fullscreen->value ) {
      if ( !mouse_grabbed ) {
+#ifdef HT_WITH_SDL2
+      SDL_SetWindowGrab (window, SDL_TRUE);
+#else
        SDL_WM_GrabInput ( SDL_GRAB_ON );
+#endif
        mouse_grabbed = true;
      }
    }
 
    if ( in_grab->value == 0 ) {
      if ( mouse_grabbed ) {
+#ifdef HT_WITH_SDL2
+      SDL_SetWindowGrab (window, SDL_FALSE);
+#else
        SDL_WM_GrabInput ( SDL_GRAB_OFF );
+#endif
        mouse_grabbed = false;
      }
    } else if ( in_grab->value == 1 ) {
      if ( !mouse_grabbed ) {
+#ifdef HT_WITH_SDL2
+      SDL_SetWindowGrab (window, SDL_TRUE);
+#else
        SDL_WM_GrabInput ( SDL_GRAB_ON );
+#endif
        mouse_grabbed = true;
      }
    } else {
      if ( windowed_mouse->value ) {
        if ( !mouse_grabbed ) {
+#ifdef HT_WITH_SDL2
+         SDL_SetWindowGrab (window, SDL_TRUE);
+#else
          SDL_WM_GrabInput ( SDL_GRAB_ON );
+#endif
          mouse_grabbed = true;
        }
      } else {
        if ( mouse_grabbed ) {
+#ifdef HT_WITH_SDL2
+         SDL_SetWindowGrab (window, SDL_FALSE);
+#else
          SDL_WM_GrabInput ( SDL_GRAB_OFF );
+#endif
          mouse_grabbed = false;
        }
      }
@@ -906,10 +943,16 @@ if ( ( keysym >= SDLK_SPACE ) && ( keysym < SDLK_DELETE ) ) {
    Key_Event_fp = fp;
    /* SDL stuff. Moved here from IN_BackendInit because
     * this must be done after video is initialized. */
+#ifdef HT_WITH_SDL2
+#else
    SDL_EnableUNICODE ( 0 );
    SDL_EnableKeyRepeat ( SDL_DEFAULT_REPEAT_DELAY, SDL_DEFAULT_REPEAT_INTERVAL );
-
+#endif
+#ifdef HT_WITH_SDL2
+  if ( SDL_GetWindowGrab (window) ){
+#else
    if ( SDL_WM_GrabInput ( SDL_GRAB_QUERY ) == SDL_GRAB_ON ) {
+#endif
      mouse_grabbed = true;
    } else {
      mouse_grabbed = false;
