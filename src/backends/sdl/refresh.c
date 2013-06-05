@@ -299,6 +299,11 @@
      }
    }
 
+#ifdef HT_WITH_SDL2
+   /* Create our opengl context and attach it to our window */
+   SDL_GL_CreateContext ( window );
+#endif
+
    /* Initialize the stencil buffer */
    if ( !SDL_GL_GetAttribute ( SDL_GL_STENCIL_SIZE, &stencil_bits ) ) {
      VID_Printf ( PRINT_ALL, "Got %d bits of stencil.\n", stencil_bits );
