@@ -251,7 +251,8 @@
 
    if ( fullscreen ) {
  #ifdef HT_WITH_SDL2
-    flags |= SDL_WINDOW_FULLSCREEN | SDL_WINDOW_SHOWN;
+    flags |= SDL_WINDOW_FULLSCREEN;
+    flags |= SDL_WINDOW_SHOWN;
  #else
      flags |= SDL_FULLSCREEN;
  #endif
@@ -273,11 +274,11 @@
    snprintf ( title, sizeof ( title ), "%s", HT_PRODUCT_NAME );
 
    while ( 1 ) {
-   #ifdef HT_WITH_SDL2
-     if ( ( window = SDL_CreateWindow (title, 0, 0, vid.width, vid.height, flags ) ) == NULL ) {
-   #else
+ #ifdef HT_WITH_SDL2
+     if ( ( window = SDL_CreateWindow (HT_PRODUCT_NAME, 0, 0, vid.width, vid.height, flags ) ) == NULL ) {
+ #else
      if ( ( surface = SDL_SetVideoMode ( vid.width, vid.height, 0, flags ) ) == NULL ) {
-   #endif
+ #endif
        if ( counter == 1 ) {
          VID_Error ( ERR_FATAL, "Failed to revert to gl_mode 5. Exiting...\n" );
          return false;
