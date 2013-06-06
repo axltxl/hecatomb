@@ -88,11 +88,11 @@
  {
    int key = 0;
 #ifdef HT_WITH_SDL2
-   if ( ( keysym >= SDL_SCANCODE_SPACE ) && ( keysym < SDL_SCANCODE_DELETE ) ) {
-     /* These happen to match
-        the ASCII chars */
-     key = ( int ) keysym;
-   } else {
+
+    // This fairly does the trick but I'm not even half convinced!
+    if (keysym >= SDL_SCANCODE_A && keysym <= SDL_SCANCODE_SLASH)
+      return SDL_GetKeyFromScancode(keysym);
+
      switch ( keysym ) {
      case SDL_SCANCODE_PAGEUP:
        key = K_PGUP;
@@ -365,7 +365,6 @@
        }
 
        break;*/
-     }
    }
 #else
 if ( ( keysym >= SDLK_SPACE ) && ( keysym < SDLK_DELETE ) ) {
@@ -687,7 +686,7 @@ if ( ( keysym >= SDLK_SPACE ) && ( keysym < SDLK_DELETE ) ) {
 #ifdef HT_WITH_SDL2
      if ( ( KeyStates[SDL_SCANCODE_LALT] ||
             KeyStates[SDL_SCANCODE_RALT] ) &&
-          ( event->key.keysym.sym == SDL_SCANCODE_RETURN ) ) {
+          ( event->key.keysym.scancode == SDL_SCANCODE_RETURN ) ) {
 #else
     if ( ( KeyStates[SDLK_LALT] ||
           KeyStates[SDLK_RALT] ) &&
@@ -716,7 +715,7 @@ if ( ( keysym >= SDLK_SPACE ) && ( keysym < SDLK_DELETE ) ) {
 #ifdef HT_WITH_SDL2
     if ( ( KeyStates[SDL_SCANCODE_LSHIFT] ||
             KeyStates[SDL_SCANCODE_RSHIFT] ) &&
-          ( event->key.keysym.sym == SDL_SCANCODE_ESCAPE ) ) {
+          ( event->key.keysym.scancode == SDL_SCANCODE_ESCAPE ) ) {
 #else
     if ( ( KeyStates[SDLK_LSHIFT] ||
             KeyStates[SDLK_RSHIFT] ) &&
@@ -745,11 +744,17 @@ if ( ( keysym >= SDLK_SPACE ) && ( keysym < SDLK_DELETE ) ) {
 
      /* The user released a key */
    case SDL_KEYUP:
-     if ( KeyStates[event->key.keysym.sym] ) {
+#ifdef HT_WITH_SDL2
+      if ( KeyStates[event->key.keysym.scancode] ) {
+       KeyStates[event->key.keysym.scancode] = 0;
+       /* Get the pressed key and remove it from the key list */
+       key = IN_TranslateSDLtoQ2Key ( event->key.keysym.scancode );
+#else
+      if ( KeyStates[event->key.keysym.sym] ) {
        KeyStates[event->key.keysym.sym] = 0;
        /* Get the pressed key and remove it from the key list */
        key = IN_TranslateSDLtoQ2Key ( event->key.keysym.sym );
-
+#endif // HT_WITH_SDL2
        if ( key ) {
          keyq[keyq_head].key = key;
          keyq[keyq_head].down = false;
