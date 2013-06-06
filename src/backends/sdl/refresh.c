@@ -251,8 +251,7 @@
 
    if ( fullscreen ) {
  #ifdef HT_WITH_SDL2
-    flags |= SDL_WINDOW_FULLSCREEN;
-    flags |= SDL_WINDOW_SHOWN;
+    flags |= SDL_WINDOW_FULLSCREEN|SDL_WINDOW_SHOWN;
  #else
      flags |= SDL_FULLSCREEN;
  #endif
