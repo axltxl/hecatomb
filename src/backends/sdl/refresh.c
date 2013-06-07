@@ -160,14 +160,14 @@
  void
  UpdateHardwareGamma ( void )
  {
-   float gamma;
-   gamma = ( vid_gamma->value );
+   float gamma = vid_gamma->value;
 #ifdef HT_WITH_SDL2
+   SDL_SetWindowBrightness ( window, gamma );
 #else
    SDL_SetGamma ( gamma, gamma, gamma );
 #endif
  }
- #endif
+ #endif // HT_WITH_X11GAMMA
 
  /*
   * Initializes the OpenGL window
