@@ -1042,14 +1042,24 @@
          IN_GetEvent ( &event );
      }
 
-     /* Mouse button processing. Button 4
-        and 5 are the mousewheel and thus
-        not processed here. */
-     if ( !mx && !my )
+     if ( !SDL_GetRelativeMouseMode() ) {
+        /* Not supported */
+        int center_x = vid.width/2,
+            center_y = vid.height/2;
+        int abs_x, abs_y;
+        SDL_WarpMouseInWindow (window, center_x, center_y);
+        SDL_GetMouseState(&abs_x, &abs_y);
+        mx = abs_x - center_x;
+        my = abs_y - center_y;
+     }
+     else if ( !mx && !my )
      {
          SDL_GetRelativeMouseState ( &mx, &my );
      }
 
+     /* Mouse button processing. Button 4
+        and 5 are the mousewheel and thus
+        not processed here. */
      mouse_buttonstate = 0;
      bstate = SDL_GetMouseState ( NULL, NULL );
 
@@ -1144,8 +1154,6 @@
              }
          }
      }
-
-     Com_DPrintf("mx = %02d my = %02d\n", mx, my);
 
      /* Process the key events */
      while ( keyq_head != keyq_tail )

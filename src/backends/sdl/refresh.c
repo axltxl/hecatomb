@@ -336,8 +336,13 @@
  #ifndef HT_WITH_SDL2
    SDL_WM_SetCaption ( title, title );
  #endif
-   /* No cursor */
-   SDL_ShowCursor ( 0 );
+
+   /* Probe for SDL relative mouse support */
+   if ( SDL_SetRelativeMouseMode (SDL_TRUE) < 0) {
+    Com_DPrintf ( "SDL_SetRelativeMouseMode not supported on this platform!");
+    /* No cursor */
+    SDL_ShowCursor ( SDL_DISABLE );
+   }
    return true;
  }
 
