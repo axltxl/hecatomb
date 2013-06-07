@@ -1145,6 +1145,8 @@
          }
      }
 
+     Com_DPrintf("mx = %02d my = %02d\n", mx, my);
+
      /* Process the key events */
      while ( keyq_head != keyq_tail )
      {
