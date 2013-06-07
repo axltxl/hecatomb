@@ -1042,7 +1042,7 @@
          IN_GetEvent ( &event );
      }
 
-     if ( !SDL_GetRelativeMouseMode() ) {
+     if ( !SDL_GetRelativeMouseMode() && mouse_grabbed ) {
         /* Not supported */
         int center_x = vid.width/2,
             center_y = vid.height/2;
