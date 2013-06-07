@@ -1042,6 +1042,7 @@
          IN_GetEvent ( &event );
      }
 
+     #ifdef HT_WITH_SDL2
      if ( !SDL_GetRelativeMouseMode() && mouse_grabbed ) {
         /* Not supported */
         int center_x = vid.width/2,
@@ -1052,10 +1053,15 @@
         mx = abs_x - center_x;
         my = abs_y - center_y;
      }
-     else if ( !mx && !my )
-     {
+
+     else {
+     #endif
+       if ( !mx && !my ) {
          SDL_GetRelativeMouseState ( &mx, &my );
+      }
+     #ifdef HT_WITH_SDL2
      }
+     #endif
 
      /* Mouse button processing. Button 4
         and 5 are the mousewheel and thus
