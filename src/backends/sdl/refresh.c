@@ -274,7 +274,9 @@
 
    while ( 1 ) {
  #ifdef HT_WITH_SDL2
-     if ( ( window = SDL_CreateWindow (HT_PRODUCT_NAME, 0, 0, vid.width, vid.height, flags ) ) == NULL ) {
+     if ( ( window = SDL_CreateWindow (HT_PRODUCT_NAME,
+            SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED,
+            vid.width, vid.height, flags ) ) == NULL ) {
  #else
      if ( ( surface = SDL_SetVideoMode ( vid.width, vid.height, 0, flags ) ) == NULL ) {
  #endif
