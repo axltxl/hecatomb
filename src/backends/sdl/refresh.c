@@ -283,8 +283,11 @@
          return false;
        }
 
-       VID_Printf ( PRINT_ALL, "SDL SetVideoMode failed: %s\n",
-                    SDL_GetError() );
+ #ifdef HT_WITH_SDL2
+       VID_Printf ( PRINT_ALL, "SDL_CreateWindow failed: %s\n", SDL_GetError() );
+ #else
+       VID_Printf ( PRINT_ALL, "SDL_SetVideoMode failed: %s\n", SDL_GetError() );
+ #endif
        VID_Printf ( PRINT_ALL, "Reverting to gl_mode 5 (640x480) and windowed mode.\n" );
        /* Try to recover */
        Cvar_SetValue ( "gl_mode", 5 );
@@ -391,28 +394,29 @@
  void
  GLimp_Shutdown ( void )
  {
-   if (glw_state.OpenGLLib) {
-     /* Clear the backbuffer and make it
-      current. This may help some broken
-      video drivers like the AMD Catalyst
-      to avoid artifacts in unused screen
-      areas */
-     qglClearColor ( 0.0, 0.0, 0.0, 0.0 );
-     qglClear ( GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT );
-     GLimp_EndFrame();
-   }
-
  #ifdef HT_WITH_SDL2
-   if ( window ) {
-    SDL_DestroyWindow ( window );
-   }
-   window = NULL;
+   if ( window )
  #else
-   if ( surface ) {
-     SDL_FreeSurface ( surface );
-   }
-   surface = NULL;
+   if ( surface )
  #endif
+   {
+     if ( glw_state.OpenGLLib ) {
+
+       /* Clear the backbuffer and make it
+        current. This may help some broken
+        video drivers like the AMD Catalyst
+        to avoid artifacts in unused screen
+        areas */
+       qglClearColor ( 0.0, 0.0, 0.0, 0.0 );
+       qglClear ( GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT );
+       GLimp_EndFrame();
+     }
+ #ifdef HT_WITH_SDL2
+     SDL_DestroyWindow ( window );
+ #else
+     SDL_FreeSurface ( surface );
+ #endif
+   }
 
    if ( SDL_WasInit ( SDL_INIT_EVERYTHING ) == SDL_INIT_VIDEO ) {
      SDL_Quit();
