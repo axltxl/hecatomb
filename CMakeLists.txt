@@ -63,7 +63,7 @@ set (PROJ_PRODUCT_NAME "Hecatomb Quake II")
 set (PROJ_EMAIL "alejandroricoveri@gmail.com")
 set (VERSION_MAJOR 0)
 set (VERSION_MINOR 1)
-set (VERSION_PATCH 0)
+set (VERSION_PATCH 1)
 set (VERSION "${VERSION_MAJOR}.${VERSION_MINOR}.${VERSION_PATCH}")
 
 # Default values
