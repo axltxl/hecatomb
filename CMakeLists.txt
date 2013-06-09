@@ -172,6 +172,7 @@ endif()
 # ---------------------
 ht_set_option(HT_HUNKDRIVER_GENERIC FALSE BOOL
   "Generic Hunk driver (based on malloc/free) [EXPERIMENTAL]")
+mark_as_advanced (HT_HUNKDRIVER_GENERIC)
 
 # Enables OGG/Vorbis support. OGG/Vorbis files can be
 # used as a substitute of CD audio playback. Adds
