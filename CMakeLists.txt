@@ -289,10 +289,10 @@ if (HT_CLIENT)
   find_package (SDL REQUIRED)
   if (SDL_VERSION_STRING)
     if (NOT SDL_VERSION_STRING MATCHES "1.2.*")
-      message (FATAL_ERROR "Your SDL installation seems to be invalid, required SDL version is 1.2+. Your SDL version is: ${SDL_VERSION_STRING}")
+      message (FATAL_ERROR "Your SDL version is invalid, the required SDL version is 1.2+. Your SDL version is: ${SDL_VERSION_STRING}")
     endif()
   else()
-    message (FATAL_ERROR "SDL version couldn't be determined!. Please use a valid SDL installation.")
+    message (WARNING "SDL version couldn't be determined!. I'll use it anyway ...")
   endif()
 
   # OGG and Vorbis
