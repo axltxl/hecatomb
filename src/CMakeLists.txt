@@ -72,128 +72,171 @@ if (HT_WITH_ZIP)
   list (APPEND LIBS ${ZLIB_LIBRARIES})
 endif()
 
+# Include directories
+# ---------------------
+set (INCLUDE_DIRS ${SRC_DIR}/include) # for future use
+
 #
 # Client-specific
 # ---------------------
 #
 
-# Include directories
-set (INCLUDE_DIRS ${SRC_DIR}/include) # for future use
-list (APPEND INCLUDE_DIRS ${SDL_INCLUDE_DIR})    # libSDL
-list (APPEND INCLUDE_DIRS ${OPENGL_INCLUDE_DIR}) # OpenGL
+if (HT_CLIENT)
 
-# Libraries
-set (CLIENT_LIBS ${OPENGL_LIBRARIES}) # OpenGL
-list (APPEND CLIENT_LIBS ${SDL_LIBRARY}) # SDL
+  list (APPEND INCLUDE_DIRS ${SDL_INCLUDE_DIR})    # libSDL
+  list (APPEND INCLUDE_DIRS ${OPENGL_INCLUDE_DIR}) # OpenGL
 
-# X11 hardware gamma
-if (HT_WITH_X11GAMMA)
-  list (APPEND INCLUDE_DIRS ${X11_xf86vmode_INCLUDE_PATH}) # X11
-  list (APPEND CLIENT_LIBS ${X11_Xxf86vm_LIB})
-endif()
+  # Libraries
+  set (CLIENT_LIBS ${OPENGL_LIBRARIES}) # OpenGL
+  list (APPEND CLIENT_LIBS ${SDL_LIBRARY}) # SDL
 
-# Retexturing support
-if (HT_WITH_RETEXTURE)
-  list (APPEND INCLUDE_DIRS ${JPEG_INCLUDE_DIR}) # libjpeg
-  list (APPEND CLIENT_LIBS ${JPEG_LIBRARY}) # jpeg
-endif()
-
-# OpenAL
-if (HT_WITH_OPENAL)
-
-  # OpenAL headers
-  list (APPEND INCLUDE_DIRS ${OPENAL_INCLUDE_DIR})
-
-  # OpenAL libraries
-  list (APPEND CLIENT_LIBS ${OPENAL_LIBRARY})
-
-endif()
-
-# OGG Vorbis
-if (HT_WITH_OGG)
-  list (APPEND INCLUDE_DIRS ${OGG_INCLUDE_DIR} ${VORBIS_INCLUDE_DIR})
-  list (APPEND CLIENT_LIBS
-    ${OGG_LIBRARY} ${VORBIS_LIBRARY} ${VORBIS_FILE_LIBRARY})
-endif()
-
-# Windows specific libraries
-if (WINDOWS)
-  # Winsock and WinMM
-  list (APPEND LIBS ws2_32 winmm)
-  list (APPEND CLIENT_LIBS -mwindows)
-endif()
-
-# Unix specific libraries
-if (UNIX)
-
-  # dl
-  list (APPEND INCLUDE_DIRS ${LIBDL_INCLUDE_DIR})
-  list (APPEND LIBS ${LIBDL_LIBRARY}) # libdl
-
-  # execinfo
-  if (HT_HAVE_EXECINFO)
-    list (APPEND INCLUDE_DIRS ${LIBEXECINFO_INCLUDE_DIR})
-    list (APPEND LIBS ${LIBEXECINFO_LIBRARIES}) # libexecinfo
+  # X11 hardware gamma
+  if (HT_WITH_X11GAMMA)
+    list (APPEND INCLUDE_DIRS ${X11_xf86vmode_INCLUDE_PATH}) # X11
+    list (APPEND CLIENT_LIBS ${X11_Xxf86vm_LIB})
   endif()
+
+  # Retexturing support
+  if (HT_WITH_RETEXTURE)
+    list (APPEND INCLUDE_DIRS ${JPEG_INCLUDE_DIR}) # libjpeg
+    list (APPEND CLIENT_LIBS ${JPEG_LIBRARY}) # jpeg
+  endif()
+
+  # OpenAL
+  if (HT_WITH_OPENAL)
+
+    # OpenAL headers
+    list (APPEND INCLUDE_DIRS ${OPENAL_INCLUDE_DIR})
+
+    # OpenAL libraries
+    list (APPEND CLIENT_LIBS ${OPENAL_LIBRARY})
+
+  endif()
+
+  # OGG Vorbis
+  if (HT_WITH_OGG)
+    list (APPEND INCLUDE_DIRS ${OGG_INCLUDE_DIR} ${VORBIS_INCLUDE_DIR})
+    list (APPEND CLIENT_LIBS
+      ${OGG_LIBRARY} ${VORBIS_LIBRARY} ${VORBIS_FILE_LIBRARY})
+  endif()
+
+  # Windows specific libraries
+  if (WINDOWS)
+    # Winsock and WinMM
+    list (APPEND LIBS ws2_32 winmm)
+    list (APPEND CLIENT_LIBS -mwindows)
+  endif()
+
+endif() # HT_CLIENT
+
+if (HT_CLIENT OR HT_SERVER)
+
+  # Unix specific libraries
+  if (UNIX)
+
+    # dl
+    list (APPEND INCLUDE_DIRS ${LIBDL_INCLUDE_DIR})
+    list (APPEND LIBS ${LIBDL_LIBRARY}) # libdl
+
+    # execinfo
+    if (HT_HAVE_EXECINFO)
+      list (APPEND INCLUDE_DIRS ${LIBEXECINFO_INCLUDE_DIR})
+      list (APPEND LIBS ${LIBEXECINFO_LIBRARIES}) # libexecinfo
+    endif()
+  endif()
+
 endif()
 
 # Include path
+# ---------------------
 include_directories (${INCLUDE_DIRS})
 
 # Add headers to the project
+# ---------------------
 add_subdirectory (include)
 
 # Set output directory
+# ---------------------
 set (OUTPUT_DIR "${PROJECT_SOURCE_DIR}/bin/${ARCH}")
 
 #
 # Platform-specific backends
 # ---------------------
 #
-add_subdirectory (backends)
 
-# Common
-add_subdirectory (common)
+if (HT_CLIENT OR HT_SERVER)
+  # Backends
+  add_subdirectory (backends)
 
-# Server
-add_subdirectory (server)
+  # Common
+  add_subdirectory (common)
 
-# Refresher
-add_subdirectory (refresh)
+  # Server
+  add_subdirectory (server)
+endif()
 
-# Client
-add_subdirectory (client)
+if (HT_CLIENT)
+  # Refresher
+  add_subdirectory (refresh)
 
-# The game itself
-add_subdirectory (game)
+  # Client
+  add_subdirectory (client)
+endif()
 
-# Server exec
-add_executable (server ${SERVER_EXEC_SRC})
+if (HT_GAME)
+  # The game itself
+  add_subdirectory (game)
+endif()
+
+if (HT_SERVER)
+  # Server exec
+  add_executable (server ${SERVER_EXEC_SRC})
+endif()
 
 # Configuration file
 # ---------------------
 configure_file (${SRC_DIR}/include/config.h.in ${SRC_DIR}/include/config.h)
 
-# -DDEDICATED_ONLY for dedicated server
-# ---------------------
-set_target_properties(server PROPERTIES COMPILE_DEFINITIONS "DEDICATED_ONLY")
-set_target_properties(server PROPERTIES OUTPUT_NAME "${SERVER_EXEC}")
-target_link_libraries (server ${LIBS})
+if (HT_SERVER)
 
-# Client exec
-# ---------------------
-add_executable (client ${CLIENT_EXEC_SRC} ${HEADERS})
-set_target_properties(client PROPERTIES OUTPUT_NAME "${CLIENT_EXEC}")
-target_link_libraries(client ${LIBS} ${CLIENT_LIBS})
+  # -DDEDICATED_ONLY for dedicated server
+  # ---------------------
+  set_target_properties(server PROPERTIES COMPILE_DEFINITIONS "DEDICATED_ONLY")
+  set_target_properties(server PROPERTIES OUTPUT_NAME "${SERVER_EXEC}")
+  target_link_libraries (server ${LIBS})
 
-# Set output directory
-# ---------------------
-set_target_properties (client server
+  # Set output directory
+  # ---------------------
+  set_target_properties (server
+      PROPERTIES RUNTIME_OUTPUT_DIRECTORY ${OUTPUT_DIR})
+
+  # Install
+  # ---------------------
+  #
+  if ( NOT WINDOWS )
+    install (TARGETS server RUNTIME DESTINATION bin)
+  endif()
+
+endif()
+
+if (HT_CLIENT)
+
+  # Client exec
+  # ---------------------
+  add_executable (client ${CLIENT_EXEC_SRC} ${HEADERS})
+  set_target_properties(client PROPERTIES OUTPUT_NAME "${CLIENT_EXEC}")
+  target_link_libraries(client ${LIBS} ${CLIENT_LIBS})
+
+  # Set output directory
+  # ---------------------
+  set_target_properties (client
     PROPERTIES RUNTIME_OUTPUT_DIRECTORY ${OUTPUT_DIR})
 
-# Install
-# ---------------------
-#
-if ( NOT WINDOWS )
-  install (TARGETS client server RUNTIME DESTINATION bin)
+  # Install
+  # ---------------------
+  #
+  if ( NOT WINDOWS )
+    install (TARGETS client RUNTIME DESTINATION bin)
+  endif()
+
 endif()
