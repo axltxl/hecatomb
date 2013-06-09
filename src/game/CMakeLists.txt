@@ -86,3 +86,9 @@ endif()
 
 # Export the dll name + suffix for use in the config
 set (GAME_DLL "${GAME_DLL}${CMAKE_SHARED_LIBRARY_SUFFIX}" PARENT_SCOPE)
+
+# Game DLL installation would be only relevant
+# for system-wide installations on Unix systems
+if (UNIX AND HT_WITH_SYSTEMWIDE)
+  install (TARGETS game LIBRARY DESTINATION "${HT_WITH_SYSTEMDIR}/baseq2")
+endif()
