@@ -201,41 +201,9 @@
    int flags;
    int stencil_bits;
 
- #ifdef HT_WITH_SDL2
-   SDL_Surface *surface = SDL_GetWindowSurface ( window );
-
- //   if ( window ) {
- //     SDL_DisplayMode mode;
- //     SDL_GetDisplayMode(window, &mode);
- //
- //     if ( (mode->w == vid.width) && (mode->h == vid.height) ) {
-   if ( surface && ( surface->w == vid.width ) && ( surface->h == vid.height ) ) {
-     /* Are we running fullscreen? */
-     int isfullscreen = SDL_GetWindowFlags ( window ) & SDL_WINDOW_FULLSCREEN ? 1 : 0;
-
-     /* We should, but we don't */
-     if ( fullscreen != isfullscreen ) {
-       //SDL_WM_ToggleFullScreen ( surface );
-       SDL_SetWindowFullscreen ( window, fullscreen );
-     }
-
-     /* Do we now? */
-     isfullscreen = SDL_GetWindowFlags ( window ) & SDL_WINDOW_FULLSCREEN ? 1 : 0;
-
-     if ( fullscreen == isfullscreen ) {
-       return true;
-     }
-
- //    }
-   }
-
-   /* Is the surface used? */
-   /*if ( surface ) {
-     SDL_FreeSurface ( surface );
-   }*/
- #else
-
-   if ( surface && ( surface->w == vid.width ) && ( surface->h == vid.height ) ) {
+ #ifndef HT_WITH_SDL2
+   if ( surface && ( surface->w == vid.width ) && ( surface->h == vid.height ) )
+   {
      /* Are we running fullscreen? */
      int isfullscreen = ( surface->flags & SDL_FULLSCREEN ) ? 1 : 0;
 
@@ -256,16 +224,18 @@
    if ( surface ) {
      SDL_FreeSurface ( surface );
    }
-
  #endif
    /* Create the window */
    VID_NewWindow ( vid.width, vid.height );
+
+   /* Set up prior OpenGL attributes before we set our nice context */
    SDL_GL_SetAttribute ( SDL_GL_RED_SIZE, 8 );
    SDL_GL_SetAttribute ( SDL_GL_GREEN_SIZE, 8 );
    SDL_GL_SetAttribute ( SDL_GL_BLUE_SIZE, 8 );
    SDL_GL_SetAttribute ( SDL_GL_DEPTH_SIZE, 24 );
    SDL_GL_SetAttribute ( SDL_GL_DOUBLEBUFFER, 1 );
    SDL_GL_SetAttribute ( SDL_GL_STENCIL_SIZE, 8 );
+
    /* Initiate the flags */
  #ifdef HT_WITH_SDL2
    flags = SDL_WINDOW_OPENGL | SDL_WINDOW_SHOWN;
@@ -282,7 +252,13 @@
    }
 
  #ifndef HT_WITH_SDL2
-   /* Set the icon */
+   /*
+    * Set the icon for the window:
+    * The window icon can be set right here because SDL-1.2
+    * doesn't support multiple window management like SDL2,
+    * so the single window that SDL1.2 can handle has already
+    * been created at this point of execution
+    */
    SetSDLIcon();
  #endif
 
