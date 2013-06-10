@@ -202,28 +202,28 @@
    int stencil_bits;
 
  #ifndef HT_WITH_SDL2
-   if ( surface && ( surface->w == vid.width ) && ( surface->h == vid.height ) )
-   {
-     /* Are we running fullscreen? */
-     int isfullscreen = ( surface->flags & SDL_FULLSCREEN ) ? 1 : 0;
-
-     /* We should, but we don't */
-     if ( fullscreen != isfullscreen ) {
-       SDL_WM_ToggleFullScreen ( surface );
-     }
-
-     /* Do we now? */
-     isfullscreen = ( surface->flags & SDL_FULLSCREEN ) ? 1 : 0;
-
-     if ( fullscreen == isfullscreen ) {
-       return true;
-     }
-   }
-
-   /* Is the surface used? */
-   if ( surface ) {
-     SDL_FreeSurface ( surface );
-   }
+//   if ( surface && ( surface->w == vid.width ) && ( surface->h == vid.height ) )
+//   {
+//     /* Are we running fullscreen? */
+//     int isfullscreen = ( surface->flags & SDL_FULLSCREEN ) ? 1 : 0;
+//
+//     /* We should, but we don't */
+//     if ( fullscreen != isfullscreen ) {
+//       SDL_WM_ToggleFullScreen ( surface );
+//     }
+//
+//     /* Do we now? */
+//     isfullscreen = ( surface->flags & SDL_FULLSCREEN ) ? 1 : 0;
+//
+//     if ( fullscreen == isfullscreen ) {
+//       return true;
+//     }
+//   }
+//
+//   /* Is the surface used? */
+//   if ( surface ) {
+//     SDL_FreeSurface ( surface );
+//   }
  #endif
    /* Create the window */
    VID_NewWindow ( vid.width, vid.height );
