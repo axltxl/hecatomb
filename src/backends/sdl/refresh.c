@@ -92,10 +92,17 @@
  SetSDLIcon()
  {
    SDL_Surface *icon;
+#ifdef HT_WITH_SDL2
+   SDL_Color colors[2];
+#else
    SDL_Color color;
+#endif
    Uint8 *ptr;
    int i;
    int mask;
+#ifdef HT_WITH_SDL2
+  SDL_Palette *palette;
+#endif // HT_WITH_SDL2
    icon = SDL_CreateRGBSurface ( SDL_SWSURFACE,
                                  q2icon_width, q2icon_height, 8,
                                  0, 0, 0, 0 );
@@ -104,34 +111,49 @@
      return;
    }
 
-#ifdef HT_WITH_SDL2
-#else
+#ifndef HT_WITH_SDL2
    SDL_SetColorKey ( icon, SDL_SRCCOLORKEY, 0 );
-#endif
+
    color.r = 255;
    color.g = 255;
    color.b = 255;
-#ifdef HT_WITH_SDL2
-#else
    SDL_SetColors ( icon, &color, 0, 1 );
-#endif
+
    color.r = 0;
    color.g = 16;
    color.b = 0;
-#ifdef HT_WITH_SDL2
-#else
    SDL_SetColors ( icon, &color, 1, 1 );
-#endif
-   ptr = ( Uint8 * ) icon->pixels;
+#else
+  /* Set color palette for this icon */
+  colors[0].r = 255;
+  colors[0].g = 255;
+  colors[0].b = 255;
+  colors[0].a = 255;
 
+  colors[1].r = 0;
+  colors[1].g = 16;
+  colors[1].b = 0;
+  colors[1].a = 255;
+
+  /* Set up palette for this icon */
+  palette = icon->format->palette;
+  SDL_SetPaletteColors (palette, colors, 0, 2);
+
+  /* Color key must be set after the palette has been set */
+  SDL_SetColorKey ( icon, SDL_TRUE, 0 );
+#endif
+
+  /* Translate pixels from original image to the icon surface */
+   ptr = ( Uint8 * ) icon->pixels;
    for ( i = 0; i < sizeof ( q2icon_bits ); i++ ) {
      for ( mask = 1; mask != 0x100; mask <<= 1 ) {
        *ptr = ( q2icon_bits[i] & mask ) ? 1 : 0;
        ptr++;
      }
    }
+
 #ifdef HT_WITH_SDL2
-//   SDL_SetWindowIcon (window, icon);
+   SDL_SetWindowIcon ( window, icon );
 #else
    SDL_WM_SetIcon ( icon, NULL );
 #endif
