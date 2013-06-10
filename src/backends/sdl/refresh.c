@@ -27,7 +27,6 @@
 
  #include "prereqs.h"
  #include "refresh/local.h"
- #include "backend/generic/glwindow.h"
  #include "backend/generic/gl.h"
  #include "backend/generic/sdl.h"
 
@@ -43,7 +42,6 @@
  #endif
 
  SDL_Surface *surface;
- glwstate_t glw_state;
  qboolean have_stencil = false;
 
  char *displayname = NULL;
@@ -54,9 +52,7 @@
  XF86VidModeGamma x11_oldgamma;
  #endif
 
- /*
-  * Initialzes the SDL OpenGL context
-  */
+ /* ========================================================================= */
  int
  GLimp_Init ( void )
  {
@@ -74,6 +70,13 @@
    }
 
    return true;
+ }
+
+ /* ========================================================================= */
+ void *
+ GLimp_GetProcAddress (const char* proc)
+ {
+   return SDL_GL_GetProcAddress ( proc );
  }
 
  /*
@@ -145,9 +148,7 @@
  }
  #endif
 
- /*
-  * Initializes the OpenGL window
-  */
+ /* ========================================================================= */
  static qboolean
  GLimp_InitGraphics ( qboolean fullscreen )
  {
@@ -268,9 +269,7 @@
    SDL_GL_SwapBuffers();
  }
 
- /*
-  * Changes the video mode
-  */
+ /* ========================================================================= */
  int
  GLimp_SetMode ( int *pwidth, int *pheight, int mode, qboolean fullscreen )
  {
@@ -292,22 +291,20 @@
    return rserr_ok;
  }
 
- /*
-  * Shuts the SDL render backend down
-  */
+ /* ========================================================================= */
  void
  GLimp_Shutdown ( void )
  {
-   if (glw_state.OpenGLLib) {
-     /* Clear the backbuffer and make it
-      current. This may help some broken
-      video drivers like the AMD Catalyst
-      to avoid artifacts in unused screen
-      areas */
-     qglClearColor ( 0.0, 0.0, 0.0, 0.0 );
-     qglClear ( GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT );
-     GLimp_EndFrame();
-   }
+
+   /* Clear the backbuffer and make it
+    current. This may help some broken
+    video drivers like the AMD Catalyst
+    to avoid artifacts in unused screen
+    areas */
+   qglClearColor ( 0.0, 0.0, 0.0, 0.0 );
+   qglClear ( GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT );
+   GLimp_EndFrame();
+
 
    if ( surface ) {
      SDL_FreeSurface ( surface );

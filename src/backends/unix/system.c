@@ -275,7 +275,6 @@
  }
 
  /* ========================================================================= */
- // I don't see this being actually used
  void
  floating_point_exception_handler ( int whatever )
  {

@@ -38,7 +38,6 @@
  extern cvar_t *scr_viewsize;
 
  static cvar_t *gl_mode;
- static cvar_t *gl_driver;
  static cvar_t *gl_picmip;
  static cvar_t *gl_ext_palettedtexture;
 
@@ -196,10 +195,6 @@
      "Custom",
      0
    };
-
-   if ( !gl_driver ) {
-     gl_driver = Cvar_Get ( "gl_driver", LIBGL, 0 );
-   }
 
    if ( !gl_picmip ) {
      gl_picmip = Cvar_Get ( "gl_picmip", "0", 0 );

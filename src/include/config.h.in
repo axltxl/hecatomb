@@ -190,15 +190,4 @@
  # define HT_DIR_CONF ".@PROJ_DEVNAME@"
  #endif
 
- /* OpenGL driver */
- #ifdef HT_OS_WINDOWS
- # define LIBGL "opengl32.dll"
- #elif defined(HT_OS_OPENBSD)
- # define LIBGL "libGL.so"
- #elif defined(HT_OS_OSX)
- # define LIBGL "/System/Library/Frameworks/OpenGL.framework/OpenGL"
- #else
- # define LIBGL "libGL.so.1"
- #endif
-
  #endif /* CONFIG_H */

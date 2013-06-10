@@ -1,5 +1,11 @@
 htq2 0.2.0
 - Com_Splash and Com_Features will tell which features were built-in
+- Elimination of QGL pointers
+- QGL_GetProcAddress (as an abstraction of SDL_GL_GetProcAddress) 
+  will now handle the assignment of qgl extension function pointers
+- gl_log cvar and GL logging system are now purged
+- gl_driver cvar is now purged
+- Severe code cleanup
 
 htq2 0.1.0
 - CMake integrated build automation

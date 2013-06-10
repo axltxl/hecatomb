@@ -16,7 +16,6 @@ set (HEADER_DIR ${SRC_DIR}/include)
 set (
   HEADERS
 
-  ${HEADER_DIR}/backend/generic/glwindow.h
   ${HEADER_DIR}/backend/generic/input.h
   ${HEADER_DIR}/backend/generic/qal.h
   ${HEADER_DIR}/backend/generic/qgl.h
