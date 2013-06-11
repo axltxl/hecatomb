@@ -68,11 +68,17 @@ set (VERSION "${VERSION_MAJOR}.${VERSION_MINOR}.${VERSION_PATCH}")
 
 # Default values
 # ---------------------
+set (DEF_CLIENT FALSE)
+set (DEF_SERVER FALSE)
+set (DEF_GAME FALSE)
 set (DEF_OGG FALSE)
 set (DEF_OPENAL FALSE)
 set (DEF_ZIP FALSE)
 set (DEF_RETEXTURE FALSE)
 if (WINDOWS OR OSX)
+  set (DEF_CLIENT TRUE)
+  set (DEF_SERVER TRUE)
+  set (DEF_GAME TRUE)
   set (DEF_OGG TRUE)
   set (DEF_ZIP TRUE)
   set (DEF_RETEXTURE TRUE)
@@ -156,6 +162,8 @@ if (WINDOWS)
     endif()
   endif()
 elseif (OSX)
+  # The source tree comes with all dependencies that are
+  # necessary ready to build all targets
   # default to searching for frameworks last
   # so we can give other libraries/frameworks the chance to get used
   set (CMAKE_FIND_FRAMEWORK LAST)
@@ -163,11 +171,20 @@ elseif (OSX)
   set (CMAKE_SYSTEM_FRAMEWORK_PATH "${EXTLIBS_LIBS}/osx" ${CMAKE_SYSTEM_FRAMEWORK_PATH})
 endif()
 
-# These are the main targets.
+# Enable the 'client' target
 # ---------------------
-ht_set_option (HT_CLIENT TRUE BOOL "Build client executable")
-ht_set_option (HT_SERVER FALSE BOOL "Build dedicated server executable")
-ht_set_option (HT_GAME TRUE BOOL "Build baseq2 game DLL")
+# This will be probably what you'll want to build the most
+ht_set_option (HT_CLIENT ${DEF_CLIENT} BOOL "Build client executable")
+
+# Enable the 'server' target
+# ---------------------
+# This will build the dedicated server
+ht_set_option (HT_SERVER ${DEF_SERVER} BOOL "Build dedicated server executable")
+
+# Enable the 'game' target
+# ---------------------
+# This will build the baseq2 DLL
+ht_set_option (HT_GAME ${DEF_GAME} BOOL "Build baseq2 game DLL")
 
 # Enables Generic Hunk Driver, a general purpose Hunk_* backend
 # based solely on plain malloc/free. Use this at your own risk as
