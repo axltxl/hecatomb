@@ -156,8 +156,9 @@ if (WINDOWS)
     endif()
   endif()
 elseif (OSX)
-  # default to searching for frameworks first
-  set (CMAKE_FIND_FRAMEWORK FIRST)
+  # default to searching for frameworks last
+  # so we can give other libraries/frameworks the chance to get used
+  set (CMAKE_FIND_FRAMEWORK LAST)
   # set up the default search directories for frameworks
   set (CMAKE_SYSTEM_FRAMEWORK_PATH "${EXTLIBS_LIBS}/osx" ${CMAKE_SYSTEM_FRAMEWORK_PATH})
 endif()
