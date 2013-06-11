@@ -1,3 +1,13 @@
+htq2 0.2.0
+- SDL2 backend (experimental state)
+- SDL2 backend is optional through CMake via HT_WITH_SDL2.
+- SDL_Scancode-based keyboard input interpretation on SDL2 backend
+- Use of the new SDL_SetRelativeMouseMode (where available). 
+  If relative mouse mode is not supported on target platform 
+  htq2 will then proceed to it’s manual calculation through 
+  SDL_WarpMouseInWindow and SDL_GetMouseState (SDL2).
+- Use of SDL_SetWindowBrightness (SDL2) for setting up the gamma ramp
+
 htq2 0.1.0
 - CMake integrated build automation
 - Architecture detection on configure time
