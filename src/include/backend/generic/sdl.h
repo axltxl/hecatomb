@@ -29,7 +29,7 @@
 
  #include "prereqs.h"
 
- #ifdef HT_USE_SDL2
+ #ifdef HT_WITH_SDL2
  # ifdef HT_OS_WINDOWS
  #  include "SDL2/SDL.h"
  # elif defined(HT_OS_OSX)
