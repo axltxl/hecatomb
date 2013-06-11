@@ -1,3 +1,6 @@
+htq2 0.2.0
+- Com_Splash and Com_Features will tell which features were built-in
+
 htq2 0.1.0
 - CMake integrated build automation
 - Architecture detection on configure time

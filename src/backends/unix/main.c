@@ -68,28 +68,9 @@
 
    /* enforce C locale */
    setenv ( "LC_ALL", "C", 1 );
-   printf ( "\n%s v%s\n", HT_PRODUCT_NAME, HT_VERSION );
-   printf ( "=====================\n\n" );
- #ifndef DEDICATED_ONLY
-   printf ( "Client build options:\n" );
- #ifdef HT_WITH_OGG
-   printf ( " + OGG/Vorbis\n" );
- #else
-   printf ( " - OGG/Vorbis\n" );
- #endif
- #ifdef HT_WITH_OPENAL
-   printf ( " + OpenAL audio\n" );
- #else
-   printf ( " - OpenAL audio\n" );
- #endif
- #ifdef HT_WITH_ZIP
-   printf ( " + Zip file support\n" );
- #else
-   printf ( " - Zip file support\n" );
- #endif
- #endif
-   printf ( "Platform: %s\n", HT_OS_NAME );
-   printf ( "Architecture: %s\n", HT_ARCH_NAME );
+
+   /* Print splash and features */
+   Com_Splash();
 
    /* Seed PRNG */
    randk_seed();

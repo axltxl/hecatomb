@@ -42,6 +42,7 @@ set (
   ${COMMON_DIR}/pmove.c
   ${COMMON_DIR}/szone.c
   ${COMMON_DIR}/zone.c
+  ${COMMON_DIR}/features.c
   ${COMMON_SHARED_SRC}
 )
 

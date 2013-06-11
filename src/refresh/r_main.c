@@ -961,18 +961,6 @@
      r_turbsin[j] *= 0.5;
    }
 
-   /* Options */
-   VID_Printf ( PRINT_ALL, "Refresher build options:\n" );
- #ifdef HT_WITH_RETEXTURE
-   VID_Printf ( PRINT_ALL, " + Retexturing support\n" );
- #else
-   VID_Printf ( PRINT_ALL, " - Retexturing support\n" );
- #endif
- #ifdef HT_WITH_X11GAMMA
-   VID_Printf ( PRINT_ALL, " + Gamma via X11\n" );
- #else
-   VID_Printf ( PRINT_ALL, " - Gamma via X11\n" );
- #endif
    VID_Printf ( PRINT_ALL, "Refresh: " REF_VERSION "\n" );
    Draw_GetPalette();
    R_Register();

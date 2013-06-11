@@ -626,6 +626,11 @@
  void Com_Error ( int code, char *fmt, ... );
  void Com_Quit ( void );
 
+  /**
+  * Print nice intro info + features
+  */
+  void Com_Splash ( void );
+
  int Com_ServerState ( void );           /* this should have just been a cvar... */
  void Com_SetServerState ( int state );
 

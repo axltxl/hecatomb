@@ -49,6 +49,7 @@
    printf ( "arch     => %s\n", HT_ARCH_NAME );
    printf ( "cc       => %s-%d.%d.%d\n", HT_CC_ID, HT_CC_VERSION_MAJOR,
                                   HT_CC_VERSION_MINOR, HT_CC_VERSION_PATCH );
+   printf ( "cflags   => %s\n", HT_CC_CFLAGS);
    printf ( "signal   => %s\n", strsignal(sig) );
 #ifdef HT_WITH_GIT
    printf ("git ref  => %s\n", HT_GIT_REFSPEC);
@@ -57,10 +58,10 @@
    printf ( "\nBacktrace:\n" );
  #if HT_HAVE_EXECINFO
    for ( i = 0; i < size; i++ ) {
-     printf ( "  %s\n", strings[i] );
+     printf ( "[%d]  %s\n", i, strings[i] );
    }
  #else
-   printf ( "[Not available on this plattform.]\n\n" );
+   printf ( "[Not available on this plattform.]\n" );
  #endif
  }
 
