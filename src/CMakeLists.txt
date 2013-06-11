@@ -60,9 +60,11 @@ if (UNK_OS)
   set (HT_OS_UNKNOWN 1)
 endif()
 
+# Source files root directory
+# ---------------------
+set (SRC_DIR ${CMAKE_CURRENT_SOURCE_DIR})
+
 if (HT_CLIENT OR HT_SERVER)
-  # Source files root directory
-  set (SRC_DIR ${CMAKE_CURRENT_SOURCE_DIR})
 
   # Link against this libraries
   set (LIBS m)
@@ -76,7 +78,7 @@ endif()
 
 # Include directories
 # ---------------------
-set (INCLUDE_DIRS ${SRC_DIR}/include) # for future use
+set (INCLUDE_DIRS ${SRC_DIR}/include)
 
 #
 # Client-specific
@@ -149,7 +151,7 @@ if (HT_CLIENT OR HT_SERVER)
 
 endif()
 
-if (HT_CLIENT OR HT_SERVER)
+if (HT_CLIENT OR HT_SERVER OR HT_GAME)
 
   # Include path
   # ---------------------
@@ -163,10 +165,13 @@ if (HT_CLIENT OR HT_SERVER)
   # ---------------------
   set (OUTPUT_DIR "${PROJECT_SOURCE_DIR}/bin/${ARCH}")
 
-  #
-  # Platform-specific backends
-  # ---------------------
-  #
+endif()
+
+#
+# Platform-specific backends
+# ---------------------
+#
+if (HT_CLIENT OR HT_SERVER)
 
   # Backends
   add_subdirectory (backends)
