@@ -54,6 +54,18 @@ Software's original code drop indeed, oh well ...
 * Enjoy!. Happy fragging!, there are great Quake II servers [here](www.q2servers.com) ;) ...
 
 ## CMake build options
+#####`HT_CLIENT`
+######default : `false`  
+Build client executable
+
+#####`HT_SERVER`
+######default : `true`  
+Build dedicated server executable
+
+#####`HT_GAME`
+######default : `false`  
+Build game DLL
+
 #####`HT_HUNKDRIVER_GENERIC` (Experimental)
 ######default : `false`  
 Enable Generic Hunk Driver, a general purpose `Hunk_*` backend
@@ -63,6 +75,7 @@ You're encouraged to use this allocator for having an easier way
 to porting *htq2* to other platforms, otherwise you should remain
 using the platform-specific drivers, they're much faster and therefore
 reliable.
+
 #####`HT_WITH_OGG`
 ######default : `false`  
 ######default : `true` (Windows, OSX)  
