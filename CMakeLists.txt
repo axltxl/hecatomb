@@ -228,28 +228,30 @@ if (HT_CLIENT)
   endif()
 endif() # HT_CLIENT
 
-# Enable systemwide installation of game assets
-# ---------------------
-ht_set_option(HT_WITH_SYSTEMWIDE TRUE BOOL
-  "Enable systemwide installation of game assets")
+if (HT_CLIENT OR HT_SERVER)
+  # Enable systemwide installation of game assets
+  # ---------------------
+  ht_set_option(HT_WITH_SYSTEMWIDE TRUE BOOL
+    "Enable systemwide installation of game assets")
 
-# Enables opening of ZIP files (also known as .pk3 packs).
-  # Adds a dependency to zlib
-# ---------------------
-ht_set_option(HT_WITH_ZIP ${DEF_ZIP} BOOL
-  "ZIP files support (for opening .pk3 packs)")
+  # Enables opening of ZIP files (also known as .pk3 packs).
+    # Adds a dependency to zlib
+  # ---------------------
+  ht_set_option(HT_WITH_ZIP ${DEF_ZIP} BOOL
+    "ZIP files support (for opening .pk3 packs)")
 
-# This will set the default system directory, a non-empty string
-# would actually be used. On Windows normals slashes (/)
-# instead of backslashed (\) must be used!
-# ---------------------
-if (WINDOWS)
-  set (SYSTEMDIR_DEFAULT c:/quake2)
-else()
-  set (SYSTEMDIR_DEFAULT /usr/share/games/quake2)
+  # This will set the default system directory, a non-empty string
+  # would actually be used. On Windows normals slashes (/)
+  # instead of backslashed (\) must be used!
+  # ---------------------
+  if (WINDOWS)
+    set (SYSTEMDIR_DEFAULT c:/quake2)
+  else()
+    set (SYSTEMDIR_DEFAULT /usr/share/games/quake2)
+  endif()
+  ht_set_option(HT_WITH_SYSTEMDIR "${SYSTEMDIR_DEFAULT}"
+      PATH "Location of system-wide game assets installation")
 endif()
-ht_set_option(HT_WITH_SYSTEMDIR "${SYSTEMDIR_DEFAULT}"
-    PATH "Location of system-wide game assets installation")
 
 # Compiler related definitions
 # ---------------------
@@ -262,20 +264,22 @@ else()
 endif()
 
 if (UNIX)
+  if (HT_CLIENT OR HT_SERVER)
+    # Optional execinfo support for backtracing on crashes
+    # ---------------------
+    find_package (Libexecinfo)
+    if(LIBEXECINFO_LIB_FOUND)
+      set(HT_HAVE_EXECINFO 1)
+    endif()
 
-  # Optional execinfo support for backtracing on crashes
-  # ---------------------
-  find_package (Libexecinfo)
-  if(LIBEXECINFO_LIB_FOUND)
-    set(HT_HAVE_EXECINFO 1)
+    # dlopen, dlsym, dlclose, etc ...
+    # ---------------------
+    find_package (LibDL REQUIRED)
   endif()
-
-  # dlopen, dlsym, dlclose, etc ...
-  # ---------------------
-  find_package (LibDL REQUIRED)
 endif()
 
 # Git related information
+# ---------------------
 include(GetGitRevisionDescription)
 get_git_head_revision(GIT_REFSPEC GIT_SHA1)
 if (NOT ${GIT_SHA1} STREQUAL "GITDIR-NOTFOUND")

@@ -60,16 +60,18 @@ if (UNK_OS)
   set (HT_OS_UNKNOWN 1)
 endif()
 
-# Source files root directory
-set (SRC_DIR ${CMAKE_CURRENT_SOURCE_DIR})
+if (HT_CLIENT OR HT_SERVER)
+  # Source files root directory
+  set (SRC_DIR ${CMAKE_CURRENT_SOURCE_DIR})
 
-# Link against this libraries
-set (LIBS m)
+  # Link against this libraries
+  set (LIBS m)
 
-# .pk3 files support
-if (HT_WITH_ZIP)
-  list (APPEND INCLUDE_DIRS ${ZLIB_INCLUDE_DIRS})  # zlib
-  list (APPEND LIBS ${ZLIB_LIBRARIES})
+  # .pk3 files support
+  if (HT_WITH_ZIP)
+    list (APPEND INCLUDE_DIRS ${ZLIB_INCLUDE_DIRS})  # zlib
+    list (APPEND LIBS ${ZLIB_LIBRARIES})
+  endif()
 endif()
 
 # Include directories
@@ -147,24 +149,25 @@ if (HT_CLIENT OR HT_SERVER)
 
 endif()
 
-# Include path
-# ---------------------
-include_directories (${INCLUDE_DIRS})
-
-# Add headers to the project
-# ---------------------
-add_subdirectory (include)
-
-# Set output directory
-# ---------------------
-set (OUTPUT_DIR "${PROJECT_SOURCE_DIR}/bin/${ARCH}")
-
-#
-# Platform-specific backends
-# ---------------------
-#
-
 if (HT_CLIENT OR HT_SERVER)
+
+  # Include path
+  # ---------------------
+  include_directories (${INCLUDE_DIRS})
+
+  # Add headers to the project
+  # ---------------------
+  add_subdirectory (include)
+
+  # Set output directory
+  # ---------------------
+  set (OUTPUT_DIR "${PROJECT_SOURCE_DIR}/bin/${ARCH}")
+
+  #
+  # Platform-specific backends
+  # ---------------------
+  #
+
   # Backends
   add_subdirectory (backends)
 
@@ -193,9 +196,11 @@ if (HT_SERVER)
   add_executable (server ${SERVER_EXEC_SRC})
 endif()
 
-# Configuration file
-# ---------------------
-configure_file (${SRC_DIR}/include/config.h.in ${SRC_DIR}/include/config.h)
+if (HT_CLIENT OR HT_SERVER)
+  # Configuration file
+  # ---------------------
+  configure_file (${SRC_DIR}/include/config.h.in ${SRC_DIR}/include/config.h)
+endif()
 
 if (HT_SERVER)
 
