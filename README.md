@@ -40,6 +40,8 @@ Software's original code drop indeed, oh well ...
   `$ mkdir /path/to/htq2-build`
 * Go to it and generate your CMake build files (it's your choice what you want to generate: a Makefile, a XCode project, etc.)  
   `$ cd /path/to/htq2-build && cmake /path/to/hecatomb`
+* Choose your targets. You'll need to select `HT_CLIENT` and `HT_GAME` in order to play
+* Reconfigure and generate your build files
 * Let's say you wanted generate a sweet and plain Makefile, now you can actually build it:  
   `$ make`
 * Le voilà, you can already see the binaries on `/path/to/htq2-build/bin/<architecture>`a and test them:  
@@ -55,7 +57,8 @@ Software's original code drop indeed, oh well ...
 
 ## CMake build options
 #####`HT_CLIENT`
-######default : `false`  
+######default : `false`
+######default : `true` (Windows, OSX) 
 Build client executable
 
 #####`HT_SERVER`
@@ -63,7 +66,8 @@ Build client executable
 Build dedicated server executable
 
 #####`HT_GAME`
-######default : `false`  
+######default : `false`
+######default : `true` (Windows, OSX) 
 Build game DLL
 
 #####`HT_HUNKDRIVER_GENERIC` (Experimental)
