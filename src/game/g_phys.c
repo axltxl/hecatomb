@@ -59,7 +59,7 @@
    }
 
    trace_t trace;
-   int mask;
+   q_int32_t mask;
 
    if ( ent->clipmask ) {
      mask = ent->clipmask;
@@ -157,12 +157,12 @@
   * returns the blocked flags (1 = floor,
   * 2 = step / wall)
   */
- int
+ q_int32_t
  ClipVelocity ( vec3_t in, vec3_t normal, vec3_t out, float overbounce )
  {
    float backoff;
    float change;
-   int i, blocked;
+   q_int32_t i, blocked;
 
    blocked = 0;
 
@@ -198,21 +198,21 @@
   * 2 = wall / step
   * 4 = dead stop
   */
- int
- SV_FlyMove ( edict_t *ent, float time, int mask )
+ q_int32_t
+ SV_FlyMove ( edict_t *ent, float time, q_int32_t mask )
  {
    edict_t *hit;
-   int bumpcount, numbumps;
+   q_int32_t bumpcount, numbumps;
    vec3_t dir;
    float d;
-   int numplanes;
+   q_int32_t numplanes;
    vec3_t planes[MAX_CLIP_PLANES];
    vec3_t primal_velocity, original_velocity, new_velocity;
-   int i, j;
+   q_int32_t i, j;
    trace_t trace;
    vec3_t end;
    float time_left;
-   int blocked;
+   q_int32_t blocked;
 
    if ( !ent ) {
      return 0;
@@ -357,7 +357,7 @@
  {
    vec3_t forward, left, up, f1, l1, u1;
    vec3_t p[8];
-   int i, j, k, j2, k4;
+   q_int32_t i, j, k, j2, k4;
 
    for ( k = 0; k < 2; k++ ) {
      k4 = k * 4;
@@ -447,7 +447,7 @@
    trace_t trace;
    vec3_t start;
    vec3_t end;
-   int mask;
+   q_int32_t mask;
 
    VectorCopy ( ent->s.origin, start );
    VectorAdd ( start, push, end );
@@ -507,7 +507,7 @@
  qboolean
  SV_Push ( edict_t *pusher, vec3_t move, vec3_t amove )
  {
-   int i, e;
+   q_int32_t i, e;
    edict_t *check, *block;
    pushed_t *p;
    vec3_t org, org2, move2, forward, right, up;
@@ -529,7 +529,7 @@
        temp -= 0.5;
      }
 
-     move[i] = 0.125 * ( int ) temp;
+     move[i] = 0.125 * ( q_int32_t ) temp;
    }
 
    /* we need this for pushing things later */
@@ -907,7 +907,7 @@
  void
  SV_AddRotationalFriction ( edict_t *ent )
  {
-   int n;
+   q_int32_t n;
    float adjustment;
 
    if ( !ent ) {
@@ -943,7 +943,7 @@
    float speed, newspeed, control;
    float friction;
    edict_t *groundentity;
-   int mask;
+   q_int32_t mask;
 
    if ( !ent ) {
      return;
@@ -1081,7 +1081,7 @@
      ent->prethink ( ent );
    }
 
-   switch ( ( int ) ent->movetype ) {
+   switch ( ( q_int32_t ) ent->movetype ) {
    case MOVETYPE_PUSH:
    case MOVETYPE_STOP:
      SV_Physics_Pusher ( ent );
@@ -1102,6 +1102,6 @@
      SV_Physics_Toss ( ent );
      break;
    default:
-     gi.error ( "SV_Physics: bad movetype %i", ( int ) ent->movetype );
+     gi.error ( "SV_Physics: bad movetype %i", ( q_int32_t ) ent->movetype );
    }
  }

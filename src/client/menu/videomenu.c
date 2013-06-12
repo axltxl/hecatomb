@@ -320,7 +320,7 @@
  void
  VID_MenuDraw ( void )
  {
-   int w, h;
+   q_int32_t w, h;
    /* draw the banner */
    Draw_GetPicSize ( &w, &h, "m_banner_video" );
    Draw_Pic ( viddef.width / 2 - w / 2, viddef.height / 2 - 110,
@@ -333,7 +333,7 @@
 
  /* ========================================================================= */
  const char *
- VID_MenuKey ( int key )
+ VID_MenuKey ( q_int32_t key )
  {
    extern void M_PopMenu ( void );
    menuframework_s *m = &s_opengl_menu;

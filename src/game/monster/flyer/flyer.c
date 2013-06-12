@@ -29,15 +29,15 @@
 
  qboolean visible ( edict_t *self, edict_t *other );
 
- static int nextmove; /* Used for start/stop frames */
+ static q_int32_t nextmove; /* Used for start/stop frames */
 
- static int sound_sight;
- static int sound_idle;
- static int sound_pain1;
- static int sound_pain2;
- static int sound_slash;
- static int sound_sproing;
- static int sound_die;
+ static q_int32_t sound_sight;
+ static q_int32_t sound_idle;
+ static q_int32_t sound_pain1;
+ static q_int32_t sound_pain2;
+ static q_int32_t sound_slash;
+ static q_int32_t sound_sproing;
+ static q_int32_t sound_die;
 
  void flyer_check_melee ( edict_t *self );
  void flyer_loop_melee ( edict_t *self );
@@ -464,13 +464,13 @@
  };
 
  void
- flyer_fire ( edict_t *self, int flash_number )
+ flyer_fire ( edict_t *self, q_int32_t flash_number )
  {
    vec3_t start;
    vec3_t forward, right;
    vec3_t end;
    vec3_t dir;
-   int effect;
+   q_int32_t effect;
 
    if ( !self ) {
      return;
@@ -698,9 +698,9 @@
 
  void
  flyer_pain ( edict_t *self, edict_t *other /* unused */,
-              float kick /* unused */, int damage )
+              float kick /* unused */, q_int32_t damage )
  {
-   int n;
+   q_int32_t n;
 
    if ( !self ) {
      return;
@@ -736,7 +736,7 @@
 
  void
  flyer_die ( edict_t *self, edict_t *inflictor /* unused */,
-             edict_t *attacker /* unused */, int damage /* unused */,
+             edict_t *attacker /* unused */, q_int32_t damage /* unused */,
              vec3_t point /* unused */ )
  {
    if ( !self ) {

@@ -29,9 +29,9 @@
 
  #include "prereqs.h"
 
- void CRC_Init ( unsigned short *crcvalue );
- void CRC_ProcessByte ( unsigned short *crcvalue, byte data );
- unsigned short CRC_Value ( unsigned short crcvalue );
- unsigned short CRC_Block ( byte *start, int count );
+ void CRC_Init ( q_uint16_t *crcvalue );
+ void CRC_ProcessByte ( q_uint16_t *crcvalue, byte data );
+ q_uint16_t CRC_Value ( q_uint16_t crcvalue );
+ q_uint16_t CRC_Block ( byte *start, q_int32_t count );
 
  #endif /* CO_CRC_H */

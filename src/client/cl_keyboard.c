@@ -41,26 +41,26 @@
  #define MAXCMDLINE 256
 
  char key_lines[32][MAXCMDLINE];
- int key_linepos;
- int shift_down = false;
- int anykeydown;
+ q_int32_t key_linepos;
+ q_int32_t shift_down = false;
+ q_int32_t anykeydown;
 
- int edit_line = 0;
- int history_line = 0;
+ q_int32_t edit_line = 0;
+ q_int32_t history_line = 0;
 
- int key_waiting;
+ q_int32_t key_waiting;
  char *keybindings[K_LAST];
  qboolean consolekeys[K_LAST]; /* if true, can't be rebound while in console */
  qboolean menubound[K_LAST]; /* if true, can't be rebound while in menu */
- int keyshift[K_LAST]; /* key to map to if shift held down in console */
- int key_repeats[K_LAST]; /* if > 1, it is autorepeating */
+ q_int32_t keyshift[K_LAST]; /* key to map to if shift held down in console */
+ q_int32_t key_repeats[K_LAST]; /* if > 1, it is autorepeating */
  qboolean keydown[K_LAST];
 
  qboolean Cmd_IsComplete ( char *cmd );
 
  typedef struct {
    char *name;
-   int keynum;
+   q_int32_t keynum;
  } keyname_t;
 
  keyname_t keynames[] = {
@@ -197,7 +197,7 @@
   * Interactive line editing and console scrollback
   */
  void
- Key_Console ( int key )
+ Key_Console ( q_int32_t key )
  {
    switch ( key ) {
    case K_KP_SLASH:
@@ -326,7 +326,7 @@
      }
 
      strcpy ( key_lines[edit_line], key_lines[history_line] );
-     key_linepos = ( int ) strlen ( key_lines[edit_line] );
+     key_linepos = ( q_int32_t ) strlen ( key_lines[edit_line] );
      return;
    }
 
@@ -346,7 +346,7 @@
        key_linepos = 1;
      } else {
        strcpy ( key_lines[edit_line], key_lines[history_line] );
-       key_linepos = ( int ) strlen ( key_lines[edit_line] );
+       key_linepos = ( q_int32_t ) strlen ( key_lines[edit_line] );
      }
 
      return;
@@ -383,7 +383,7 @@
      if ( keydown[K_CTRL] ) {
        con.display = con.current;
      } else {
-       key_linepos = ( int ) strlen ( key_lines[edit_line] );
+       key_linepos = ( q_int32_t ) strlen ( key_lines[edit_line] );
      }
 
      return;
@@ -394,8 +394,8 @@
    }
 
    if ( key_linepos < MAXCMDLINE - 1 ) {
-     int last;
-     int length;
+     q_int32_t last;
+     q_int32_t length;
      length = strlen ( key_lines[edit_line] );
 
      if ( length >= MAXCMDLINE - 1 ) {
@@ -417,12 +417,12 @@
 
  qboolean chat_team;
  char chat_buffer[MAXCMDLINE];
- int chat_bufferlen = 0;
- int chat_cursorpos = 0;
+ q_int32_t chat_bufferlen = 0;
+ q_int32_t chat_cursorpos = 0;
 
  /* ========================================================================= */
  void
- Key_Message ( int key )
+ Key_Message ( q_int32_t key )
  {
    char last;
 
@@ -526,7 +526,7 @@
   * Single ascii characters return themselves, while
   * the K_* names are matched up.
   */
- int
+ q_int32_t
  Key_StringToKeynum ( char *str )
  {
    keyname_t *kn;
@@ -553,7 +553,7 @@
   * or a K_* name) for the given keynum.
   */
  char *
- Key_KeynumToString ( int keynum )
+ Key_KeynumToString ( q_int32_t keynum )
  {
    keyname_t *kn;
    static char tinystr[2] = {0};
@@ -579,10 +579,10 @@
 
  /* ========================================================================= */
  void
- Key_SetBinding ( int keynum, char *binding )
+ Key_SetBinding ( q_int32_t keynum, char *binding )
  {
    char *new;
-   int l;
+   q_int32_t l;
 
    if ( keynum == -1 ) {
      return;
@@ -606,7 +606,7 @@
  void
  Key_Unbind_f ( void )
  {
-   int b;
+   q_int32_t b;
 
    if ( Cmd_Argc() != 2 ) {
      Com_Printf ( "unbind <key> : remove commands from a key\n" );
@@ -627,7 +627,7 @@
  void
  Key_Unbindall_f ( void )
  {
-   int i;
+   q_int32_t i;
 
    for ( i = 0; i < K_LAST; i++ ) {
      if ( keybindings[i] ) {
@@ -640,7 +640,7 @@
  void
  Key_Bind_f ( void )
  {
-   int i, c, b;
+   q_int32_t i, c, b;
    char cmd[1024];
    c = Cmd_Argc();
 
@@ -684,7 +684,7 @@
  void
  Key_WriteBindings ( FILE *f )
  {
-   int i;
+   q_int32_t i;
 
    if ( cfg_unbindall->value ) {
      fprintf ( f, "unbindall\n" );
@@ -702,7 +702,7 @@
  void
  Key_Bindlist_f ( void )
  {
-   int i;
+   q_int32_t i;
 
    for ( i = 0; i < K_LAST; i++ ) {
      if ( keybindings[i] && keybindings[i][0] ) {
@@ -715,7 +715,7 @@
  void
  Key_Init ( void )
  {
-   int i;
+   q_int32_t i;
 
    for ( i = 0; i < 32; i++ ) {
      key_lines[i][0] = ']';
@@ -807,7 +807,7 @@
 
  /* ========================================================================= */
  void
- Key_Event ( int key, qboolean down, unsigned time )
+ Key_Event ( q_int32_t key, qboolean down, q_uint32_t time )
  {
    char *kb;
    char cmd[1024];
@@ -993,7 +993,7 @@
  void
  Key_ClearStates ( void )
  {
-   int i;
+   q_int32_t i;
    anykeydown = false;
 
    for ( i = 0; i < K_LAST; i++ ) {
@@ -1007,7 +1007,7 @@
  }
 
  /* ========================================================================= */
- int
+ q_int32_t
  Key_GetKey ( void )
  {
    key_waiting = -1;

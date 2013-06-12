@@ -100,11 +100,11 @@
  typedef struct image_s {
    char name[MAX_QPATH];               /* game path, including extension */
    imagetype_t type;
-   int width, height;                  /* source image */
-   int upload_width, upload_height;    /* after power of two and picmip */
-   int registration_sequence;          /* 0 = free */
+   q_int32_t width, height;                  /* source image */
+   q_int32_t upload_width, upload_height;    /* after power of two and picmip */
+   q_int32_t registration_sequence;          /* 0 = free */
    struct msurface_s *texturechain;    /* for sort-by-texture world drawing */
-   int texnum;                         /* gl texture binding */
+   q_int32_t texnum;                         /* gl texture binding */
    float sl, tl, sh, th;               /* 0,0 - 1,1 unless part of the scrap */
    qboolean scrap;
    qboolean has_alpha;
@@ -123,7 +123,7 @@
    rserr_unknown
  } rserr_t;
 
- void GL_BeginRendering ( int *x, int *y, int *width, int *height );
+ void GL_BeginRendering ( q_int32_t *x, q_int32_t *y, q_int32_t *width, q_int32_t *height );
  void GL_EndRendering ( void );
 
  void R_SetDefaultState ( void );
@@ -137,17 +137,17 @@
  } glvert_t;
 
  extern image_t gltextures[MAX_GLTEXTURES];
- extern int numgltextures;
+ extern q_int32_t numgltextures;
 
  extern image_t *r_notexture;
  extern image_t *r_particletexture;
  extern entity_t *currententity;
  extern model_t *currentmodel;
- extern int r_visframecount;
- extern int r_framecount;
+ extern q_int32_t r_visframecount;
+ extern q_int32_t r_framecount;
  extern cplane_t frustum[4];
- extern int c_brush_polys, c_alias_polys;
- extern int gl_filter_min, gl_filter_max;
+ extern q_int32_t c_brush_polys, c_alias_polys;
+ extern q_int32_t gl_filter_min, gl_filter_max;
 
  /* view origin */
  extern vec3_t vup;
@@ -157,7 +157,7 @@
 
  /* screen size info */
  extern refdef_t r_newrefdef;
- extern int r_viewcluster, r_viewcluster2, r_oldviewcluster, r_oldviewcluster2;
+ extern q_int32_t r_viewcluster, r_viewcluster2, r_oldviewcluster, r_oldviewcluster2;
 
  extern cvar_t *gl_norefresh;
  extern cvar_t *gl_lefthand;
@@ -237,20 +237,20 @@
 
  extern cvar_t *intensity;
 
- extern int gl_lightmap_format;
- extern int gl_solid_format;
- extern int gl_alpha_format;
- extern int gl_tex_solid_format;
- extern int gl_tex_alpha_format;
+ extern q_int32_t gl_lightmap_format;
+ extern q_int32_t gl_solid_format;
+ extern q_int32_t gl_alpha_format;
+ extern q_int32_t gl_tex_solid_format;
+ extern q_int32_t gl_tex_alpha_format;
 
- extern int c_visible_lightmaps;
- extern int c_visible_textures;
+ extern q_int32_t c_visible_lightmaps;
+ extern q_int32_t c_visible_textures;
 
  extern float r_world_matrix[16];
 
- void R_TranslatePlayerSkin ( int playernum );
- void R_Bind ( int texnum );
- void R_MBind ( GLenum target, int texnum );
+ void R_TranslatePlayerSkin ( q_int32_t playernum );
+ void R_Bind ( q_int32_t texnum );
+ void R_MBind ( GLenum target, q_int32_t texnum );
  void R_TexEnv ( GLenum value );
  void R_EnableMultitexture ( qboolean enable );
  void R_SelectTexture ( GLenum );
@@ -259,8 +259,8 @@
  void R_PushDlights ( void );
 
  extern model_t *r_worldmodel;
- extern unsigned d_8to24table[256];
- extern int registration_sequence;
+ extern q_uint32_t d_8to24table[256];
+ extern q_int32_t registration_sequence;
 
  void V_AddBlend ( float r, float g, float b, float a, float *v_blend );
 
@@ -286,31 +286,31 @@
  void R_AddSkySurface ( msurface_t *fa );
  void R_ClearSkyBox ( void );
  void R_DrawSkyBox ( void );
- void R_MarkLights ( dlight_t *light, int bit, mnode_t *node );
+ void R_MarkLights ( dlight_t *light, q_int32_t bit, mnode_t *node );
 
  void COM_StripExtension ( char *in, char *out );
 
- void R_SwapBuffers ( int );
+ void R_SwapBuffers ( q_int32_t );
 
- int Draw_GetPalette ( void );
+ q_int32_t Draw_GetPalette ( void );
 
- void R_ResampleTexture ( unsigned *in, int inwidth, int inheight,
-                          unsigned *out, int outwidth, int outheight );
+ void R_ResampleTexture ( q_uint32_t *in, q_int32_t inwidth, q_int32_t inheight,
+                          q_uint32_t *out, q_int32_t outwidth, q_int32_t outheight );
 
  void LoadPCX ( char *filename, byte **pic, byte **palette,
-                int *width, int *height );
+                q_int32_t *width, q_int32_t *height );
  image_t *LoadWal ( char *name );
- void LoadJPG ( char *origname, byte **pic, int *width, int *height );
- void LoadTGA ( char *origname, byte **pic, int *width, int *height );
- void GetWalInfo ( char *name, int *width, int *height );
- void GetPCXInfo ( char *filename, int *width, int *height );
- image_t *R_LoadPic ( char *name, byte *pic, int width, int realwidth,
-                      int height, int realheight, imagetype_t type, int bits );
+ void LoadJPG ( char *origname, byte **pic, q_int32_t *width, q_int32_t *height );
+ void LoadTGA ( char *origname, byte **pic, q_int32_t *width, q_int32_t *height );
+ void GetWalInfo ( char *name, q_int32_t *width, q_int32_t *height );
+ void GetPCXInfo ( char *filename, q_int32_t *width, q_int32_t *height );
+ image_t *R_LoadPic ( char *name, byte *pic, q_int32_t width, q_int32_t realwidth,
+                      q_int32_t height, q_int32_t realheight, imagetype_t type, q_int32_t bits );
  image_t *R_FindImage ( char *name, imagetype_t type );
  void R_TextureMode ( char *string );
  void R_ImageList_f ( void );
 
- void R_SetTexturePalette ( unsigned palette[256] );
+ void R_SetTexturePalette ( q_uint32_t palette[256] );
 
  void R_InitImages ( void );
  void R_ShutdownImages ( void );
@@ -319,19 +319,19 @@
 
  void R_TextureAlphaMode ( char *string );
  void R_TextureSolidMode ( char *string );
- int Scrap_AllocBlock ( int w, int h, int *x, int *y );
+ q_int32_t Scrap_AllocBlock ( q_int32_t w, q_int32_t h, q_int32_t *x, q_int32_t *y );
 
  /* GL extension emulation functions */
- void R_DrawParticles2 ( int n,
+ void R_DrawParticles2 ( q_int32_t n,
                          const particle_t particles[],
-                         const unsigned colortable[768] );
+                         const q_uint32_t colortable[768] );
 
  /*
   * GL config stuff
   */
 
  typedef struct {
-   int renderer;
+   q_int32_t renderer;
    const char *renderer_string;
    const char *vendor_string;
    const char *version_string;
@@ -348,32 +348,32 @@
    float inverse_intensity;
    qboolean fullscreen;
 
-   int prev_mode;
+   q_int32_t prev_mode;
 
-   unsigned char *d_16to8table;
+   q_uint8_t *d_16to8table;
 
-   int lightmap_textures;
+   q_int32_t lightmap_textures;
 
-   int currenttextures[2];
-   int currenttmu;
+   q_int32_t currenttextures[2];
+   q_int32_t currenttmu;
 
    float camera_separation;
    qboolean stereo_enabled;
 
    qboolean hwgamma;
 
-   unsigned char originalRedGammaTable[256];
-   unsigned char originalGreenGammaTable[256];
-   unsigned char originalBlueGammaTable[256];
+   q_uint8_t originalRedGammaTable[256];
+   q_uint8_t originalGreenGammaTable[256];
+   q_uint8_t originalBlueGammaTable[256];
  } glstate_t;
 
  typedef struct {
-   int internal_format;
-   int current_lightmap_texture;
+   q_int32_t internal_format;
+   q_int32_t current_lightmap_texture;
 
    msurface_t *lightmap_surfaces[MAX_LIGHTMAPS];
 
-   int allocated[BLOCK_WIDTH];
+   q_int32_t allocated[BLOCK_WIDTH];
 
    /* the lightmap texture data needs to be kept in
       main memory so texsubimage can update properly */
@@ -386,7 +386,7 @@
  /*
   * Initializes the SDL OpenGL context
   */
- int GLimp_Init ( void );
+ q_int32_t GLimp_Init ( void );
 
  /*
   * Shuts the SDL render backend down
@@ -396,7 +396,7 @@
  /*
   * Changes the video mode
   */
- int GLimp_SetMode ( int *pwidth, int *pheight, int mode, qboolean fullscreen );
+ q_int32_t GLimp_SetMode ( q_int32_t *pwidth, q_int32_t *pheight, q_int32_t mode, qboolean fullscreen );
 
  /*
   * Returns the address of the GL function proc,

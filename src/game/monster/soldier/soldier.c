@@ -29,16 +29,16 @@
  #include "game/local.h"
  #include "game/monster/soldier/soldier.h"
 
- static int sound_idle;
- static int sound_sight1;
- static int sound_sight2;
- static int sound_pain_light;
- static int sound_pain;
- static int sound_pain_ss;
- static int sound_death_light;
- static int sound_death;
- static int sound_death_ss;
- static int sound_cock;
+ static q_int32_t sound_idle;
+ static q_int32_t sound_sight1;
+ static q_int32_t sound_sight2;
+ static q_int32_t sound_pain_light;
+ static q_int32_t sound_pain;
+ static q_int32_t sound_pain_ss;
+ static q_int32_t sound_death_light;
+ static q_int32_t sound_death;
+ static q_int32_t sound_death_ss;
+ static q_int32_t sound_cock;
 
  void
  soldier_idle ( edict_t *self )
@@ -406,10 +406,10 @@
 
  void
  soldier_pain ( edict_t *self, edict_t *other /* unused */,
-                float kick /* unused */, int damage /* unused */ )
+                float kick /* unused */, q_int32_t damage /* unused */ )
  {
    float r;
-   int n;
+   q_int32_t n;
 
    if ( !self ) {
      return;
@@ -462,7 +462,7 @@
    }
  }
 
- static int blaster_flash[] = {
+ static q_int32_t blaster_flash[] = {
    MZ2_SOLDIER_BLASTER_1,
    MZ2_SOLDIER_BLASTER_2,
    MZ2_SOLDIER_BLASTER_3,
@@ -473,7 +473,7 @@
    MZ2_SOLDIER_BLASTER_8
  };
 
- static int shotgun_flash[] = {
+ static q_int32_t shotgun_flash[] = {
    MZ2_SOLDIER_SHOTGUN_1,
    MZ2_SOLDIER_SHOTGUN_2,
    MZ2_SOLDIER_SHOTGUN_3,
@@ -484,7 +484,7 @@
    MZ2_SOLDIER_SHOTGUN_8
  };
 
- static int machinegun_flash[] = {
+ static q_int32_t machinegun_flash[] = {
    MZ2_SOLDIER_MACHINEGUN_1,
    MZ2_SOLDIER_MACHINEGUN_2,
    MZ2_SOLDIER_MACHINEGUN_3,
@@ -496,7 +496,7 @@
  };
 
  void
- soldier_fire ( edict_t *self, int flash_number )
+ soldier_fire ( edict_t *self, q_int32_t flash_number )
  {
    vec3_t start;
    vec3_t forward, right, up;
@@ -504,7 +504,7 @@
    vec3_t dir;
    vec3_t end;
    float r, u;
-   int flash_index;
+   q_int32_t flash_index;
 
    if ( !self ) {
      return;
@@ -1314,10 +1314,10 @@
 
  void
  soldier_die ( edict_t *self, edict_t *inflictor /* unused */,
-               edict_t *attacker /* unused */, int damage,
+               edict_t *attacker /* unused */, q_int32_t damage,
                vec3_t point /* unused */ )
  {
-   int n;
+   q_int32_t n;
 
    /* check for gib */
    if ( self->health <= self->gib_health ) {

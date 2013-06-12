@@ -32,7 +32,7 @@
   * monster's dodge function should be called.
   */
  void
- check_dodge ( edict_t *self, vec3_t start, vec3_t dir, int speed )
+ check_dodge ( edict_t *self, vec3_t start, vec3_t dir, q_int32_t speed )
  {
    vec3_t end;
    vec3_t v;
@@ -65,7 +65,7 @@
   * Used for all impact (hit/punch/slash) attacks
   */
  qboolean
- fire_hit ( edict_t *self, vec3_t aim, int damage, int kick )
+ fire_hit ( edict_t *self, vec3_t aim, q_int32_t damage, q_int32_t kick )
  {
    trace_t tr;
    vec3_t forward, right, up;
@@ -153,8 +153,8 @@
   * used for bullet/pellet based weapons.
   */
  void
- fire_lead ( edict_t *self, vec3_t start, vec3_t aimdir, int damage, int kick,
-             int te_impact, int hspread, int vspread, int mod )
+ fire_lead ( edict_t *self, vec3_t start, vec3_t aimdir, q_int32_t damage, q_int32_t kick,
+             q_int32_t te_impact, q_int32_t hspread, q_int32_t vspread, q_int32_t mod )
  {
    trace_t tr;
    vec3_t dir;
@@ -164,7 +164,7 @@
    float u;
    vec3_t water_start;
    qboolean water = false;
-   int content_mask = MASK_SHOT | MASK_WATER;
+   q_int32_t content_mask = MASK_SHOT | MASK_WATER;
 
    if ( !self ) {
      return;
@@ -192,7 +192,7 @@
 
      /* see if we hit water */
      if ( tr.contents & MASK_WATER ) {
-       int color;
+       q_int32_t color;
 
        water = true;
        VectorCopy ( tr.endpos, water_start );
@@ -291,8 +291,8 @@
   * chaingun.  Would be fine for pistols, rifles, etc....
   */
  void
- fire_bullet ( edict_t *self, vec3_t start, vec3_t aimdir, int damage,
-               int kick, int hspread, int vspread, int mod )
+ fire_bullet ( edict_t *self, vec3_t start, vec3_t aimdir, q_int32_t damage,
+               q_int32_t kick, q_int32_t hspread, q_int32_t vspread, q_int32_t mod )
  {
    if ( !self ) {
      return;
@@ -307,10 +307,10 @@
   * by shotgun and super shotgun.
   */
  void
- fire_shotgun ( edict_t *self, vec3_t start, vec3_t aimdir, int damage,
-                int kick, int hspread, int vspread, int count, int mod )
+ fire_shotgun ( edict_t *self, vec3_t start, vec3_t aimdir, q_int32_t damage,
+                q_int32_t kick, q_int32_t hspread, q_int32_t vspread, q_int32_t count, q_int32_t mod )
  {
-   int i;
+   q_int32_t i;
 
    if ( !self ) {
      return;
@@ -329,7 +329,7 @@
  void
  blaster_touch ( edict_t *self, edict_t *other, cplane_t *plane, csurface_t *surf )
  {
-   int mod;
+   q_int32_t mod;
 
    if ( !self || !other ) {
      G_FreeEdict ( self );
@@ -381,8 +381,8 @@
  }
 
  void
- fire_blaster ( edict_t *self, vec3_t start, vec3_t dir, int damage,
-                int speed, int effect, qboolean hyper )
+ fire_blaster ( edict_t *self, vec3_t start, vec3_t dir, q_int32_t damage,
+                q_int32_t speed, q_int32_t effect, qboolean hyper )
  {
    edict_t *bolt;
    trace_t tr;
@@ -443,7 +443,7 @@
  Grenade_Explode ( edict_t *ent )
  {
    vec3_t origin;
-   int mod;
+   q_int32_t mod;
 
    if ( !ent ) {
      return;
@@ -471,7 +471,7 @@
      }
 
      T_Damage ( ent->enemy, ent, ent->owner, dir, ent->s.origin, vec3_origin,
-                ( int ) points, ( int ) points, DAMAGE_RADIUS, mod );
+                ( q_int32_t ) points, ( q_int32_t ) points, DAMAGE_RADIUS, mod );
    }
 
    if ( ent->spawnflags & 2 ) {
@@ -546,7 +546,7 @@
  }
 
  void
- fire_grenade ( edict_t *self, vec3_t start, vec3_t aimdir, int damage, int speed,
+ fire_grenade ( edict_t *self, vec3_t start, vec3_t aimdir, q_int32_t damage, q_int32_t speed,
                 float timer, float damage_radius )
  {
    edict_t *grenade;
@@ -585,8 +585,8 @@
  }
 
  void
- fire_grenade2 ( edict_t *self, vec3_t start, vec3_t aimdir, int damage,
-                 int speed, float timer, float damage_radius, qboolean held )
+ fire_grenade2 ( edict_t *self, vec3_t start, vec3_t aimdir, q_int32_t damage,
+                 q_int32_t speed, float timer, float damage_radius, qboolean held )
  {
    edict_t *grenade;
    vec3_t dir;
@@ -641,7 +641,7 @@
  rocket_touch ( edict_t *ent, edict_t *other, cplane_t *plane, csurface_t *surf )
  {
    vec3_t origin;
-   int n;
+   q_int32_t n;
 
    if ( !ent || !other ) {
      G_FreeEdict ( ent );
@@ -705,8 +705,8 @@
  }
 
  void
- fire_rocket ( edict_t *self, vec3_t start, vec3_t dir, int damage,
-               int speed, float damage_radius, int radius_damage )
+ fire_rocket ( edict_t *self, vec3_t start, vec3_t dir, q_int32_t damage,
+               q_int32_t speed, float damage_radius, q_int32_t radius_damage )
  {
    edict_t *rocket;
 
@@ -744,13 +744,13 @@
  }
 
  void
- fire_rail ( edict_t *self, vec3_t start, vec3_t aimdir, int damage, int kick )
+ fire_rail ( edict_t *self, vec3_t start, vec3_t aimdir, q_int32_t damage, q_int32_t kick )
  {
    vec3_t from;
    vec3_t end;
    trace_t tr;
    edict_t *ignore;
-   int mask;
+   q_int32_t mask;
    qboolean water;
 
    if ( !self ) {
@@ -856,7 +856,7 @@
        gi.WritePosition ( ent->s.origin );
        gi.multicast ( ent->s.origin, MULTICAST_PHS );
        T_Damage ( ent, self, self->owner, self->velocity, ent->s.origin, vec3_origin,
-                  ( int ) points, 0, DAMAGE_ENERGY, MOD_BFG_EFFECT );
+                  ( q_int32_t ) points, 0, DAMAGE_ENERGY, MOD_BFG_EFFECT );
      }
    }
 
@@ -931,7 +931,7 @@
    vec3_t dir;
    vec3_t start;
    vec3_t end;
-   int dmg;
+   q_int32_t dmg;
    trace_t tr;
 
    if ( !self ) {
@@ -1015,8 +1015,8 @@
  }
 
  void
- fire_bfg ( edict_t *self, vec3_t start, vec3_t dir, int damage,
-            int speed, float damage_radius )
+ fire_bfg ( edict_t *self, vec3_t start, vec3_t dir, q_int32_t damage,
+            q_int32_t speed, float damage_radius )
  {
    edict_t *bfg;
 

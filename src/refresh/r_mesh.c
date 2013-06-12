@@ -49,11 +49,11 @@
 
  /* ========================================================================= */
  void
- R_LerpVerts ( int nverts, dtrivertx_t *v, dtrivertx_t *ov,
+ R_LerpVerts ( q_int32_t nverts, dtrivertx_t *v, dtrivertx_t *ov,
                dtrivertx_t *verts, float *lerp, float move[3],
                float frontv[3], float backv[3] )
  {
-   int i;
+   q_int32_t i;
 
    if ( currententity->flags &
         ( RF_SHELL_RED | RF_SHELL_GREEN |
@@ -86,14 +86,14 @@
    float l;
    daliasframe_t *frame, *oldframe;
    dtrivertx_t *v, *ov, *verts;
-   int *order;
-   int count;
+   q_int32_t *order;
+   q_int32_t count;
    float frontlerp;
    float alpha;
    vec3_t move, delta, vectors[3];
    vec3_t frontv, backv;
-   int i;
-   int index_xyz;
+   q_int32_t i;
+   q_int32_t index_xyz;
    float *lerp;
    frame = ( daliasframe_t * ) ( ( byte * ) paliashdr + paliashdr->ofs_frames
                                  + currententity->frame * paliashdr->framesize );
@@ -101,7 +101,7 @@
    oldframe = ( daliasframe_t * ) ( ( byte * ) paliashdr + paliashdr->ofs_frames
                                     + currententity->oldframe * paliashdr->framesize );
    ov = oldframe->verts;
-   order = ( int * ) ( ( byte * ) paliashdr + paliashdr->ofs_glcmds );
+   order = ( q_int32_t * ) ( ( byte * ) paliashdr + paliashdr->ofs_glcmds );
 
    if ( currententity->flags & RF_TRANSLUCENT ) {
      alpha = currententity->alpha;
@@ -254,14 +254,14 @@
 
  /* ========================================================================= */
  void
- R_DrawAliasShadow ( dmdl_t *paliashdr, int posenum )
+ R_DrawAliasShadow ( dmdl_t *paliashdr, q_int32_t posenum )
  {
-   int *order;
+   q_int32_t *order;
    vec3_t point;
    float height = 0, lheight;
-   int count;
+   q_int32_t count;
    lheight = currententity->origin[2] - lightspot[2];
-   order = ( int * ) ( ( byte * ) paliashdr + paliashdr->ofs_glcmds );
+   order = ( q_int32_t * ) ( ( byte * ) paliashdr + paliashdr->ofs_glcmds );
    height = -lheight + 0.1f;
 
    /* stencilbuffer shadows */
@@ -309,7 +309,7 @@
  static qboolean
  R_CullAliasModel ( vec3_t bbox[8], entity_t *e )
  {
-   int i;
+   q_int32_t i;
    vec3_t mins, maxs;
    dmdl_t *paliashdr;
    vec3_t vectors[3];
@@ -401,10 +401,10 @@
      VectorAdd ( e->origin, bbox[i], bbox[i] );
    }
 
-   int p, f, aggregatemask = ~0;
+   q_int32_t p, f, aggregatemask = ~0;
 
    for ( p = 0; p < 8; p++ ) {
-     int mask = 0;
+     q_int32_t mask = 0;
 
      for ( f = 0; f < 4; f++ ) {
        float dp = DotProduct ( frustum[f].normal, bbox[p] );
@@ -428,7 +428,7 @@
  void
  R_DrawAliasModel ( entity_t *e )
  {
-   int i;
+   q_int32_t i;
    dmdl_t *paliashdr;
    float an;
    vec3_t bbox[8];
@@ -541,7 +541,7 @@
      shadelight[2] = 0.0;
    }
 
-   shadedots = r_avertexnormal_dots[ ( ( int ) ( currententity->angles[1] *
+   shadedots = r_avertexnormal_dots[ ( ( q_int32_t ) ( currententity->angles[1] *
                                        ( SHADEDOT_QUANT / 360.0 ) ) ) & ( SHADEDOT_QUANT - 1 )];
    an = currententity->angles[1] / 180 * M_PI;
    shadevector[0] = cos ( -an );

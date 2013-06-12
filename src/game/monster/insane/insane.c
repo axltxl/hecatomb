@@ -27,10 +27,10 @@
  #include "game/local.h"
  #include "game/monster/insane/insane.h"
 
- static int sound_fist;
- static int sound_shake;
- static int sound_moan;
- static int sound_scream[8];
+ static q_int32_t sound_fist;
+ static q_int32_t sound_shake;
+ static q_int32_t sound_moan;
+ static q_int32_t sound_scream[8];
 
  void
  insane_fist ( edict_t *self )
@@ -602,9 +602,9 @@
 
  void
  insane_pain ( edict_t *self, edict_t *other /* unused */,
-               float kick /* unused */, int damage )
+               float kick /* unused */, q_int32_t damage )
  {
-   int l, r;
+   q_int32_t l, r;
 
    if ( !self ) {
      return;
@@ -741,10 +741,10 @@
 
  void
  insane_die ( edict_t *self, edict_t *inflictor /* unused */,
-              edict_t *attacker /* unused */, int damage,
+              edict_t *attacker /* unused */, q_int32_t damage,
               vec3_t point /* unused */ )
  {
-   int n;
+   q_int32_t n;
 
    if ( !self ) {
      return;

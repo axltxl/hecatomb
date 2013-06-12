@@ -30,7 +30,7 @@
  #include "server.h"
 
  #ifndef DEDICATED_ONLY
- void SCR_DebugGraph ( float value, int color );
+ void SCR_DebugGraph ( float value, q_int32_t color );
  #endif
 
  game_export_t *ge;
@@ -41,7 +41,7 @@
  void
  PF_Unicast ( edict_t *ent, qboolean reliable )
  {
-   int p;
+   q_int32_t p;
    client_t *client;
 
    if ( !ent ) {
@@ -84,11 +84,11 @@
   * Print to a single client
   */
  void
- PF_cprintf ( edict_t *ent, int level, char *fmt, ... )
+ PF_cprintf ( edict_t *ent, q_int32_t level, char *fmt, ... )
  {
    char msg[1024];
    va_list argptr;
-   int n;
+   q_int32_t n;
    n = 0;
 
    if ( ent ) {
@@ -118,7 +118,7 @@
  {
    char msg[1024];
    va_list argptr;
-   int n;
+   q_int32_t n;
    n = NUM_FOR_EDICT ( ent );
 
    if ( ( n < 1 ) || ( n > maxclients->value ) ) {
@@ -153,7 +153,7 @@
  void
  PF_setmodel ( edict_t *ent, char *name )
  {
-   int i;
+   q_int32_t i;
    cmodel_t *mod;
 
    if ( !name ) {
@@ -175,7 +175,7 @@
 
  /* ========================================================================= */
  void
- PF_Configstring ( int index, char *val )
+ PF_Configstring ( q_int32_t index, char *val )
  {
    if ( ( index < 0 ) || ( index >= MAX_CONFIGSTRINGS ) ) {
      Com_Error ( ERR_DROP, "configstring: bad index %i\n", index );
@@ -200,28 +200,28 @@
 
  /* ========================================================================= */
  void
- PF_WriteChar ( int c )
+ PF_WriteChar ( q_int32_t c )
  {
    MSG_WriteChar ( &sv.multicast, c );
  }
 
  /* ========================================================================= */
  void
- PF_WriteByte ( int c )
+ PF_WriteByte ( q_int32_t c )
  {
    MSG_WriteByte ( &sv.multicast, c );
  }
 
  /* ========================================================================= */
  void
- PF_WriteShort ( int c )
+ PF_WriteShort ( q_int32_t c )
  {
    MSG_WriteShort ( &sv.multicast, c );
  }
 
  /* ========================================================================= */
  void
- PF_WriteLong ( int c )
+ PF_WriteLong ( q_int32_t c )
  {
    MSG_WriteLong ( &sv.multicast, c );
  }
@@ -266,9 +266,9 @@
  qboolean
  PF_inPVS ( vec3_t p1, vec3_t p2 )
  {
-   int leafnum;
-   int cluster;
-   int area1, area2;
+   q_int32_t leafnum;
+   q_int32_t cluster;
+   q_int32_t area1, area2;
    byte *mask;
    leafnum = CM_PointLeafnum ( p1 );
    cluster = CM_LeafCluster ( leafnum );
@@ -295,9 +295,9 @@
  qboolean
  PF_inPHS ( vec3_t p1, vec3_t p2 )
  {
-   int leafnum;
-   int cluster;
-   int area1, area2;
+   q_int32_t leafnum;
+   q_int32_t cluster;
+   q_int32_t area1, area2;
    byte *mask;
    leafnum = CM_PointLeafnum ( p1 );
    cluster = CM_LeafCluster ( leafnum );
@@ -319,7 +319,7 @@
  }
 
  void
- PF_StartSound ( edict_t *entity, int channel, int sound_num,
+ PF_StartSound ( edict_t *entity, q_int32_t channel, q_int32_t sound_num,
                  float volume, float attenuation, float timeofs )
  {
    if ( !entity ) {

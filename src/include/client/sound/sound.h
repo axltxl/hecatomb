@@ -37,12 +37,12 @@
 
  /* if origin is NULL, the sound will be
     dynamically sourced from the entity */
- void S_StartSound ( vec3_t origin, int entnum, int entchannel,
+ void S_StartSound ( vec3_t origin, q_int32_t entnum, q_int32_t entchannel,
                      struct sfx_s *sfx, float fvol, float attenuation,
                      float timeofs );
 
  void S_StartLocalSound ( char *s );
- void S_RawSamples ( int samples, int rate, int width, int channels,
+ void S_RawSamples ( q_int32_t samples, q_int32_t rate, q_int32_t width, q_int32_t channels,
                      byte *data, float volume );
  void S_StopAllSounds ( void );
  void S_Update ( vec3_t origin, vec3_t v_forward, vec3_t v_right, vec3_t v_up );
@@ -55,6 +55,6 @@
  /* the sound code makes callbacks to the client for
     entitiy position information, so entities can be
     dynamically re-spatialized */
- void CL_GetEntitySoundOrigin ( int ent, vec3_t org );
+ void CL_GetEntitySoundOrigin ( q_int32_t ent, vec3_t org );
 
  #endif /* CL_SOUND_SOUND_H */

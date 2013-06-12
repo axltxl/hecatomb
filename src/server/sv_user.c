@@ -53,7 +53,7 @@
  SV_New_f ( void )
  {
    static char *gamedir;
-   int playernum;
+   q_int32_t playernum;
    edict_t *ent;
    Com_DPrintf ( "New() from %s\n", sv_client->name );
 
@@ -106,7 +106,7 @@
  void
  SV_Configstrings_f ( void )
  {
-   int start;
+   q_int32_t start;
    Com_DPrintf ( "Configstrings() from %s\n", sv_client->name );
 
    if ( sv_client->state != cs_connected ) {
@@ -115,13 +115,13 @@
    }
 
    /* handle the case of a level changing while a client was connecting */
-   if ( ( int ) strtol ( Cmd_Argv ( 1 ), ( char ** ) NULL, 10 ) != svs.spawncount ) {
+   if ( ( q_int32_t ) strtol ( Cmd_Argv ( 1 ), ( char ** ) NULL, 10 ) != svs.spawncount ) {
      Com_Printf ( "SV_Configstrings_f from different level\n" );
      SV_New_f();
      return;
    }
 
-   start = ( int ) strtol ( Cmd_Argv ( 2 ), ( char ** ) NULL, 10 );
+   start = ( q_int32_t ) strtol ( Cmd_Argv ( 2 ), ( char ** ) NULL, 10 );
 
    /* write a packet full of data */
    while ( sv_client->netchan.message.cursize < MAX_MSGLEN / 2 &&
@@ -152,7 +152,7 @@
  void
  SV_Baselines_f ( void )
  {
-   int start;
+   q_int32_t start;
    entity_state_t nullstate;
    entity_state_t *base;
    Com_DPrintf ( "Baselines() from %s\n", sv_client->name );
@@ -163,13 +163,13 @@
    }
 
    /* handle the case of a level changing while a client was connecting */
-   if ( ( int ) strtol ( Cmd_Argv ( 1 ), ( char ** ) NULL, 10 ) != svs.spawncount ) {
+   if ( ( q_int32_t ) strtol ( Cmd_Argv ( 1 ), ( char ** ) NULL, 10 ) != svs.spawncount ) {
      Com_Printf ( "SV_Baselines_f from different level\n" );
      SV_New_f();
      return;
    }
 
-   start = ( int ) strtol ( Cmd_Argv ( 2 ), ( char ** ) NULL, 10 );
+   start = ( q_int32_t ) strtol ( Cmd_Argv ( 2 ), ( char ** ) NULL, 10 );
    memset ( &nullstate, 0, sizeof ( nullstate ) );
 
    /* write a packet full of data */
@@ -206,7 +206,7 @@
    Com_DPrintf ( "Begin() from %s\n", sv_client->name );
 
    /* handle the case of a level changing while a client was connecting */
-   if ( ( int ) strtol ( Cmd_Argv ( 1 ), ( char ** ) NULL, 10 ) != svs.spawncount ) {
+   if ( ( q_int32_t ) strtol ( Cmd_Argv ( 1 ), ( char ** ) NULL, 10 ) != svs.spawncount ) {
      Com_Printf ( "SV_Begin_f from different level\n" );
      SV_New_f();
      return;
@@ -222,9 +222,9 @@
  void
  SV_NextDownload_f ( void )
  {
-   int r;
-   int percent;
-   int size;
+   q_int32_t r;
+   q_int32_t percent;
+   q_int32_t size;
 
    if ( !sv_client->download ) {
      return;
@@ -268,12 +268,12 @@
    extern cvar_t *allow_download_models;
    extern cvar_t *allow_download_sounds;
    extern cvar_t *allow_download_maps;
-   extern int file_from_pak;
-   int offset = 0;
+   extern q_int32_t file_from_pak;
+   q_int32_t offset = 0;
    name = Cmd_Argv ( 1 );
 
    if ( Cmd_Argc() > 2 ) {
-     offset = ( int ) strtol ( Cmd_Argv ( 2 ), ( char ** ) NULL, 10 ); /* downloaded offset */
+     offset = ( q_int32_t ) strtol ( Cmd_Argv ( 2 ), ( char ** ) NULL, 10 ); /* downloaded offset */
    }
 
    /* hacked by zoid to allow more conrol over download
@@ -378,7 +378,7 @@
  void
  SV_Nextserver_f ( void )
  {
-   if ( ( int ) strtol ( Cmd_Argv ( 1 ), ( char ** ) NULL, 10 ) != svs.spawncount ) {
+   if ( ( q_int32_t ) strtol ( Cmd_Argv ( 1 ), ( char ** ) NULL, 10 ) != svs.spawncount ) {
      Com_DPrintf ( "Nextserver() from wrong level, from %s\n", sv_client->name );
      return; /* leftover from last server */
    }
@@ -452,16 +452,16 @@
  void
  SV_ExecuteClientMessage ( client_t *cl )
  {
-   int c;
+   q_int32_t c;
    char *s;
    usercmd_t nullcmd;
    usercmd_t oldest, oldcmd, newcmd;
-   int net_drop;
-   int stringCmdCount;
-   int checksum, calculatedChecksum;
-   int checksumIndex;
+   q_int32_t net_drop;
+   q_int32_t stringCmdCount;
+   q_int32_t checksum, calculatedChecksum;
+   q_int32_t checksumIndex;
    qboolean move_issued;
-   int lastframe;
+   q_int32_t lastframe;
    sv_client = cl;
    sv_player = sv_client->edict;
    /* only allow one move command */

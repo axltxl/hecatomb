@@ -39,7 +39,7 @@
  int
  main ( int argc, char **argv )
  {
-   int time, oldtime, newtime;
+   q_int32_t time, oldtime, newtime;
 
    /* register signal handler */
    signal ( SIGSEGV, Sys_SigHandler );

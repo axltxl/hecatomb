@@ -72,7 +72,7 @@
   */
  struct gclient_s {
    player_state_t ps;      /* communicated by server to clients */
-   int ping;
+   q_int32_t ping;
    /* the game dll can add anything it wants
       after  this point in the structure */
  };
@@ -84,20 +84,20 @@
    entity_state_t s;
    struct gclient_s *client;
    qboolean inuse;
-   int linkcount;
+   q_int32_t linkcount;
 
    link_t area;                    /* linked to a division node or leaf */
 
-   int num_clusters;               /* if -1, use headnode instead */
-   int clusternums[MAX_ENT_CLUSTERS];
-   int headnode;                   /* unused if num_clusters != -1 */
-   int areanum, areanum2;
+   q_int32_t num_clusters;               /* if -1, use headnode instead */
+   q_int32_t clusternums[MAX_ENT_CLUSTERS];
+   q_int32_t headnode;                   /* unused if num_clusters != -1 */
+   q_int32_t areanum, areanum2;
 
-   int svflags;                    /* SVF_NOCLIENT, SVF_DEADMONSTER, SVF_MONSTER, etc */
+   q_int32_t svflags;                    /* SVF_NOCLIENT, SVF_DEADMONSTER, SVF_MONSTER, etc */
    vec3_t mins, maxs;
    vec3_t absmin, absmax, size;
    solid_t solid;
-   int clipmask;
+   q_int32_t clipmask;
    edict_t *owner;
 
    /* the game dll can add anything it wants
@@ -113,56 +113,56 @@
   */
  typedef struct {
    /* special messages */
-   void ( *bprintf ) ( int printlevel, char *fmt, ... );
+   void ( *bprintf ) ( q_int32_t printlevel, char *fmt, ... );
    void ( *dprintf ) ( char *fmt, ... );
-   void ( *cprintf ) ( edict_t *ent, int printlevel, char *fmt, ... );
+   void ( *cprintf ) ( edict_t *ent, q_int32_t printlevel, char *fmt, ... );
    void ( *centerprintf ) ( edict_t *ent, char *fmt, ... );
-   void ( *sound ) ( edict_t *ent, int channel, int soundindex, float volume,
+   void ( *sound ) ( edict_t *ent, q_int32_t channel, q_int32_t soundindex, float volume,
                      float attenuation, float timeofs );
-   void ( *positioned_sound ) ( vec3_t origin, edict_t *ent, int channel,
-                                int soundinedex, float volume, float attenuation, float timeofs );
+   void ( *positioned_sound ) ( vec3_t origin, edict_t *ent, q_int32_t channel,
+                                q_int32_t soundinedex, float volume, float attenuation, float timeofs );
 
    /* config strings hold all the index strings, the lightstyles,
       and misc data like the sky definition and cdtrack.
       All of the current configstrings are sent to clients when
       they connect, and changes are sent to all connected clients. */
-   void ( *configstring ) ( int num, char *string );
+   void ( *configstring ) ( q_int32_t num, char *string );
 
    void ( *error ) ( char *fmt, ... );
 
    /* the *index functions create configstrings
       and some internal server state */
-   int ( *modelindex ) ( char *name );
-   int ( *soundindex ) ( char *name );
-   int ( *imageindex ) ( char *name );
+   q_int32_t ( *modelindex ) ( char *name );
+   q_int32_t ( *soundindex ) ( char *name );
+   q_int32_t ( *imageindex ) ( char *name );
 
    void ( *setmodel ) ( edict_t *ent, char *name );
 
    /* collision detection */
    trace_t ( *trace ) ( vec3_t start, vec3_t mins, vec3_t maxs, vec3_t end,
-                        edict_t *passent, int contentmask );
-   int ( *pointcontents ) ( vec3_t point );
+                        edict_t *passent, q_int32_t contentmask );
+   q_int32_t ( *pointcontents ) ( vec3_t point );
    qboolean ( *inPVS ) ( vec3_t p1, vec3_t p2 );
    qboolean ( *inPHS ) ( vec3_t p1, vec3_t p2 );
-   void ( *SetAreaPortalState ) ( int portalnum, qboolean open );
-   qboolean ( *AreasConnected ) ( int area1, int area2 );
+   void ( *SetAreaPortalState ) ( q_int32_t portalnum, qboolean open );
+   qboolean ( *AreasConnected ) ( q_int32_t area1, q_int32_t area2 );
 
    /* an entity will never be sent to a client or used for collision
       if it is not passed to linkentity. If the size, position, or
       solidity changes, it must be relinked. */
    void ( *linkentity ) ( edict_t *ent );
    void ( *unlinkentity ) ( edict_t *ent ); /* call before removing an interactive edict */
-   int ( *BoxEdicts ) ( vec3_t mins, vec3_t maxs, edict_t **list, int maxcount,
-                        int areatype );
+   q_int32_t ( *BoxEdicts ) ( vec3_t mins, vec3_t maxs, edict_t **list, q_int32_t maxcount,
+                        q_int32_t areatype );
    void ( *Pmove ) ( pmove_t *pmove ); /* player movement code common with client prediction */
 
    /* network messaging */
    void ( *multicast ) ( vec3_t origin, multicast_t to );
    void ( *unicast ) ( edict_t *ent, qboolean reliable );
-   void ( *WriteChar ) ( int c );
-   void ( *WriteByte ) ( int c );
-   void ( *WriteShort ) ( int c );
-   void ( *WriteLong ) ( int c );
+   void ( *WriteChar ) ( q_int32_t c );
+   void ( *WriteByte ) ( q_int32_t c );
+   void ( *WriteShort ) ( q_int32_t c );
+   void ( *WriteLong ) ( q_int32_t c );
    void ( *WriteFloat ) ( float f );
    void ( *WriteString ) ( char *s );
    void ( *WritePosition ) ( vec3_t pos ); /* some fractional bits */
@@ -170,32 +170,32 @@
    void ( *WriteAngle ) ( float f );
 
    /* managed memory allocation */
-   void * ( *TagMalloc ) ( int size, int tag );
+   void * ( *TagMalloc ) ( q_int32_t size, q_int32_t tag );
    void ( *TagFree ) ( void *block );
-   void ( *FreeTags ) ( int tag );
+   void ( *FreeTags ) ( q_int32_t tag );
 
    /* console variable interaction */
-   cvar_t * ( *cvar ) ( char *var_name, char *value, int flags );
+   cvar_t * ( *cvar ) ( char *var_name, char *value, q_int32_t flags );
    cvar_t * ( *cvar_set ) ( char *var_name, char *value );
    cvar_t * ( *cvar_forceset ) ( char *var_name, char *value );
 
    /* ClientCommand and ServerCommand parameter access */
-   int ( *argc ) ( void );
-   char * ( *argv ) ( int n );
+   q_int32_t ( *argc ) ( void );
+   char * ( *argv ) ( q_int32_t n );
    char * ( *args ) ( void ); /* concatenation of all argv >= 1 */
 
    /* add commands to the server console as if
       they were typed in for map changing, etc */
    void ( *AddCommandString ) ( char *text );
 
-   void ( *DebugGraph ) ( float value, int color );
+   void ( *DebugGraph ) ( float value, q_int32_t color );
  } game_import_t;
 
  /**
   * Functions exported by the game subsystem
   */
  typedef struct {
-   int apiversion;
+   q_int32_t apiversion;
 
    /* the init function will only be called when a game starts,
       not each time a level is loaded.  Persistant data for clients
@@ -240,9 +240,9 @@
       can vary in size from one game to another.
       The size will be fixed when ge->Init() is called */
    struct edict_s *edicts;
-   int edict_size;
-   int num_edicts;             /* current number, <= max_edicts */
-   int max_edicts;
+   q_int32_t edict_size;
+   q_int32_t num_edicts;             /* current number, <= max_edicts */
+   q_int32_t max_edicts;
  } game_export_t;
 
  game_export_t *GetGameAPI ( game_import_t *import );

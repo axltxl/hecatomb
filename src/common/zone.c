@@ -30,7 +30,7 @@
  #define Z_MAGIC 0x1d1d
 
  zhead_t z_chain;
- int z_count, z_bytes;
+ q_int32_t z_count, z_bytes;
 
  /* ========================================================================= */
  void
@@ -61,7 +61,7 @@
 
  /* ========================================================================= */
  void
- Z_FreeTags ( int tag )
+ Z_FreeTags ( q_int32_t tag )
  {
    zhead_t *z, *next;
 
@@ -76,7 +76,7 @@
 
  /* ========================================================================= */
  void *
- Z_TagMalloc ( int size, int tag )
+ Z_TagMalloc ( q_int32_t size, q_int32_t tag )
  {
    zhead_t *z;
    size = size + sizeof ( zhead_t );
@@ -101,7 +101,7 @@
 
  /* ========================================================================= */
  void *
- Z_Malloc ( int size )
+ Z_Malloc ( q_int32_t size )
  {
    return Z_TagMalloc ( size, 0 );
  }

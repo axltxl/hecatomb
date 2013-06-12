@@ -32,9 +32,9 @@
  game_export_t globals;
  spawn_temp_t st;
 
- int sm_meat_index;
- int snd_fry;
- int meansOfDeath;
+ q_int32_t sm_meat_index;
+ q_int32_t snd_fry;
+ q_int32_t meansOfDeath;
 
  edict_t *g_edicts;
 
@@ -180,7 +180,7 @@
  void
  ClientEndServerFrames ( void )
  {
-   int i;
+   q_int32_t i;
    edict_t *ent;
 
    /* calc the player views now that all
@@ -226,7 +226,7 @@
    static const char *seps = " ,\n\r";
 
    /* stay on same level flag */
-   if ( ( int ) dmflags->value & DF_SAME_LEVEL ) {
+   if ( ( q_int32_t ) dmflags->value & DF_SAME_LEVEL ) {
      BeginIntermission ( CreateTargetChangeLevel ( level.mapname ) );
      return;
    }
@@ -285,7 +285,7 @@
  void
  CheckNeedPass ( void )
  {
-   int need;
+   q_int32_t need;
 
    /* if password or spectator_password has
       changed, update needpass as needed */
@@ -310,7 +310,7 @@
  void
  CheckDMRules ( void )
  {
-   int i;
+   q_int32_t i;
    gclient_t *cl;
 
    if ( level.intermissiontime ) {
@@ -349,7 +349,7 @@
  void
  ExitLevel ( void )
  {
-   int i;
+   q_int32_t i;
    edict_t *ent;
    char command[256];
 
@@ -380,7 +380,7 @@
  void
  G_RunFrame ( void )
  {
-   int i;
+   q_int32_t i;
    edict_t *ent;
 
    level.framenum++;

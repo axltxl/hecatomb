@@ -28,24 +28,24 @@
  #include "prereqs.h"
  #include "refresh/local.h"
 
- int scrap_allocated[MAX_SCRAPS][BLOCK_WIDTH];
+ q_int32_t scrap_allocated[MAX_SCRAPS][BLOCK_WIDTH];
  byte scrap_texels[MAX_SCRAPS][BLOCK_WIDTH *BLOCK_HEIGHT];
  qboolean scrap_dirty;
- int scrap_uploads;
+ q_int32_t scrap_uploads;
 
  qboolean R_Upload8 ( byte *data,
-                      int width,
-                      int height,
+                      q_int32_t width,
+                      q_int32_t height,
                       qboolean mipmap,
                       qboolean is_sky );
 
  /* returns a texture number and the position inside it */
- int
- Scrap_AllocBlock ( int w, int h, int *x, int *y )
+ q_int32_t
+ Scrap_AllocBlock ( q_int32_t w, q_int32_t h, q_int32_t *x, q_int32_t *y )
  {
-   int i, j;
-   int best, best2;
-   int texnum;
+   q_int32_t i, j;
+   q_int32_t best, best2;
+   q_int32_t texnum;
 
    for ( texnum = 0; texnum < MAX_SCRAPS; texnum++ ) {
      best = BLOCK_HEIGHT;

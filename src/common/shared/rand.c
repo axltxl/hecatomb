@@ -13,21 +13,21 @@
  * =======================================================================
  */
 
- #include <stdint.h>
+ #include "prereqs.h"
 
  #define QSIZE 0x200000
  #define CNG (cng = 6906969069ULL * cng + 13579)
  #define XS (xs ^= (xs << 13), xs ^= (xs >> 17), xs ^= (xs << 43))
  #define KISS (B64MWC() + CNG + XS)
 
- static uint64_t QARY[QSIZE];
- static int j;
- static uint64_t carry;
- static uint64_t xs;
- static uint64_t cng;
+ static q_uint64_t QARY[QSIZE];
+ static q_int32_t j;
+ static q_uint64_t carry;
+ static q_uint64_t xs;
+ static q_uint64_t cng;
 
  /* ========================================================================= */
- uint64_t
+ q_uint64_t
  B64MWC ( void )
  {
    uint64_t t, x;
@@ -42,11 +42,11 @@
   * Generate a pseudorandom
   * integer >0.
   */
- int
+ q_int32_t
  randk ( void )
  {
-   int r;
-   r = ( int ) KISS;
+   q_int32_t r;
+   r = ( q_int32_t ) KISS;
    r = ( r < 0 ) ? ( r * -1 ) : r;
    return r;
  }

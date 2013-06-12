@@ -29,28 +29,28 @@
  #include "refresh/local.h"
 
  typedef struct _TargaHeader {
-   unsigned char id_length, colormap_type, image_type;
-   unsigned short colormap_index, colormap_length;
-   unsigned char colormap_size;
-   unsigned short x_origin, y_origin, width, height;
-   unsigned char pixel_size, attributes;
+   q_uint8_t id_length, colormap_type, image_type;
+   q_uint16_t colormap_index, colormap_length;
+   q_uint8_t colormap_size;
+   q_uint16_t x_origin, y_origin, width, height;
+   q_uint8_t pixel_size, attributes;
  } TargaHeader;
 
  /* ========================================================================= */
  void
- LoadTGA ( char *origname, byte **pic, int *width, int *height )
+ LoadTGA ( char *origname, byte **pic, q_int32_t *width, q_int32_t *height )
  {
-   unsigned rows, numPixels;
+   q_uint32_t rows, numPixels;
    byte *pixbuf;
-   int row, column, columns;
+   q_int32_t row, column, columns;
    byte *buf_p;
    byte *buffer;
    TargaHeader targa_header;
    byte *targa_rgba;
-   int length;
-   int pixel_size;
+   q_int32_t length;
+   q_int32_t pixel_size;
    char name[256];
-   int len;
+   q_int32_t len;
    /* Add the extension */
    len = strlen ( origname );
 
@@ -145,7 +145,7 @@
          pixbuf = targa_rgba + row * columns * 4;
 
          for ( column = 0; column < columns; column++ ) {
-           unsigned char red, green, blue;
+           q_uint8_t red, green, blue;
            blue = *buf_p++;
            green = *buf_p++;
            red = *buf_p++;
@@ -167,7 +167,7 @@
          pixbuf = targa_rgba + row * columns * 4;
 
          for ( column = 0; column < columns; column++ ) {
-           unsigned char red, green, blue, alphabyte;
+           q_uint8_t red, green, blue, alphabyte;
            blue = *buf_p++;
            green = *buf_p++;
            red = *buf_p++;
@@ -190,7 +190,7 @@
          pixbuf = targa_rgba + row * columns * 4;
 
          for ( column = 0; column < columns; column++ ) {
-           unsigned char red, green, blue;
+           q_uint8_t red, green, blue;
            blue = *buf_p++;
            green = blue;
            red = blue;
@@ -206,7 +206,7 @@
    } else if ( targa_header.image_type == 10 ) {
      /* Runlength encoded RGB images */
      byte red, green, blue, alphabyte, packetHeader;
-     unsigned packetSize, j;
+     q_uint32_t packetSize, j;
      red = 0;
      green = 0;
      blue = 0;

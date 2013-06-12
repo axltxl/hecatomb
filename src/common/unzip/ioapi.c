@@ -27,7 +27,7 @@
  voidpf ZCALLBACK fopen_file_func OF ( (
                                          voidpf opaque,
                                          const char *filename,
-                                         int mode ) );
+                                         q_int32_t mode ) );
 
  uLong ZCALLBACK fread_file_func OF ( (
                                         voidpf opaque,
@@ -41,21 +41,21 @@
                                          const void *buf,
                                          uLong size ) );
 
- long ZCALLBACK ftell_file_func OF ( (
+ q_int32_t ZCALLBACK ftell_file_func OF ( (
                                        voidpf opaque,
                                        voidpf stream ) );
 
- long ZCALLBACK fseek_file_func OF ( (
+ q_int32_t ZCALLBACK fseek_file_func OF ( (
                                        voidpf opaque,
                                        voidpf stream,
                                        uLong offset,
-                                       int origin ) );
+                                       q_int32_t origin ) );
 
- int ZCALLBACK fclose_file_func OF ( (
+ q_int32_t ZCALLBACK fclose_file_func OF ( (
                                        voidpf opaque,
                                        voidpf stream ) );
 
- int ZCALLBACK ferror_file_func OF ( (
+ q_int32_t ZCALLBACK ferror_file_func OF ( (
                                        voidpf opaque,
                                        voidpf stream ) );
 
@@ -63,7 +63,7 @@
  voidpf ZCALLBACK fopen_file_func ( opaque, filename, mode )
  voidpf opaque;
  const char *filename;
- int mode;
+ q_int32_t mode;
  {
    FILE *file = NULL;
    const char *mode_fopen = NULL;
@@ -105,23 +105,23 @@
    return ret;
  }
 
- long ZCALLBACK ftell_file_func ( opaque, stream )
+ q_int32_t ZCALLBACK ftell_file_func ( opaque, stream )
  voidpf opaque;
  voidpf stream;
  {
-   long ret;
+   q_int32_t ret;
    ret = ftell ( ( FILE * ) stream );
    return ret;
  }
 
- long ZCALLBACK fseek_file_func ( opaque, stream, offset, origin )
+ q_int32_t ZCALLBACK fseek_file_func ( opaque, stream, offset, origin )
  voidpf opaque;
  voidpf stream;
  uLong offset;
- int origin;
+ q_int32_t origin;
  {
-   int fseek_origin = 0;
-   long ret;
+   q_int32_t fseek_origin = 0;
+   q_int32_t ret;
 
    switch ( origin ) {
    case ZLIB_FILEFUNC_SEEK_CUR :
@@ -148,20 +148,20 @@
    return ret;
  }
 
- int ZCALLBACK fclose_file_func ( opaque, stream )
+ q_int32_t ZCALLBACK fclose_file_func ( opaque, stream )
  voidpf opaque;
  voidpf stream;
  {
-   int ret;
+   q_int32_t ret;
    ret = fclose ( ( FILE * ) stream );
    return ret;
  }
 
- int ZCALLBACK ferror_file_func ( opaque, stream )
+ q_int32_t ZCALLBACK ferror_file_func ( opaque, stream )
  voidpf opaque;
  voidpf stream;
  {
-   int ret;
+   q_int32_t ret;
    ret = ferror ( ( FILE * ) stream );
    return ret;
  }

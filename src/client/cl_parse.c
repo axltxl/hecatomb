@@ -28,10 +28,10 @@
  #include "system.h"
  #include "client.h"
 
- void CL_DownloadFileName ( char *dest, int destlen, char *fn );
+ void CL_DownloadFileName ( char *dest, q_int32_t destlen, char *fn );
  void CL_ParseDownload ( void );
 
- int bitcounts[32]; /* just for protocol profiling */
+ q_int32_t bitcounts[32]; /* just for protocol profiling */
 
  char *svc_strings[256] = {
    "svc_bad",
@@ -63,7 +63,7 @@
  void
  CL_RegisterSounds ( void )
  {
-   int i;
+   q_int32_t i;
    S_BeginRegistration();
    CL_RegisterTEntSounds();
 
@@ -82,12 +82,12 @@
  /*
   * Returns the entity number and the header bits
   */
- int
- CL_ParseEntityBits ( unsigned *bits )
+ q_int32_t
+ CL_ParseEntityBits ( q_uint32_t *bits )
  {
-   unsigned b, total;
-   int i;
-   int number;
+   q_uint32_t b, total;
+   q_int32_t i;
+   q_int32_t number;
    total = MSG_ReadByte ( &net_message );
 
    if ( total & U_MOREBITS1 ) {
@@ -126,7 +126,7 @@
   * Can go from either a baseline or a previous packet_entity
   */
  void
- CL_ParseDelta ( entity_state_t *from, entity_state_t *to, int number, int bits )
+ CL_ParseDelta ( entity_state_t *from, entity_state_t *to, q_int32_t number, q_int32_t bits )
  {
    /* set everything to the state we are delta'ing from */
    *to = *from;
@@ -230,7 +230,7 @@
   * the current frame
   */
  void
- CL_DeltaEntity ( frame_t *frame, int newnum, entity_state_t *old, int bits )
+ CL_DeltaEntity ( frame_t *frame, q_int32_t newnum, entity_state_t *old, q_int32_t bits )
  {
    centity_t *ent;
    entity_state_t *state;
@@ -247,9 +247,9 @@
         ( state->modelindex4 != ent->current.modelindex4 ) ||
         ( state->event == EV_PLAYER_TELEPORT ) ||
         ( state->event == EV_OTHER_TELEPORT ) ||
-        ( abs ( ( int ) ( state->origin[0] - ent->current.origin[0] ) ) > 512 ) ||
-        ( abs ( ( int ) ( state->origin[1] - ent->current.origin[1] ) ) > 512 ) ||
-        ( abs ( ( int ) ( state->origin[2] - ent->current.origin[2] ) ) > 512 )
+        ( abs ( ( q_int32_t ) ( state->origin[0] - ent->current.origin[0] ) ) > 512 ) ||
+        ( abs ( ( q_int32_t ) ( state->origin[1] - ent->current.origin[1] ) ) > 512 ) ||
+        ( abs ( ( q_int32_t ) ( state->origin[2] - ent->current.origin[2] ) ) > 512 )
       ) {
      ent->serverframe = -99;
    }
@@ -285,11 +285,11 @@
  void
  CL_ParsePacketEntities ( frame_t *oldframe, frame_t *newframe )
  {
-   unsigned int newnum;
-   unsigned bits;
+   q_uint32_t newnum;
+   q_uint32_t bits;
    entity_state_t
    *oldstate = NULL;
-   int oldindex, oldnum;
+   q_int32_t oldindex, oldnum;
    newframe->parse_entities = cl.parse_entities;
    newframe->num_entities = 0;
    /* delta from the entities present in oldframe */
@@ -420,10 +420,10 @@
  void
  CL_ParsePlayerstate ( frame_t *oldframe, frame_t *newframe )
  {
-   int flags;
+   q_int32_t flags;
    player_state_t *state;
-   int i;
-   int statbits;
+   q_int32_t i;
+   q_int32_t statbits;
    state = &newframe->playerstate;
 
    /* clear to old value before delta parsing */
@@ -537,7 +537,7 @@
  CL_FireEntityEvents ( frame_t *frame )
  {
    entity_state_t *s1;
-   int pnum, num;
+   q_int32_t pnum, num;
 
    for ( pnum = 0; pnum < frame->num_entities; pnum++ ) {
      num = ( frame->parse_entities + pnum ) & ( MAX_PARSE_ENTITIES - 1 );
@@ -557,8 +557,8 @@
  void
  CL_ParseFrame ( void )
  {
-   int cmd;
-   int len;
+   q_int32_t cmd;
+   q_int32_t len;
    frame_t *old;
    memset ( &cl.frame, 0, sizeof ( cl.frame ) );
    cl.frame.serverframe = MSG_ReadLong ( &net_message );
@@ -668,7 +668,7 @@
  {
    extern cvar_t *fs_gamedirvar;
    char *str;
-   int i;
+   q_int32_t i;
    Com_DPrintf ( "Serverdata packet received.\n" );
    /* wipe the client_state_t struct */
    CL_ClearState();
@@ -720,8 +720,8 @@
  CL_ParseBaseline ( void )
  {
    entity_state_t *es;
-   unsigned bits;
-   int newnum;
+   q_uint32_t bits;
+   q_int32_t newnum;
    entity_state_t nullstate;
    memset ( &nullstate, 0, sizeof ( nullstate ) );
    newnum = CL_ParseEntityBits ( &bits );
@@ -733,7 +733,7 @@
  void
  CL_LoadClientinfo ( clientinfo_t *ci, char *s )
  {
-   int i;
+   q_int32_t i;
    char *t;
    char model_name[MAX_QPATH];
    char skin_name[MAX_QPATH];
@@ -856,7 +856,7 @@
   * Load the skin, icon, and model for a client
   */
  void
- CL_ParseClientinfo ( int player )
+ CL_ParseClientinfo ( q_int32_t player )
  {
    char *s;
    clientinfo_t *ci;
@@ -869,7 +869,7 @@
  void
  CL_ParseConfigString ( void )
  {
-   int i;
+   q_int32_t i;
    char *s;
    char olds[MAX_QPATH];
    i = MSG_ReadShort ( &net_message );
@@ -890,7 +890,7 @@
      if ( cl.refresh_prepped ) {
  #ifdef HT_WITH_OGG
        /* OGG/Vorbis */
-       if ( ( int ) strtol ( cl.configstrings[CS_CDTRACK], ( char ** ) NULL, 10 ) < 10 ) {
+       if ( ( q_int32_t ) strtol ( cl.configstrings[CS_CDTRACK], ( char ** ) NULL, 10 ) < 10 ) {
          char tmp[3] = "0";
          OGG_ParseCmd ( strcat ( tmp, cl.configstrings[CS_CDTRACK] ) );
        } else {
@@ -930,11 +930,11 @@
  {
    vec3_t pos_v;
    float *pos;
-   int channel, ent;
-   int sound_num;
+   q_int32_t channel, ent;
+   q_int32_t sound_num;
    float volume;
    float attenuation;
-   int flags;
+   q_int32_t flags;
    float ofs;
    flags = MSG_ReadByte ( &net_message );
    sound_num = MSG_ReadByte ( &net_message );
@@ -1002,9 +1002,9 @@
  void
  CL_ParseServerMessage ( void )
  {
-   int cmd;
+   q_int32_t cmd;
    char *s;
-   int i;
+   q_int32_t i;
 
    /* if recording demos, copy the message out */
    if ( cl_shownet->value == 1 ) {

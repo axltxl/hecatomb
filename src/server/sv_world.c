@@ -35,7 +35,7 @@
  #define EDICT_FROM_AREA(l) STRUCT_FROM_LINK(l, edict_t, area)
 
  typedef struct areanode_s {
-   int axis; /* -1 = leaf node */
+   q_int32_t axis; /* -1 = leaf node */
    float dist;
    struct areanode_s *children[2];
    link_t trigger_edicts;
@@ -43,14 +43,14 @@
  } areanode_t;
 
  areanode_t sv_areanodes[AREA_NODES];
- int sv_numareanodes;
+ q_int32_t sv_numareanodes;
 
  float *area_mins, *area_maxs;
  edict_t **area_list;
- int area_count, area_maxcount;
- int area_type;
+ q_int32_t area_count, area_maxcount;
+ q_int32_t area_type;
 
- int SV_HullForEntity ( edict_t *ent );
+ q_int32_t SV_HullForEntity ( edict_t *ent );
 
  /* ClearLink is used for new headnodes */
  void
@@ -81,7 +81,7 @@
   * Builds a uniformly subdivided tree for the given world size
   */
  areanode_t *
- SV_CreateAreaNode ( int depth, vec3_t mins, vec3_t maxs )
+ SV_CreateAreaNode ( q_int32_t depth, vec3_t mins, vec3_t maxs )
  {
    areanode_t *anode;
    vec3_t size;
@@ -142,12 +142,12 @@
  SV_LinkEdict ( edict_t *ent )
  {
    areanode_t *node;
-   int leafs[MAX_TOTAL_ENT_LEAFS];
-   int clusters[MAX_TOTAL_ENT_LEAFS];
-   int num_leafs;
-   int i, j, k;
-   int area;
-   int topnode;
+   q_int32_t leafs[MAX_TOTAL_ENT_LEAFS];
+   q_int32_t clusters[MAX_TOTAL_ENT_LEAFS];
+   q_int32_t num_leafs;
+   q_int32_t i, j, k;
+   q_int32_t area;
+   q_int32_t topnode;
 
    if ( ent->area.prev ) {
      SV_UnlinkEdict ( ent ); /* unlink from old position */
@@ -167,7 +167,7 @@
    /* encode the size into the entity_state for client prediction */
    if ( ( ent->solid == SOLID_BBOX ) && ! ( ent->svflags & SVF_DEADMONSTER ) ) {
      /* assume that x/y are equal and symetric */
-     i = ( int ) ent->maxs[0] / 8;
+     i = ( q_int32_t ) ent->maxs[0] / 8;
 
      if ( i < 1 ) {
        i = 1;
@@ -178,7 +178,7 @@
      }
 
      /* z is not symetric */
-     j = ( int ) ( -ent->mins[2] ) / 8;
+     j = ( q_int32_t ) ( -ent->mins[2] ) / 8;
 
      if ( j < 1 ) {
        j = 1;
@@ -189,7 +189,7 @@
      }
 
      /* and z maxs can be negative... */
-     k = ( int ) ( ent->maxs[2] + 32 ) / 8;
+     k = ( q_int32_t ) ( ent->maxs[2] + 32 ) / 8;
 
      if ( k < 1 ) {
        k = 1;
@@ -212,7 +212,7 @@
           ent->s.angles[2] ) ) {
      /* expand for rotation */
      float max, v;
-     int i;
+     q_int32_t i;
      max = 0;
 
      for ( i = 0; i < 3; i++ ) {
@@ -399,9 +399,9 @@
  }
 
  /* ========================================================================= */
- int
+ q_int32_t
  SV_AreaEdicts ( vec3_t mins, vec3_t maxs, edict_t **list,
-                 int maxcount, int areatype )
+                 q_int32_t maxcount, q_int32_t areatype )
  {
    area_mins = mins;
    area_maxs = maxs;
@@ -419,13 +419,13 @@
  }
 
  /* ========================================================================= */
- int
+ q_int32_t
  SV_PointContents ( vec3_t p )
  {
    edict_t *touch[MAX_EDICTS], *hit;
-   int i, num;
-   int contents, c2;
-   int headnode;
+   q_int32_t i, num;
+   q_int32_t contents, c2;
+   q_int32_t headnode;
    /* get base contents from world */
    contents = CM_PointContents ( p, sv.models[1]->headnode );
    /* or in contents from all the other entities */
@@ -450,7 +450,7 @@
    float *start, *end;
    trace_t trace;
    edict_t *passedict;
-   int contentmask;
+   q_int32_t contentmask;
  } moveclip_t;
 
  /*
@@ -459,7 +459,7 @@
   * adjustment that must be added to the testing object's origin
   * to get a point to use with the returned hull.
   */
- int
+ q_int32_t
  SV_HullForEntity ( edict_t *ent )
  {
    cmodel_t *model;
@@ -484,10 +484,10 @@
  void
  SV_ClipMoveToEntities ( moveclip_t *clip )
  {
-   int i, num;
+   q_int32_t i, num;
    edict_t *touchlist[MAX_EDICTS], *touch;
    trace_t trace;
-   int headnode;
+   q_int32_t headnode;
    float *angles;
    num = SV_AreaEdicts ( clip->boxmins, clip->boxmaxs, touchlist,
                          MAX_EDICTS, AREA_SOLID );
@@ -563,7 +563,7 @@
  SV_TraceBounds ( vec3_t start, vec3_t mins, vec3_t maxs,
                   vec3_t end, vec3_t boxmins, vec3_t boxmaxs )
  {
-   int i;
+   q_int32_t i;
 
    for ( i = 0; i < 3; i++ ) {
      if ( end[i] > start[i] ) {
@@ -579,7 +579,7 @@
  /* ========================================================================= */
  trace_t
  SV_Trace ( vec3_t start, vec3_t mins, vec3_t maxs, vec3_t end,
-            edict_t *passedict, int contentmask )
+            edict_t *passedict, q_int32_t contentmask )
  {
    moveclip_t clip;
 

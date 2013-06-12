@@ -33,7 +33,7 @@
 /**
  * A handle to a file
  */
- typedef int fileHandle_t;
+ typedef q_int32_t fileHandle_t;
 
 /**
  * File access mode
@@ -76,7 +76,7 @@
   * Finds the file in the search path. Returns filesize and an open FILE *. Used
   * for streaming data out of either a pak file or a separate file.
   */
- int FS_FOpenFile ( const char *name, fileHandle_t *f, fsMode_t mode );
+ q_int32_t FS_FOpenFile ( const char *name, fileHandle_t *f, fsMode_t mode );
 
  /**
   * Other dll's can't just call fclose() on files returned by FS_FOpenFile.
@@ -86,14 +86,14 @@
  /**
   * Read a chunk of data from a file
   */
- int FS_Read ( void *buffer, int size, fileHandle_t f );
+ q_int32_t FS_Read ( void *buffer, q_int32_t size, fileHandle_t f );
 
  /**
   * Read a chunk of data from a file.
   * Properly handles partial reads of size up to count times. No error if it
   * can't read.
   */
- int FS_FRead ( void *buffer, int size, int count, fileHandle_t f );
+ q_int32_t FS_FRead ( void *buffer, q_int32_t size, q_int32_t count, fileHandle_t f );
 
  /**
   * Delete a file
@@ -103,8 +103,8 @@
  /**
   * Create a list of files that match a criteria.
   */
- char **FS_ListFiles ( char *findname, int *numfiles,
-                       unsigned musthave, unsigned canthave );
+ char **FS_ListFiles ( char *findname, q_int32_t *numfiles,
+                       q_uint32_t musthave, q_uint32_t canthave );
 
 
  /**
@@ -112,13 +112,13 @@
   * Searchs are relative to the game directory and use all the search paths
   * including .pak and .pk3 files.
   */
- char **FS_ListFiles2 ( char *findname, int *numfiles,
-                        unsigned musthave, unsigned canthave );
+ char **FS_ListFiles2 ( char *findname, q_int32_t *numfiles,
+                        q_uint32_t musthave, q_uint32_t canthave );
 
  /**
   * Free list of files created by FS_ListFiles().
   */
- void FS_FreeList ( char **list, int nfiles );
+ void FS_FreeList ( char **list, q_int32_t nfiles );
 
  /**
   * Setup the filesystem cvars and initial (game) directory
@@ -149,7 +149,7 @@
   * Filename are relative to the quake search path. A null buffer will just
   * return the file length without loading. It returns -1 if file doesn't exists.
   */
- int FS_LoadFile ( char *path, void **buffer );
+ q_int32_t FS_LoadFile ( char *path, void **buffer );
 
 
  /**

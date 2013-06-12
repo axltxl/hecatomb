@@ -35,21 +35,21 @@
 
  typedef struct {
    byte data[MAX_MSGLEN];
-   int datalen;
+   q_int32_t datalen;
  } loopmsg_t;
 
  typedef struct {
    loopmsg_t msgs[MAX_LOOPBACK];
-   int get, send;
+   q_int32_t get, send;
  } loopback_t;
 
  loopback_t loopbacks[2];
- int ip_sockets[2];
- int ip6_sockets[2];
- int ipx_sockets[2];
+ q_int32_t ip_sockets[2];
+ q_int32_t ip6_sockets[2];
+ q_int32_t ipx_sockets[2];
  char *multicast_interface = NULL;
 
- int NET_Socket ( char *net_interface, int port, netsrc_t type, int family );
+ q_int32_t NET_Socket ( char *net_interface, q_int32_t port, netsrc_t type, q_int32_t family );
  char *NET_ErrorString ( void );
 
  /* ========================================================================= */
@@ -68,7 +68,7 @@
 
    case NA_IP:
      ( ( struct sockaddr_in * ) s )->sin_family = AF_INET;
-     * ( int * ) & ( ( struct sockaddr_in * ) s )->sin_addr = * ( int * ) &a->ip;
+     * ( q_int32_t * ) & ( ( struct sockaddr_in * ) s )->sin_addr = * ( q_int32_t * ) &a->ip;
      ( ( struct sockaddr_in * ) s )->sin_port = a->port;
      break;
 
@@ -130,7 +130,7 @@
    struct sockaddr_in6 *s6;
 
    if ( s->ss_family == AF_INET ) {
-     * ( int * ) &a->ip = * ( int * ) & ( ( struct sockaddr_in * ) s )->sin_addr;
+     * ( q_int32_t * ) &a->ip = * ( q_int32_t * ) & ( ( struct sockaddr_in * ) s )->sin_addr;
      a->port = ( ( struct sockaddr_in * ) s )->sin_port;
      a->type = NA_IP;
    } else if ( s->ss_family == AF_INET6 ) {
@@ -321,7 +321,7 @@
    char copy[128];
    char *addrs, *space;
    char *ports = NULL;
-   int err;
+   q_int32_t err;
    struct addrinfo hints;
    struct addrinfo *resultp;
    memset ( &hints, 0, sizeof ( hints ) );
@@ -411,7 +411,7 @@
  qboolean
  NET_GetLoopPacket ( netsrc_t sock, netadr_t *net_from, sizebuf_t *net_message )
  {
-   int i;
+   q_int32_t i;
    loopback_t *loop;
    loop = &loopbacks[sock];
 
@@ -433,9 +433,9 @@
 
  /* ========================================================================= */
  void
- NET_SendLoopPacket ( netsrc_t sock, int length, void *data, netadr_t to )
+ NET_SendLoopPacket ( netsrc_t sock, q_int32_t length, void *data, netadr_t to )
  {
-   int i;
+   q_int32_t i;
    loopback_t *loop;
    loop = &loopbacks[sock ^ 1];
    i = loop->send & ( MAX_LOOPBACK - 1 );
@@ -448,12 +448,12 @@
  qboolean
  NET_GetPacket ( netsrc_t sock, netadr_t *net_from, sizebuf_t *net_message )
  {
-   int ret;
+   q_int32_t ret;
    struct sockaddr_storage from;
    socklen_t fromlen;
-   int net_socket;
-   int protocol;
-   int err;
+   q_int32_t net_socket;
+   q_int32_t protocol;
+   q_int32_t err;
 
    if ( NET_GetLoopPacket ( sock, net_from, net_message ) ) {
      return true;
@@ -503,12 +503,12 @@
 
  /* ========================================================================= */
  void
- NET_SendPacket ( netsrc_t sock, int length, void *data, netadr_t to )
+ NET_SendPacket ( netsrc_t sock, q_int32_t length, void *data, netadr_t to )
  {
-   int ret;
+   q_int32_t ret;
    struct sockaddr_storage addr;
-   int net_socket;
-   int addr_size = sizeof ( struct sockaddr_in );
+   q_int32_t net_socket;
+   q_int32_t addr_size = sizeof ( struct sockaddr_in );
 
    switch ( to.type ) {
    case NA_LOOPBACK:
@@ -577,7 +577,7 @@
        struct addrinfo hints;
        struct addrinfo *res;
        char tmp[128], mcast_addr[128], mcast_port[10];
-       int error;
+       q_int32_t error;
 
        if ( multicast_interface != NULL ) {
          /* Do a getnameinfo/getaddrinfo cycle
@@ -674,7 +674,7 @@
  void
  NET_Config ( qboolean multiplayer )
  {
-   int i;
+   q_int32_t i;
 
    if ( !multiplayer ) {
      /* shut down any existing sockets */
@@ -701,15 +701,15 @@
  }
 
  /* =================================================================== */
- int
- NET_Socket ( char *net_interface, int port, netsrc_t type, int family )
+ q_int32_t
+ NET_Socket ( char *net_interface, q_int32_t port, netsrc_t type, q_int32_t family )
  {
    char Buf[BUFSIZ], *Host, *Service;
-   int newsocket, Error;
+   q_int32_t newsocket, Error;
    struct sockaddr_storage ss;
    struct addrinfo hints, *res, *ai;
    qboolean _true = true;
-   int i = 1;
+   q_int32_t i = 1;
    struct ipv6_mreq mreq;
    cvar_t *mcast;
    memset ( &hints, 0, sizeof ( hints ) );
@@ -843,7 +843,7 @@
  char *
  NET_ErrorString ( void )
  {
-   int code;
+   q_int32_t code;
    code = errno;
    return strerror ( code );
  }
@@ -852,7 +852,7 @@
   * sleeps msec or until net socket is ready
   */
  void
- NET_Sleep ( int msec )
+ NET_Sleep ( q_int32_t msec )
  {
    struct timeval timeout;
    fd_set fdset;

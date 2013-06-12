@@ -27,12 +27,12 @@
  #include "game/local.h"
  #include "game/monster/berserker/berserker.h"
 
- static int sound_pain;
- static int sound_die;
- static int sound_idle;
- static int sound_punch;
- static int sound_sight;
- static int sound_search;
+ static q_int32_t sound_pain;
+ static q_int32_t sound_die;
+ static q_int32_t sound_idle;
+ static q_int32_t sound_punch;
+ static q_int32_t sound_sight;
+ static q_int32_t sound_search;
 
  void
  berserk_sight ( edict_t *self, edict_t *other /* unused */ )
@@ -357,7 +357,7 @@
 
  void
  berserk_pain ( edict_t *self, edict_t *other /* unused */,
-                float kick /* unused */, int damage )
+                float kick /* unused */, q_int32_t damage )
  {
    if ( !self ) {
      return;
@@ -443,9 +443,9 @@
 
  void
  berserk_die ( edict_t *self, edict_t *inflictor /* unused */, edict_t *attacker /* unused */,
-               int damage, vec3_t point /* unused */ )
+               q_int32_t damage, vec3_t point /* unused */ )
  {
-   int n;
+   q_int32_t n;
 
    if ( !self ) {
      return;

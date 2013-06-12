@@ -33,12 +33,12 @@
  #define MAXCMDLINE 256
 
  extern char key_lines[32][MAXCMDLINE];
- extern int edit_line;
- extern int key_linepos;
+ extern q_int32_t edit_line;
+ extern q_int32_t key_linepos;
 
  /* ========================================================================= */
  void
- DrawString ( int x, int y, char *s )
+ DrawString ( q_int32_t x, q_int32_t y, char *s )
  {
    while ( *s ) {
      Draw_Char ( x, y, *s );
@@ -49,7 +49,7 @@
 
  /* ========================================================================= */
  void
- DrawAltString ( int x, int y, char *s )
+ DrawAltString ( q_int32_t x, q_int32_t y, char *s )
  {
    while ( *s ) {
      Draw_Char ( x, y, *s ^ 0x80 );
@@ -131,7 +131,7 @@
  void
  Con_Dump_f ( void )
  {
-   int l, x;
+   q_int32_t l, x;
    char *line;
    FILE *f;
    char buffer[1024];
@@ -201,7 +201,7 @@
  void
  Con_ClearNotify ( void )
  {
-   int i;
+   q_int32_t i;
 
    for ( i = 0; i < NUM_CON_TIMES; i++ ) {
      con.times[i] = 0;
@@ -228,7 +228,7 @@
  void
  Con_CheckResize ( void )
  {
-   int i, j, width, oldwidth, oldtotallines, numlines, numchars;
+   q_int32_t i, j, width, oldwidth, oldtotallines, numlines, numchars;
    char tbuf[CON_TEXTSIZE];
    width = ( viddef.width >> 3 ) - 2;
 
@@ -314,10 +314,10 @@
  void
  Con_Print ( char *txt )
  {
-   int y;
-   int c, l;
-   static int cr;
-   int mask;
+   q_int32_t y;
+   q_int32_t c, l;
+   static q_int32_t cr;
+   q_int32_t mask;
 
    if ( !con.initialized ) {
      return;
@@ -387,7 +387,7 @@
  void
  Con_CenteredPrint ( char *text )
  {
-   int l;
+   q_int32_t l;
    char buffer[1024];
    l = strlen ( text );
    l = ( con.linewidth - l ) / 2;
@@ -409,7 +409,7 @@
  void
  Con_DrawInput ( void )
  {
-   int i;
+   q_int32_t i;
    char *text;
 
    if ( cls.key_dest == key_menu ) {
@@ -423,7 +423,7 @@
 
    text = key_lines[edit_line];
    /* add the cursor frame */
-   text[key_linepos] = 10 + ( ( int ) ( cls.realtime >> 8 ) & 1 );
+   text[key_linepos] = 10 + ( ( q_int32_t ) ( cls.realtime >> 8 ) & 1 );
 
    /* fill out remainder with spaces */
    for ( i = key_linepos + 1; i < con.linewidth; i++ ) {
@@ -447,12 +447,12 @@
  void
  Con_DrawNotify ( void )
  {
-   int x, v;
+   q_int32_t x, v;
    char *text;
-   int i;
-   int time;
+   q_int32_t i;
+   q_int32_t time;
    char *s;
-   int skip;
+   q_int32_t skip;
    v = 0;
 
    for ( i = con.current - NUM_CON_TIMES + 1; i <= con.current; i++ ) {
@@ -519,11 +519,11 @@
  void
  Con_DrawConsole ( float frac )
  {
-   int i, j, x, y, n;
-   int rows;
+   q_int32_t i, j, x, y, n;
+   q_int32_t rows;
    char *text;
-   int row;
-   int lines = viddef.height * frac;
+   q_int32_t row;
+   q_int32_t lines = viddef.height * frac;
    char version[MAX_VER]; // Version info goes in here
    static uint8_t info_ver_length, info_url_length = 0;
    char url [MAX_URL]; // Project URL info goes in here

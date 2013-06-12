@@ -107,7 +107,7 @@
  CL_SendConnectPacket ( void )
  {
    netadr_t adr;
-   int port;
+   q_int32_t port;
    memset ( &adr, 0, sizeof ( adr ) );
 
    if ( !NET_StringToAdr ( cls.servername, &adr ) ) {
@@ -202,7 +202,7 @@
  CL_Rcon_f ( void )
  {
    char message[1024];
-   int i;
+   q_int32_t i;
    netadr_t to;
 
    if ( !rcon_client_password->string ) {
@@ -263,7 +263,7 @@
    }
 
    if ( cl_timedemo && cl_timedemo->value ) {
-     int time;
+     q_int32_t time;
      time = Sys_Milliseconds() - cl.timedemo_start;
 
      if ( time > 0 ) {
@@ -319,7 +319,7 @@
  CL_Packet_f ( void )
  {
    char send[2048];
-   int i, l;
+   q_int32_t i, l;
    char *in, *out;
    netadr_t adr;
 
@@ -414,7 +414,7 @@
  void
  CL_PingServers_f ( void )
  {
-   int i;
+   q_int32_t i;
    netadr_t adr;
    char name[32];
    char *adrstring;
@@ -530,7 +530,7 @@
 
    /* challenge from the server we are connecting to */
    if ( !strcmp ( c, "challenge" ) ) {
-     cls.challenge = ( int ) strtol ( Cmd_Argv ( 1 ), ( char ** ) NULL, 10 );
+     cls.challenge = ( q_int32_t ) strtol ( Cmd_Argv ( 1 ), ( char ** ) NULL, 10 );
      CL_SendConnectPacket();
      return;
    }
@@ -550,7 +550,7 @@
  {
    while ( NET_GetPacket ( NS_CLIENT, &net_from, &net_message ) ) {
      /* remote command packet */
-     if ( * ( int * ) net_message.data == -1 ) {
+     if ( * ( q_int32_t * ) net_message.data == -1 ) {
        CL_ConnectionlessPacket();
        continue;
      }

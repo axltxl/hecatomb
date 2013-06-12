@@ -31,7 +31,7 @@
  void SCR_DrawCrosshair ( void );
 
  /* development tools for weapons */
- int gun_frame;
+ q_int32_t gun_frame;
  struct model_s *gun_model;
 
  cvar_t *crosshair;
@@ -43,19 +43,19 @@
 
  cvar_t *cl_stats;
 
- int r_numdlights;
+ q_int32_t r_numdlights;
  dlight_t r_dlights[MAX_DLIGHTS];
 
- int r_numentities;
+ q_int32_t r_numentities;
  entity_t r_entities[MAX_ENTITIES];
 
- int r_numparticles;
+ q_int32_t r_numparticles;
  particle_t r_particles[MAX_PARTICLES];
 
  lightstyle_t r_lightstyles[MAX_LIGHTSTYLES];
 
  char cl_weaponmodels[MAX_CLIENTWEAPONMODELS][MAX_QPATH];
- int num_cl_weaponmodels;
+ q_int32_t num_cl_weaponmodels;
 
  /*
   * Specifies the model that will be used as the world
@@ -81,7 +81,7 @@
 
  /* ========================================================================= */
  void
- V_AddParticle ( vec3_t org, unsigned int color, float alpha )
+ V_AddParticle ( vec3_t org, q_uint32_t color, float alpha )
  {
    particle_t *p;
 
@@ -115,7 +115,7 @@
 
  /* ========================================================================= */
  void
- V_AddLightStyle ( int style, float r, float g, float b )
+ V_AddLightStyle ( q_int32_t style, float r, float g, float b )
  {
    lightstyle_t *ls;
 
@@ -137,7 +137,7 @@
  V_TestParticles ( void )
  {
    particle_t *p;
-   int i, j;
+   q_int32_t i, j;
    float d, r, u;
    r_numparticles = MAX_PARTICLES;
 
@@ -163,7 +163,7 @@
  void
  V_TestEntities ( void )
  {
-   int i, j;
+   q_int32_t i, j;
    float f, r;
    entity_t *ent;
    r_numentities = 32;
@@ -190,7 +190,7 @@
  void
  V_TestLights ( void )
  {
-   int i, j;
+   q_int32_t i, j;
    float f, r;
    dlight_t *dl;
    r_numdlights = 32;
@@ -220,7 +220,7 @@
  CL_PrepRefresh ( void )
  {
    char mapname[32];
-   int i;
+   q_int32_t i;
    char name[MAX_QPATH];
    float rotate;
    vec3_t axis;
@@ -322,7 +322,7 @@
    }
    else {
      /* OGG/Vorbis */
-     if ( ( int ) strtol ( cl.configstrings[CS_CDTRACK], ( char ** ) NULL, 10 ) < 10 ) {
+     if ( ( q_int32_t ) strtol ( cl.configstrings[CS_CDTRACK], ( char ** ) NULL, 10 ) < 10 ) {
        char tmp[3] = "0";
        OGG_ParseCmd ( strcat ( tmp, cl.configstrings[CS_CDTRACK] ) );
      } else {
@@ -389,7 +389,7 @@
  void
  V_RenderView ( float stereo_separation )
  {
-   extern int entitycmpfnc ( const entity_t *, const entity_t * );
+   extern q_int32_t entitycmpfnc ( const entity_t *, const entity_t * );
 
    if ( cls.state != ca_active ) {
      return;
@@ -485,7 +485,7 @@
      cl.refdef.rdflags = cl.frame.playerstate.rdflags;
      /* sort entities for better cache locality */
      qsort ( cl.refdef.entities, cl.refdef.num_entities,
-             sizeof ( cl.refdef.entities[0] ), ( int ( * ) ( const void *, const void * ) )
+             sizeof ( cl.refdef.entities[0] ), ( q_int32_t ( * ) ( const void *, const void * ) )
              entitycmpfnc );
    }
 
@@ -511,9 +511,9 @@
  void
  V_Viewpos_f ( void )
  {
-   Com_Printf ( "(%i %i %i) : %i\n", ( int ) cl.refdef.vieworg[0],
-                ( int ) cl.refdef.vieworg[1], ( int ) cl.refdef.vieworg[2],
-                ( int ) cl.refdef.viewangles[YAW] );
+   Com_Printf ( "(%i %i %i) : %i\n", ( q_int32_t ) cl.refdef.vieworg[0],
+                ( q_int32_t ) cl.refdef.vieworg[1], ( q_int32_t ) cl.refdef.vieworg[2],
+                ( q_int32_t ) cl.refdef.viewangles[YAW] );
  }
 
  /* ========================================================================= */

@@ -34,13 +34,13 @@
 
  /* ========================================================================= */
  void
- Sys_Backtrace ( int sig )
+ Sys_Backtrace ( q_int32_t sig )
  {
  #if HT_HAVE_EXECINFO
    void *array[15];
    size_t size;
    char **strings;
-   int i;
+   q_int32_t i;
    size = backtrace ( array, 15 );
    strings = backtrace_symbols ( array, size );
  #endif
@@ -67,7 +67,7 @@
 
  /* ========================================================================= */
  void
- Sys_SigHandler ( int sig )
+ Sys_SigHandler ( q_int32_t sig )
  {
    printf ( "\n=======================================================\n" );
    printf ( "%s HAS CRASHED! This is embarassing indeed...\n", HT_PRODUCT_NAME );

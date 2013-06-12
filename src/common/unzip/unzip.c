@@ -45,7 +45,7 @@ woven in by Terry Thorsen 1/2003.
  #  include <stdlib.h>
  #endif
  #ifdef NO_ERRNO_H
- extern int errno;
+ extern q_int32_t errno;
  #else
  #   include <errno.h>
  #endif
@@ -118,7 +118,7 @@ woven in by Terry Thorsen 1/2003.
    voidpf filestream;        /* io structore of the zipfile */
    uLong compression_method;   /* compression method (0==store) */
    uLong byte_before_the_zipfile;/* byte before the zipfile, (>0 for sfx)*/
-   int   raw;
+   q_int32_t   raw;
  } file_in_zip_read_info_s;
 
 
@@ -142,10 +142,10 @@ woven in by Terry Thorsen 1/2003.
    unz_file_info_internal cur_file_info_internal; /* private info about it*/
    file_in_zip_read_info_s *pfile_in_zip_read; /* structure about the current
                                          file if we are decompressing it */
-   int encrypted;
+   q_int32_t encrypted;
  #    ifndef NOUNCRYPT
-   unsigned long keys[3];     /* keys defining the pseudo-random sequence */
-   const unsigned long *pcrc_32_tab;
+   q_uint32_t keys[3];     /* keys defining the pseudo-random sequence */
+   const q_uint32_t *pcrc_32_tab;
  #    endif
  } unz_s;
 
@@ -161,21 +161,21 @@ woven in by Terry Thorsen 1/2003.
  */
 
 
- local int unzlocal_getByte OF ( (
+ local q_int32_t unzlocal_getByte OF ( (
                                    const zlib_filefunc_def *pzlib_filefunc_def,
                                    voidpf filestream,
-                                   int *pi ) );
+                                   q_int32_t *pi ) );
 
- local int unzlocal_getByte ( pzlib_filefunc_def, filestream, pi )
+ local q_int32_t unzlocal_getByte ( pzlib_filefunc_def, filestream, pi )
  const zlib_filefunc_def *pzlib_filefunc_def;
  voidpf filestream;
- int *pi;
+ q_int32_t *pi;
  {
-   unsigned char c;
-   int err = ( int ) ZREAD ( *pzlib_filefunc_def, filestream, &c, 1 );
+   q_uint8_t c;
+   q_int32_t err = ( q_int32_t ) ZREAD ( *pzlib_filefunc_def, filestream, &c, 1 );
 
    if ( err == 1 ) {
-     *pi = ( int ) c;
+     *pi = ( q_int32_t ) c;
      return UNZ_OK;
    } else {
      if ( ZERROR ( *pzlib_filefunc_def, filestream ) )
@@ -189,19 +189,19 @@ woven in by Terry Thorsen 1/2003.
  /* ===========================================================================
     Reads a long in LSB order from the given gz_stream. Sets
  */
- local int unzlocal_getShort OF ( (
+ local q_int32_t unzlocal_getShort OF ( (
                                     const zlib_filefunc_def *pzlib_filefunc_def,
                                     voidpf filestream,
                                     uLong *pX ) );
 
- local int unzlocal_getShort ( pzlib_filefunc_def, filestream, pX )
+ local q_int32_t unzlocal_getShort ( pzlib_filefunc_def, filestream, pX )
  const zlib_filefunc_def *pzlib_filefunc_def;
  voidpf filestream;
  uLong *pX;
  {
    uLong x ;
-   int i = 0;
-   int err;
+   q_int32_t i = 0;
+   q_int32_t err;
    err = unzlocal_getByte ( pzlib_filefunc_def, filestream, &i );
    x = ( uLong ) i;
 
@@ -218,19 +218,19 @@ woven in by Terry Thorsen 1/2003.
    return err;
  }
 
- local int unzlocal_getLong OF ( (
+ local q_int32_t unzlocal_getLong OF ( (
                                    const zlib_filefunc_def *pzlib_filefunc_def,
                                    voidpf filestream,
                                    uLong *pX ) );
 
- local int unzlocal_getLong ( pzlib_filefunc_def, filestream, pX )
+ local q_int32_t unzlocal_getLong ( pzlib_filefunc_def, filestream, pX )
  const zlib_filefunc_def *pzlib_filefunc_def;
  voidpf filestream;
  uLong *pX;
  {
    uLong x ;
-   int i = 0;
-   int err;
+   q_int32_t i = 0;
+   q_int32_t err;
    err = unzlocal_getByte ( pzlib_filefunc_def, filestream, &i );
    x = ( uLong ) i;
 
@@ -259,7 +259,7 @@ woven in by Terry Thorsen 1/2003.
 
 
  /* My own strcmpi / strcasecmp */
- local int strcmpcasenosensitive_internal ( fileName1, fileName2 )
+ local q_int32_t strcmpcasenosensitive_internal ( fileName1, fileName2 )
  const char *fileName1;
  const char *fileName2;
  {
@@ -307,10 +307,10 @@ woven in by Terry Thorsen 1/2003.
          (like 1 on Unix, 2 on Windows)
 
  */
- extern int ZEXPORT unzStringFileNameCompare ( fileName1, fileName2, iCaseSensitivity )
+ extern q_int32_t ZEXPORT unzStringFileNameCompare ( fileName1, fileName2, iCaseSensitivity )
  const char *fileName1;
  const char *fileName2;
- int iCaseSensitivity;
+ q_int32_t iCaseSensitivity;
  {
    if ( iCaseSensitivity == 0 )
      iCaseSensitivity = CASESENSITIVITYDEFAULTVALUE;
@@ -337,7 +337,7 @@ woven in by Terry Thorsen 1/2003.
  const zlib_filefunc_def *pzlib_filefunc_def;
  voidpf filestream;
  {
-   unsigned char *buf;
+   q_uint8_t *buf;
    uLong uSizeFile;
    uLong uBackRead;
    uLong uMaxBack = 0xffff; /* maximum size of global comment */
@@ -351,7 +351,7 @@ woven in by Terry Thorsen 1/2003.
    if ( uMaxBack > uSizeFile )
      uMaxBack = uSizeFile;
 
-   buf = ( unsigned char * ) ALLOC ( BUFREADCOMMENT + 4 );
+   buf = ( q_uint8_t * ) ALLOC ( BUFREADCOMMENT + 4 );
 
    if ( buf == NULL )
      return 0;
@@ -360,7 +360,7 @@ woven in by Terry Thorsen 1/2003.
 
    while ( uBackRead < uMaxBack ) {
      uLong uReadSize, uReadPos ;
-     int i;
+     q_int32_t i;
 
      if ( uBackRead + BUFREADCOMMENT > uMaxBack )
        uBackRead = uMaxBack;
@@ -377,7 +377,7 @@ woven in by Terry Thorsen 1/2003.
      if ( ZREAD ( *pzlib_filefunc_def, filestream, buf, uReadSize ) != uReadSize )
        break;
 
-     for ( i = ( int ) uReadSize - 3; ( i-- ) > 0; )
+     for ( i = ( q_int32_t ) uReadSize - 3; ( i-- ) > 0; )
        if ( ( ( * ( buf + i ) ) == 0x50 ) && ( ( * ( buf + i + 1 ) ) == 0x4b ) &&
             ( ( * ( buf + i + 2 ) ) == 0x05 ) && ( ( * ( buf + i + 3 ) ) == 0x06 ) ) {
          uPosFound = uReadPos + i;
@@ -415,7 +415,7 @@ woven in by Terry Thorsen 1/2003.
    uLong number_entry_CD;      /* total number of entries in
                                     the central dir
                                     (same than number_entry on nospan) */
-   int err = UNZ_OK;
+   q_int32_t err = UNZ_OK;
 
    if ( unz_copyright[0] != ' ' )
      return NULL;
@@ -516,7 +516,7 @@ woven in by Terry Thorsen 1/2003.
    If there is files inside the .Zip opened with unzipOpenCurrentFile (see later),
      these files MUST be closed with unzipCloseCurrentFile before call unzipClose.
    return UNZ_OK if there is no problem. */
- extern int ZEXPORT unzClose ( file )
+ extern q_int32_t ZEXPORT unzClose ( file )
  unzFile file;
  {
    unz_s *s;
@@ -539,7 +539,7 @@ woven in by Terry Thorsen 1/2003.
    Write info about the ZipFile in the *pglobal_info structure.
    No preparation of the structure is needed
    return UNZ_OK if there is no problem. */
- extern int ZEXPORT unzGetGlobalInfo ( file, pglobal_info )
+ extern q_int32_t ZEXPORT unzGetGlobalInfo ( file, pglobal_info )
  unzFile file;
  unz_global_info *pglobal_info;
  {
@@ -574,7 +574,7 @@ woven in by Terry Thorsen 1/2003.
  /*
    Get Info about the current file in the zipfile, with internal only info
  */
- local int unzlocal_GetCurrentFileInfoInternal OF ( ( unzFile file,
+ local q_int32_t unzlocal_GetCurrentFileInfoInternal OF ( ( unzFile file,
      unz_file_info *pfile_info,
      unz_file_info_internal
      *pfile_info_internal,
@@ -585,7 +585,7 @@ woven in by Terry Thorsen 1/2003.
      char *szComment,
      uLong commentBufferSize ) );
 
- local int unzlocal_GetCurrentFileInfoInternal ( file,
+ local q_int32_t unzlocal_GetCurrentFileInfoInternal ( file,
      pfile_info,
      pfile_info_internal,
      szFileName, fileNameBufferSize,
@@ -604,9 +604,9 @@ woven in by Terry Thorsen 1/2003.
    unz_s *s;
    unz_file_info file_info;
    unz_file_info_internal file_info_internal;
-   int err = UNZ_OK;
+   q_int32_t err = UNZ_OK;
    uLong uMagic;
-   long lSeek = 0;
+   q_int32_t lSeek = 0;
 
    if ( file == NULL )
      return UNZ_PARAMERROR;
@@ -754,7 +754,7 @@ woven in by Terry Thorsen 1/2003.
    No preparation of the structure is needed
    return UNZ_OK if there is no problem.
  */
- extern int ZEXPORT unzGetCurrentFileInfo ( file,
+ extern q_int32_t ZEXPORT unzGetCurrentFileInfo ( file,
      pfile_info,
      szFileName, fileNameBufferSize,
      extraField, extraFieldBufferSize,
@@ -778,10 +778,10 @@ woven in by Terry Thorsen 1/2003.
    Set the current file of the zipfile to the first file.
    return UNZ_OK if there is no problem
  */
- extern int ZEXPORT unzGoToFirstFile ( file )
+ extern q_int32_t ZEXPORT unzGoToFirstFile ( file )
  unzFile file;
  {
-   int err = UNZ_OK;
+   q_int32_t err = UNZ_OK;
    unz_s *s;
 
    if ( file == NULL )
@@ -802,11 +802,11 @@ woven in by Terry Thorsen 1/2003.
    return UNZ_OK if there is no problem
    return UNZ_END_OF_LIST_OF_FILE if the actual file was the latest.
  */
- extern int ZEXPORT unzGoToNextFile ( file )
+ extern q_int32_t ZEXPORT unzGoToNextFile ( file )
  unzFile file;
  {
    unz_s *s;
-   int err;
+   q_int32_t err;
 
    if ( file == NULL )
      return UNZ_PARAMERROR;
@@ -839,13 +839,13 @@ woven in by Terry Thorsen 1/2003.
    UNZ_OK if the file is found. It becomes the current file.
    UNZ_END_OF_LIST_OF_FILE if the file is not found
  */
- extern int ZEXPORT unzLocateFile ( file, szFileName, iCaseSensitivity )
+ extern q_int32_t ZEXPORT unzLocateFile ( file, szFileName, iCaseSensitivity )
  unzFile file;
  const char *szFileName;
- int iCaseSensitivity;
+ q_int32_t iCaseSensitivity;
  {
    unz_s *s;
-   int err;
+   q_int32_t err;
    /* We remember the 'current' position in the file so that we can jump
     * back there if we fail.
     */
@@ -916,7 +916,7 @@ woven in by Terry Thorsen 1/2003.
  } unz_file_pos;
  */
 
- extern int ZEXPORT unzGetFilePos ( file, file_pos )
+ extern q_int32_t ZEXPORT unzGetFilePos ( file, file_pos )
  unzFile file;
  unz_file_pos *file_pos;
  {
@@ -935,12 +935,12 @@ woven in by Terry Thorsen 1/2003.
    return UNZ_OK;
  }
 
- extern int ZEXPORT unzGoToFilePos ( file, file_pos )
+ extern q_int32_t ZEXPORT unzGoToFilePos ( file, file_pos )
  unzFile file;
  unz_file_pos *file_pos;
  {
    unz_s *s;
-   int err;
+   q_int32_t err;
 
    if ( file == NULL || file_pos == NULL )
      return UNZ_PARAMERROR;
@@ -970,7 +970,7 @@ woven in by Terry Thorsen 1/2003.
    store in *piSizeVar the size of extra info in local header
          (filename and size of extra field data)
  */
- local int unzlocal_CheckCurrentFileCoherencyHeader ( s, piSizeVar,
+ local q_int32_t unzlocal_CheckCurrentFileCoherencyHeader ( s, piSizeVar,
      poffset_local_extrafield,
      psize_local_extrafield )
  unz_s *s;
@@ -981,7 +981,7 @@ woven in by Terry Thorsen 1/2003.
    uLong uMagic, uData, uFlags;
    uLong size_filename;
    uLong size_extra_field;
-   int err = UNZ_OK;
+   q_int32_t err = UNZ_OK;
    *piSizeVar = 0;
    *poffset_local_extrafield = 0;
    *psize_local_extrafield = 0;
@@ -1061,14 +1061,14 @@ woven in by Terry Thorsen 1/2003.
    Open for reading data the current file in the zipfile.
    If there is no error and the file is opened, the return value is UNZ_OK.
  */
- extern int ZEXPORT unzOpenCurrentFile3 ( file, method, level, raw, password )
+ extern q_int32_t ZEXPORT unzOpenCurrentFile3 ( file, method, level, raw, password )
  unzFile file;
- int *method;
- int *level;
- int raw;
+ q_int32_t *method;
+ q_int32_t *level;
+ q_int32_t raw;
  const char *password;
  {
-   int err = UNZ_OK;
+   q_int32_t err = UNZ_OK;
    uInt iSizeVar;
    unz_s *s;
    file_in_zip_read_info_s *pfile_in_zip_read_info;
@@ -1118,7 +1118,7 @@ woven in by Terry Thorsen 1/2003.
    pfile_in_zip_read_info->stream_initialised = 0;
 
    if ( method != NULL )
-     *method = ( int ) s->cur_file_info.compression_method;
+     *method = ( q_int32_t ) s->cur_file_info.compression_method;
 
    if ( level != NULL ) {
      *level = 6;
@@ -1157,7 +1157,7 @@ woven in by Terry Thorsen 1/2003.
    if ( ( s->cur_file_info.compression_method == Z_BZIP2ED ) &&
         ( !raw ) ) {
  #ifdef HAVE_BZIP2
-     pfile_in_zip_read_info->bstream.bzalloc = ( void * ( * ) ( void *, int, int ) ) 0;
+     pfile_in_zip_read_info->bstream.bzalloc = ( void * ( * ) ( void *, q_int32_t, q_int32_t ) ) 0;
      pfile_in_zip_read_info->bstream.bzfree = ( free_func ) 0;
      pfile_in_zip_read_info->bstream.opaque = ( voidpf ) 0;
      pfile_in_zip_read_info->bstream.state = ( voidpf ) 0;
@@ -1216,7 +1216,7 @@ woven in by Terry Thorsen 1/2003.
  #    ifndef NOUNCRYPT
 
    if ( password != NULL ) {
-     int i;
+     q_int32_t i;
      s->pcrc_32_tab = get_crc_table();
      init_keys ( password, s->keys, s->pcrc_32_tab );
 
@@ -1240,24 +1240,24 @@ woven in by Terry Thorsen 1/2003.
    return UNZ_OK;
  }
 
- extern int ZEXPORT unzOpenCurrentFile ( file )
+ extern q_int32_t ZEXPORT unzOpenCurrentFile ( file )
  unzFile file;
  {
    return unzOpenCurrentFile3 ( file, NULL, NULL, 0, NULL );
  }
 
- extern int ZEXPORT unzOpenCurrentFilePassword ( file, password )
+ extern q_int32_t ZEXPORT unzOpenCurrentFilePassword ( file, password )
  unzFile file;
  const char *password;
  {
    return unzOpenCurrentFile3 ( file, NULL, NULL, 0, password );
  }
 
- extern int ZEXPORT unzOpenCurrentFile2 ( file, method, level, raw )
+ extern q_int32_t ZEXPORT unzOpenCurrentFile2 ( file, method, level, raw )
  unzFile file;
- int *method;
- int *level;
- int raw;
+ q_int32_t *method;
+ q_int32_t *level;
+ q_int32_t raw;
  {
    return unzOpenCurrentFile3 ( file, method, level, raw, NULL );
  }
@@ -1272,12 +1272,12 @@ woven in by Terry Thorsen 1/2003.
    return <0 with error code if there is an error
      (UNZ_ERRNO for IO error, or zLib error for uncompress error)
  */
- extern int ZEXPORT unzReadCurrentFile ( file, buf, len )
+ extern q_int32_t ZEXPORT unzReadCurrentFile ( file, buf, len )
  unzFile file;
  voidp buf;
- unsigned len;
+ q_uint32_t len;
  {
-   int err = UNZ_OK;
+   q_int32_t err = UNZ_OK;
    uInt iRead = 0;
    unz_s *s;
    file_in_zip_read_info_s *pfile_in_zip_read_info;
@@ -1424,7 +1424,7 @@ woven in by Terry Thorsen 1/2003.
        uLong uTotalOutBefore, uTotalOutAfter;
        const Bytef *bufBefore;
        uLong uOutThis;
-       int flush = Z_SYNC_FLUSH;
+       q_int32_t flush = Z_SYNC_FLUSH;
        uTotalOutBefore = pfile_in_zip_read_info->stream.total_out;
        bufBefore = pfile_in_zip_read_info->stream.next_out;
        /*
@@ -1487,7 +1487,7 @@ woven in by Terry Thorsen 1/2003.
  /*
    return 1 if the end of file was reached, 0 elsewhere
  */
- extern int ZEXPORT unzeof ( file )
+ extern q_int32_t ZEXPORT unzeof ( file )
  unzFile file;
  {
    unz_s *s;
@@ -1522,10 +1522,10 @@ woven in by Terry Thorsen 1/2003.
    the return value is the number of bytes copied in buf, or (if <0)
      the error code
  */
- extern int ZEXPORT unzGetLocalExtrafield ( file, buf, len )
+ extern q_int32_t ZEXPORT unzGetLocalExtrafield ( file, buf, len )
  unzFile file;
  voidp buf;
- unsigned len;
+ q_uint32_t len;
  {
    unz_s *s;
    file_in_zip_read_info_s *pfile_in_zip_read_info;
@@ -1545,7 +1545,7 @@ woven in by Terry Thorsen 1/2003.
                     pfile_in_zip_read_info->pos_local_extrafield );
 
    if ( buf == NULL )
-     return ( int ) size_to_read;
+     return ( q_int32_t ) size_to_read;
 
    if ( len > size_to_read )
      read_now = ( uInt ) size_to_read;
@@ -1567,17 +1567,17 @@ woven in by Terry Thorsen 1/2003.
                 buf, read_now ) != read_now )
      return UNZ_ERRNO;
 
-   return ( int ) read_now;
+   return ( q_int32_t ) read_now;
  }
 
  /*
    Close the file in zip opened with unzipOpenCurrentFile
    Return UNZ_CRCERROR if all the file was read but the CRC is not good
  */
- extern int ZEXPORT unzCloseCurrentFile ( file )
+ extern q_int32_t ZEXPORT unzCloseCurrentFile ( file )
  unzFile file;
  {
-   int err = UNZ_OK;
+   q_int32_t err = UNZ_OK;
    unz_s *s;
    file_in_zip_read_info_s *pfile_in_zip_read_info;
 
@@ -1619,7 +1619,7 @@ woven in by Terry Thorsen 1/2003.
    uSizeBuf is the size of the szComment buffer.
    return the number of byte copied or an error code <0
  */
- extern int ZEXPORT unzGetGlobalComment ( file, szComment, uSizeBuf )
+ extern q_int32_t ZEXPORT unzGetGlobalComment ( file, szComment, uSizeBuf )
  unzFile file;
  char *szComment;
  uLong uSizeBuf;
@@ -1649,7 +1649,7 @@ woven in by Terry Thorsen 1/2003.
    if ( ( szComment != NULL ) && ( uSizeBuf > s->gi.size_comment ) )
      * ( szComment + s->gi.size_comment ) = '\0';
 
-   return ( int ) uReadThis;
+   return ( q_int32_t ) uReadThis;
  }
 
  /* Additions by RX '2004 */
@@ -1673,12 +1673,12 @@ woven in by Terry Thorsen 1/2003.
    return s->pos_in_central_dir;
  }
 
- extern int ZEXPORT unzSetOffset ( file, pos )
+ extern q_int32_t ZEXPORT unzSetOffset ( file, pos )
  unzFile file;
  uLong pos;
  {
    unz_s *s;
-   int err;
+   q_int32_t err;
 
    if ( file == NULL )
      return UNZ_PARAMERROR;

@@ -28,13 +28,13 @@
  #include "client.h"
 
  extern struct model_s *cl_mod_powerscreen;
- int vidref_val;
+ q_int32_t vidref_val;
 
  /* ========================================================================= */
  struct model_s *
  S_RegisterSexedModel ( entity_state_t *ent, char *base )
  {
-   int n;
+   q_int32_t n;
    char *p;
    struct model_s *md2;
    char model[MAX_QPATH];
@@ -87,7 +87,7 @@
    return md2;
  }
 
- extern int Developer_searchpath ( int who );
+ extern q_int32_t Developer_searchpath ( q_int32_t who );
 
  /* ========================================================================= */
  void
@@ -96,12 +96,12 @@
    entity_t ent = {0};
    entity_state_t *s1;
    float autorotate;
-   int i;
-   int pnum;
+   q_int32_t i;
+   q_int32_t pnum;
    centity_t *cent;
-   int autoanim;
+   q_int32_t autoanim;
    clientinfo_t *ci;
-   unsigned int effects, renderfx;
+   q_uint32_t effects, renderfx;
    /* bonus items rotate at a fixed rate */
    autorotate = anglemod ( cl.time * 0.1f );
    /* brush models can auto animate their frames */
@@ -432,7 +432,7 @@
        } else if ( effects & EF_FLIES ) {
          CL_FlyEffect ( cent, ent.origin );
        } else if ( effects & EF_BFG ) {
-         static int bfg_lightramp[6] = {300, 400, 600, 300, 150, 75};
+         static q_int32_t bfg_lightramp[6] = {300, 400, 600, 300, 150, 75};
 
          if ( effects & EF_ANIM_ALLFAST ) {
            CL_BfgParticles ( &ent );
@@ -502,7 +502,7 @@
  CL_AddViewWeapon ( player_state_t *ps, player_state_t *ops )
  {
    entity_t gun = {0}; /* view model */
-   int i;
+   q_int32_t i;
 
    /* allow the gun to be completely removed */
    if ( !cl_gun->value ) {
@@ -581,7 +581,7 @@
  void
  CL_CalcViewValues ( void )
  {
-   int i;
+   q_int32_t i;
    float lerp, backlerp, ifov;
    frame_t *oldframe;
    player_state_t *ps, *ops;
@@ -608,7 +608,7 @@
    /* calculate the origin */
    if ( ( cl_predict->value ) && ! ( cl.frame.playerstate.pmove.pm_flags & PMF_NO_PREDICTION ) ) {
      /* use predicted values */
-     unsigned delta;
+     q_uint32_t delta;
      backlerp = 1.0f - lerp;
 
      for ( i = 0; i < 3; i++ ) {
@@ -715,7 +715,7 @@
   * Called to get the sound spatialization origin
   */
  void
- CL_GetEntitySoundOrigin ( int ent, vec3_t org )
+ CL_GetEntitySoundOrigin ( q_int32_t ent, vec3_t org )
  {
    centity_t *old;
 

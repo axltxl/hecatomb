@@ -30,7 +30,7 @@
  /*
   * Like glob_match, but match PATTERN against any final segment of TEXT.
   */
- static int
+ static q_int32_t
  glob_match_after_star ( char *pattern, char *text )
  {
    register char *p = pattern, *t = text;
@@ -80,7 +80,7 @@
   * To suppress the special syntactic significance of any of `[]*?!-\',
   * and match the character exactly, precede it with a `\'.
   */
- int
+ q_int32_t
  glob_match ( char *pattern, char *text )
  {
    register char *p = pattern, *t = text;
@@ -109,7 +109,7 @@
 
      case '[': {
        register char c1 = *t++;
-       int invert;
+       q_int32_t invert;
 
        if ( !c1 ) {
          return 0;

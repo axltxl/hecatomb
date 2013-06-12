@@ -41,7 +41,7 @@
    float zrot[3][3];
    float tmpmat[3][3];
    float rot[3][3];
-   int i;
+   q_int32_t i;
    vec3_t vr, vup, vf;
    vf[0] = dir[0];
    vf[1] = dir[1];
@@ -176,8 +176,8 @@
  void
  PerpendicularVector ( vec3_t dst, const vec3_t src )
  {
-   int pos;
-   int i;
+   q_int32_t pos;
+   q_int32_t i;
    float minelem = 1.0F;
    vec3_t tempvec;
 
@@ -255,7 +255,7 @@
  float
  Q_fabs ( float f )
  {
-   int tmp = * ( int * ) &f;
+   q_int32_t tmp = * ( q_int32_t * ) &f;
    tmp &= 0x7FFFFFFF;
    return * ( float * ) &tmp;
  }
@@ -279,22 +279,22 @@
  float
  anglemod ( float a )
  {
-   a = ( 360.0 / 65536 ) * ( ( int ) ( a * ( 65536 / 360.0 ) ) & 65535 );
+   a = ( 360.0 / 65536 ) * ( ( q_int32_t ) ( a * ( 65536 / 360.0 ) ) & 65535 );
    return a;
  }
 
- int i;
+ q_int32_t i;
  vec3_t corners[2];
 
  /*
   * This is the slow, general version
   */
- int
+ q_int32_t
  BoxOnPlaneSide2 ( vec3_t emins, vec3_t emaxs, struct cplane_s *p )
  {
-   int i;
+   q_int32_t i;
    float dist1, dist2;
-   int sides;
+   q_int32_t sides;
    vec3_t corners[2];
 
    for ( i = 0; i < 3; i++ ) {
@@ -325,11 +325,11 @@
  /*
   * Returns 1, 2, or 1 + 2
   */
- int
+ q_int32_t
  BoxOnPlaneSide ( vec3_t emins, vec3_t emaxs, struct cplane_s *p )
  {
    float dist1, dist2;
-   int sides;
+   q_int32_t sides;
 
    /* fast axial cases */
    if ( p->type < 3 ) {
@@ -432,7 +432,7 @@
  void
  AddPointToBounds ( vec3_t v, vec3_t mins, vec3_t maxs )
  {
-   int i;
+   q_int32_t i;
    vec_t val;
 
    for ( i = 0; i < 3; i++ ) {
@@ -449,7 +449,7 @@
  }
 
  /* ========================================================================= */
- int
+ q_int32_t
  VectorCompare ( vec3_t v1, vec3_t v2 )
  {
    if ( ( v1[0] != v2[0] ) || ( v1[1] != v2[1] ) || ( v1[2] != v2[2] ) ) {
@@ -553,7 +553,7 @@
  vec_t
  VectorLength ( vec3_t v )
  {
-   int i;
+   q_int32_t i;
    float length;
    length = 0;
 
@@ -584,10 +584,10 @@
  }
 
  /* ========================================================================= */
- int
- Q_log2 ( int val )
+ q_int32_t
+ Q_log2 ( q_int32_t val )
  {
-   int answer = 0;
+   q_int32_t answer = 0;
 
    while ( val >>= 1 ) {
      answer++;
@@ -630,7 +630,7 @@
  COM_FileExtension ( char *in )
  {
    static char exten[8];
-   int i;
+   q_int32_t i;
 
    while ( *in && *in != '.' ) {
      in++;
@@ -724,37 +724,37 @@
 
  /* can't just use function pointers, or dll linkage can
     mess up when qcommon is included in multiple places */
- short ( *_BigShort ) ( short l );
- short ( *_LittleShort ) ( short l );
- int ( *_BigLong ) ( int l );
- int ( *_LittleLong ) ( int l );
+ q_int16_t ( *_BigShort ) ( q_int16_t l );
+ q_int16_t ( *_LittleShort ) ( q_int16_t l );
+ q_int32_t ( *_BigLong ) ( q_int32_t l );
+ q_int32_t ( *_LittleLong ) ( q_int32_t l );
  float ( *_BigFloat ) ( float l );
  float ( *_LittleFloat ) ( float l );
 
  /* ========================================================================= */
- short
- BigShort ( short l )
+ q_int16_t
+ BigShort ( q_int16_t l )
  {
    return _BigShort ( l );
  }
 
  /* ========================================================================= */
- short
- LittleShort ( short l )
+ q_int16_t
+ LittleShort ( q_int16_t l )
  {
    return _LittleShort ( l );
  }
 
  /* ========================================================================= */
- int
- BigLong ( int l )
+ q_int32_t
+ BigLong ( q_int32_t l )
  {
    return _BigLong ( l );
  }
 
  /* ========================================================================= */
- int
- LittleLong ( int l )
+ q_int32_t
+ LittleLong ( q_int32_t l )
  {
    return _LittleLong ( l );
  }
@@ -774,8 +774,8 @@
  }
 
  /* ========================================================================= */
- short
- ShortSwap ( short l )
+ q_int16_t
+ ShortSwap ( q_int16_t l )
  {
    byte b1, b2;
    b1 = l & 255;
@@ -784,27 +784,27 @@
  }
 
  /* ========================================================================= */
- short
- ShortNoSwap ( short l )
+ q_int16_t
+ ShortNoSwap ( q_int16_t l )
  {
    return l;
  }
 
  /* ========================================================================= */
- int
- LongSwap ( int l )
+ q_int32_t
+ LongSwap ( q_int32_t l )
  {
    byte b1, b2, b3, b4;
    b1 = l & 255;
    b2 = ( l >> 8 ) & 255;
    b3 = ( l >> 16 ) & 255;
    b4 = ( l >> 24 ) & 255;
-   return ( ( int ) b1 << 24 ) + ( ( int ) b2 << 16 ) + ( ( int ) b3 << 8 ) + b4;
+   return ( ( q_int32_t ) b1 << 24 ) + ( ( q_int32_t ) b2 << 16 ) + ( ( q_int32_t ) b3 << 8 ) + b4;
  }
 
  /* ========================================================================= */
- int
- LongNoSwap ( int l )
+ q_int32_t
+ LongNoSwap ( q_int32_t l )
  {
    return l;
  }
@@ -839,7 +839,7 @@
    byte swaptest[2] = {1, 0};
 
    /* set the byte swapping variables in a portable manner */
-   if ( * ( short * ) swaptest == 1 ) {
+   if ( * ( q_int16_t * ) swaptest == 1 ) {
      bigendien = false;
      _BigShort = ShortSwap;
      _LittleShort = ShortNoSwap;
@@ -857,7 +857,7 @@
      _LittleFloat = FloatSwap;
    }
 
-   if ( LittleShort ( * ( short * ) swaptest ) != 1 )
+   if ( LittleShort ( * ( q_int16_t * ) swaptest ) != 1 )
      assert ( "Error in the endian conversion!" );
  }
 
@@ -884,8 +884,8 @@
  char *
  COM_Parse ( char **data_p )
  {
-   int c;
-   int len;
+   q_int32_t c;
+   q_int32_t len;
    char *data;
    data = *data_p;
    len = 0;
@@ -956,13 +956,13 @@
    return com_token;
  }
 
- int paged_total;
+ q_int32_t paged_total;
 
  /* ========================================================================= */
  void
- Com_PageInMemory ( byte *buffer, int size )
+ Com_PageInMemory ( byte *buffer, q_int32_t size )
  {
-   int i;
+   q_int32_t i;
 
    for ( i = size - 1; i > 0; i -= 4096 ) {
      paged_total += buffer[i];
@@ -978,17 +978,17 @@
   */
 
  /* ========================================================================= */
- int
+ q_int32_t
  Q_stricmp ( const char *s1, const char *s2 )
  {
    return strcasecmp ( s1, s2 );
  }
 
  /* ========================================================================= */
- int
- Q_strncasecmp ( char *s1, char *s2, int n )
+ q_int32_t
+ Q_strncasecmp ( char *s1, char *s2, q_int32_t n )
  {
-   int c1, c2;
+   q_int32_t c1, c2;
 
    do {
      c1 = *s1++;
@@ -1017,7 +1017,7 @@
  }
 
  /* ========================================================================= */
- int
+ q_int32_t
  Q_strcasecmp ( char *s1, char *s2 )
  {
    return Q_strncasecmp ( s1, s2, 99999 );
@@ -1025,9 +1025,9 @@
 
  /* ========================================================================= */
  void
- Com_sprintf ( char *dest, int size, char *fmt, ... )
+ Com_sprintf ( char *dest, q_int32_t size, char *fmt, ... )
  {
-   int len;
+   q_int32_t len;
    va_list argptr;
    static char bigbuffer[0x10000];
    va_start ( argptr, fmt );
@@ -1077,7 +1077,7 @@
    char pkey[512];
    static char value[2][512]; /* use two buffers so compares
                     work without stomping on each other */
-   static int valueindex;
+   static q_int32_t valueindex;
    char *o;
    valueindex ^= 1;
 
@@ -1200,8 +1200,8 @@
  Info_SetValueForKey ( char *s, char *key, char *value )
  {
    char newi[MAX_INFO_STRING], *v;
-   int c;
-   int maxsize = MAX_INFO_STRING;
+   q_int32_t c;
+   q_int32_t maxsize = MAX_INFO_STRING;
 
    if ( strstr ( key, "\\" ) || strstr ( value, "\\" ) ) {
      Com_Printf ( "Can't use keys or values with a \\\n" );

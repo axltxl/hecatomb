@@ -29,7 +29,7 @@
 
  #define DLIGHT_CUTOFF 64
 
- int r_dlightframecount;
+ q_int32_t r_dlightframecount;
  vec3_t pointcolor;
  cplane_t *lightplane; /* used as shadow plane */
  vec3_t lightspot;
@@ -39,7 +39,7 @@
  void
  R_RenderDlight ( dlight_t *light )
  {
-   int i, j;
+   q_int32_t i, j;
    float a;
    vec3_t v;
    float rad;
@@ -74,7 +74,7 @@
  void
  R_RenderDlights ( void )
  {
-   int i;
+   q_int32_t i;
    dlight_t *l;
 
    if ( !gl_flashblend->value ) {
@@ -103,13 +103,13 @@
 
  /* ========================================================================= */
  void
- R_MarkLights ( dlight_t *light, int bit, mnode_t *node )
+ R_MarkLights ( dlight_t *light, q_int32_t bit, mnode_t *node )
  {
    cplane_t *splitplane;
    float dist;
    msurface_t *surf;
-   int i;
-   int sidebit;
+   q_int32_t i;
+   q_int32_t sidebit;
 
    if ( node->contents != -1 ) {
      return;
@@ -160,7 +160,7 @@
  void
  R_PushDlights ( void )
  {
-   int i;
+   q_int32_t i;
    dlight_t *l;
 
    if ( gl_flashblend->value ) {
@@ -177,20 +177,20 @@
  }
 
  /* ========================================================================= */
- int
+ q_int32_t
  R_RecursiveLightPoint ( mnode_t *node, vec3_t start, vec3_t end )
  {
    float front, back, frac;
-   int side;
+   q_int32_t side;
    cplane_t *plane;
    vec3_t mid;
    msurface_t *surf;
-   int s, t, ds, dt;
-   int i;
+   q_int32_t s, t, ds, dt;
+   q_int32_t i;
    mtexinfo_t *tex;
    byte *lightmap;
-   int maps;
-   int r;
+   q_int32_t maps;
+   q_int32_t r;
 
    if ( node->contents != -1 ) {
      return -1;     /* didn't hit anything */
@@ -288,7 +288,7 @@
  {
    vec3_t end;
    float r;
-   int lnum;
+   q_int32_t lnum;
    dlight_t *dl;
    vec3_t dist;
    float add;
@@ -330,13 +330,13 @@
  void
  R_AddDynamicLights ( msurface_t *surf )
  {
-   int lnum;
-   int sd, td;
+   q_int32_t lnum;
+   q_int32_t sd, td;
    float fdist, frad, fminlight;
    vec3_t impact, local;
-   int s, t;
-   int i;
-   int smax, tmax;
+   q_int32_t s, t;
+   q_int32_t i;
+   q_int32_t smax, tmax;
    mtexinfo_t *tex;
    dlight_t *dl;
    float *pfBL;
@@ -409,7 +409,7 @@
  void
  R_SetCacheState ( msurface_t *surf )
  {
-   int maps;
+   q_int32_t maps;
 
    for ( maps = 0; maps < MAXLIGHTMAPS && surf->styles[maps] != 255;
          maps++ ) {
@@ -422,14 +422,14 @@
   * Combine and scale multiple lightmaps into the floating format in blocklights
   */
  void
- R_BuildLightMap ( msurface_t *surf, byte *dest, int stride )
+ R_BuildLightMap ( msurface_t *surf, byte *dest, q_int32_t stride )
  {
-   int smax, tmax;
-   int r, g, b, a, max;
-   int i, j, size;
+   q_int32_t smax, tmax;
+   q_int32_t r, g, b, a, max;
+   q_int32_t i, j, size;
    byte *lightmap;
    float scale[4];
-   int nummaps;
+   q_int32_t nummaps;
    float *bl;
 
    if ( surf->texinfo->flags &
@@ -463,7 +463,7 @@
 
    /* add all the lightmaps */
    if ( nummaps == 1 ) {
-     int maps;
+     q_int32_t maps;
 
      for ( maps = 0; maps < MAXLIGHTMAPS && surf->styles[maps] != 255; maps++ ) {
        bl = s_blocklights;
@@ -492,7 +492,7 @@
        lightmap += size * 3; /* skip to next lightmap */
      }
    } else {
-     int maps;
+     q_int32_t maps;
      memset ( s_blocklights, 0, sizeof ( s_blocklights[0] ) * size * 3 );
 
      for ( maps = 0; maps < MAXLIGHTMAPS && surf->styles[maps] != 255; maps++ ) {

@@ -29,17 +29,17 @@
 
  #define MAX_NUM_ARGVS 50
 
- int com_argc;
+ q_int32_t com_argc;
  char *com_argv[MAX_NUM_ARGVS + 1];
 
  /*
   * Returns the position (1 to argc-1) in the program's argument list
   * where the given parameter apears, or 0 if not present
   */
- int
+ q_int32_t
  COM_CheckParm ( char *parm )
  {
-   int i;
+   q_int32_t i;
 
    for ( i = 1; i < com_argc; i++ ) {
      if ( !strcmp ( parm, com_argv[i] ) ) {
@@ -51,7 +51,7 @@
  }
 
  /* ========================================================================= */
- int
+ q_int32_t
  COM_Argc ( void )
  {
    return com_argc;
@@ -59,7 +59,7 @@
 
  /* ========================================================================= */
  char *
- COM_Argv ( int arg )
+ COM_Argv ( q_int32_t arg )
  {
    if ( ( arg < 0 ) || ( arg >= com_argc ) || !com_argv[arg] ) {
      return "";
@@ -70,7 +70,7 @@
 
  /* ========================================================================= */
  void
- COM_ClearArgv ( int arg )
+ COM_ClearArgv ( q_int32_t arg )
  {
    if ( ( arg < 0 ) || ( arg >= com_argc ) || !com_argv[arg] ) {
      return;
@@ -81,9 +81,9 @@
 
  /* ========================================================================= */
  void
- COM_InitArgv ( int argc, char **argv )
+ COM_InitArgv ( q_int32_t argc, char **argv )
  {
-   int i;
+   q_int32_t i;
 
    if ( argc > MAX_NUM_ARGVS ) {
      Com_Error ( ERR_FATAL, "argc > MAX_NUM_ARGVS" );
@@ -114,10 +114,10 @@
  }
 
  /* ========================================================================= */
- int
- memsearch ( byte *start, int count, int search )
+ q_int32_t
+ memsearch ( byte *start, q_int32_t count, q_int32_t search )
  {
-   int i;
+   q_int32_t i;
 
    for ( i = 0; i < count; i++ ) {
      if ( start[i] == search ) {
@@ -133,7 +133,7 @@
  CopyString ( char *in )
  {
    char *out;
-   out = Z_Malloc ( ( int ) strlen ( in ) + 1 );
+   out = Z_Malloc ( ( q_int32_t ) strlen ( in ) + 1 );
    strcpy ( out, in );
    return out;
  }
@@ -145,7 +145,7 @@
    char key[512];
    char value[512];
    char *o;
-   int l;
+   q_int32_t l;
 
    if ( *s == '\\' ) {
      s++;

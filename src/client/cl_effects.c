@@ -28,7 +28,7 @@
  #include "prereqs.h"
  #include "client.h"
 
- void CL_LogoutEffect ( vec3_t org, int type );
+ void CL_LogoutEffect ( vec3_t org, q_int32_t type );
  void CL_ItemRespawnParticles ( vec3_t org );
  void CL_ClearLightStyles ( void );
  void CL_ClearDlights ( void );
@@ -46,9 +46,9 @@
  {
    vec3_t fv, rv;
    cdlight_t *dl;
-   int i, weapon;
+   q_int32_t i, weapon;
    centity_t *pl;
-   int silenced;
+   q_int32_t silenced;
    float volume;
    char soundname[64];
    i = MSG_ReadShort ( &net_message );
@@ -338,9 +338,9 @@
  void
  CL_AddMuzzleFlash2 ( void )
  {
-   int ent;
+   q_int32_t ent;
    vec3_t origin;
-   unsigned flash_number;
+   q_uint32_t flash_number;
    cdlight_t *dl;
    vec3_t forward, right;
    char soundname[64];
@@ -784,7 +784,7 @@
  void
  CL_TeleporterParticles ( entity_state_t *ent )
  {
-   int i, j;
+   q_int32_t i, j;
    cparticle_t *p;
    float time;
    time = ( float ) cl.time;
@@ -816,9 +816,9 @@
  }
  /* ========================================================================= */
  void
- CL_LogoutEffect ( vec3_t org, int type )
+ CL_LogoutEffect ( vec3_t org, q_int32_t type )
  {
-   int i, j;
+   q_int32_t i, j;
    cparticle_t *p;
    float time;
    time = ( float ) cl.time;
@@ -861,7 +861,7 @@
  void
  CL_ItemRespawnParticles ( vec3_t org )
  {
-   int i, j;
+   q_int32_t i, j;
    cparticle_t *p;
    float time;
    time = ( float ) cl.time;
@@ -896,7 +896,7 @@
  void
  CL_ExplosionParticles ( vec3_t org )
  {
-   int i, j;
+   q_int32_t i, j;
    cparticle_t *p;
    float time;
    time = ( float ) cl.time;
@@ -929,12 +929,12 @@
  void
  CL_BigTeleportParticles ( vec3_t org )
  {
-   int i;
+   q_int32_t i;
    cparticle_t *p;
    float time;
    time = ( float ) cl.time;
    float angle, dist;
-   static int colortable[4] = {2 * 8, 13 * 8, 21 * 8, 18 * 8};
+   static q_int32_t colortable[4] = {2 * 8, 13 * 8, 21 * 8, 18 * 8};
 
    for ( i = 0; i < 4096; i++ ) {
      if ( !free_particles ) {
@@ -969,10 +969,10 @@
  void
  CL_BlasterParticles ( vec3_t org, vec3_t dir )
  {
-   int i, j;
+   q_int32_t i, j;
    cparticle_t *p;
    float d;
-   int count;
+   q_int32_t count;
    float time;
    time = ( float ) cl.time;
    count = 40;
@@ -1008,15 +1008,15 @@
  {
    vec3_t move;
    vec3_t vec;
-   int len;
-   int j;
+   q_int32_t len;
+   q_int32_t j;
    cparticle_t *p;
-   int dec;
+   q_int32_t dec;
    float time;
    time = ( float ) cl.time;
    VectorCopy ( start, move );
    VectorSubtract ( end, start, vec );
-   len = ( int ) VectorNormalize ( vec );
+   len = ( q_int32_t ) VectorNormalize ( vec );
    dec = 5;
    VectorScale ( vec, 5, vec );
 
@@ -1053,15 +1053,15 @@
  {
    vec3_t move;
    vec3_t vec;
-   int len;
-   int j;
+   q_int32_t len;
+   q_int32_t j;
    cparticle_t *p;
-   int dec;
+   q_int32_t dec;
    float time;
    time = ( float ) cl.time;
    VectorCopy ( start, move );
    VectorSubtract ( end, start, vec );
-   len = ( int ) VectorNormalize ( vec );
+   len = ( q_int32_t ) VectorNormalize ( vec );
    dec = 5;
    VectorScale ( vec, 5, vec );
 
@@ -1094,19 +1094,19 @@
 
  /* ========================================================================= */
  void
- CL_FlagTrail ( vec3_t start, vec3_t end, int color )
+ CL_FlagTrail ( vec3_t start, vec3_t end, q_int32_t color )
  {
    vec3_t move;
    vec3_t vec;
-   int len;
-   int j;
+   q_int32_t len;
+   q_int32_t j;
    cparticle_t *p;
-   int dec;
+   q_int32_t dec;
    float time;
    time = ( float ) cl.time;
    VectorCopy ( start, move );
    VectorSubtract ( end, start, vec );
-   len = ( int ) VectorNormalize ( vec );
+   len = ( q_int32_t ) VectorNormalize ( vec );
    dec = 5;
    VectorScale ( vec, 5, vec );
 
@@ -1139,12 +1139,12 @@
 
  /* ========================================================================= */
  void
- CL_DiminishingTrail ( vec3_t start, vec3_t end, centity_t *old, int flags )
+ CL_DiminishingTrail ( vec3_t start, vec3_t end, centity_t *old, q_int32_t flags )
  {
    vec3_t move;
    vec3_t vec;
-   int len;
-   int j;
+   q_int32_t len;
+   q_int32_t j;
    cparticle_t *p;
    float dec;
    float orgscale;
@@ -1254,10 +1254,10 @@
  {
    vec3_t move;
    vec3_t vec;
-   int len;
-   int j;
+   q_int32_t len;
+   q_int32_t j;
    cparticle_t *p;
-   int dec;
+   q_int32_t dec;
    float time;
    time = ( float ) cl.time;
    /* smoke */
@@ -1265,7 +1265,7 @@
    /* fire */
    VectorCopy ( start, move );
    VectorSubtract ( end, start, vec );
-   len = ( int ) VectorNormalize ( vec );
+   len = ( q_int32_t ) VectorNormalize ( vec );
    dec = 1;
    VectorScale ( vec, dec, vec );
 
@@ -1305,12 +1305,12 @@
  {
    vec3_t move;
    vec3_t vec;
-   int len;
-   int j;
+   q_int32_t len;
+   q_int32_t j;
    cparticle_t *p;
    float dec;
    vec3_t right, up;
-   int i;
+   q_int32_t i;
    float d, c, s;
    vec3_t dir;
    byte clr = 0x74;
@@ -1386,16 +1386,16 @@
  {
    vec3_t move;
    vec3_t vec;
-   int len;
-   int j;
+   q_int32_t len;
+   q_int32_t j;
    cparticle_t *p;
-   int dec;
-   int left = 0;
+   q_int32_t dec;
+   q_int32_t left = 0;
    float time;
    time = ( float ) cl.time;
    VectorCopy ( start, move );
    VectorSubtract ( ent, start, vec );
-   len = ( int ) VectorNormalize ( vec );
+   len = ( q_int32_t ) VectorNormalize ( vec );
    dec = 5;
    VectorScale ( vec, 5, vec );
 
@@ -1441,8 +1441,8 @@
  {
    vec3_t move;
    vec3_t vec;
-   int len;
-   int i, j;
+   q_int32_t len;
+   q_int32_t i, j;
    cparticle_t *p;
    float dec;
    float time;
@@ -1480,9 +1480,9 @@
 
  /* ========================================================================= */
  void
- CL_FlyParticles ( vec3_t origin, int count )
+ CL_FlyParticles ( vec3_t origin, q_int32_t count )
  {
-   int i;
+   q_int32_t i;
    cparticle_t *p;
    float angle;
    float sp, sy, cp, cy;
@@ -1543,9 +1543,9 @@
  void
  CL_FlyEffect ( centity_t *ent, vec3_t origin )
  {
-   int n;
-   int count;
-   int starttime;
+   q_int32_t n;
+   q_int32_t count;
+   q_int32_t starttime;
 
    if ( ent->fly_stoptime < cl.time ) {
      starttime = cl.time;
@@ -1557,12 +1557,12 @@
    n = cl.time - starttime;
 
    if ( n < 20000 ) {
-     count = ( int ) n * 162 / 20000.0;
+     count = ( q_int32_t ) n * 162 / 20000.0;
    } else {
      n = ent->fly_stoptime - cl.time;
 
      if ( n < 20000 ) {
-       count = ( int ) n * 162 / 20000.0;
+       count = ( q_int32_t ) n * 162 / 20000.0;
      } else {
        count = 162;
      }
@@ -1575,7 +1575,7 @@
  void
  CL_BfgParticles ( entity_t *ent )
  {
-   int i;
+   q_int32_t i;
    cparticle_t *p;
    float angle;
    float sp, sy, cp, cy;
@@ -1624,7 +1624,7 @@
      VectorClear ( p->accel );
      VectorSubtract ( p->org, ent->origin, v );
      dist = VectorLength ( v ) / 90.0f;
-     p->color = ( int ) floor ( 0xd0 + dist * 7 );
+     p->color = ( q_int32_t ) floor ( 0xd0 + dist * 7 );
      p->colorvel = 0;
      p->alpha = 1.0f - dist;
      p->alphavel = -100;
@@ -1638,10 +1638,10 @@
    vec3_t move;
    vec3_t vec;
    vec3_t start, end;
-   int len;
-   int j;
+   q_int32_t len;
+   q_int32_t j;
    cparticle_t *p;
-   int dec;
+   q_int32_t dec;
    float time;
    time = ( float ) cl.time;
    ent->origin[2] -= 14;
@@ -1650,7 +1650,7 @@
    end[2] += 64;
    VectorCopy ( start, move );
    VectorSubtract ( end, start, vec );
-   len = ( int ) VectorNormalize ( vec );
+   len = ( q_int32_t ) VectorNormalize ( vec );
    dec = 5;
    VectorScale ( vec, 5, vec );
 
@@ -1682,7 +1682,7 @@
    }
 
    {
-     int i, j, k;
+     q_int32_t i, j, k;
      cparticle_t *p;
      float vel;
      vec3_t dir;
@@ -1726,7 +1726,7 @@
  void
  CL_BFGExplosionParticles ( vec3_t org )
  {
-   int i, j;
+   q_int32_t i, j;
    cparticle_t *p;
    float time;
    time = ( float ) cl.time;
@@ -1759,7 +1759,7 @@
  void
  CL_TeleportParticles ( vec3_t org )
  {
-   int i, j, k;
+   q_int32_t i, j, k;
    cparticle_t *p;
    float vel;
    vec3_t dir;
@@ -1857,7 +1857,7 @@
 
  /* ========================================================================= */
  void
- CL_Flashlight ( int ent, vec3_t pos )
+ CL_Flashlight ( q_int32_t ent, vec3_t pos )
  {
    cdlight_t *dl;
    dl = CL_AllocDlight ( ent );
@@ -1872,7 +1872,7 @@
 
  /* ========================================================================= */
  void
- CL_ColorFlash ( vec3_t pos, int ent, float intensity, float r, float g, float b )
+ CL_ColorFlash ( vec3_t pos, q_int32_t ent, float intensity, float r, float g, float b )
  {
    cdlight_t *dl;
 
@@ -1935,13 +1935,13 @@
 
  /* ========================================================================= */
  void
- CL_SmokeTrail ( vec3_t start, vec3_t end, int colorStart,
-                 int colorRun, int spacing )
+ CL_SmokeTrail ( vec3_t start, vec3_t end, q_int32_t colorStart,
+                 q_int32_t colorRun, q_int32_t spacing )
  {
    vec3_t move;
    vec3_t vec;
    float len, time;
-   int j;
+   q_int32_t j;
    cparticle_t *p;
    VectorCopy ( start, move );
    VectorSubtract ( end, start, vec );
@@ -1978,11 +1978,11 @@
 
  /* ========================================================================= */
  void
- CL_ForceWall ( vec3_t start, vec3_t end, int color8 )
+ CL_ForceWall ( vec3_t start, vec3_t end, q_int32_t color8 )
  {
    vec3_t move;
    vec3_t vec;
-   int j;
+   q_int32_t j;
    cparticle_t *p;
    float len, time;
    VectorCopy ( start, move );
@@ -2028,13 +2028,13 @@
   * by setting the distance between the spawns)
   */
  void
- CL_BubbleTrail2 ( vec3_t start, vec3_t end, int dist )
+ CL_BubbleTrail2 ( vec3_t start, vec3_t end, q_int32_t dist )
  {
    vec3_t move;
    vec3_t vec;
    float len, time;
-   int i;
-   int j;
+   q_int32_t i;
+   q_int32_t j;
    cparticle_t *p;
    time = ( float ) cl.time;
    VectorCopy ( start, move );
@@ -2075,7 +2075,7 @@
    vec3_t move;
    vec3_t vec;
    float len;
-   int j;
+   q_int32_t j;
    cparticle_t *p;
    vec3_t right, up;
    float i;
@@ -2154,10 +2154,10 @@
   *Puffs with velocity along direction, with some randomness thrown in
   */
  void
- CL_ParticleSteamEffect ( vec3_t org, vec3_t dir, int color,
-                          int count, int magnitude )
+ CL_ParticleSteamEffect ( vec3_t org, vec3_t dir, q_int32_t color,
+                          q_int32_t count, q_int32_t magnitude )
  {
-   int i, j;
+   q_int32_t i, j;
    cparticle_t *p;
    float d, time;
    vec3_t r, u;
@@ -2196,7 +2196,7 @@
  void
  CL_ParticleSteamEffect2 ( cl_sustain_t *self )
  {
-   int i, j;
+   q_int32_t i, j;
    cparticle_t *p;
    float d;
    vec3_t r, u;
@@ -2236,15 +2236,15 @@
 
  /* ========================================================================= */
  void
- CL_TrackerTrail ( vec3_t start, vec3_t end, int particleColor )
+ CL_TrackerTrail ( vec3_t start, vec3_t end, q_int32_t particleColor )
  {
    vec3_t move;
    vec3_t vec;
    vec3_t forward, right, up, angle_dir;
    float len;
-   int j;
+   q_int32_t j;
    cparticle_t *p;
-   int dec;
+   q_int32_t dec;
    float dist;
    float time;
    time = ( float ) cl.time;
@@ -2291,7 +2291,7 @@
  CL_Tracker_Shell ( vec3_t origin )
  {
    vec3_t dir;
-   int i;
+   q_int32_t i;
    cparticle_t *p;
    float time;
    time = ( float ) cl.time;
@@ -2323,7 +2323,7 @@
  CL_MonsterPlasma_Shell ( vec3_t origin )
  {
    vec3_t dir;
-   int i;
+   q_int32_t i;
    cparticle_t *p;
    float time;
    time = ( float ) cl.time;
@@ -2355,9 +2355,9 @@
  CL_Widowbeamout ( cl_sustain_t *self )
  {
    vec3_t dir;
-   int i;
+   q_int32_t i;
    cparticle_t *p;
-   static int colortable[4] = {2 * 8, 13 * 8, 21 * 8, 18 * 8};
+   static q_int32_t colortable[4] = {2 * 8, 13 * 8, 21 * 8, 18 * 8};
    float ratio;
    float time;
    ratio = 1.0f - ( ( ( float ) self->endtime - ( float ) cl.time ) / 2100.0f );
@@ -2390,9 +2390,9 @@
  CL_Nukeblast ( cl_sustain_t *self )
  {
    vec3_t dir;
-   int i;
+   q_int32_t i;
    cparticle_t *p;
-   static int colortable[4] = {110, 112, 114, 116};
+   static q_int32_t colortable[4] = {110, 112, 114, 116};
    float ratio;
    float time;
    ratio = 1.0f - ( ( ( float ) self->endtime - ( float ) cl.time ) / 1000.0f );
@@ -2424,8 +2424,8 @@
  void
  CL_WidowSplash ( vec3_t org )
  {
-   static int colortable[4] = {2 * 8, 13 * 8, 21 * 8, 18 * 8};
-   int i;
+   static q_int32_t colortable[4] = {2 * 8, 13 * 8, 21 * 8, 18 * 8};
+   q_int32_t i;
    cparticle_t *p;
    vec3_t dir;
    float time;
@@ -2459,7 +2459,7 @@
  CL_Tracker_Explode ( vec3_t origin )
  {
    vec3_t dir, backdir;
-   int i;
+   q_int32_t i;
    cparticle_t *p;
    float time;
    time = ( float ) cl.time;
@@ -2490,14 +2490,14 @@
 
  /* ========================================================================= */
  void
- CL_TagTrail ( vec3_t start, vec3_t end, int color )
+ CL_TagTrail ( vec3_t start, vec3_t end, q_int32_t color )
  {
    vec3_t move;
    vec3_t vec;
    float len;
-   int j;
+   q_int32_t j;
    cparticle_t *p;
-   int dec;
+   q_int32_t dec;
    float time;
    time = ( float ) cl.time;
    VectorCopy ( start, move );
@@ -2535,10 +2535,10 @@
 
  /* ========================================================================= */
  void
- CL_ColorExplosionParticles ( vec3_t org, int color, int run )
+ CL_ColorExplosionParticles ( vec3_t org, q_int32_t color, q_int32_t run )
  {
-   int i;
-   int j;
+   q_int32_t i;
+   q_int32_t j;
    cparticle_t *p;
    float time;
    time = ( float ) cl.time;
@@ -2571,10 +2571,10 @@
   * Like the steam effect, but unaffected by gravity
   */
  void
- CL_ParticleSmokeEffect ( vec3_t org, vec3_t dir, int color,
-                          int count, int magnitude )
+ CL_ParticleSmokeEffect ( vec3_t org, vec3_t dir, q_int32_t color,
+                          q_int32_t count, q_int32_t magnitude )
  {
-   int i, j;
+   q_int32_t i, j;
    cparticle_t *p;
    float d;
    vec3_t r, u;
@@ -2613,12 +2613,12 @@
   * Wall impact puffs (Green)
   */
  void
- CL_BlasterParticles2 ( vec3_t org, vec3_t dir, unsigned int color )
+ CL_BlasterParticles2 ( vec3_t org, vec3_t dir, q_uint32_t color )
  {
-   int i, j;
+   q_int32_t i, j;
    cparticle_t *p;
    float d;
-   int count;
+   q_int32_t count;
    float time;
    time = ( float ) cl.time;
    count = 40;
@@ -2657,9 +2657,9 @@
    vec3_t move;
    vec3_t vec;
    float len;
-   int j;
+   q_int32_t j;
    cparticle_t *p;
-   int dec;
+   q_int32_t dec;
    float time;
    time = ( float ) cl.time;
    VectorCopy ( start, move );

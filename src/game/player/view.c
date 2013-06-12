@@ -34,7 +34,7 @@
  float xyspeed;
 
  float bobmove;
- int bobcycle; /* odd cycles are right foot going forward */
+ q_int32_t bobcycle; /* odd cycles are right foot going forward */
  float bobfracsin; /* sin(bobfrac*M_PI) */
 
  float
@@ -69,7 +69,7 @@
    float side;
    float realcount, count, kick;
    vec3_t v;
-   int r, l;
+   q_int32_t r, l;
    static vec3_t power_color = {0.0, 1.0, 0.0};
    static vec3_t acolor = {1.0, 1.0, 1.0};
    static vec3_t bcolor = {1.0, 0.0, 0.0};
@@ -102,7 +102,7 @@
 
    /* start a pain animation if still in the player model */
    if ( ( client->anim_priority < ANIM_PAIN ) && ( player->s.modelindex == 255 ) ) {
-     static int i;
+     static q_int32_t i;
 
      client->anim_priority = ANIM_PAIN;
 
@@ -357,7 +357,7 @@
  void
  SV_CalcGunOffset ( edict_t *ent )
  {
-   int i;
+   q_int32_t i;
    float delta;
 
    if ( !ent ) {
@@ -438,9 +438,9 @@
  void
  SV_CalcBlend ( edict_t *ent )
  {
-   int contents;
+   q_int32_t contents;
    vec3_t vieworg;
-   int remaining;
+   q_int32_t remaining;
 
    if ( !ent ) {
      return;
@@ -547,7 +547,7 @@
  P_FallingDamage ( edict_t *ent )
  {
    float delta;
-   int damage;
+   q_int32_t damage;
    vec3_t dir;
 
    if ( !ent ) {
@@ -623,7 +623,7 @@
 
      VectorSet ( dir, 0, 0, 1 );
 
-     if ( !deathmatch->value || ! ( ( int ) dmflags->value & DF_NO_FALLING ) ) {
+     if ( !deathmatch->value || ! ( ( q_int32_t ) dmflags->value & DF_NO_FALLING ) ) {
        T_Damage ( ent, world, world, dir, ent->s.origin,
                   vec3_origin, damage, 0, 0, MOD_FALLING );
      }
@@ -638,7 +638,7 @@
  {
    qboolean breather;
    qboolean envirosuit;
-   int waterlevel, old_waterlevel;
+   q_int32_t waterlevel, old_waterlevel;
 
    if ( current_player->movetype == MOVETYPE_NOCLIP ) {
      current_player->air_finished = level.time + 12; /* don't need air */
@@ -707,7 +707,7 @@
      if ( breather || envirosuit ) {
        current_player->air_finished = level.time + 10;
 
-       if ( ( ( int ) ( current_client->breather_framenum -
+       if ( ( ( q_int32_t ) ( current_client->breather_framenum -
                         level.framenum ) % 25 ) == 0 ) {
          if ( !current_client->breather_sound ) {
            gi.sound ( current_player, CHAN_AUTO,
@@ -804,8 +804,8 @@
  void
  G_SetClientEffects ( edict_t *ent )
  {
-   int pa_type;
-   int remaining;
+   q_int32_t pa_type;
+   q_int32_t remaining;
 
    if ( !ent ) {
      return;
@@ -864,7 +864,7 @@
    }
 
    if ( ent->groundentity && ( xyspeed > 225 ) ) {
-     if ( ( int ) ( current_client->bobtime + bobmove ) != bobcycle ) {
+     if ( ( q_int32_t ) ( current_client->bobtime + bobmove ) != bobcycle ) {
        ent->s.event = EV_FOOTSTEP;
      }
    }
@@ -1022,7 +1022,7 @@
  ClientEndServerFrame ( edict_t *ent )
  {
    float bobtime;
-   int i;
+   q_int32_t i;
 
    if ( !ent ) {
      return;
@@ -1093,7 +1093,7 @@
      bobtime *= 4;
    }
 
-   bobcycle = ( int ) bobtime;
+   bobcycle = ( q_int32_t ) bobtime;
    bobfracsin = fabs ( sin ( bobtime * M_PI ) );
 
    /* detect hitting the floor */

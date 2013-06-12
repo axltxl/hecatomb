@@ -33,14 +33,14 @@
   *
   */
  typedef struct vrect_s {
-   int       x, y, width, height;
+   q_int32_t       x, y, width, height;
  } vrect_t;
 
  /**
   *
   */
  typedef struct {
-   int   width, height; /* coordinates from main game */
+   q_int32_t   width, height; /* coordinates from main game */
  } viddef_t;
 
  extern  viddef_t  viddef; /* global video state */
@@ -78,26 +78,26 @@
  /**
   *
   */
- const char *VID_MenuKey ( int );
+ const char *VID_MenuKey ( q_int32_t );
 
  /**
   *
   */
- void VID_Printf ( int print_level, char *fmt, ... );
+ void VID_Printf ( q_int32_t print_level, char *fmt, ... );
 
  /**
   *
   */
- void VID_Error ( int err_level, char *fmt, ... );
+ void VID_Error ( q_int32_t err_level, char *fmt, ... );
 
  /**
   *
   */
- void VID_NewWindow ( int width, int height );
+ void VID_NewWindow ( q_int32_t width, q_int32_t height );
 
  /**
   *
   */
- qboolean VID_GetModeInfo ( int *width, int *height, int mode );
+ qboolean VID_GetModeInfo ( q_int32_t *width, q_int32_t *height, q_int32_t mode );
 
  #endif /* CL_VID_H */

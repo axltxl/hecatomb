@@ -28,14 +28,14 @@
  #include "memory.h"
  #include "refresh/local.h"
 
- extern int modfilelen;
+ extern q_int32_t modfilelen;
 
  /* ========================================================================= */
  void
  LoadSP2 ( model_t *mod, void *buffer )
  {
    dsprite_t *sprin, *sprout;
-   int i;
+   q_int32_t i;
    sprin = ( dsprite_t * ) buffer;
    sprout = Hunk_Alloc ( modfilelen );
    sprout->ident = LittleLong ( sprin->ident );

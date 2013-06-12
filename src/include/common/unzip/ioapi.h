@@ -40,13 +40,13 @@
 extern "C" {
 #endif
 
-typedef voidpf (ZCALLBACK *open_file_func) OF((voidpf opaque, const char* filename, int mode));
+typedef voidpf (ZCALLBACK *open_file_func) OF((voidpf opaque, const char* filename, q_int32_t mode));
 typedef uLong  (ZCALLBACK *read_file_func) OF((voidpf opaque, voidpf stream, void* buf, uLong size));
 typedef uLong  (ZCALLBACK *write_file_func) OF((voidpf opaque, voidpf stream, const void* buf, uLong size));
-typedef long   (ZCALLBACK *tell_file_func) OF((voidpf opaque, voidpf stream));
-typedef long   (ZCALLBACK *seek_file_func) OF((voidpf opaque, voidpf stream, uLong offset, int origin));
-typedef int    (ZCALLBACK *close_file_func) OF((voidpf opaque, voidpf stream));
-typedef int    (ZCALLBACK *testerror_file_func) OF((voidpf opaque, voidpf stream));
+typedef q_int32_t   (ZCALLBACK *tell_file_func) OF((voidpf opaque, voidpf stream));
+typedef q_int32_t   (ZCALLBACK *seek_file_func) OF((voidpf opaque, voidpf stream, uLong offset, q_int32_t origin));
+typedef q_int32_t    (ZCALLBACK *close_file_func) OF((voidpf opaque, voidpf stream));
+typedef q_int32_t    (ZCALLBACK *testerror_file_func) OF((voidpf opaque, voidpf stream));
 
 typedef struct zlib_filefunc_def_s
 {

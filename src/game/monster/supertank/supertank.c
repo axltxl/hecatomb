@@ -29,14 +29,14 @@
 
  qboolean visible ( edict_t *self, edict_t *other );
 
- static int sound_pain1;
- static int sound_pain2;
- static int sound_pain3;
- static int sound_death;
- static int sound_search1;
- static int sound_search2;
+ static q_int32_t sound_pain1;
+ static q_int32_t sound_pain2;
+ static q_int32_t sound_pain3;
+ static q_int32_t sound_death;
+ static q_int32_t sound_search1;
+ static q_int32_t sound_search2;
 
- static int tread_sound;
+ static q_int32_t tread_sound;
 
  void BossExplode ( edict_t *self );
 
@@ -549,7 +549,7 @@
 
  void
  supertank_pain ( edict_t *self, edict_t *other /* unused */,
-                  float kick /* unused */, int damage )
+                  float kick /* unused */, q_int32_t damage )
  {
    if ( !self ) {
      return;
@@ -603,7 +603,7 @@
    vec3_t start;
    vec3_t dir;
    vec3_t vec;
-   int flash_number;
+   q_int32_t flash_number;
 
    if ( !self ) {
      return;
@@ -636,7 +636,7 @@
    vec3_t vec;
    vec3_t start;
    vec3_t forward, right;
-   int flash_number;
+   q_int32_t flash_number;
 
    if ( !self ) {
      return;
@@ -709,7 +709,7 @@
  BossExplode ( edict_t *self )
  {
    vec3_t org;
-   int n;
+   q_int32_t n;
 
    if ( !self ) {
      return;
@@ -783,7 +783,7 @@
 
  void
  supertank_die ( edict_t *self, edict_t *inflictor /* unused */,
-                 edict_t *attacker /* unused */, int damage /* unused */,
+                 edict_t *attacker /* unused */, q_int32_t damage /* unused */,
                  vec3_t point /* unused */ )
  {
    if ( !self ) {

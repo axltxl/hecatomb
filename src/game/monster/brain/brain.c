@@ -27,20 +27,20 @@
  #include "game/local.h"
  #include "game/monster/brain/brain.h"
 
- static int sound_chest_open;
- static int sound_tentacles_extend;
- static int sound_tentacles_retract;
- static int sound_death;
- static int sound_idle1;
- static int sound_idle2;
- static int sound_idle3;
- static int sound_pain1;
- static int sound_pain2;
- static int sound_sight;
- static int sound_search;
- static int sound_melee1;
- static int sound_melee2;
- static int sound_melee3;
+ static q_int32_t sound_chest_open;
+ static q_int32_t sound_tentacles_extend;
+ static q_int32_t sound_tentacles_retract;
+ static q_int32_t sound_death;
+ static q_int32_t sound_idle1;
+ static q_int32_t sound_idle2;
+ static q_int32_t sound_idle3;
+ static q_int32_t sound_pain1;
+ static q_int32_t sound_pain2;
+ static q_int32_t sound_sight;
+ static q_int32_t sound_search;
+ static q_int32_t sound_melee1;
+ static q_int32_t sound_melee2;
+ static q_int32_t sound_melee3;
 
  void
  brain_sight ( edict_t *self, edict_t *other /* unused */ )
@@ -614,7 +614,7 @@
 
  void
  brain_pain ( edict_t *self, edict_t *other /* unused */,
-              float kick /* unused */, int damage /* unused */ )
+              float kick /* unused */, q_int32_t damage /* unused */ )
  {
    float r;
 
@@ -667,9 +667,9 @@
 
  void
  brain_die ( edict_t *self, edict_t *inflictor /* unused */, edict_t *attacker /* unused */,
-             int damage, vec3_t point /* unused */ )
+             q_int32_t damage, vec3_t point /* unused */ )
  {
-   int n;
+   q_int32_t n;
 
    if ( !self ) {
      return;

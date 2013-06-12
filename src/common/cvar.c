@@ -97,8 +97,8 @@
  Cvar_CompleteVariable ( char *partial )
  {
    cvar_t *cvar;
-   int len;
-   len = ( int ) strlen ( partial );
+   q_int32_t len;
+   len = ( q_int32_t ) strlen ( partial );
 
    if ( !len ) {
      return NULL;
@@ -126,7 +126,7 @@
   * The flags will be or'ed in if the variable exists.
   */
  cvar_t *
- Cvar_Get ( char *var_name, char *var_value, int flags )
+ Cvar_Get ( char *var_name, char *var_value, q_int32_t flags )
  {
    cvar_t *var;
    cvar_t **pos;
@@ -265,7 +265,7 @@
 
  /* ========================================================================= */
  cvar_t *
- Cvar_FullSet ( char *var_name, char *value, int flags )
+ Cvar_FullSet ( char *var_name, char *value, q_int32_t flags )
  {
    cvar_t *var;
    var = Cvar_FindVar ( var_name );
@@ -293,8 +293,8 @@
  {
    char val[32];
 
-   if ( value == ( int ) value ) {
-     Com_sprintf ( val, sizeof ( val ), "%i", ( int ) value );
+   if ( value == ( q_int32_t ) value ) {
+     Com_sprintf ( val, sizeof ( val ), "%i", ( q_int32_t ) value );
    } else {
      Com_sprintf ( val, sizeof ( val ), "%f", value );
    }
@@ -357,8 +357,8 @@
  void
  Cvar_Set_f ( void )
  {
-   int c;
-   int flags;
+   q_int32_t c;
+   q_int32_t flags;
    c = Cmd_Argc();
 
    if ( ( c != 3 ) && ( c != 4 ) ) {
@@ -410,7 +410,7 @@
  Cvar_List_f ( void )
  {
    cvar_t *var;
-   int i;
+   q_int32_t i;
    i = 0;
 
    for ( var = cvar_vars; var; var = var->next, i++ ) {
@@ -450,7 +450,7 @@
 
  /* ========================================================================= */
  char *
- Cvar_BitInfo ( int bit )
+ Cvar_BitInfo ( q_int32_t bit )
  {
    static char info[MAX_INFO_STRING];
    cvar_t *var;

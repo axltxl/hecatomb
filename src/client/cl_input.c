@@ -30,9 +30,9 @@
 
  cvar_t *cl_nodelta;
 
- extern unsigned sys_frame_time;
- unsigned frame_msec;
- unsigned old_sys_frame_time;
+ extern q_uint32_t sys_frame_time;
+ q_uint32_t frame_msec;
+ q_uint32_t old_sys_frame_time;
 
  /*
   * KEY BUTTONS
@@ -51,7 +51,7 @@
   * state bit 2 is edge triggered on the down to up transition
   *
   *
-  * Key_Event (int key, qboolean down, unsigned time);
+  * Key_Event (int key, qboolean down, q_uint32_t time);
   *
   *   +mlook src time
   */
@@ -62,18 +62,18 @@
  kbutton_t in_strafe, in_speed, in_use, in_attack;
  kbutton_t in_up, in_down;
 
- int in_impulse;
+ q_int32_t in_impulse;
 
  /* ========================================================================= */
  void
  KeyDown ( kbutton_t *b )
  {
-   int k;
+   q_int32_t k;
    char *c;
    c = Cmd_Argv ( 1 );
 
    if ( c[0] ) {
-     k = ( int ) strtol ( c, ( char ** ) NULL, 10 );
+     k = ( q_int32_t ) strtol ( c, ( char ** ) NULL, 10 );
    } else {
      k = -1; /* typed manually at the console for continuous down */
    }
@@ -97,7 +97,7 @@
 
    /* save timestamp */
    c = Cmd_Argv ( 2 );
-   b->downtime = ( int ) strtol ( c, ( char ** ) NULL, 10 );
+   b->downtime = ( q_int32_t ) strtol ( c, ( char ** ) NULL, 10 );
 
    if ( !b->downtime ) {
      b->downtime = sys_frame_time - 100;
@@ -110,13 +110,13 @@
  void
  KeyUp ( kbutton_t *b )
  {
-   int k;
+   q_int32_t k;
    char *c;
-   unsigned uptime;
+   q_uint32_t uptime;
    c = Cmd_Argv ( 1 );
 
    if ( c[0] ) {
-     k = ( int ) strtol ( c, ( char ** ) NULL, 10 );
+     k = ( q_int32_t ) strtol ( c, ( char ** ) NULL, 10 );
    } else {
      /* typed manually at the console, assume for unsticking, so clear all */
      b->down[0] = b->down[1] = 0;
@@ -142,7 +142,7 @@
 
    /* save timestamp */
    c = Cmd_Argv ( 2 );
-   uptime = ( int ) strtol ( c, ( char ** ) NULL, 10 );
+   uptime = ( q_int32_t ) strtol ( c, ( char ** ) NULL, 10 );
 
    if ( uptime ) {
      b->msec += uptime - b->downtime;
@@ -368,7 +368,7 @@
  void
  IN_Impulse ( void )
  {
-   in_impulse = ( int ) strtol ( Cmd_Argv ( 1 ), ( char ** ) NULL, 10 );
+   in_impulse = ( q_int32_t ) strtol ( Cmd_Argv ( 1 ), ( char ** ) NULL, 10 );
  }
 
  /*
@@ -379,7 +379,7 @@
  CL_KeyState ( kbutton_t *key )
  {
    float val;
-   int msec;
+   q_int32_t msec;
    key->state &= 1; /* clear impulses */
    msec = key->msec;
    key->msec = 0;
@@ -468,7 +468,7 @@
    }
 
    /* adjust for speed key / running */
-   if ( ( in_speed.state & 1 ) ^ ( int ) ( cl_run->value ) ) {
+   if ( ( in_speed.state & 1 ) ^ ( q_int32_t ) ( cl_run->value ) ) {
      cmd->forwardmove *= 2;
      cmd->sidemove *= 2;
      cmd->upmove *= 2;
@@ -507,8 +507,8 @@
  void
  CL_FinishMove ( usercmd_t *cmd )
  {
-   int ms;
-   int i;
+   q_int32_t ms;
+   q_int32_t i;
 
    /* figure button bits */
    if ( in_attack.state & 3 ) {
@@ -625,10 +625,10 @@
  {
    sizebuf_t buf;
    byte data[128];
-   int i;
+   q_int32_t i;
    usercmd_t *cmd, *oldcmd;
    usercmd_t nullcmd;
-   int checksumIndex;
+   q_int32_t checksumIndex;
 
    /* build a command even if not connected */
    /* save this command off for prediction */

@@ -38,13 +38,13 @@
 
  qboolean ogg_first_init = true; /* First initialization flag. */
  qboolean ogg_started = false;   /* Initialization flag. */
- int ogg_bigendian = 0;
+ q_int32_t ogg_bigendian = 0;
  byte *ogg_buffer;       /* File buffer. */
  char **ogg_filelist;      /* List of Ogg Vorbis files. */
  char ovBuf[4096];               /* Buffer for sound. */
- int ogg_curfile;        /* Index of currently played file. */
- int ogg_numfiles;       /* Number of Ogg Vorbis files. */
- int ovSection;          /* Position in Ogg Vorbis file. */
+ q_int32_t ogg_curfile;        /* Index of currently played file. */
+ q_int32_t ogg_numfiles;       /* Number of Ogg Vorbis files. */
+ q_int32_t ovSection;          /* Position in Ogg Vorbis file. */
  ogg_status_t ogg_status;    /* Status indicator. */
  cvar_t *ogg_autoplay;     /* Play this song when started. */
  cvar_t *ogg_check;        /* Check Ogg files or not. */
@@ -53,7 +53,7 @@
  cvar_t *ogg_volume;       /* Music volume. */
  OggVorbis_File ovFile;      /* Ogg Vorbis file. */
  vorbis_info *ogg_info;      /* Ogg Vorbis file information */
- int ogg_numbufs;        /* Number of buffers for OpenAL */
+ q_int32_t ogg_numbufs;        /* Number of buffers for OpenAL */
 
  /*
   * Initialize the Ogg Vorbis subsystem.
@@ -176,7 +176,7 @@
  {
    qboolean res;        /* Return value. */
    byte *buffer;        /* File buffer. */
-   int size;            /* File size. */
+   q_int32_t size;            /* File size. */
    OggVorbis_File ovf;  /* Ogg Vorbis file. */
 
    if ( ogg_check->value == 0 ) {
@@ -253,8 +253,8 @@
  OGG_LoadFileList ( void )
  {
    char **list; /* List of .ogg files. */
-   int i;     /* Loop counter. */
-   int j;     /* Real position in list. */
+   q_int32_t i;     /* Loop counter. */
+   q_int32_t j;     /* Real position in list. */
    /* Get file list. */
    list = FS_ListFiles2 ( va ( "%s/*.ogg", OGG_DIR ),
                           &ogg_numfiles, 0, SFF_SUBDIR | SFF_HIDDEN |
@@ -295,8 +295,8 @@
  {
    byte *buffer; /* Buffer to read the file. */
    char *ptr;    /* Pointer for parsing the file. */
-   int i;      /* Loop counter. */
-   int size;     /* Length of buffer and strings. */
+   q_int32_t i;      /* Loop counter. */
+   q_int32_t size;     /* Length of buffer and strings. */
 
    /* Open playlist. */
    if ( ( size = FS_LoadFile ( va ( "%s/%s.lst", OGG_DIR,
@@ -339,11 +339,11 @@
   * Play Ogg Vorbis file (with absolute or relative index).
   */
  qboolean
- OGG_Open ( ogg_seek_t type, int offset )
+ OGG_Open ( ogg_seek_t type, q_int32_t offset )
  {
-   int size;     /* File size. */
-   int pos = -1; /* Absolute position. */
-   int res;      /* Error indicator. */
+   q_int32_t size;     /* File size. */
+   q_int32_t pos = -1; /* Absolute position. */
+   q_int32_t res;      /* Error indicator. */
 
    switch ( type ) {
    case ABS:
@@ -427,7 +427,7 @@
  OGG_OpenName ( char *filename )
  {
    char *name; /* File name. */
-   int i;    /* Loop counter. */
+   q_int32_t i;    /* Loop counter. */
 
    /* If the track name is '00', stop playback */
    if ( !strncmp ( filename, "00", sizeof ( char ) * 3 ) ) {
@@ -454,10 +454,10 @@
  /*
   * Play a portion of the currently opened file.
   */
- int
+ q_int32_t
  OGG_Read ( void )
  {
-   int res; /* Number of bytes read. */
+   q_int32_t res; /* Number of bytes read. */
    /* Read and resample. */
    res = ov_read ( &ovFile, ovBuf, sizeof ( ovBuf ),
                    ogg_bigendian, OGG_SAMPLEWIDTH, 1,
@@ -580,7 +580,7 @@
  void
  OGG_ListCmd ( void )
  {
-   int i;
+   q_int32_t i;
 
    for ( i = 0; i < ogg_numfiles; i++ ) {
      Com_Printf ( "%d %s\n", i + 1, ogg_filelist[i] );
@@ -595,13 +595,13 @@
  void
  OGG_ParseCmd ( char *arg )
  {
-   int n;
+   q_int32_t n;
    cvar_t *ogg_enable;
    ogg_enable = Cvar_Get ( "ogg_enable", "1", CVAR_ARCHIVE );
 
    switch ( arg[0] ) {
    case '#':
-     n = ( int ) strtol ( arg + 1, ( char ** ) NULL, 10 ) - 1;
+     n = ( q_int32_t ) strtol ( arg + 1, ( char ** ) NULL, 10 ) - 1;
      OGG_Open ( ABS, n );
      break;
 
@@ -611,7 +611,7 @@
 
    case '>':
      if ( strlen ( arg ) > 1 ) {
-       OGG_Open ( REL, ( int ) strtol ( arg + 1, ( char ** ) NULL, 10 ) );
+       OGG_Open ( REL, ( q_int32_t ) strtol ( arg + 1, ( char ** ) NULL, 10 ) );
      } else {
        OGG_Open ( REL, 1 );
      }
@@ -620,7 +620,7 @@
 
    case '<':
      if ( strlen ( arg ) > 1 ) {
-       OGG_Open ( REL, - ( int ) strtol ( arg + 1, ( char ** ) NULL, 10 ) );
+       OGG_Open ( REL, - ( q_int32_t ) strtol ( arg + 1, ( char ** ) NULL, 10 ) );
      } else {
        OGG_Open ( REL, -1 );
      }

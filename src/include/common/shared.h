@@ -32,6 +32,17 @@
 
  #include "prereqs.h"
 
+ /* Integer types */
+ typedef int64_t q_int64_t;
+ typedef int32_t q_int32_t;
+ typedef int16_t q_int16_t;
+ typedef int8_t  q_int8_t;
+
+ typedef uint64_t q_uint64_t;
+ typedef uint32_t q_uint32_t;
+ typedef uint16_t q_uint16_t;
+ typedef uint8_t  q_uint8_t;
+
  #ifdef true
  #undef true
  #endif
@@ -41,7 +52,7 @@
  #endif
 
  typedef enum {false, true}  qboolean;
- typedef unsigned char byte;
+ typedef q_uint8_t byte;
 
  #ifndef NULL
  #define NULL ((void *)0)
@@ -110,10 +121,6 @@
  typedef vec_t vec3_t[3];
  typedef vec_t vec5_t[5];
 
- typedef int fixed4_t;
- typedef int fixed8_t;
- typedef int fixed16_t;
-
  #ifndef M_PI
  #define M_PI 3.14159265358979323846 /* matches value in gcc v2 math.h */
  #endif
@@ -124,9 +131,9 @@
 
  #define nanmask (255 << 23)
 
- #define IS_NAN(x) (((*(int *)&x) & nanmask) == nanmask)
+ #define IS_NAN(x) (((*(q_int32_t *)&x) & nanmask) == nanmask)
 
- #define Q_ftol(f) (long)(f)
+ #define Q_ftol(f) (q_int32_t)(f)
 
  #define DotProduct(x, y) (x[0] * y[0] + x[1] * y[1] + x[2] * y[2])
  #define VectorSubtract(a, b, c) \
@@ -150,21 +157,21 @@
 
  void ClearBounds ( vec3_t mins, vec3_t maxs );
  void AddPointToBounds ( vec3_t v, vec3_t mins, vec3_t maxs );
- int VectorCompare ( vec3_t v1, vec3_t v2 );
+ q_int32_t VectorCompare ( vec3_t v1, vec3_t v2 );
  vec_t VectorLength ( vec3_t v );
  void CrossProduct ( vec3_t v1, vec3_t v2, vec3_t cross );
  vec_t VectorNormalize ( vec3_t v ); /* returns vector length */
  vec_t VectorNormalize2 ( vec3_t v, vec3_t out );
  void VectorInverse ( vec3_t v );
  void VectorScale ( vec3_t in, vec_t scale, vec3_t out );
- int Q_log2 ( int val );
+ q_int32_t Q_log2 ( q_int32_t val );
 
  void R_ConcatRotations ( float in1[3][3], float in2[3][3], float out[3][3] );
  void R_ConcatTransforms ( float in1[3][4], float in2[3][4], float out[3][4] );
 
  void AngleVectors ( vec3_t angles, vec3_t forward, vec3_t right, vec3_t up );
  void AngleVectors2 ( vec3_t value1, vec3_t angles );
- int BoxOnPlaneSide ( vec3_t emins, vec3_t emaxs, struct cplane_s *plane );
+ q_int32_t BoxOnPlaneSide ( vec3_t emins, vec3_t emaxs, struct cplane_s *plane );
  float anglemod ( float a );
  float LerpAngle ( float a1, float a2, float frac );
 
@@ -202,25 +209,25 @@
  char *COM_Parse ( char **data_p );
 
  /* data is an in/out parm, returns a parsed out token */
- void Com_sprintf ( char *dest, int size, char *fmt, ... );
+ void Com_sprintf ( char *dest, q_int32_t size, char *fmt, ... );
 
- void Com_PageInMemory ( byte *buffer, int size );
+ void Com_PageInMemory ( byte *buffer, q_int32_t size );
 
  char *strlwr ( char *s );
 
  /* ============================================= */
 
  /* portable case insensitive compare */
- int Q_stricmp ( const char *s1, const char *s2 );
- int Q_strcasecmp ( char *s1, char *s2 );
- int Q_strncasecmp ( char *s1, char *s2, int n );
+ q_int32_t Q_stricmp ( const char *s1, const char *s2 );
+ q_int32_t Q_strcasecmp ( char *s1, char *s2 );
+ q_int32_t Q_strncasecmp ( char *s1, char *s2, q_int32_t n );
 
  /* ============================================= */
 
- short BigShort ( short l );
- short LittleShort ( short l );
- int BigLong ( int l );
- int LittleLong ( int l );
+ q_int16_t BigShort ( q_int16_t l );
+ q_int16_t LittleShort ( q_int16_t l );
+ q_int32_t BigLong ( q_int32_t l );
+ q_int32_t LittleLong ( q_int32_t l );
  float BigFloat ( float l );
  float LittleFloat ( float l );
 
@@ -242,7 +249,7 @@
  /* ============================================= */
 
  /* Random number generator */
- int randk ( void );
+ q_int32_t randk ( void );
  float frandk ( void );
  float crandk ( void );
  void randk_seed ( void );
@@ -255,7 +262,7 @@
   * ==============================================================
   */
 
- extern int curtime; /* time returned by last Sys_Milliseconds */
+ extern q_int32_t curtime; /* time returned by last Sys_Milliseconds */
 
  char *strlwr ( char *s );
 
@@ -292,7 +299,7 @@
    char *name;
    char *string;
    char *latched_string; /* for CVAR_LATCH vars */
-   int flags;
+   q_int32_t flags;
    qboolean modified; /* set each time the cvar is changed */
    float value;
    struct cvar_s *next;
@@ -398,13 +405,13 @@
  typedef struct cmodel_s {
    vec3_t mins, maxs;
    vec3_t origin; /* for sounds or lights */
-   int headnode;
+   q_int32_t headnode;
  } cmodel_t;
 
  typedef struct csurface_s {
    char name[16];
-   int flags;
-   int value;
+   q_int32_t flags;
+   q_int32_t value;
  } csurface_t;
 
  typedef struct mapsurface_s { /* used internally due to name len probs */
@@ -420,7 +427,7 @@
    vec3_t endpos;          /* final position */
    cplane_t plane;         /* surface normal at impact */
    csurface_t *surface;    /* surface hit */
-   int contents;           /* contents on other side of surface hit */
+   q_int32_t contents;           /* contents on other side of surface hit */
    struct edict_s *ent;    /* not set by CM_*() functions */
  } trace_t;
 
@@ -453,12 +460,12 @@
  typedef struct {
    pmtype_t pm_type;
 
-   short origin[3];            /* 12.3 */
-   short velocity[3];          /* 12.3 */
+   q_int16_t origin[3];            /* 12.3 */
+   q_int16_t velocity[3];          /* 12.3 */
    byte pm_flags;              /* ducked, jump_held, etc */
    byte pm_time;               /* each unit = 8 ms */
-   short gravity;
-   short delta_angles[3];      /* add to command angles to get view direction
+   q_int16_t gravity;
+   q_int16_t delta_angles[3];      /* add to command angles to get view direction
                   * changed by spawns, rotating objects, and teleporters */
  } pmove_state_t;
 
@@ -471,8 +478,8 @@
  typedef struct usercmd_s {
    byte msec;
    byte buttons;
-   short angles[3];
-   short forwardmove, sidemove, upmove;
+   q_int16_t angles[3];
+   q_int16_t forwardmove, sidemove, upmove;
    byte impulse;           /* remove? */
    byte lightlevel;        /* light level the player is standing on */
  } usercmd_t;
@@ -487,7 +494,7 @@
    qboolean snapinitial;           /* if s has been changed outside pmove */
 
    /* results (out) */
-   int numtouch;
+   q_int32_t numtouch;
    struct edict_s *touchents[MAXTOUCH];
 
    vec3_t viewangles;              /* clamped */
@@ -496,12 +503,12 @@
    vec3_t mins, maxs;              /* bounding box size */
 
    struct edict_s *groundentity;
-   int watertype;
-   int waterlevel;
+   q_int32_t watertype;
+   q_int32_t waterlevel;
 
    /* callbacks to test the world */
    trace_t ( *trace ) ( vec3_t start, vec3_t mins, vec3_t maxs, vec3_t end );
-   int ( *pointcontents ) ( vec3_t point );
+   q_int32_t ( *pointcontents ) ( vec3_t point );
  } pmove_t;
 
  /* entity_state_t->effects
@@ -973,7 +980,7 @@
   * ==========================================================
   */
 
- #define ANGLE2SHORT(x) ((int)((x) * 65536 / 360) & 65535)
+ #define ANGLE2SHORT(x) ((q_int32_t)((x) * 65536 / 360) & 65535)
  #define SHORT2ANGLE(x) ((x) * (360.0 / 65536))
 
  /* config strings are a general means of communication from
@@ -1020,22 +1027,22 @@
   * in an update message about entities that the client will
   * need to render in some way */
  typedef struct entity_state_s {
-   int number;             /* edict index */
+   q_int32_t number;             /* edict index */
 
    vec3_t origin;
    vec3_t angles;
    vec3_t old_origin;      /* for lerping */
-   int modelindex;
-   int modelindex2, modelindex3, modelindex4;      /* weapons, CTF flags, etc */
-   int frame;
-   int skinnum;
-   unsigned int effects;
-   int renderfx;
-   int solid;              /* for client side prediction, 8*(bits 0-4) is x/y radius */
+   q_int32_t modelindex;
+   q_int32_t modelindex2, modelindex3, modelindex4;      /* weapons, CTF flags, etc */
+   q_int32_t frame;
+   q_int32_t skinnum;
+   q_uint32_t effects;
+   q_int32_t renderfx;
+   q_int32_t solid;              /* for client side prediction, 8*(bits 0-4) is x/y radius */
    /* 8*(bits 5-9) is z down distance, 8(bits10-15) is z up */
    /* gi.linkentity sets this properly */
-   int sound;              /* for looping sounds, to guarantee shutoff */
-   int event;              /* impulse events -- muzzle flashes, footsteps, etc */
+   q_int32_t sound;              /* for looping sounds, to guarantee shutoff */
+   q_int32_t event;              /* impulse events -- muzzle flashes, footsteps, etc */
    /* events only go out for a single frame, they */
    /* are automatically cleared each frame */
  } entity_state_t;
@@ -1056,21 +1063,21 @@
 
    vec3_t gunangles;
    vec3_t gunoffset;
-   int gunindex;
-   int gunframe;
+   q_int32_t gunindex;
+   q_int32_t gunframe;
 
    float blend[4];             /* rgba full screen effect */
    float fov;                  /* horizontal field of view */
-   int rdflags;                /* refdef flags */
+   q_int32_t rdflags;                /* refdef flags */
 
-   short stats[MAX_STATS];     /* fast status bar updates */
+   q_int16_t stats[MAX_STATS];     /* fast status bar updates */
  } player_state_t;
 
  #define VIDREF_GL 1
  #define VIDREF_SOFT 2
  #define VIDREF_OTHER 3
 
- extern int vidref_val;
+ extern q_int32_t vidref_val;
 
  size_t verify_fread ( void *, size_t, size_t, FILE * );
  size_t verify_fwrite ( void *, size_t, size_t, FILE * );

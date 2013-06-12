@@ -36,7 +36,7 @@
  void
  SV_SetMaster_f ( void )
  {
-   int i, slot;
+   q_int32_t i, slot;
 
    /* only dedicated servers send heartbeats */
    if ( !dedicated->value ) {
@@ -83,8 +83,8 @@
  SV_SetPlayer ( void )
  {
    client_t *cl;
-   int i;
-   int idnum;
+   q_int32_t i;
+   q_int32_t idnum;
    char *s;
 
    if ( Cmd_Argc() < 2 ) {
@@ -95,7 +95,7 @@
 
    /* numeric values are just slot numbers */
    if ( ( s[0] >= '0' ) && ( s[0] <= '9' ) ) {
-     idnum = ( int ) strtol ( Cmd_Argv ( 1 ), ( char ** ) NULL, 10 );
+     idnum = ( q_int32_t ) strtol ( Cmd_Argv ( 1 ), ( char ** ) NULL, 10 );
 
      if ( ( idnum < 0 ) || ( idnum >= maxclients->value ) ) {
        Com_Printf ( "Bad client slot: %i\n", idnum );
@@ -161,7 +161,7 @@
  SV_GameMap_f ( void )
  {
    char *map;
-   int i;
+   q_int32_t i;
    client_t *cl;
    qboolean *savedInuse;
 
@@ -281,10 +281,10 @@
  void
  SV_Status_f ( void )
  {
-   int i, j, l;
+   q_int32_t i, j, l;
    client_t *cl;
    char *s;
-   int ping;
+   q_int32_t ping;
 
    if ( !svs.clients ) {
      Com_Printf ( "No server running.\n" );
@@ -340,7 +340,7 @@
  SV_ConSay_f ( void )
  {
    client_t *client;
-   int j;
+   q_int32_t j;
    char *p;
    char text[1024];
 
@@ -424,8 +424,8 @@
    char name[MAX_OSPATH];
    byte buf_data[32768];
    sizebuf_t buf;
-   int len;
-   int i;
+   q_int32_t len;
+   q_int32_t i;
 
    if ( Cmd_Argc() != 2 ) {
      Com_Printf ( "serverrecord <demoname>\n" );

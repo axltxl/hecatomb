@@ -38,10 +38,10 @@
  SV_EmitPacketEntities ( client_frame_t *from, client_frame_t *to, sizebuf_t *msg )
  {
    entity_state_t *oldent, *newent;
-   int oldindex, newindex;
-   int oldnum, newnum;
-   int from_num_entities;
-   int bits;
+   q_int32_t oldindex, newindex;
+   q_int32_t oldnum, newnum;
+   q_int32_t from_num_entities;
+   q_int32_t bits;
    MSG_WriteByte ( msg, svc_packetentities );
 
    if ( !from ) {
@@ -129,11 +129,11 @@
  SV_WritePlayerstateToClient ( client_frame_t *from, client_frame_t *to,
                                sizebuf_t *msg )
  {
-   int i;
-   int pflags;
+   q_int32_t i;
+   q_int32_t pflags;
    player_state_t *ps, *ops;
    player_state_t dummy;
-   int statbits;
+   q_int32_t statbits;
    ps = &to->ps;
 
    if ( !from ) {
@@ -328,7 +328,7 @@
  SV_WriteFrameToClient ( client_t *client, sizebuf_t *msg )
  {
    client_frame_t *frame, *oldframe;
-   int lastframe;
+   q_int32_t lastframe;
    /* this is the frame we are creating */
    frame = &client->frames[sv.framenum & UPDATE_MASK];
 
@@ -367,9 +367,9 @@
  void
  SV_FatPVS ( vec3_t org )
  {
-   int leafs[64];
-   int i, j, count;
-   int longs;
+   q_int32_t leafs[64];
+   q_int32_t i, j, count;
+   q_int32_t longs;
    byte *src;
    vec3_t mins, maxs;
 
@@ -408,7 +408,7 @@
      src = CM_ClusterPVS ( leafs[i] );
 
      for ( j = 0; j < longs; j++ ) {
-       ( ( long * ) fatpvs ) [j] |= ( ( long * ) src ) [j];
+       ( ( q_int32_t * ) fatpvs ) [j] |= ( ( q_int32_t * ) src ) [j];
      }
    }
  }
@@ -417,16 +417,16 @@
  void
  SV_BuildClientFrame ( client_t *client )
  {
-   int e, i;
+   q_int32_t e, i;
    vec3_t org;
    edict_t *ent;
    edict_t *clent;
    client_frame_t *frame;
    entity_state_t *state;
-   int l;
-   int clientarea, clientcluster;
-   int leafnum;
-   int c_fullsend;
+   q_int32_t l;
+   q_int32_t clientarea, clientcluster;
+   q_int32_t leafnum;
+   q_int32_t c_fullsend;
    byte *clientphs;
    byte *bitvector;
    clent = client->edict;
@@ -557,12 +557,12 @@
  void
  SV_RecordDemoMessage ( void )
  {
-   int e;
+   q_int32_t e;
    edict_t *ent;
    entity_state_t nostate;
    sizebuf_t buf;
    byte buf_data[32768];
-   int len;
+   q_int32_t len;
 
    if ( !svs.demofile ) {
      return;

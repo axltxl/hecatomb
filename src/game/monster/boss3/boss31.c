@@ -30,20 +30,20 @@
  extern void SP_monster_makron ( edict_t *self );
  qboolean visible ( edict_t *self, edict_t *other );
 
- static int sound_pain1;
- static int sound_pain2;
- static int sound_pain3;
- static int sound_idle;
- static int sound_death;
- static int sound_search1;
- static int sound_search2;
- static int sound_search3;
- static int sound_attack1;
- static int sound_attack2;
- static int sound_firegun;
- static int sound_step_left;
- static int sound_step_right;
- static int sound_death_hit;
+ static q_int32_t sound_pain1;
+ static q_int32_t sound_pain2;
+ static q_int32_t sound_pain3;
+ static q_int32_t sound_idle;
+ static q_int32_t sound_death;
+ static q_int32_t sound_search1;
+ static q_int32_t sound_search2;
+ static q_int32_t sound_search3;
+ static q_int32_t sound_attack1;
+ static q_int32_t sound_attack2;
+ static q_int32_t sound_firegun;
+ static q_int32_t sound_step_left;
+ static q_int32_t sound_step_right;
+ static q_int32_t sound_death_hit;
 
  void BossExplode ( edict_t *self );
  void MakronToss ( edict_t *self );
@@ -517,7 +517,7 @@
 
  void
  jorg_pain ( edict_t *self, edict_t *other /* unused */,
-             float kick /* unused */, int damage )
+             float kick /* unused */, q_int32_t damage )
  {
    if ( !self ) {
      return;
@@ -689,7 +689,7 @@
 
  void
  jorg_die ( edict_t *self, edict_t *inflictor /* unused */, edict_t *attacker /* unused */,
-            int damage /* unused */, vec3_t point /* unused */ )
+            q_int32_t damage /* unused */, vec3_t point /* unused */ )
  {
    if ( !self ) {
      return;
@@ -710,7 +710,7 @@
    vec3_t temp;
    float chance;
    trace_t tr;
-   int enemy_range;
+   q_int32_t enemy_range;
    float enemy_yaw;
 
    if ( !self ) {

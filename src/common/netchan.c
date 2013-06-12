@@ -94,7 +94,7 @@
  void
  Netchan_Init ( void )
  {
-   int port;
+   q_int32_t port;
    /* pick a port value that should be nice and random */
    port = Sys_Milliseconds() & 0xffff;
    showpackets = Cvar_Get ( "showpackets", "0", 0 );
@@ -106,7 +106,7 @@
   * Sends an out-of-band datagram
   */
  void
- Netchan_OutOfBand ( int net_socket, netadr_t adr, int length, byte *data )
+ Netchan_OutOfBand ( q_int32_t net_socket, netadr_t adr, q_int32_t length, byte *data )
  {
    sizebuf_t send;
    byte send_buf[MAX_MSGLEN];
@@ -122,7 +122,7 @@
   * Sends a text message in an out-of-band datagram
   */
  void
- Netchan_OutOfBandPrint ( int net_socket, netadr_t adr, char *format, ... )
+ Netchan_OutOfBandPrint ( q_int32_t net_socket, netadr_t adr, char *format, ... )
  {
    va_list argptr;
    static char string[MAX_MSGLEN - 4];
@@ -136,7 +136,7 @@
   * called to open a channel to a remote system
   */
  void
- Netchan_Setup ( netsrc_t sock, netchan_t *chan, netadr_t adr, int qport )
+ Netchan_Setup ( netsrc_t sock, netchan_t *chan, netadr_t adr, q_int32_t qport )
  {
    memset ( chan, 0, sizeof ( *chan ) );
    chan->sock = sock;
@@ -190,12 +190,12 @@
   * A 0 length will still generate a packet and deal with the reliable messages.
   */
  void
- Netchan_Transmit ( netchan_t *chan, int length, byte *data )
+ Netchan_Transmit ( netchan_t *chan, q_int32_t length, byte *data )
  {
    sizebuf_t send;
    byte send_buf[MAX_MSGLEN];
    qboolean send_reliable;
-   unsigned w1, w2;
+   q_uint32_t w1, w2;
 
    /* check for message overflow */
    if ( chan->message.overflowed ) {
@@ -268,8 +268,8 @@
  qboolean
  Netchan_Process ( netchan_t *chan, sizebuf_t *msg )
  {
-   unsigned sequence, sequence_ack;
-   unsigned reliable_ack, reliable_message;
+   q_uint32_t sequence, sequence_ack;
+   q_uint32_t reliable_ack, reliable_message;
    /* get sequence numbers */
    MSG_BeginReading ( msg );
    sequence = MSG_ReadLong ( msg );

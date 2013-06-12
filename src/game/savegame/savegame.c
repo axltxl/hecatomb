@@ -242,7 +242,7 @@ field_t clientfields[] = {
  functionList_t *
  GetFunctionByAddress ( byte *adr )
  {
-   int i;
+   q_int32_t i;
 
    for ( i = 0; functionList[i].funcStr; i++ ) {
      if ( functionList[i].funcPtr == adr ) {
@@ -263,7 +263,7 @@ field_t clientfields[] = {
  byte *
  FindFunctionByName ( char *name )
  {
-   int i;
+   q_int32_t i;
 
    for ( i = 0; functionList[i].funcStr; i++ ) {
      if ( !strcmp ( name, functionList[i].funcStr ) ) {
@@ -282,7 +282,7 @@ field_t clientfields[] = {
  mmoveList_t *
  GetMmoveByAddress ( mmove_t *adr )
  {
-   int i;
+   q_int32_t i;
 
    for ( i = 0; mmoveList[i].mmoveStr; i++ ) {
      if ( mmoveList[i].mmovePtr == adr ) {
@@ -301,7 +301,7 @@ field_t clientfields[] = {
  mmove_t *
  FindMmoveByName ( char *name )
  {
-   int i;
+   q_int32_t i;
 
    for ( i = 0; mmoveList[i].mmoveStr; i++ ) {
      if ( !strcmp ( name, mmoveList[i].mmoveStr ) ) {
@@ -325,8 +325,8 @@ field_t clientfields[] = {
  WriteField1 ( FILE *f, field_t *field, byte *base )
  {
    void *p;
-   int len;
-   int index;
+   q_int32_t len;
+   q_int32_t index;
    functionList_t *func;
    mmoveList_t *mmove;
 
@@ -353,7 +353,7 @@ field_t clientfields[] = {
        len = 0;
      }
 
-     * ( int * ) p = len;
+     * ( q_int32_t * ) p = len;
      break;
    case F_EDICT:
 
@@ -363,7 +363,7 @@ field_t clientfields[] = {
        index = * ( edict_t ** ) p - g_edicts;
      }
 
-     * ( int * ) p = index;
+     * ( q_int32_t * ) p = index;
      break;
    case F_CLIENT:
 
@@ -373,7 +373,7 @@ field_t clientfields[] = {
        index = * ( gclient_t ** ) p - game.clients;
      }
 
-     * ( int * ) p = index;
+     * ( q_int32_t * ) p = index;
      break;
    case F_ITEM:
 
@@ -383,7 +383,7 @@ field_t clientfields[] = {
        index = * ( gitem_t ** ) p - itemlist;
      }
 
-     * ( int * ) p = index;
+     * ( q_int32_t * ) p = index;
      break;
    case F_FUNCTION:
 
@@ -399,7 +399,7 @@ field_t clientfields[] = {
        len = strlen ( func->funcStr ) + 1;
      }
 
-     * ( int * ) p = len;
+     * ( q_int32_t * ) p = len;
      break;
    case F_MMOVE:
 
@@ -415,7 +415,7 @@ field_t clientfields[] = {
        len = strlen ( mmove->mmoveStr ) + 1;
      }
 
-     * ( int * ) p = len;
+     * ( q_int32_t * ) p = len;
      break;
    default:
      gi.error ( "WriteEdict: unknown field type" );
@@ -425,7 +425,7 @@ field_t clientfields[] = {
  void
  WriteField2 ( FILE *f, field_t *field, byte *base )
  {
-   int len;
+   q_int32_t len;
    void *p;
    functionList_t *func;
    mmoveList_t *mmove;
@@ -490,8 +490,8 @@ field_t clientfields[] = {
  ReadField ( FILE *f, field_t *field, byte *base )
  {
    void *p;
-   int len;
-   int index;
+   q_int32_t len;
+   q_int32_t index;
    char funcStr[2048];
 
    if ( field->flags & FFL_SPAWNTEMP ) {
@@ -509,7 +509,7 @@ field_t clientfields[] = {
      break;
 
    case F_LSTRING:
-     len = * ( int * ) p;
+     len = * ( q_int32_t * ) p;
 
      if ( !len ) {
        * ( char ** ) p = NULL;
@@ -520,7 +520,7 @@ field_t clientfields[] = {
 
      break;
    case F_EDICT:
-     index = * ( int * ) p;
+     index = * ( q_int32_t * ) p;
 
      if ( index == -1 ) {
        * ( edict_t ** ) p = NULL;
@@ -530,7 +530,7 @@ field_t clientfields[] = {
 
      break;
    case F_CLIENT:
-     index = * ( int * ) p;
+     index = * ( q_int32_t * ) p;
 
      if ( index == -1 ) {
        * ( gclient_t ** ) p = NULL;
@@ -540,7 +540,7 @@ field_t clientfields[] = {
 
      break;
    case F_ITEM:
-     index = * ( int * ) p;
+     index = * ( q_int32_t * ) p;
 
      if ( index == -1 ) {
        * ( gitem_t ** ) p = NULL;
@@ -550,7 +550,7 @@ field_t clientfields[] = {
 
      break;
    case F_FUNCTION:
-     len = * ( int * ) p;
+     len = * ( q_int32_t * ) p;
 
      if ( !len ) {
        * ( byte ** ) p = NULL;
@@ -569,7 +569,7 @@ field_t clientfields[] = {
      }
      break;
    case F_MMOVE:
-     len = * ( int * ) p;
+     len = * ( q_int32_t * ) p;
 
      if ( !len ) {
        * ( byte ** ) p = NULL;
@@ -651,7 +651,7 @@ field_t clientfields[] = {
  WriteGame ( const char *filename, qboolean autosave )
  {
    FILE *f;
-   int i;
+   q_int32_t i;
    char str_ver[32];
    char str_game[32];
    char str_os[32];
@@ -703,7 +703,7 @@ field_t clientfields[] = {
  ReadGame ( const char *filename )
  {
    FILE *f;
-   int i;
+   q_int32_t i;
    char str_ver[32];
    char str_game[32];
    char str_os[32];
@@ -818,7 +818,7 @@ field_t clientfields[] = {
  void
  WriteLevel ( const char *filename )
  {
-   int i;
+   q_int32_t i;
    edict_t *ent;
    FILE *f;
 
@@ -903,9 +903,9 @@ field_t clientfields[] = {
  void
  ReadLevel ( const char *filename )
  {
-   int entnum;
+   q_int32_t entnum;
    FILE *f;
-   int i;
+   q_int32_t i;
    edict_t *ent;
 
    f = fopen ( filename, "rb" );

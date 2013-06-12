@@ -49,19 +49,19 @@
  gitem_armor_t combatarmor_info = {50, 100, .60, .30, ARMOR_COMBAT};
  gitem_armor_t bodyarmor_info = {100, 200, .80, .60, ARMOR_BODY};
 
- int jacket_armor_index;
- int combat_armor_index;
- int body_armor_index;
- static int power_screen_index;
- static int power_shield_index;
+ q_int32_t jacket_armor_index;
+ q_int32_t combat_armor_index;
+ q_int32_t body_armor_index;
+ static q_int32_t power_screen_index;
+ static q_int32_t power_shield_index;
 
  void Use_Quad ( edict_t *ent, gitem_t *item );
- static int quad_drop_timeout_hack;
+ static q_int32_t quad_drop_timeout_hack;
 
  /* ====================================================================== */
 
  gitem_t *
- GetItemByIndex ( int index )
+ GetItemByIndex ( q_int32_t index )
  {
    if ( ( index == 0 ) || ( index >= game.num_items ) ) {
      return NULL;
@@ -73,7 +73,7 @@
  gitem_t *
  FindItemByClassname ( char *classname )
  {
-   int i;
+   q_int32_t i;
    gitem_t *it;
 
    if ( !classname ) {
@@ -98,7 +98,7 @@
  gitem_t *
  FindItem ( char *pickup_name )
  {
-   int i;
+   q_int32_t i;
    gitem_t *it;
 
    if ( !pickup_name ) {
@@ -131,8 +131,8 @@
 
    if ( ent->team ) {
      edict_t *master;
-     int count;
-     int choice;
+     q_int32_t count;
+     q_int32_t choice;
 
      master = ent->teammaster;
 
@@ -173,7 +173,7 @@
  qboolean
  Pickup_Powerup ( edict_t *ent, edict_t *other )
  {
-   int quantity;
+   q_int32_t quantity;
 
    if ( !ent || !other ) {
      return false;
@@ -197,7 +197,7 @@
        SetRespawn ( ent, ent->item->quantity );
      }
 
-     if ( ( ( int ) dmflags->value & DF_INSTANT_ITEMS ) ||
+     if ( ( ( q_int32_t ) dmflags->value & DF_INSTANT_ITEMS ) ||
           ( ( ent->item->use == Use_Quad ) &&
             ( ent->spawnflags & DROPPED_PLAYER_ITEM ) ) ) {
        if ( ( ent->item->use == Use_Quad ) &&
@@ -265,7 +265,7 @@
  Pickup_Bandolier ( edict_t *ent, edict_t *other )
  {
    gitem_t *item;
-   int index;
+   q_int32_t index;
 
    if ( !ent || !other ) {
      return false;
@@ -324,7 +324,7 @@
  Pickup_Pack ( edict_t *ent, edict_t *other )
  {
    gitem_t *item;
-   int index;
+   q_int32_t index;
 
    if ( !ent || !other ) {
      return false;
@@ -444,7 +444,7 @@
  void
  Use_Quad ( edict_t *ent, gitem_t *item )
  {
-   int timeout;
+   q_int32_t timeout;
 
    if ( !ent || !item ) {
      return;
@@ -579,10 +579,10 @@
  /* ====================================================================== */
 
  qboolean
- Add_Ammo ( edict_t *ent, gitem_t *item, int count )
+ Add_Ammo ( edict_t *ent, gitem_t *item, q_int32_t count )
  {
-   int index;
-   int max;
+   q_int32_t index;
+   q_int32_t max;
 
    if ( !ent || !item ) {
      return false;
@@ -626,8 +626,8 @@
  qboolean
  Pickup_Ammo ( edict_t *ent, edict_t *other )
  {
-   int oldcount;
-   int count;
+   q_int32_t oldcount;
+   q_int32_t count;
    qboolean weapon;
 
    if ( !ent || !other ) {
@@ -636,7 +636,7 @@
 
    weapon = ( ent->item->flags & IT_WEAPON );
 
-   if ( ( weapon ) && ( ( int ) dmflags->value & DF_INFINITE_AMMO ) ) {
+   if ( ( weapon ) && ( ( q_int32_t ) dmflags->value & DF_INFINITE_AMMO ) ) {
      count = 1000;
    } else if ( ent->count ) {
      count = ent->count;
@@ -670,7 +670,7 @@
  Drop_Ammo ( edict_t *ent, gitem_t *item )
  {
    edict_t *dropped;
-   int index;
+   q_int32_t index;
 
    if ( !ent || !item ) {
      return;
@@ -759,7 +759,7 @@
 
  /* ====================================================================== */
 
- int
+ q_int32_t
  ArmorIndex ( edict_t *ent )
  {
    if ( !ent ) {
@@ -788,12 +788,12 @@
  qboolean
  Pickup_Armor ( edict_t *ent, edict_t *other )
  {
-   int old_armor_index;
+   q_int32_t old_armor_index;
    gitem_armor_t *oldinfo;
    gitem_armor_t *newinfo;
-   int newcount;
+   q_int32_t newcount;
    float salvage;
-   int salvagecount;
+   q_int32_t salvagecount;
 
    if ( !ent || !other ) {
      return false;
@@ -870,7 +870,7 @@
 
  /* ====================================================================== */
 
- int
+ q_int32_t
  PowerArmorType ( edict_t *ent )
  {
    if ( !ent ) {
@@ -899,7 +899,7 @@
  void
  Use_PowerArmor ( edict_t *ent, gitem_t *item )
  {
-   int index;
+   q_int32_t index;
 
    if ( !ent || !item ) {
      return;
@@ -926,7 +926,7 @@
  qboolean
  Pickup_PowerArmor ( edict_t *ent, edict_t *other )
  {
-   int quantity;
+   q_int32_t quantity;
 
    if ( !ent || !other ) {
      return false;
@@ -1245,7 +1245,7 @@
  {
    char *s, *start;
    char data[MAX_QPATH];
-   int len;
+   q_int32_t len;
    gitem_t *ammo;
 
    if ( !it ) {
@@ -1348,7 +1348,7 @@
 
    /* some items will be prevented in deathmatch */
    if ( deathmatch->value ) {
-     if ( ( int ) dmflags->value & DF_NO_ARMOR ) {
+     if ( ( q_int32_t ) dmflags->value & DF_NO_ARMOR ) {
        if ( ( item->pickup == Pickup_Armor ) ||
             ( item->pickup == Pickup_PowerArmor ) ) {
          G_FreeEdict ( ent );
@@ -1356,14 +1356,14 @@
        }
      }
 
-     if ( ( int ) dmflags->value & DF_NO_ITEMS ) {
+     if ( ( q_int32_t ) dmflags->value & DF_NO_ITEMS ) {
        if ( item->pickup == Pickup_Powerup ) {
          G_FreeEdict ( ent );
          return;
        }
      }
 
-     if ( ( int ) dmflags->value & DF_NO_HEALTH ) {
+     if ( ( q_int32_t ) dmflags->value & DF_NO_HEALTH ) {
        if ( ( item->pickup == Pickup_Health ) ||
             ( item->pickup == Pickup_Adrenaline ) ||
             ( item->pickup == Pickup_AncientHead ) ) {
@@ -1372,7 +1372,7 @@
        }
      }
 
-     if ( ( int ) dmflags->value & DF_INFINITE_AMMO ) {
+     if ( ( q_int32_t ) dmflags->value & DF_INFINITE_AMMO ) {
        if ( ( item->flags == IT_AMMO ) ||
             ( strcmp ( ent->classname, "weapon_bfg" ) == 0 ) ) {
          G_FreeEdict ( ent );
@@ -2335,7 +2335,7 @@
      return;
    }
 
-   if ( deathmatch->value && ( ( int ) dmflags->value & DF_NO_HEALTH ) ) {
+   if ( deathmatch->value && ( ( q_int32_t ) dmflags->value & DF_NO_HEALTH ) ) {
      G_FreeEdict ( self );
      return;
    }
@@ -2356,7 +2356,7 @@
      return;
    }
 
-   if ( deathmatch->value && ( ( int ) dmflags->value & DF_NO_HEALTH ) ) {
+   if ( deathmatch->value && ( ( q_int32_t ) dmflags->value & DF_NO_HEALTH ) ) {
      G_FreeEdict ( self );
      return;
    }
@@ -2378,7 +2378,7 @@
      return;
    }
 
-   if ( deathmatch->value && ( ( int ) dmflags->value & DF_NO_HEALTH ) ) {
+   if ( deathmatch->value && ( ( q_int32_t ) dmflags->value & DF_NO_HEALTH ) ) {
      G_FreeEdict ( self );
      return;
    }
@@ -2399,7 +2399,7 @@
      return;
    }
 
-   if ( deathmatch->value && ( ( int ) dmflags->value & DF_NO_HEALTH ) ) {
+   if ( deathmatch->value && ( ( q_int32_t ) dmflags->value & DF_NO_HEALTH ) ) {
      G_FreeEdict ( self );
      return;
    }
@@ -2423,7 +2423,7 @@
  void
  SetItemNames ( void )
  {
-   int i;
+   q_int32_t i;
    gitem_t *it;
 
    for ( i = 0; i < game.num_items; i++ ) {

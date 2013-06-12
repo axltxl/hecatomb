@@ -50,7 +50,7 @@
      return value;
    }
 
-   if ( ( int ) ( dmflags->value ) & DF_MODELTEAMS ) {
+   if ( ( q_int32_t ) ( dmflags->value ) & DF_MODELTEAMS ) {
      *p = 0;
      return value;
    }
@@ -68,7 +68,7 @@
      return false;
    }
 
-   if ( ! ( ( int ) ( dmflags->value ) & ( DF_MODELTEAMS | DF_SKINTEAMS ) ) ) {
+   if ( ! ( ( q_int32_t ) ( dmflags->value ) & ( DF_MODELTEAMS | DF_SKINTEAMS ) ) ) {
      return false;
    }
 
@@ -83,10 +83,10 @@
  }
 
  void
- SelectNextItem ( edict_t *ent, int itflags )
+ SelectNextItem ( edict_t *ent, q_int32_t itflags )
  {
    gclient_t *cl;
-   int i, index;
+   q_int32_t i, index;
    gitem_t *it;
 
    if ( !ent ) {
@@ -126,10 +126,10 @@
  }
 
  void
- SelectPrevItem ( edict_t *ent, int itflags )
+ SelectPrevItem ( edict_t *ent, q_int32_t itflags )
  {
    gclient_t *cl;
-   int i, index;
+   q_int32_t i, index;
    gitem_t *it;
 
    if ( !ent ) {
@@ -196,8 +196,8 @@
  {
    char *name;
    gitem_t *it;
-   int index;
-   int i;
+   q_int32_t index;
+   q_int32_t i;
    qboolean give_all;
    edict_t *it_ent;
 
@@ -221,7 +221,7 @@
 
    if ( give_all || ( Q_stricmp ( gi.argv ( 1 ), "health" ) == 0 ) ) {
      if ( gi.argc() == 3 ) {
-       ent->health = ( int ) strtol ( gi.argv ( 2 ), ( char ** ) NULL, 10 );
+       ent->health = ( q_int32_t ) strtol ( gi.argv ( 2 ), ( char ** ) NULL, 10 );
      } else {
        ent->health = ent->max_health;
      }
@@ -344,7 +344,7 @@
 
    if ( it->flags & IT_AMMO ) {
      if ( gi.argc() == 3 ) {
-       ent->client->pers.inventory[index] = ( int ) strtol ( gi.argv ( 2 ), ( char ** ) NULL, 10 );
+       ent->client->pers.inventory[index] = ( q_int32_t ) strtol ( gi.argv ( 2 ), ( char ** ) NULL, 10 );
      } else {
        ent->client->pers.inventory[index] += it->quantity;
      }
@@ -453,7 +453,7 @@
  void
  Cmd_Use_f ( edict_t *ent )
  {
-   int index;
+   q_int32_t index;
    gitem_t *it;
    char *s;
 
@@ -490,7 +490,7 @@
  void
  Cmd_Drop_f ( edict_t *ent )
  {
-   int index;
+   q_int32_t index;
    gitem_t *it;
    char *s;
 
@@ -627,9 +627,9 @@
  Cmd_WeapPrev_f ( edict_t *ent )
  {
    gclient_t *cl;
-   int i, index;
+   q_int32_t i, index;
    gitem_t *it;
-   int selected_weapon;
+   q_int32_t selected_weapon;
 
    if ( !ent ) {
      return;
@@ -673,9 +673,9 @@
  Cmd_WeapNext_f ( edict_t *ent )
  {
    gclient_t *cl;
-   int i, index;
+   q_int32_t i, index;
    gitem_t *it;
-   int selected_weapon;
+   q_int32_t selected_weapon;
 
    if ( !ent ) {
      return;
@@ -719,7 +719,7 @@
  Cmd_WeapLast_f ( edict_t *ent )
  {
    gclient_t *cl;
-   int index;
+   q_int32_t index;
    gitem_t *it;
 
    if ( !ent ) {
@@ -807,17 +807,17 @@
    ent->client->showinventory = false;
  }
 
- int
+ q_int32_t
  PlayerSort ( void const *a, void const *b )
  {
-   int anum, bnum;
+   q_int32_t anum, bnum;
 
    if ( !a || !b ) {
      return 0;
    }
 
-   anum = * ( int * ) a;
-   bnum = * ( int * ) b;
+   anum = * ( q_int32_t * ) a;
+   bnum = * ( q_int32_t * ) b;
 
    anum = game.clients[anum].ps.stats[STAT_FRAGS];
    bnum = game.clients[bnum].ps.stats[STAT_FRAGS];
@@ -836,11 +836,11 @@
  void
  Cmd_Players_f ( edict_t *ent )
  {
-   int i;
-   int count;
+   q_int32_t i;
+   q_int32_t count;
    char small[64];
    char large[1280];
-   int index[256];
+   q_int32_t index[256];
 
    if ( !ent ) {
      return;
@@ -881,13 +881,13 @@
  void
  Cmd_Wave_f ( edict_t *ent )
  {
-   int i;
+   q_int32_t i;
 
    if ( !ent ) {
      return;
    }
 
-   i = ( int ) strtol ( gi.argv ( 1 ), ( char ** ) NULL, 10 );
+   i = ( q_int32_t ) strtol ( gi.argv ( 1 ), ( char ** ) NULL, 10 );
 
    /* can't wave when ducked */
    if ( ent->client->ps.pmove.pm_flags & PMF_DUCKED ) {
@@ -933,7 +933,7 @@
  void
  Cmd_Say_f ( edict_t *ent, qboolean team, qboolean arg0 )
  {
-   int i, j;
+   q_int32_t i, j;
    edict_t *other;
    char *p;
    char text[2048];
@@ -947,7 +947,7 @@
      return;
    }
 
-   if ( ! ( ( int ) ( dmflags->value ) & ( DF_MODELTEAMS | DF_SKINTEAMS ) ) ) {
+   if ( ! ( ( q_int32_t ) ( dmflags->value ) & ( DF_MODELTEAMS | DF_SKINTEAMS ) ) ) {
      team = false;
    }
 
@@ -984,7 +984,7 @@
 
      if ( level.time < cl->flood_locktill ) {
        gi.cprintf ( ent, PRINT_HIGH, "You can't talk for %d more seconds\n",
-                    ( int ) ( cl->flood_locktill - level.time ) );
+                    ( q_int32_t ) ( cl->flood_locktill - level.time ) );
        return;
      }
 
@@ -999,7 +999,7 @@
        cl->flood_locktill = level.time + flood_waitdelay->value;
        gi.cprintf ( ent, PRINT_CHAT,
                     "Flood protection:  You can't talk for %d seconds.\n",
-                    ( int ) flood_waitdelay->value );
+                    ( q_int32_t ) flood_waitdelay->value );
        return;
      }
 
@@ -1036,7 +1036,7 @@
  void
  Cmd_PlayerList_f ( edict_t *ent )
  {
-   int i;
+   q_int32_t i;
    char st[80];
    char text[1400];
    edict_t *e2;

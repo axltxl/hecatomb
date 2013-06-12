@@ -45,7 +45,7 @@
  qboolean have_stencil = false;
 
  char *displayname = NULL;
- int screen = -1;
+ q_int32_t screen = -1;
 
  #ifdef HT_WITH_X11GAMMA
  Display *dpy;
@@ -53,7 +53,7 @@
  #endif
 
  /* ========================================================================= */
- int
+ q_int32_t
  GLimp_Init ( void )
  {
    if ( !SDL_WasInit ( SDL_INIT_VIDEO ) ) {
@@ -88,8 +88,8 @@
    SDL_Surface *icon;
    SDL_Color color;
    Uint8 *ptr;
-   int i;
-   int mask;
+   q_int32_t i;
+   q_int32_t mask;
    icon = SDL_CreateRGBSurface ( SDL_SWSURFACE,
                                  q2icon_width, q2icon_height, 8,
                                  0, 0, 0, 0 );
@@ -152,14 +152,14 @@
  static qboolean
  GLimp_InitGraphics ( qboolean fullscreen )
  {
-   int counter = 0;
-   int flags;
-   int stencil_bits;
+   q_int32_t counter = 0;
+   q_int32_t flags;
+   q_int32_t stencil_bits;
    char title[24];
 
    if ( surface && ( surface->w == vid.width ) && ( surface->h == vid.height ) ) {
      /* Are we running fullscreen? */
-     int isfullscreen = ( surface->flags & SDL_FULLSCREEN ) ? 1 : 0;
+     q_int32_t isfullscreen = ( surface->flags & SDL_FULLSCREEN ) ? 1 : 0;
 
      /* We should, but we don't */
      if ( fullscreen != isfullscreen ) {
@@ -270,8 +270,8 @@
  }
 
  /* ========================================================================= */
- int
- GLimp_SetMode ( int *pwidth, int *pheight, int mode, qboolean fullscreen )
+ q_int32_t
+ GLimp_SetMode ( q_int32_t *pwidth, q_int32_t *pheight, q_int32_t mode, qboolean fullscreen )
  {
    VID_Printf ( PRINT_ALL, "setting mode %d:", mode );
 

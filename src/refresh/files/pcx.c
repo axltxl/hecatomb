@@ -30,14 +30,14 @@
 
  /* ========================================================================= */
  void
- LoadPCX ( char *origname, byte **pic, byte **palette, int *width, int *height )
+ LoadPCX ( char *origname, byte **pic, byte **palette, q_int32_t *width, q_int32_t *height )
  {
    byte *raw;
    pcx_t *pcx;
-   int x, y;
-   int len;
-   int filelen;
-   int dataByte, runLength;
+   q_int32_t x, y;
+   q_int32_t len;
+   q_int32_t filelen;
+   q_int32_t dataByte, runLength;
    byte *out, *pix;
    char filename[256];
    /* Add the extension */
@@ -124,7 +124,7 @@
 
  /* ========================================================================= */
  void
- GetPCXInfo ( char *filename, int *width, int *height )
+ GetPCXInfo ( char *filename, q_int32_t *width, q_int32_t *height )
  {
    pcx_t *pcx;
    byte *raw;

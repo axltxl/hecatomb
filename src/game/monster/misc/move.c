@@ -29,7 +29,7 @@
  #define STEPSIZE 18
  #define DI_NODIR -1
 
- int c_yes, c_no;
+ q_int32_t c_yes, c_no;
 
  /*
   * Returns false if any part of the
@@ -41,7 +41,7 @@
  {
    vec3_t mins, maxs, start, stop;
    trace_t trace;
-   int x, y;
+   q_int32_t x, y;
    float mid, bottom;
 
    if ( !ent ) {
@@ -126,10 +126,10 @@
    float dz;
    vec3_t oldorg, neworg, end;
    trace_t trace;
-   int i;
+   q_int32_t i;
    float stepsize;
    vec3_t test;
-   int contents;
+   q_int32_t contents;
 
    if ( !ent ) {
      return false;
@@ -435,7 +435,7 @@
      return;
    }
 
-   olddir = anglemod ( ( int ) ( actor->ideal_yaw / 45 ) * 45 );
+   olddir = anglemod ( ( q_int32_t ) ( actor->ideal_yaw / 45 ) * 45 );
    turnaround = anglemod ( olddir - 180 );
 
    deltax = enemy->s.origin[0] - actor->s.origin[0];
@@ -523,7 +523,7 @@
  qboolean
  SV_CloseEnough ( edict_t *ent, edict_t *goal, float dist )
  {
-   int i;
+   q_int32_t i;
 
    if ( !ent || !goal ) {
      return false;

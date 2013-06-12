@@ -39,7 +39,7 @@
  vec3_t skyaxis;
  image_t *sky_images[6];
  msurface_t *warpface;
- int skytexorder[6] = {0, 2, 1, 3, 4, 5};
+ q_int32_t skytexorder[6] = {0, 2, 1, 3, 4, 5};
 
  /* 3dstudio environment map names */
  char *suf[6] = {"rt", "bk", "lf", "ft", "up", "dn"};
@@ -56,9 +56,9 @@
    {1, 0, 1},
    { -1, 0, 1}
  };
- int c_sky;
+ q_int32_t c_sky;
 
- int st_to_vec[6][3] = {
+ q_int32_t st_to_vec[6][3] = {
    {3, -1, 2},
    { -3, 1, 2},
 
@@ -69,7 +69,7 @@
    {2, -1, -3} /* look straight down */
  };
 
- int vec_to_st[6][3] = {
+ q_int32_t vec_to_st[6][3] = {
    { -2, 3, 1},
    {2, 3, -1},
 
@@ -85,9 +85,9 @@
 
  /* ========================================================================= */
  void
- R_BoundPoly ( int numverts, float *verts, vec3_t mins, vec3_t maxs )
+ R_BoundPoly ( q_int32_t numverts, float *verts, vec3_t mins, vec3_t maxs )
  {
-   int i, j;
+   q_int32_t i, j;
    float *v;
    mins[0] = mins[1] = mins[2] = 9999;
    maxs[0] = maxs[1] = maxs[2] = -9999;
@@ -108,14 +108,14 @@
 
  /* ========================================================================= */
  void
- R_SubdividePolygon ( int numverts, float *verts )
+ R_SubdividePolygon ( q_int32_t numverts, float *verts )
  {
-   int i, j, k;
+   q_int32_t i, j, k;
    vec3_t mins, maxs;
    float m;
    float *v;
    vec3_t front[64], back[64];
-   int f, b;
+   q_int32_t f, b;
    float dist[64];
    float frac;
    glpoly_t *poly;
@@ -224,9 +224,9 @@
  R_SubdivideSurface ( msurface_t *fa )
  {
    vec3_t verts[64];
-   int numverts;
-   int i;
-   int lindex;
+   q_int32_t numverts;
+   q_int32_t i;
+   q_int32_t lindex;
    float *vec;
    warpface = fa;
    /* convert edges back to a normal polygon */
@@ -256,13 +256,13 @@
  {
    glpoly_t *p, *bp;
    float *v;
-   int i;
+   q_int32_t i;
    float s, t, os, ot;
    float scroll;
    float rdt = r_newrefdef.time;
 
    if ( fa->texinfo->flags & SURF_FLOWING ) {
-     scroll = -64 * ( ( r_newrefdef.time * 0.5 ) - ( int ) ( r_newrefdef.time * 0.5 ) );
+     scroll = -64 * ( ( r_newrefdef.time * 0.5 ) - ( q_int32_t ) ( r_newrefdef.time * 0.5 ) );
    } else {
      scroll = 0;
    }
@@ -274,10 +274,10 @@
      for ( i = 0, v = p->verts[0]; i < p->numverts; i++, v += VERTEXSIZE ) {
        os = v[3];
        ot = v[4];
-       s = os + r_turbsin[ ( int ) ( ( ot * 0.125 + r_newrefdef.time ) * TURBSCALE ) & 255];
+       s = os + r_turbsin[ ( q_int32_t ) ( ( ot * 0.125 + r_newrefdef.time ) * TURBSCALE ) & 255];
        s += scroll;
        s *= ( 1.0 / 64 );
-       t = ot + r_turbsin[ ( int ) ( ( os * 0.125 + rdt ) * TURBSCALE ) & 255];
+       t = ot + r_turbsin[ ( q_int32_t ) ( ( os * 0.125 + rdt ) * TURBSCALE ) & 255];
        t *= ( 1.0 / 64 );
        qglTexCoord2f ( s, t );
        qglVertex3fv ( v );
@@ -289,12 +289,12 @@
 
  /* ========================================================================= */
  void
- R_DrawSkyPolygon ( int nump, vec3_t vecs )
+ R_DrawSkyPolygon ( q_int32_t nump, vec3_t vecs )
  {
-   int i, j;
+   q_int32_t i, j;
    vec3_t v, av;
    float s, t, dv;
-   int axis;
+   q_int32_t axis;
    float *vp;
    c_sky++;
    /* decide which face it maps to */
@@ -378,17 +378,17 @@
 
  /* ========================================================================= */
  void
- R_ClipSkyPolygon ( int nump, vec3_t vecs, int stage )
+ R_ClipSkyPolygon ( q_int32_t nump, vec3_t vecs, q_int32_t stage )
  {
    float *norm;
    float *v;
    qboolean front, back;
    float d, e;
    float dists[MAX_CLIP_VERTS];
-   int sides[MAX_CLIP_VERTS];
+   q_int32_t sides[MAX_CLIP_VERTS];
    vec3_t newv[2][MAX_CLIP_VERTS];
-   int newc[2];
-   int i, j;
+   q_int32_t newc[2];
+   q_int32_t i, j;
 
    if ( nump > MAX_CLIP_VERTS - 2 ) {
      VID_Error ( ERR_DROP, "R_ClipSkyPolygon: MAX_CLIP_VERTS" );
@@ -478,7 +478,7 @@
  void
  R_AddSkySurface ( msurface_t *fa )
  {
-   int i;
+   q_int32_t i;
    vec3_t verts[MAX_CLIP_VERTS];
    glpoly_t *p;
 
@@ -496,7 +496,7 @@
  void
  R_ClearSkyBox ( void )
  {
-   int i;
+   q_int32_t i;
 
    for ( i = 0; i < 6; i++ ) {
      skymins[0][i] = skymins[1][i] = 9999;
@@ -506,10 +506,10 @@
 
  /* ========================================================================= */
  void
- R_MakeSkyVec ( float s, float t, int axis )
+ R_MakeSkyVec ( float s, float t, q_int32_t axis )
  {
    vec3_t v, b;
-   int j, k;
+   q_int32_t j, k;
 
    if ( gl_farsee->value == 0 ) {
      b[0] = s * 2300;
@@ -556,7 +556,7 @@
  void
  R_DrawSkyBox ( void )
  {
-   int i;
+   q_int32_t i;
 
    if ( skyrotate ) {
      /* check for no sky at all */
@@ -605,7 +605,7 @@
  void
  R_SetSky ( char *name, float rotate, vec3_t axis )
  {
-   int i;
+   q_int32_t i;
    char pathname[MAX_QPATH];
    strncpy ( skyname, name, sizeof ( skyname ) - 1 );
    skyrotate = rotate;

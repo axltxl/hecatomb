@@ -30,8 +30,8 @@
  #include "backend/unix/prereqs.h"
 
  byte *membase;
- int maxhunksize;
- int curhunksize;
+ q_int32_t maxhunksize;
+ q_int32_t curhunksize;
 
  /* ========================================================================= */
  char *
@@ -42,10 +42,10 @@
 
  /* ========================================================================= */
  void *
- Sys_HunkBegin ( int maxsize )
+ Sys_HunkBegin ( q_int32_t maxsize )
  {
    /* reserve a huge chunk of memory, but don't commit any yet */
-   maxhunksize = maxsize + sizeof ( int );
+   maxhunksize = maxsize + sizeof ( q_int32_t );
    curhunksize = 0;
    membase = mmap ( 0, maxhunksize, PROT_READ | PROT_WRITE,
                     MAP_PRIVATE | MAP_ANONYMOUS, -1, 0 );
@@ -54,13 +54,13 @@
      Sys_Error ( "unable to virtual allocate %d bytes", maxsize );
    }
 
-   * ( ( int * ) membase ) = curhunksize;
-   return membase + sizeof ( int );
+   * ( ( q_int32_t * ) membase ) = curhunksize;
+   return membase + sizeof ( q_int32_t );
  }
 
  /* ========================================================================= */
  void *
- Sys_HunkAlloc ( int size )
+ Sys_HunkAlloc ( q_int32_t size )
  {
    byte *buf;
    /* round to cacheline */
@@ -70,21 +70,21 @@
      Sys_Error ( "Hunk_Alloc overflow" );
    }
 
-   buf = membase + sizeof ( int ) + curhunksize;
+   buf = membase + sizeof ( q_int32_t ) + curhunksize;
    curhunksize += size;
    return buf;
  }
 
  /* ========================================================================= */
- int
+ q_int32_t
  Sys_HunkEnd ( void )
  {
    byte *n = NULL;
  #ifdef HT_OS_LINUX
-   n = ( byte * ) mremap ( membase, maxhunksize, curhunksize + sizeof ( int ), 0 );
+   n = ( byte * ) mremap ( membase, maxhunksize, curhunksize + sizeof ( q_int32_t ), 0 );
  #elif defined(HT_OS_FREEBSD)
    size_t old_size = maxhunksize;
-   size_t new_size = curhunksize + sizeof ( int );
+   size_t new_size = curhunksize + sizeof ( q_int32_t );
    void *unmap_base;
    size_t unmap_len;
    new_size = round_page ( new_size );
@@ -104,10 +104,10 @@
    page_size
  #endif
    size_t old_size = maxhunksize;
-   size_t new_size = curhunksize + sizeof ( int );
+   size_t new_size = curhunksize + sizeof ( q_int32_t );
    void *unmap_base;
    size_t unmap_len;
-   long page_size;
+   q_int32_t page_size;
    page_size = sysconf ( _SC_PAGESIZE );
 
    if ( page_size == -1 ) {
@@ -131,7 +131,7 @@
      Sys_Error ( "Hunk_End: Could not remap virtual block (%d)", errno );
    }
 
-   * ( ( int * ) membase ) = curhunksize + sizeof ( int );
+   * ( ( q_int32_t * ) membase ) = curhunksize + sizeof ( q_int32_t );
    return curhunksize;
  }
 
@@ -142,9 +142,9 @@
    byte *m;
 
    if ( base ) {
-     m = ( ( byte * ) base ) - sizeof ( int );
+     m = ( ( byte * ) base ) - sizeof ( q_int32_t );
 
-     if ( munmap ( m, * ( ( int * ) m ) ) ) {
+     if ( munmap ( m, * ( ( q_int32_t * ) m ) ) ) {
        Sys_Error ( "Hunk_Free: munmap failed (%d)", errno );
      }
    }

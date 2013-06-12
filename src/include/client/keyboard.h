@@ -280,11 +280,11 @@
  };
 
  extern char   *keybindings[K_LAST];
- extern int    key_repeats[K_LAST];
- extern int    anykeydown;
+ extern q_int32_t    key_repeats[K_LAST];
+ extern q_int32_t    anykeydown;
  extern char   chat_buffer[];
- extern int    chat_bufferlen;
- extern int    chat_cursorpos;
+ extern q_int32_t    chat_bufferlen;
+ extern q_int32_t    chat_cursorpos;
  extern qboolean chat_team;
 
  /**
@@ -292,7 +292,7 @@
   * for both key up and key down events
   * Should NOT be called during an interrupt!
   */
- void Key_Event ( int key, qboolean down, unsigned time );
+ void Key_Event ( q_int32_t key, qboolean down, q_uint32_t time );
 
  /**
   *
@@ -307,7 +307,7 @@
  /**
   *
   */
- void Key_SetBinding ( int keynum, char *binding );
+ void Key_SetBinding ( q_int32_t keynum, char *binding );
 
  /**
   *
@@ -317,6 +317,6 @@
  /**
   *
   */
- int Key_GetKey ( void );
+ q_int32_t Key_GetKey ( void );
 
  #endif /* CL_HEADER_KEYBOARD_H */

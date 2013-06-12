@@ -70,7 +70,7 @@
   * to a noise in hopes of seeing the player from there.
   */
  void
- PlayerNoise ( edict_t *who, vec3_t where, int type )
+ PlayerNoise ( edict_t *who, vec3_t where, q_int32_t type )
  {
    edict_t *noise;
 
@@ -131,7 +131,7 @@
  qboolean
  Pickup_Weapon ( edict_t *ent, edict_t *other )
  {
-   int index;
+   q_int32_t index;
    gitem_t *ammo;
 
    if ( !ent || !other ) {
@@ -140,7 +140,7 @@
 
    index = ITEM_INDEX ( ent->item );
 
-   if ( ( ( ( int ) ( dmflags->value ) & DF_WEAPONS_STAY ) || coop->value ) &&
+   if ( ( ( ( q_int32_t ) ( dmflags->value ) & DF_WEAPONS_STAY ) || coop->value ) &&
         other->client->pers.inventory[index] ) {
      if ( ! ( ent->spawnflags & ( DROPPED_ITEM | DROPPED_PLAYER_ITEM ) ) ) {
        return false; /* leave the weapon for others to pickup */
@@ -153,7 +153,7 @@
      /* give them some ammo with it */
      ammo = FindItem ( ent->item->ammo );
 
-     if ( ( int ) dmflags->value & DF_INFINITE_AMMO ) {
+     if ( ( q_int32_t ) dmflags->value & DF_INFINITE_AMMO ) {
        Add_Ammo ( other, ammo, 1000 );
      } else {
        Add_Ammo ( other, ammo, ammo->quantity );
@@ -161,7 +161,7 @@
 
      if ( ! ( ent->spawnflags & DROPPED_PLAYER_ITEM ) ) {
        if ( deathmatch->value ) {
-         if ( ( int ) ( dmflags->value ) & DF_WEAPONS_STAY ) {
+         if ( ( q_int32_t ) ( dmflags->value ) & DF_WEAPONS_STAY ) {
            ent->flags |= FL_RESPAWN;
          } else {
            SetRespawn ( ent, 30 );
@@ -191,7 +191,7 @@
  void
  ChangeWeapon ( edict_t *ent )
  {
-   int i;
+   q_int32_t i;
 
    if ( !ent ) {
      return;
@@ -327,7 +327,7 @@
  void
  Use_Weapon ( edict_t *ent, gitem_t *item )
  {
-   int ammo_index;
+   q_int32_t ammo_index;
    gitem_t *ammo_item;
 
    if ( !ent || !item ) {
@@ -363,13 +363,13 @@
  void
  Drop_Weapon ( edict_t *ent, gitem_t *item )
  {
-   int index;
+   q_int32_t index;
 
    if ( !ent || !item ) {
      return;
    }
 
-   if ( ( int ) ( dmflags->value ) & DF_WEAPONS_STAY ) {
+   if ( ( q_int32_t ) ( dmflags->value ) & DF_WEAPONS_STAY ) {
      return;
    }
 
@@ -392,11 +392,11 @@
   * the basics of weapon thinking
   */
  void
- Weapon_Generic ( edict_t *ent, int FRAME_ACTIVATE_LAST, int FRAME_FIRE_LAST,
-                  int FRAME_IDLE_LAST, int FRAME_DEACTIVATE_LAST, int *pause_frames,
-                  int *fire_frames, void ( *fire ) ( edict_t *ent ) )
+ Weapon_Generic ( edict_t *ent, q_int32_t FRAME_ACTIVATE_LAST, q_int32_t FRAME_FIRE_LAST,
+                  q_int32_t FRAME_IDLE_LAST, q_int32_t FRAME_DEACTIVATE_LAST, q_int32_t *pause_frames,
+                  q_int32_t *fire_frames, void ( *fire ) ( edict_t *ent ) )
  {
-   int n;
+   q_int32_t n;
 
    if ( !ent || !fire_frames || !fire ) {
      return;
@@ -540,9 +540,9 @@
    vec3_t offset;
    vec3_t forward, right;
    vec3_t start;
-   int damage = 125;
+   q_int32_t damage = 125;
    float timer;
-   int speed;
+   q_int32_t speed;
    float radius;
 
    if ( !ent ) {
@@ -564,7 +564,7 @@
            ( ( GRENADE_MAXSPEED - GRENADE_MINSPEED ) / GRENADE_TIMER );
    fire_grenade2 ( ent, start, forward, damage, speed, timer, radius, held );
 
-   if ( ! ( ( int ) dmflags->value & DF_INFINITE_AMMO ) ) {
+   if ( ! ( ( q_int32_t ) dmflags->value & DF_INFINITE_AMMO ) ) {
      ent->client->pers.inventory[ent->client->ammo_index]--;
    }
 
@@ -709,7 +709,7 @@
    vec3_t offset;
    vec3_t forward, right;
    vec3_t start;
-   int damage = 120;
+   q_int32_t damage = 120;
    float radius;
 
    if ( !ent ) {
@@ -740,7 +740,7 @@
 
    PlayerNoise ( ent, start, PNOISE_WEAPON );
 
-   if ( ! ( ( int ) dmflags->value & DF_INFINITE_AMMO ) ) {
+   if ( ! ( ( q_int32_t ) dmflags->value & DF_INFINITE_AMMO ) ) {
      ent->client->pers.inventory[ent->client->ammo_index]--;
    }
  }
@@ -748,8 +748,8 @@
  void
  Weapon_GrenadeLauncher ( edict_t *ent )
  {
-   static int pause_frames[] = {34, 51, 59, 0};
-   static int fire_frames[] = {6, 0};
+   static q_int32_t pause_frames[] = {34, 51, 59, 0};
+   static q_int32_t fire_frames[] = {6, 0};
 
    Weapon_Generic ( ent, 5, 16, 59, 64, pause_frames,
                     fire_frames, weapon_grenadelauncher_fire );
@@ -764,15 +764,15 @@
  {
    vec3_t offset, start;
    vec3_t forward, right;
-   int damage;
+   q_int32_t damage;
    float damage_radius;
-   int radius_damage;
+   q_int32_t radius_damage;
 
    if ( !ent ) {
      return;
    }
 
-   damage = 100 + ( int ) ( random() * 20.0 );
+   damage = 100 + ( q_int32_t ) ( random() * 20.0 );
    radius_damage = 120;
    damage_radius = 120;
 
@@ -800,7 +800,7 @@
 
    PlayerNoise ( ent, start, PNOISE_WEAPON );
 
-   if ( ! ( ( int ) dmflags->value & DF_INFINITE_AMMO ) ) {
+   if ( ! ( ( q_int32_t ) dmflags->value & DF_INFINITE_AMMO ) ) {
      ent->client->pers.inventory[ent->client->ammo_index]--;
    }
  }
@@ -808,8 +808,8 @@
  void
  Weapon_RocketLauncher ( edict_t *ent )
  {
-   static int pause_frames[] = {25, 33, 42, 50, 0};
-   static int fire_frames[] = {5, 0};
+   static q_int32_t pause_frames[] = {25, 33, 42, 50, 0};
+   static q_int32_t fire_frames[] = {5, 0};
 
    Weapon_Generic ( ent, 4, 12, 50, 54, pause_frames,
                     fire_frames, Weapon_RocketLauncher_Fire );
@@ -820,8 +820,8 @@
  /* BLASTER / HYPERBLASTER */
 
  void
- Blaster_Fire ( edict_t *ent, vec3_t g_offset, int damage,
-                qboolean hyper, int effect )
+ Blaster_Fire ( edict_t *ent, vec3_t g_offset, q_int32_t damage,
+                qboolean hyper, q_int32_t effect )
  {
    vec3_t forward, right;
    vec3_t start;
@@ -863,7 +863,7 @@
  void
  Weapon_Blaster_Fire ( edict_t *ent )
  {
-   int damage;
+   q_int32_t damage;
 
    if ( !ent ) {
      return;
@@ -882,8 +882,8 @@
  void
  Weapon_Blaster ( edict_t *ent )
  {
-   static int pause_frames[] = {19, 32, 0};
-   static int fire_frames[] = {5, 0};
+   static q_int32_t pause_frames[] = {19, 32, 0};
+   static q_int32_t fire_frames[] = {5, 0};
 
    if ( !ent ) {
      return;
@@ -898,8 +898,8 @@
  {
    float rotation;
    vec3_t offset;
-   int effect;
-   int damage;
+   q_int32_t effect;
+   q_int32_t damage;
 
    if ( !ent ) {
      return;
@@ -939,7 +939,7 @@
 
        Blaster_Fire ( ent, offset, damage, true, effect );
 
-       if ( ! ( ( int ) dmflags->value & DF_INFINITE_AMMO ) ) {
+       if ( ! ( ( q_int32_t ) dmflags->value & DF_INFINITE_AMMO ) ) {
          ent->client->pers.inventory[ent->client->ammo_index]--;
        }
 
@@ -972,8 +972,8 @@
  void
  Weapon_HyperBlaster ( edict_t *ent )
  {
-   static int pause_frames[] = {0};
-   static int fire_frames[] = {6, 7, 8, 9, 10, 11, 0};
+   static q_int32_t pause_frames[] = {0};
+   static q_int32_t fire_frames[] = {6, 7, 8, 9, 10, 11, 0};
 
    if ( !ent ) {
      return;
@@ -990,12 +990,12 @@
  void
  Machinegun_Fire ( edict_t *ent )
  {
-   int i;
+   q_int32_t i;
    vec3_t start;
    vec3_t forward, right;
    vec3_t angles;
-   int damage = 8;
-   int kick = 2;
+   q_int32_t damage = 8;
+   q_int32_t kick = 2;
    vec3_t offset;
 
    if ( !ent ) {
@@ -1064,17 +1064,17 @@
 
    PlayerNoise ( ent, start, PNOISE_WEAPON );
 
-   if ( ! ( ( int ) dmflags->value & DF_INFINITE_AMMO ) ) {
+   if ( ! ( ( q_int32_t ) dmflags->value & DF_INFINITE_AMMO ) ) {
      ent->client->pers.inventory[ent->client->ammo_index]--;
    }
 
    ent->client->anim_priority = ANIM_ATTACK;
 
    if ( ent->client->ps.pmove.pm_flags & PMF_DUCKED ) {
-     ent->s.frame = FRAME_crattak1 - ( int ) ( random() + 0.25 );
+     ent->s.frame = FRAME_crattak1 - ( q_int32_t ) ( random() + 0.25 );
      ent->client->anim_end = FRAME_crattak9;
    } else {
-     ent->s.frame = FRAME_attack1 - ( int ) ( random() + 0.25 );
+     ent->s.frame = FRAME_attack1 - ( q_int32_t ) ( random() + 0.25 );
      ent->client->anim_end = FRAME_attack8;
    }
  }
@@ -1082,8 +1082,8 @@
  void
  Weapon_Machinegun ( edict_t *ent )
  {
-   static int pause_frames[] = {23, 45, 0};
-   static int fire_frames[] = {4, 5, 0};
+   static q_int32_t pause_frames[] = {23, 45, 0};
+   static q_int32_t fire_frames[] = {4, 5, 0};
 
    if ( !ent ) {
      return;
@@ -1096,14 +1096,14 @@
  void
  Chaingun_Fire ( edict_t *ent )
  {
-   int i;
-   int shots;
+   q_int32_t i;
+   q_int32_t shots;
    vec3_t start;
    vec3_t forward, right, up;
    float r, u;
    vec3_t offset;
-   int damage;
-   int kick = 2;
+   q_int32_t damage;
+   q_int32_t kick = 2;
 
    if ( !ent ) {
      return;
@@ -1210,7 +1210,7 @@
 
    PlayerNoise ( ent, start, PNOISE_WEAPON );
 
-   if ( ! ( ( int ) dmflags->value & DF_INFINITE_AMMO ) ) {
+   if ( ! ( ( q_int32_t ) dmflags->value & DF_INFINITE_AMMO ) ) {
      ent->client->pers.inventory[ent->client->ammo_index] -= shots;
    }
  }
@@ -1218,8 +1218,8 @@
  void
  Weapon_Chaingun ( edict_t *ent )
  {
-   static int pause_frames[] = {38, 43, 51, 61, 0};
-   static int fire_frames[] = {5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 0};
+   static q_int32_t pause_frames[] = {38, 43, 51, 61, 0};
+   static q_int32_t fire_frames[] = {5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 0};
 
    if ( !ent ) {
      return;
@@ -1238,8 +1238,8 @@
    vec3_t start;
    vec3_t forward, right;
    vec3_t offset;
-   int damage = 4;
-   int kick = 8;
+   q_int32_t damage = 4;
+   q_int32_t kick = 8;
 
    if ( !ent ) {
      return;
@@ -1282,7 +1282,7 @@
    ent->client->ps.gunframe++;
    PlayerNoise ( ent, start, PNOISE_WEAPON );
 
-   if ( ! ( ( int ) dmflags->value & DF_INFINITE_AMMO ) ) {
+   if ( ! ( ( q_int32_t ) dmflags->value & DF_INFINITE_AMMO ) ) {
      ent->client->pers.inventory[ent->client->ammo_index]--;
    }
  }
@@ -1290,8 +1290,8 @@
  void
  Weapon_Shotgun ( edict_t *ent )
  {
-   static int pause_frames[] = {22, 28, 34, 0};
-   static int fire_frames[] = {8, 9, 0};
+   static q_int32_t pause_frames[] = {22, 28, 34, 0};
+   static q_int32_t fire_frames[] = {8, 9, 0};
 
    if ( !ent ) {
      return;
@@ -1308,8 +1308,8 @@
    vec3_t forward, right;
    vec3_t offset;
    vec3_t v;
-   int damage = 6;
-   int kick = 12;
+   q_int32_t damage = 6;
+   q_int32_t kick = 12;
 
    if ( !ent ) {
      return;
@@ -1350,7 +1350,7 @@
    ent->client->ps.gunframe++;
    PlayerNoise ( ent, start, PNOISE_WEAPON );
 
-   if ( ! ( ( int ) dmflags->value & DF_INFINITE_AMMO ) ) {
+   if ( ! ( ( q_int32_t ) dmflags->value & DF_INFINITE_AMMO ) ) {
      ent->client->pers.inventory[ent->client->ammo_index] -= 2;
    }
  }
@@ -1358,8 +1358,8 @@
  void
  Weapon_SuperShotgun ( edict_t *ent )
  {
-   static int pause_frames[] = {29, 42, 57, 0};
-   static int fire_frames[] = {7, 0};
+   static q_int32_t pause_frames[] = {29, 42, 57, 0};
+   static q_int32_t fire_frames[] = {7, 0};
 
    if ( !ent ) {
      return;
@@ -1379,8 +1379,8 @@
    vec3_t start;
    vec3_t forward, right;
    vec3_t offset;
-   int damage;
-   int kick;
+   q_int32_t damage;
+   q_int32_t kick;
 
    if ( !ent ) {
      return;
@@ -1418,7 +1418,7 @@
    ent->client->ps.gunframe++;
    PlayerNoise ( ent, start, PNOISE_WEAPON );
 
-   if ( ! ( ( int ) dmflags->value & DF_INFINITE_AMMO ) ) {
+   if ( ! ( ( q_int32_t ) dmflags->value & DF_INFINITE_AMMO ) ) {
      ent->client->pers.inventory[ent->client->ammo_index]--;
    }
  }
@@ -1426,8 +1426,8 @@
  void
  Weapon_Railgun ( edict_t *ent )
  {
-   static int pause_frames[] = {56, 0};
-   static int fire_frames[] = {4, 0};
+   static q_int32_t pause_frames[] = {56, 0};
+   static q_int32_t fire_frames[] = {4, 0};
 
    if ( !ent ) {
      return;
@@ -1446,7 +1446,7 @@
  {
    vec3_t offset, start;
    vec3_t forward, right;
-   int damage;
+   q_int32_t damage;
    float damage_radius = 1000;
 
    if ( !ent ) {
@@ -1500,7 +1500,7 @@
 
    PlayerNoise ( ent, start, PNOISE_WEAPON );
 
-   if ( ! ( ( int ) dmflags->value & DF_INFINITE_AMMO ) ) {
+   if ( ! ( ( q_int32_t ) dmflags->value & DF_INFINITE_AMMO ) ) {
      ent->client->pers.inventory[ent->client->ammo_index] -= 50;
    }
  }
@@ -1508,8 +1508,8 @@
  void
  Weapon_BFG ( edict_t *ent )
  {
-   static int pause_frames[] = {39, 45, 50, 55, 0};
-   static int fire_frames[] = {9, 17, 0};
+   static q_int32_t pause_frames[] = {39, 45, 50, 55, 0};
+   static q_int32_t fire_frames[] = {9, 17, 0};
 
    if ( !ent ) {
      return;

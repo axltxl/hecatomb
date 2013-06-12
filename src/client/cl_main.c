@@ -117,7 +117,7 @@
  void
  CL_WriteDemoMessage ( void )
  {
-   int len, swlen;
+   q_int32_t len, swlen;
    /* the first eight bytes are just packet sequencing stuff */
    len = net_message.cursize - 8;
    swlen = LittleLong ( len );
@@ -131,7 +131,7 @@
  void
  CL_Stop_f ( void )
  {
-   int len;
+   q_int32_t len;
 
    if ( !cls.demorecording ) {
      Com_Printf ( "Not recording a demo.\n" );
@@ -156,8 +156,8 @@
    char name[MAX_OSPATH];
    byte buf_data[MAX_MSGLEN];
    sizebuf_t buf;
-   int i;
-   int len;
+   q_int32_t i;
+   q_int32_t len;
    entity_state_t *ent;
    entity_state_t nullstate;
 
@@ -250,11 +250,11 @@
  void
  CL_Setenv_f ( void )
  {
-   int argc = Cmd_Argc();
+   q_int32_t argc = Cmd_Argc();
 
    if ( argc > 2 ) {
      char buffer[1000];
-     int i;
+     q_int32_t i;
      strcpy ( buffer, Cmd_Argv ( 1 ) );
      strcat ( buffer, "=" );
 
@@ -326,7 +326,7 @@
  void
  CL_Skins_f ( void )
  {
-   int i;
+   q_int32_t i;
 
    for ( i = 0; i < MAX_CLIENTS; i++ ) {
      if ( !cl.configstrings[CS_PLAYERSKINS + i][0] ) {
@@ -392,10 +392,10 @@
    CL_RegisterSounds();
  }
 
- int precache_check;
- int precache_spawncount;
- int precache_tex;
- int precache_model_skin;
+ q_int32_t precache_check;
+ q_int32_t precache_spawncount;
+ q_int32_t precache_tex;
+ q_int32_t precache_model_skin;
 
  byte *precache_model;
 
@@ -408,7 +408,7 @@
  {
    /* Yet another hack to let old demos work */
    if ( Cmd_Argc() < 2 ) {
-     unsigned map_checksum;    /* for detecting cheater maps */
+     q_uint32_t map_checksum;    /* for detecting cheater maps */
      CM_LoadMap ( cl.configstrings[CS_MODELS + 1], true, &map_checksum );
      CL_RegisterSounds();
      CL_PrepRefresh();
@@ -416,7 +416,7 @@
    }
 
    precache_check = CS_MODELS;
-   precache_spawncount = ( int ) strtol ( Cmd_Argv ( 1 ), ( char ** ) NULL, 10 );
+   precache_spawncount = ( q_int32_t ) strtol ( Cmd_Argv ( 1 ), ( char ** ) NULL, 10 );
    precache_model = 0;
    precache_model_skin = 0;
    CL_RequestNextDownload();
@@ -581,13 +581,13 @@
    {NULL, NULL}
  };
 
- int numcheatvars;
+ q_int32_t numcheatvars;
 
  /* ========================================================================= */
  void
  CL_FixCvarCheats ( void )
  {
-   int i;
+   q_int32_t i;
    cheatvar_t *var;
 
    if ( !strcmp ( cl.configstrings[CS_MAXCLIENTS], "1" ) ||
@@ -660,10 +660,10 @@
 
  /* ========================================================================= */
  void
- CL_Frame ( int msec )
+ CL_Frame ( q_int32_t msec )
  {
-   static int extratime;
-   static int lasttimecalled;
+   static q_int32_t extratime;
+   static q_int32_t lasttimecalled;
 
    if ( dedicated->value ) {
      return;
@@ -739,7 +739,7 @@
            fprintf ( log_stats_file, "0\n" );
          }
        } else {
-         int now = Sys_Milliseconds();
+         q_int32_t now = Sys_Milliseconds();
 
          if ( log_stats_file ) {
            fprintf ( log_stats_file, "%d\n", now - lasttimecalled );

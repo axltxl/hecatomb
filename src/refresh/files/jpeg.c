@@ -35,8 +35,8 @@
 
  /* ========================================================================= */
  void jpeg_memory_src ( j_decompress_ptr cinfo,
-                        unsigned char *inbuffer,
-                        unsigned long insize );
+                        q_uint8_t *inbuffer,
+                        q_uint32_t insize );
 
  void
  jpg_null ( j_decompress_ptr cinfo )
@@ -61,7 +61,7 @@
 
  /* ========================================================================= */
  void
- jpeg_mem_src ( j_decompress_ptr cinfo, unsigned char *mem, unsigned long len )
+ jpeg_mem_src ( j_decompress_ptr cinfo, q_uint8_t *mem, unsigned long len )
  {
    cinfo->src =
      ( struct jpeg_source_mgr * ) ( *cinfo->mem->alloc_small ) ( ( j_common_ptr )
@@ -78,14 +78,14 @@
 
  /* ========================================================================= */
  void
- LoadJPG ( char *origname, byte **pic, int *width, int *height )
+ LoadJPG ( char *origname, byte **pic, q_int32_t *width, q_int32_t *height )
  {
    struct jpeg_decompress_struct cinfo;
    char filename[256];
    struct jpeg_error_mgr jerr;
-   int len;
+   q_int32_t len;
    byte *rawdata, *rgbadata, *scanline, *p, *q;
-   unsigned int rawsize, i;
+   q_uint32_t rawsize, i;
    /* Add the extension */
    len = strlen ( origname );
 
@@ -113,7 +113,7 @@
 
    cinfo.err = jpeg_std_error ( &jerr );
    jpeg_create_decompress ( &cinfo );
-   jpeg_mem_src ( &cinfo, ( unsigned char * ) rawdata, ( unsigned long ) rawsize );
+   jpeg_mem_src ( &cinfo, ( q_uint8_t * ) rawdata, ( q_uint32_t ) rawsize );
    jpeg_read_header ( &cinfo, true );
    jpeg_start_decompress ( &cinfo );
 

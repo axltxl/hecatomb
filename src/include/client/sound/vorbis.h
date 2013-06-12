@@ -88,7 +88,7 @@
  /**
   *
   */
- qboolean OGG_Open ( ogg_seek_t type, int offset );
+ qboolean OGG_Open ( ogg_seek_t type, q_int32_t offset );
 
  /**
   *
@@ -98,7 +98,7 @@
  /**
   *
   */
- int OGG_Read ( void );
+ q_int32_t OGG_Read ( void );
 
  /**
   *
@@ -118,8 +118,8 @@
  /**
   *
   */
- void S_RawSamplesVol ( int samples, int rate, int width,
-                        int channels, byte *data, float volume );
+ void S_RawSamplesVol ( q_int32_t samples, q_int32_t rate, q_int32_t width,
+                        q_int32_t channels, byte *data, float volume );
 
  /* Console commands. */
 

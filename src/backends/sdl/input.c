@@ -37,26 +37,26 @@
  static qboolean mouse_grabbed;
  static cvar_t *windowed_mouse;
  static cvar_t *in_grab;
- static int mouse_x, mouse_y;
- static int old_mouse_x, old_mouse_y;
- static int mouse_buttonstate;
- static int mouse_oldbuttonstate;
+ static q_int32_t mouse_x, mouse_y;
+ static q_int32_t old_mouse_x, old_mouse_y;
+ static q_int32_t mouse_buttonstate;
+ static q_int32_t mouse_oldbuttonstate;
 
  struct {
-   int key;
-   int down;
+   q_int32_t key;
+   q_int32_t down;
  } keyq[128];
 
- int keyq_head = 0;
- int keyq_tail = 0;
- int mx;
- int my;
+ q_int32_t keyq_head = 0;
+ q_int32_t keyq_tail = 0;
+ q_int32_t mx;
+ q_int32_t my;
 
  Key_Event_fp_t Key_Event_fp;
 
  extern SDL_Surface *surface;
  static in_state_t *in_state;
- static unsigned char KeyStates[SDLK_LAST];
+ static q_uint8_t KeyStates[SDLK_LAST];
  static qboolean mlooking;
 
  static cvar_t *sensitivity;
@@ -77,15 +77,15 @@
   * to the internal key representation of the
   * id Tech 2 engine.
   */
- int
- IN_TranslateSDLtoQ2Key ( unsigned int keysym )
+ q_int32_t
+ IN_TranslateSDLtoQ2Key ( q_uint32_t keysym )
  {
-   int key = 0;
+   q_int32_t key = 0;
 
    if ( ( keysym >= SDLK_SPACE ) && ( keysym < SDLK_DELETE ) ) {
      /* These happen to match
         the ASCII chars */
-     key = ( int ) keysym;
+     key = ( q_int32_t ) keysym;
    } else {
      switch ( keysym ) {
      case SDLK_PAGEUP:
@@ -367,7 +367,7 @@
  void
  IN_GetEvent ( SDL_Event *event )
  {
-   unsigned int key;
+   q_uint32_t key;
 
    switch ( event->type ) {
      /* The mouse wheel */
@@ -460,8 +460,8 @@
  IN_Update ( void )
  {
    SDL_Event event;
-   static int IN_Update_Flag;
-   int bstate;
+   static q_int32_t IN_Update_Flag;
+   q_int32_t bstate;
 
    /* Protection against multiple calls */
    if ( IN_Update_Flag == 1 ) {
@@ -562,7 +562,7 @@
   * Gets the mouse state
   */
  void
- IN_GetMouseState ( int *x, int *y, int *state )
+ IN_GetMouseState ( q_int32_t *x, q_int32_t *y, q_int32_t *state )
  {
    *x = mx;
    *y = my;
@@ -671,7 +671,7 @@
  void
  IN_BackendMouseButtons ( void )
  {
-   int i;
+   q_int32_t i;
    IN_GetMouseState ( &mouse_x, &mouse_y, &mouse_buttonstate );
 
    for ( i = 0; i < 3; i++ ) {

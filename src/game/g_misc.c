@@ -26,8 +26,8 @@
 
  #include "game/local.h"
 
- int gibsthisframe = 0;
- int lastgibframe = 0;
+ q_int32_t gibsthisframe = 0;
+ q_int32_t lastgibframe = 0;
 
  void
  Use_Areaportal ( edict_t *ent, edict_t *other /* unused */, edict_t *activator /* unused */ )
@@ -61,7 +61,7 @@
  /* ===================================================== */
 
  void
- VelocityForDamage ( int damage, vec3_t v )
+ VelocityForDamage ( q_int32_t damage, vec3_t v )
  {
    v[0] = 100.0 * crandom();
    v[1] = 100.0 * crandom();
@@ -151,7 +151,7 @@
 
  void
  gib_die ( edict_t *self, edict_t *inflictor /* unused */, edict_t *attacker /* unused */,
-           int damage /* unused */, vec3_t point /* unused */ )
+           q_int32_t damage /* unused */, vec3_t point /* unused */ )
  {
    if ( !self ) {
      return;
@@ -161,7 +161,7 @@
  }
 
  void
- ThrowGib ( edict_t *self, char *gibname, int damage, int type )
+ ThrowGib ( edict_t *self, char *gibname, q_int32_t damage, q_int32_t type )
  {
    edict_t *gib;
    vec3_t vd;
@@ -222,7 +222,7 @@
  }
 
  void
- ThrowHead ( edict_t *self, char *gibname, int damage, int type )
+ ThrowHead ( edict_t *self, char *gibname, q_int32_t damage, q_int32_t type )
  {
    vec3_t vd;
    float vscale;
@@ -270,7 +270,7 @@
  }
 
  void
- ThrowClientHead ( edict_t *self, int damage )
+ ThrowClientHead ( edict_t *self, q_int32_t damage )
  {
    vec3_t vd;
    char *gibname;
@@ -318,7 +318,7 @@
 
  void
  debris_die ( edict_t *self, edict_t *inflictor /* unused */, edict_t *attacker /* unused */,
-              int damage /* unused */, vec3_t point /* unused */ )
+              q_int32_t damage /* unused */, vec3_t point /* unused */ )
  {
    if ( !self ) {
      return;
@@ -906,13 +906,13 @@
   */
  void
  func_explosive_explode ( edict_t *self, edict_t *inflictor, edict_t *attacker,
-                          int damage /* unused */, vec3_t point /* unused */ )
+                          q_int32_t damage /* unused */, vec3_t point /* unused */ )
  {
    vec3_t origin;
    vec3_t chunkorigin;
    vec3_t size;
-   int count;
-   int mass;
+   q_int32_t count;
+   q_int32_t mass;
 
    if ( !self || !inflictor || !attacker ) {
      return;
@@ -1165,7 +1165,7 @@
 
  void
  barrel_delay ( edict_t *self, edict_t *inflictor /* unused */, edict_t *attacker,
-                int damage /* unused */, vec3_t point /* unused */ )
+                q_int32_t damage /* unused */, vec3_t point /* unused */ )
  {
    if ( !self || !attacker ) {
      return;
@@ -1514,9 +1514,9 @@
   */
  void
  misc_deadsoldier_die ( edict_t *self, edict_t *inflictor /* unused */, edict_t *attacker /* unused */,
-                        int damage, vec3_t point /* unused */ )
+                        q_int32_t damage, vec3_t point /* unused */ )
  {
-   int n;
+   q_int32_t n;
 
    if ( !self ) {
      return;
@@ -2008,7 +2008,7 @@
  target_string_use ( edict_t *self, edict_t *other /* unused */, edict_t *activator /* unused */ )
  {
    edict_t *e;
-   int n, l;
+   q_int32_t n, l;
    char c;
 
    if ( !self ) {
@@ -2098,9 +2098,9 @@
   * biggun exit. */
  typedef struct zhead_s {
    struct zhead_s *prev, *next;
-   short magic;
-   short tag;
-   int size;
+   q_int16_t magic;
+   q_int16_t tag;
+   q_int32_t size;
  } zhead_t;
 
  void
@@ -2111,7 +2111,7 @@
    }
 
    zhead_t *z = ( zhead_t * ) self->message - 1;
-   int size = z->size - sizeof ( zhead_t );
+   q_int32_t size = z->size - sizeof ( zhead_t );
 
    if ( size < CLOCK_MESSAGE_SIZE ) {
      gi.TagFree ( self->message );
@@ -2289,7 +2289,7 @@
                     csurface_t *surf /* unused */ )
  {
    edict_t *dest;
-   int i;
+   q_int32_t i;
 
    if ( !self || !other ) {
      return;
