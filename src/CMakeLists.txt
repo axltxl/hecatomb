@@ -64,21 +64,16 @@ endif()
 # ---------------------
 set (SRC_DIR ${CMAKE_CURRENT_SOURCE_DIR})
 
-if (HT_CLIENT OR HT_SERVER)
-
-  # Link against this libraries
-  set (LIBS m)
-
-  # .pk3 files support
-  if (HT_WITH_ZIP)
-    list (APPEND INCLUDE_DIRS ${ZLIB_INCLUDE_DIRS})  # zlib
-    list (APPEND LIBS ${ZLIB_LIBRARIES})
-  endif()
-endif()
-
 # Include directories
 # ---------------------
 set (INCLUDE_DIRS ${SRC_DIR}/include)
+
+if (HT_CLIENT OR HT_SERVER)
+
+  # Libraries
+  set (LIBS m)
+
+endif()
 
 #
 # Client-specific
@@ -126,14 +121,25 @@ if (HT_CLIENT)
 
   # Windows specific libraries
   if (WINDOWS)
-    # Winsock and WinMM
-    list (APPEND LIBS ws2_32 winmm)
+    # WinMM
     list (APPEND CLIENT_LIBS -mwindows)
   endif()
 
 endif() # HT_CLIENT
 
 if (HT_CLIENT OR HT_SERVER)
+
+  # Windows specific libraries
+  if (WINDOWS)
+    # Winsock
+    list (APPEND LIBS ws2_32 winmm)
+  endif()
+
+  # .pk3 files support
+  if (HT_WITH_ZIP)
+    list (APPEND INCLUDE_DIRS ${ZLIB_INCLUDE_DIRS})  # zlib
+    list (APPEND LIBS ${ZLIB_LIBRARIES})
+  endif()
 
   # Unix specific libraries
   if (UNIX)
@@ -151,61 +157,60 @@ if (HT_CLIENT OR HT_SERVER)
 
 endif()
 
-if (HT_CLIENT OR HT_SERVER OR HT_GAME)
-
-  # Include path
-  # ---------------------
-  include_directories (${INCLUDE_DIRS})
-
-  # Add headers to the project
-  # ---------------------
-  add_subdirectory (include)
-
-  # Set output directory
-  # ---------------------
-  set (OUTPUT_DIR "${PROJECT_SOURCE_DIR}/bin/${ARCH}")
-
-endif()
-
-#
-# Platform-specific backends
+# Include path
 # ---------------------
+include_directories (${INCLUDE_DIRS})
+
+# Add headers to the project
+# ---------------------
+add_subdirectory (include)
+
+# Set output directory
+# ---------------------
+set (OUTPUT_DIR "${PROJECT_SOURCE_DIR}/bin/${ARCH}")
+
 #
+# Source code used by all targets
+# ---------------------
+add_subdirectory (common)
+
 if (HT_CLIENT OR HT_SERVER)
 
-  # Backends
+  # Backends (platform specific)
   add_subdirectory (backends)
-
-  # Common
-  add_subdirectory (common)
 
   # Server
   add_subdirectory (server)
+
 endif()
 
 if (HT_CLIENT)
+
   # Refresher
   add_subdirectory (refresh)
 
   # Client
   add_subdirectory (client)
+
 endif()
 
 if (HT_GAME)
+
   # The game itself
   add_subdirectory (game)
+
 endif()
 
 if (HT_SERVER)
+
   # Server exec
   add_executable (server ${SERVER_EXEC_SRC})
+
 endif()
 
-if (HT_CLIENT OR HT_SERVER)
-  # Configuration file
-  # ---------------------
-  configure_file (${SRC_DIR}/include/config.h.in ${SRC_DIR}/include/config.h)
-endif()
+# Configuration file
+# ---------------------
+configure_file (${SRC_DIR}/include/config.h.in ${SRC_DIR}/include/config.h)
 
 if (HT_SERVER)
 

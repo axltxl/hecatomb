@@ -312,7 +312,7 @@ if (HT_CLIENT)
     if (NOT SDL_VERSION_STRING MATCHES "1.2.*")
       message (FATAL_ERROR "Your SDL version is invalid, the required SDL version is 1.2+. Your SDL version is: ${SDL_VERSION_STRING}")
     endif()
-  else()
+  elseif(NOT WINDOWS)
     message (WARNING "SDL version couldn't be determined!. I'll use it anyway ...")
   endif()
 
@@ -333,10 +333,14 @@ if (HT_CLIENT)
 
 endif() # HT_CLIENT
 
-# zlib
-# ---------------------
-if (HT_WITH_ZIP)
-  find_package (ZLIB REQUIRED)
+if (HT_CLIENT OR HT_SERVER)
+
+    # zlib
+    # ---------------------
+    if (HT_WITH_ZIP)
+      find_package (ZLIB REQUIRED)
+    endif()
+
 endif()
 
 # Source files
