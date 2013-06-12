@@ -73,6 +73,7 @@ if (WINDOWS)
 
     ${BACKEND_WINDOWS_DIR}/network.c
     ${BACKEND_WINDOWS_DIR}/system.c
+    ${BACKEND_WINDOWS_DIR}/icon.rc
   )
   if (NOT HT_HUNKDRIVER_GENERIC)
     list (APPEND BACKEND_WINDOWS_SRC ${BACKEND_WINDOWS_DIR}/hunk.c)
