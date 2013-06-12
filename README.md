@@ -225,23 +225,23 @@ be greatly appreciated.
 * Bug fixes [DONE]
 
 ### Milestone 0.2
-* No QGL pointers
+* No QGL pointers [DONE]
 * C99 fixed integer types
-* Memory allocation wrapper functions : `qmalloc`, `qrealloc` and `qfree` *-proposed-*
-* Optional use of [dlmalloc](http://g.oswego.edu/dl/html/malloc.html) and [libhoard](http://github.com/emeryberger/Hoard) as memory allocators
-* SDL 2.0 support (Linux)
+* Memory allocation wrapper functions : `QMem_malloc`, `QMem_realloc`, `QMem_calloc` and `QMem_free`
+* Optional use of [dlmalloc](http://g.oswego.edu/dl/html/malloc.html) as memory allocator
+* SDL 2.0 support (Linux) [DONE]
 
 ### Milestone 0.3
-* OpenGL extensions handling through [GLEW](http://glew.sourceforge.net) *-proposed-*
-* A more open music file system in the OGG backend *-proposed-*
-* SDL 2.0 support (FreeBSD and OSX)
+* Optional use of [libhoard](http://github.com/emeryberger/Hoard) as memory allocator
+* SDL 2.0 support (OSX)
 
 ### Milestone 0.4
-* OpenGL ES 2.0+ support
+* OpenGL extensions handling through [GLEW](http://glew.sourceforge.net) *-proposed-*
+* OGG plays any files it finds on music/ directory
 * SDL 2.0 support (Windows)
 
 ### Milestone 0.5
-* SDL 2.0 full support
+* SDL 2.0 support (FreeBSD)
 
 ### Milestone 0.9
-* SDL 1.2 deprecation
+* OpenGL ES 2.0+ support
