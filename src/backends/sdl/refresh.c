@@ -1,4 +1,5 @@
 /*
+ * Copyright (C) 2013 Alejandro Ricoveri
  * Copyright (C) 2010 Yamagi Burmeister
  * Copyright (C) 1997-2001 Id Software, Inc.
  *
@@ -65,6 +66,10 @@
  int
  GLimp_Init ( void )
  {
+   // Print SDL version
+   VID_Printf ( PRINT_ALL, "SDL version is \"%d.%d.%d\"\n",
+              SDL_MAJOR_VERSION, SDL_MINOR_VERSION, SDL_PATCHLEVEL );
+
    if ( !SDL_WasInit ( SDL_INIT_VIDEO ) ) {
  #ifndef HT_WITH_SDL2
      char driverName[64];
@@ -201,30 +206,6 @@
    int flags;
    int stencil_bits;
 
- #ifndef HT_WITH_SDL2
-//   if ( surface && ( surface->w == vid.width ) && ( surface->h == vid.height ) )
-//   {
-//     /* Are we running fullscreen? */
-//     int isfullscreen = ( surface->flags & SDL_FULLSCREEN ) ? 1 : 0;
-//
-//     /* We should, but we don't */
-//     if ( fullscreen != isfullscreen ) {
-//       SDL_WM_ToggleFullScreen ( surface );
-//     }
-//
-//     /* Do we now? */
-//     isfullscreen = ( surface->flags & SDL_FULLSCREEN ) ? 1 : 0;
-//
-//     if ( fullscreen == isfullscreen ) {
-//       return true;
-//     }
-//   }
-//
-//   /* Is the surface used? */
-//   if ( surface ) {
-//     SDL_FreeSurface ( surface );
-//   }
- #endif
    /* Create the window */
    VID_NewWindow ( vid.width, vid.height );
 
@@ -344,6 +325,7 @@
    /* Probe for SDL relative mouse support */
    if ( SDL_SetRelativeMouseMode ( SDL_TRUE ) < 0 ) {
      Com_DPrintf ( "SDL_SetRelativeMouseMode not supported on this platform!" );
+
  #endif
      /* No cursor */
      SDL_ShowCursor ( SDL_DISABLE );

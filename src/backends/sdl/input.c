@@ -1,4 +1,5 @@
 /*
+ * Copyright (C) 2013 Alejandro Ricoveri
  * Copyright (C) 2010 Yamagi Burmeister
  * Copyright (C) 1997-2001 Id Software, Inc.
  *
@@ -20,7 +21,7 @@
  *
  * =======================================================================
  *
- * This is the Quake II input system, written in SDL.
+ * This is the Quake II input system, built with SDL1 and SDL2 .
  *
  * =======================================================================
  */
@@ -34,6 +35,9 @@
  #define MOUSE_MAX 3000
  #define MOUSE_MIN 40
 
+ #ifdef HT_WITH_SDL2
+ static qboolean mouse_rel; // SDL2 relative mouse mode support
+ #endif
  static qboolean mouse_grabbed;
  static cvar_t *windowed_mouse;
  static cvar_t *in_grab;
@@ -93,242 +97,194 @@
      switch ( keysym )
      {
 
-         //  SDLK_SPACE    = 32,
      case SDL_SCANCODE_SPACE:
          key = ' ';
          break;
 
- //  SDLK_QUOTE    = 39,
      case SDL_SCANCODE_APOSTROPHE:
          key = '\'';
          break;
 
-         //  SDLK_COMMA    = 44,
      case SDL_SCANCODE_COMMA:
          key = ',';
          break;
 
- //  SDLK_MINUS    = 45,
      case SDL_SCANCODE_MINUS:
          key = '-';
          break;
 
- //  SDLK_PERIOD   = 46,
      case SDL_SCANCODE_PERIOD:
          key = '.';
          break;
 
- //  SDLK_SLASH    = 47,
      case SDL_SCANCODE_SLASH:
          key = '/';
          break;
 
- //  SDLK_0      = 48,
      case SDL_SCANCODE_0:
          key = '0';
          break;
 
- //  SDLK_1      = 49,
      case SDL_SCANCODE_1:
          key = '1';
          break;
 
- //  SDLK_2      = 50,
      case SDL_SCANCODE_2:
          key = '2';
          break;
 
- //  SDLK_3      = 51,
      case SDL_SCANCODE_3:
          key = '3';
          break;
 
- //  SDLK_4      = 52,
      case SDL_SCANCODE_4:
          key = '4';
          break;
 
- //  SDLK_5      = 53,
      case SDL_SCANCODE_5:
          key = '5';
          break;
 
- //  SDLK_6      = 54,
      case SDL_SCANCODE_6:
          key = '6';
          break;
 
- //  SDLK_7      = 55,
      case SDL_SCANCODE_7:
          key = '7';
          break;
 
- //  SDLK_8      = 56,
      case SDL_SCANCODE_8:
          key = '8';
          break;
 
- //  SDLK_9      = 57,
      case SDL_SCANCODE_9:
          key = '9';
          break;
 
- //  SDLK_SEMICOLON    = 59,
      case SDL_SCANCODE_SEMICOLON:
          key = ';';
          break;
 
- //  SDLK_EQUALS   = 61,
      case SDL_SCANCODE_EQUALS:
          key = '=';
          break;
 
- //  SDLK_LEFTBRACKET  = 91,
      case SDL_SCANCODE_LEFTBRACKET:
          key = '[';
          break;
 
- //  SDLK_BACKSLASH    = 92,
      case SDL_SCANCODE_BACKSLASH:
          key = '\\';
          break;
 
- //  SDLK_RIGHTBRACKET = 93,
      case SDL_SCANCODE_RIGHTBRACKET:
          key = ']';
          break;
 
- //  SDLK_BACKQUOTE    = 96,
      case SDL_SCANCODE_GRAVE:
          key = '`';
          break;
 
- //  SDLK_a      = 97,
      case SDL_SCANCODE_A:
          key = 'a';
          break;
 
- //  SDLK_b      = 98,
      case SDL_SCANCODE_B:
          key = 'b';
          break;
 
- //  SDLK_c      = 99,
      case SDL_SCANCODE_C:
          key = 'c';
          break;
 
- //  SDLK_d      = 100,
      case SDL_SCANCODE_D:
          key = 'd';
          break;
 
- //  SDLK_e      = 101,
      case SDL_SCANCODE_E:
          key = 'e';
          break;
 
- //  SDLK_f      = 102,
      case SDL_SCANCODE_F:
          key = 'f';
          break;
 
- //  SDLK_g      = 103,
      case SDL_SCANCODE_G:
          key = 'g';
          break;
 
- //  SDLK_h      = 104,
      case SDL_SCANCODE_H:
          key = 'h';
          break;
 
- //  SDLK_i      = 105,
      case SDL_SCANCODE_I:
          key = 'i';
          break;
 
- //  SDLK_j      = 106,
      case SDL_SCANCODE_J:
          key = 'j';
          break;
 
- //  SDLK_k      = 107,
      case SDL_SCANCODE_K:
          key = 'k';
          break;
 
- //  SDLK_l      = 108,
      case SDL_SCANCODE_L:
          key = 'l';
          break;
 
- //  SDLK_m      = 109,
      case SDL_SCANCODE_M:
          key = 'm';
          break;
 
- //  SDLK_n      = 110,
      case SDL_SCANCODE_N:
          key = 'n';
          break;
 
- //  SDLK_o      = 111,
      case SDL_SCANCODE_O:
          key = 'o';
          break;
 
- //  SDLK_p      = 112,
      case SDL_SCANCODE_P:
          key = 'p';
          break;
 
- //  SDLK_q      = 113,
      case SDL_SCANCODE_Q:
          key = 'q';
          break;
 
- //  SDLK_r      = 114,
      case SDL_SCANCODE_R:
          key = 'r';
          break;
 
- //  SDLK_s      = 115,
      case SDL_SCANCODE_S:
          key = 's';
          break;
 
- //  SDLK_t      = 116,
      case SDL_SCANCODE_T:
          key = 't';
          break;
 
- //  SDLK_u      = 117,
      case SDL_SCANCODE_U:
          key = 'u';
          break;
 
- //  SDLK_v      = 118,
      case SDL_SCANCODE_V:
          key = 'v';
          break;
 
- //  SDLK_w      = 119,
      case SDL_SCANCODE_W:
          key = 'w';
          break;
 
- //  SDLK_x      = 120,
      case SDL_SCANCODE_X:
          key = 'x';
          break;
 
- //  SDLK_y      = 121,
      case SDL_SCANCODE_Y:
          key = 'y';
          break;
 
- //  SDLK_z      = 122,
      case SDL_SCANCODE_Z:
          key = 'z';
          break;
@@ -499,11 +455,11 @@
          key = K_CTRL;
          break;
 
-         // We'll see about these
-         /*case SDL_SCANCODE_RMETA:
-         case SDL_SCANCODE_LMETA:
-           key = K_COMMAND;
-           break;*/
+     // We'll see about these
+//     case SDL_SCANCODE_RMETA:
+//     case SDL_SCANCODE_LMETA:
+//       key = K_COMMAND;
+//       break;
 
      case SDL_SCANCODE_RALT:
      case SDL_SCANCODE_LALT:
@@ -547,7 +503,6 @@
          key = K_MODE;
          break;
 
-         //case SDLK_COMPOSE:
      case SDL_SCANCODE_APPLICATION:
          key = K_COMPOSE;
          break;
@@ -556,7 +511,6 @@
          key = K_HELP;
          break;
 
-         //case SDLK_PRINT:
      case SDL_SCANCODE_PRINTSCREEN:
          key = K_PRINT;
          break;
@@ -565,10 +519,9 @@
          key = K_SYSREQ;
          break;
 
-         //case SDLK_BREAK:
-         /*case SDL_SCANCODE_PAUSE:
-            key = K_BREAK;
-            break;*/
+//     case SDL_SCANCODE_PAUSE:
+//        key = K_BREAK;
+//        break;
 
      case SDL_SCANCODE_MENU:
          key = K_MENU;
@@ -578,9 +531,9 @@
          key = K_POWER;
          break;
 
-         /*case SDL_SCANCODE_EURO:
-           key = K_EURO;
-           break;*/
+//     case SDL_SCANCODE_EURO:
+//       key = K_EURO;
+//       break;
 
      case SDL_SCANCODE_UNDO:
          key = K_UNDO;
@@ -920,7 +873,7 @@
      case SDL_MOUSEBUTTONUP:
          break;
 
-         /* The user pressed a button */
+     /* The user pressed a button */
      case SDL_KEYDOWN:
 
          /* Fullscreen switch via Alt-Return */
@@ -1043,7 +996,7 @@
      }
 
      #ifdef HT_WITH_SDL2
-     if ( !SDL_GetRelativeMouseMode() && mouse_grabbed ) {
+     if ( !mouse_rel && mouse_grabbed ) {
         /* Not supported */
         int center_x = vid.width/2,
             center_y = vid.height/2;
@@ -1237,27 +1190,30 @@
  void
  IN_KeyboardInit ( Key_Event_fp_t fp )
  {
-     Key_Event_fp = fp;
-     /* SDL stuff. Moved here from IN_BackendInit because
-      * this must be done after video is initialized. */
+   Key_Event_fp = fp;
+   /* SDL stuff. Moved here from IN_BackendInit because
+    * this must be done after video is initialized. */
  #ifdef HT_WITH_SDL2
  #else
-     SDL_EnableUNICODE ( 0 );
-     SDL_EnableKeyRepeat ( SDL_DEFAULT_REPEAT_DELAY, SDL_DEFAULT_REPEAT_INTERVAL );
+   SDL_EnableUNICODE ( 0 );
+   SDL_EnableKeyRepeat ( SDL_DEFAULT_REPEAT_DELAY, SDL_DEFAULT_REPEAT_INTERVAL );
  #endif
  #ifdef HT_WITH_SDL2
-     if ( SDL_GetWindowGrab (window) )
-     {
+   if ( SDL_GetWindowGrab (window) )
+   {
  #else
-     if ( SDL_WM_GrabInput ( SDL_GRAB_QUERY ) == SDL_GRAB_ON )
-     {
+   if ( SDL_WM_GrabInput ( SDL_GRAB_QUERY ) == SDL_GRAB_ON )
+   {
  #endif
-         mouse_grabbed = true;
-     }
-     else
-     {
-         mouse_grabbed = false;
-     }
+       mouse_grabbed = true;
+   }
+   else
+   {
+       mouse_grabbed = false;
+   }
+ #ifdef HT_WITH_SDL2
+   mouse_rel = SDL_GetRelativeMouseMode();
+ #endif // HT_WITH_SDL2
  }
 
  /*
