@@ -27,6 +27,7 @@
 
  #include "prereqs.h"
  #include "system.h"
+ #include "memory.h"
 
  byte *membase;
  int maxhunksize;
@@ -46,7 +47,7 @@
    maxhunksize = maxsize;
    curhunksize = 0;
 
-   if ( ! (membase = malloc (maxsize)) ) {
+   if ( ! (membase = Mem_malloc (maxsize)) ) {
      Sys_Error ( "unable to virtual allocate %d bytes", maxsize );
    }
    else {
@@ -82,7 +83,7 @@
  Sys_HunkFree ( void *base )
  {
    if ( base ) {
-     free ( base );
+     Mem_free ( base );
      base = NULL;
    }
  }

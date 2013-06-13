@@ -26,6 +26,7 @@
 
  #include "prereqs.h"
  #include "filesystem.h"
+ #include "memory.h"
  #include "refresh/local.h"
 
  typedef struct _TargaHeader {
@@ -124,7 +125,7 @@
      VID_Error ( ERR_DROP, "LoadTGA (%s): Invalid image size", name );
    }
 
-   targa_rgba = malloc ( numPixels );
+   targa_rgba = Mem_malloc ( numPixels );
    *pic = targa_rgba;
 
    if ( targa_header.id_length != 0 ) {
@@ -347,7 +348,7 @@
 
    if ( targa_header.attributes & 0x20 ) {
      byte *temp;
-     temp = malloc ( numPixels );
+     temp = Mem_malloc ( numPixels );
 
      if ( !temp ) {
        VID_Error ( ERR_FATAL, "LoadTGA: not enough memory" );
@@ -360,7 +361,7 @@
        memcpy ( targa_rgba + ( row * columns * 4 ), temp + ( rows - row - 1 ) * columns * 4, columns * 4 );
      }
 
-     free ( temp );
+     Mem_free ( temp );
    }
 
    FS_FreeFile ( buffer );

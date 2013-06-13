@@ -66,10 +66,19 @@ set (SRC_DIR ${CMAKE_CURRENT_SOURCE_DIR})
 # Link against this libraries
 set (LIBS m)
 
+# Include directories
+set (INCLUDE_DIRS ${SRC_DIR}/include) # for future use
+
 # .pk3 files support
 if (HT_WITH_ZIP)
   list (APPEND INCLUDE_DIRS ${ZLIB_INCLUDE_DIRS})  # zlib
   list (APPEND LIBS ${ZLIB_LIBRARIES})
+endif()
+
+# Jemalloc as the memory allocator
+if (HT_MEM_JEMALLOC)
+  list (APPEND INCLUDE_DIRS ${JEMALLOC_INCLUDE_DIRS})
+  list (APPEND LIBS ${JEMALLOC_LIBRARIES})
 endif()
 
 #
@@ -77,8 +86,6 @@ endif()
 # ---------------------
 #
 
-# Include directories
-set (INCLUDE_DIRS ${SRC_DIR}/include) # for future use
 list (APPEND INCLUDE_DIRS ${SDL_INCLUDE_DIR})    # libSDL
 list (APPEND INCLUDE_DIRS ${OPENGL_INCLUDE_DIR}) # OpenGL
 

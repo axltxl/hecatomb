@@ -32,6 +32,16 @@
 
  #include "prereqs.h"
 
+ #ifdef HT_MEM_JEMALLOC
+ # include <jemalloc/jemalloc.h>
+ #endif
+
+ /* Main memory function are wrapped */
+ #define Mem_malloc  malloc
+ #define Mem_realloc realloc
+ #define Mem_calloc  calloc
+ #define Mem_free    free
+
  /**
   * Reserve a huge chunk of memory, but don't commit any yet
   */

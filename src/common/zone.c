@@ -25,6 +25,7 @@
  */
 
  #include "prereqs.h"
+ #include "memory.h"
  #include "common/zone.h"
 
  #define Z_MAGIC 0x1d1d
@@ -49,7 +50,7 @@
    z->next->prev = z->prev;
    z_count--;
    z_bytes -= z->size;
-   free ( z );
+   Mem_free ( z );
  }
 
  /* ========================================================================= */
@@ -80,7 +81,7 @@
  {
    zhead_t *z;
    size = size + sizeof ( zhead_t );
-   z = malloc ( size );
+   z = Mem_malloc ( size );
 
    if ( !z ) {
      Com_Error ( ERR_FATAL, "Z_Malloc: failed on allocation of %i bytes", size );

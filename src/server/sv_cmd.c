@@ -28,6 +28,7 @@
 
  #include "prereqs.h"
  #include "filesystem.h"
+ #include "memory.h"
  #include "server.h"
 
  /*
@@ -184,7 +185,7 @@
        /* clear all the client inuse flags before saving so that
           when the level is re-entered, the clients will spawn
           at spawn points instead of occupying body shells */
-       savedInuse = malloc ( maxclients->value * sizeof ( qboolean ) );
+       savedInuse = Mem_malloc ( maxclients->value * sizeof ( qboolean ) );
 
        for ( i = 0, cl = svs.clients; i < maxclients->value; i++, cl++ ) {
          savedInuse[i] = cl->edict->inuse;
@@ -198,7 +199,7 @@
          cl->edict->inuse = savedInuse[i];
        }
 
-       free ( savedInuse );
+       Mem_free ( savedInuse );
      }
    }
 

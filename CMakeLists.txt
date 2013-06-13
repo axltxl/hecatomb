@@ -68,6 +68,7 @@ set (VERSION "${VERSION_MAJOR}.${VERSION_MINOR}.${VERSION_PATCH}")
 
 # Default values
 # ---------------------
+set (DEF_MEM "stdc")
 set (DEF_OGG FALSE)
 set (DEF_OPENAL FALSE)
 set (DEF_ZIP FALSE)
@@ -162,6 +163,23 @@ elseif (OSX)
   set (CMAKE_SYSTEM_FRAMEWORK_PATH "${EXTLIBS_LIBS}/osx" ${CMAKE_SYSTEM_FRAMEWORK_PATH})
 endif()
 
+# Set the memory allocator backend
+# It switches between various implementations of malloc/realloc/calloc/free
+# Use it at your own risk as it is highly experimental, current optional
+# memory allocators are the following:
+# stdc     - Use the Standard C Library implementation (this is the default)
+# dlmalloc - http://g.oswego.edu/dl/html/malloc.html
+# jemalloc - http://www.canonware.com/jemalloc
+# ---------------------
+ht_set_option (HT_WITH_MALLOC ${DEF_MEM} STRING "Memory allocator backend [EXPERIMENTAL]")
+if (NOT WINDOWS)
+  set_property (CACHE HT_WITH_MALLOC PROPERTY STRINGS "stdc;dlmalloc;jemalloc")
+else ()
+  set_property (CACHE HT_WITH_MALLOC PROPERTY STRINGS "stdc;dlmalloc")
+endif()
+mark_as_advanced (HT_WITH_MALLOC)
+
+
 # Enables Generic Hunk Driver, a general purpose Hunk_* backend
 # based solely on plain malloc/free. Use this at your own risk as
 # it is an experimental feature.
@@ -232,6 +250,25 @@ elseif (COMPILER_CLANG)
     set (HT_CC_CLANG 1)
 else()
   set (HT_CC_UNK 1)
+endif()
+
+#
+# Let's see about that memory allocator
+# ---------------------
+if (NOT HT_WITH_MALLOC STREQUAL "stdc")
+  if (HT_WITH_MALLOC STREQUAL "jemalloc")
+    set (HT_MEM_JEMALLOC 1)
+    find_package (Jemalloc REQUIRED)
+  elseif (HT_WITH_MALLOC STREQUAL "dlmalloc")
+    set (HT_MEM_DLMALLOC 1)
+  else ()
+    message (WARNING "Memory allocator under name \"${HT_WITH_MALLOC}\" not supported!. Falling back to \"${DEF_MEM}\" ...")
+    set (HT_WITH_MALLOC ${DEF_MEM})
+  endif()
+endif()
+# Fallback to stdc
+if (HT_WITH_MALLOC STREQUAL ${DEF_MEM})
+  set (HT_MEM_STDC 1)
 endif()
 
 if (UNIX)

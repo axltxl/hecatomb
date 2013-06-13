@@ -27,6 +27,7 @@
  #include "prereqs.h"
  #include "system.h"
  #include "filesystem.h"
+ #include "memory.h"
  #include "refresh/local.h"
 
  byte dottexture[8][8] = {
@@ -116,7 +117,7 @@
      return;
    }
 
-   buffer = malloc ( vid.width * vid.height * 3 + 18 );
+   buffer = Mem_malloc ( vid.width * vid.height * 3 + 18 );
    memset ( buffer, 0, 18 );
    buffer[2] = 2; /* uncompressed type */
    buffer[12] = vid.width & 255;
@@ -138,7 +139,7 @@
    f = fopen ( checkname, "wb" );
    fwrite ( buffer, 1, c, f );
    fclose ( f );
-   free ( buffer );
+   Mem_free ( buffer );
    VID_Printf ( PRINT_ALL, "Wrote %s\n", picname );
  }
 

@@ -252,7 +252,7 @@
            BeginIntermission ( CreateTargetChangeLevel ( t ) );
          }
 
-         free ( s );
+         Mem_free ( s );
          return;
        }
 
@@ -263,7 +263,7 @@
        t = strtok ( NULL, seps );
      }
 
-     free ( s );
+     Mem_free ( s );
    }
 
    if ( level.nextmap[0] ) { /* go to a specific map */

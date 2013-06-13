@@ -25,6 +25,7 @@
  */
 
  #include "prereqs.h"
+ #include "memory.h"
  #include "refresh/local.h"
 
  image_t *draw_chars;
@@ -358,7 +359,7 @@
    }
 
    d_8to24table[255] &= LittleLong ( 0xffffff ); /* 255 is transparent */
-   free ( pic );
-   free ( pal );
+   Mem_free ( pic );
+   Mem_free ( pal );
    return 0;
  }

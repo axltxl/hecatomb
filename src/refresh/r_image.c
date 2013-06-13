@@ -26,6 +26,7 @@
 
  #include "prereqs.h"
  #include "filesystem.h"
+ #include "memory.h"
  #include "refresh/local.h"
 
  image_t gltextures[MAX_GLTEXTURES];
@@ -1048,11 +1049,11 @@
    }
 
    if ( pic ) {
-     free ( pic );
+     Mem_free ( pic );
    }
 
    if ( palette ) {
-     free ( palette );
+     Mem_free ( palette );
    }
 
    return image;

@@ -54,6 +54,16 @@ Software's original code drop indeed, oh well ...
 * Enjoy!. Happy fragging!, there are great Quake II servers [here](www.q2servers.com) ;) ...
 
 ## CMake build options
+
+#####`HT_WITH_MALLOC`
+######default: `stdc`  
+It switches between various implementations of `malloc/realloc/calloc/free`
+Use it at your own risk as it is **highly experimental**, current optional
+memory allocators are the following:
+* `stdc`     - Use the Standard C Library implementation
+* `dlmalloc` - [Doug Lea's Malloc](http://g.oswego.edu/dl/html/malloc.html)
+* `jemalloc` - [Jason Evans' Malloc](http://www.canonware.com/jemalloc)
+
 #####`HT_HUNKDRIVER_GENERIC` (Experimental)
 ######default : `false`  
 Enable Generic Hunk Driver, a general purpose `Hunk_*` backend
@@ -67,7 +77,7 @@ reliable.
 ######default : `false`  
 ######default : `true` (Windows, OSX)  
 Enable OGG/Vorbis support for music playback. Adds
-dependencies to [libvorbisfile](http://www.vorbis.com).
+dependencies to [libvorbisfile](http://www.vorbis.com)
 
 #####`HT_WITH_RETEXTURE`
 ######default : `false`

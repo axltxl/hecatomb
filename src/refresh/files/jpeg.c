@@ -26,6 +26,7 @@
 
  #include "prereqs.h"
  #include "filesystem.h"
+ #include "memory.h"
  #include "refresh/local.h"
 
  // libjpeg (www.ijg.org)
@@ -125,7 +126,7 @@
    }
 
    /* Allocate Memory for decompressed image */
-   rgbadata = malloc ( cinfo.output_width * cinfo.output_height * 4 );
+   rgbadata = Mem_malloc ( cinfo.output_width * cinfo.output_height * 4 );
 
    if ( !rgbadata ) {
      VID_Printf ( PRINT_ALL, "Insufficient memory for JPEG buffer\n" );
@@ -138,12 +139,12 @@
    *width = cinfo.output_width;
    *height = cinfo.output_height;
    /* Allocate Scanline buffer */
-   scanline = malloc ( cinfo.output_width * 3 );
+   scanline = Mem_malloc ( cinfo.output_width * 3 );
 
    if ( !scanline ) {
      VID_Printf ( PRINT_ALL,
                   "Insufficient memory for JPEG scanline buffer\n" );
-     free ( rgbadata );
+     Mem_free ( rgbadata );
      jpeg_destroy_decompress ( &cinfo );
      FS_FreeFile ( rawdata );
      return;
@@ -166,7 +167,7 @@
      }
    }
 
-   free ( scanline );
+   Mem_free ( scanline );
    jpeg_finish_decompress ( &cinfo );
    jpeg_destroy_decompress ( &cinfo );
    *pic = rgbadata;

@@ -28,6 +28,7 @@
  #define GAME_LOCAL_H
 
  #include "prereqs.h"
+ #include "memory.h"
  #include "common/shared.h"
 
  /* define GAME_INCLUDE so that game.h does not define the

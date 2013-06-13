@@ -33,6 +33,7 @@
  #include "prereqs.h"
  #include "system.h"
  #include "client.h"
+ #include "memory.h"
  #include "client/menu/qmenu.h"
 
  static int m_main_cursor;
@@ -2572,7 +2573,7 @@
        fseek ( fp, 0, SEEK_END );
        length = ftell ( fp );
        fseek ( fp, 0, SEEK_SET );
-       buffer = malloc ( length );
+       buffer = Mem_malloc ( length );
        fread ( buffer, length, 1, fp );
      }
 
@@ -2591,7 +2592,7 @@
        Com_Error ( ERR_DROP, "no maps in maps.lst\n" );
      }
 
-     mapnames = malloc ( sizeof ( char * ) * ( nummaps + 1 ) );
+     mapnames = Mem_malloc ( sizeof ( char * ) * ( nummaps + 1 ) );
      memset ( mapnames, 0, sizeof ( char * ) * ( nummaps + 1 ) );
      s = buffer;
 
@@ -2609,7 +2610,7 @@
 
        strcpy ( longname, COM_Parse ( &s ) );
        Com_sprintf ( scratch, sizeof ( scratch ), "%s\n%s", longname, shortname );
-       mapnames[i] = malloc ( strlen ( scratch ) + 1 );
+       mapnames[i] = Mem_malloc ( strlen ( scratch ) + 1 );
        strcpy ( mapnames[i], scratch );
      }
 
@@ -2618,7 +2619,7 @@
      if ( fp != 0 ) {
        fclose ( fp );
        fp = 0;
-       free ( buffer );
+       Mem_free ( buffer );
      } else {
        FS_FreeFile ( buffer );
      }
@@ -3346,12 +3347,12 @@
 
    for ( i = 0; i < n; i++ ) {
      if ( list[i] ) {
-       free ( list[i] );
+       Mem_free ( list[i] );
        list[i] = 0;
      }
    }
 
-   free ( list );
+   Mem_free ( list );
  }
 
  /* ========================================================================= */
@@ -3433,7 +3434,7 @@
      strcat ( scratch, "/tris.md2" );
 
      if ( !Sys_FindFirst ( scratch, 0, SFF_SUBDIR | SFF_HIDDEN | SFF_SYSTEM ) ) {
-       free ( dirnames[i] );
+       Mem_free ( dirnames[i] );
        dirnames[i] = 0;
        Sys_FindClose();
        continue;
@@ -3447,7 +3448,7 @@
                                0, SFF_SUBDIR | SFF_HIDDEN | SFF_SYSTEM );
 
      if ( !pcxnames ) {
-       free ( dirnames[i] );
+       Mem_free ( dirnames[i] );
        dirnames[i] = 0;
        continue;
      }
@@ -3465,7 +3466,7 @@
        continue;
      }
 
-     skinnames = malloc ( sizeof ( char * ) * ( nskins + 1 ) );
+     skinnames = Mem_malloc ( sizeof ( char * ) * ( nskins + 1 ) );
      memset ( skinnames, 0, sizeof ( char * ) * ( nskins + 1 ) );
 
      /* copy the valid skins */
@@ -3774,13 +3775,13 @@
 
        for ( j = 0; j < s_pmi[i].nskins; j++ ) {
          if ( s_pmi[i].skindisplaynames[j] ) {
-           free ( s_pmi[i].skindisplaynames[j] );
+           Mem_free ( s_pmi[i].skindisplaynames[j] );
          }
 
          s_pmi[i].skindisplaynames[j] = 0;
        }
 
-       free ( s_pmi[i].skindisplaynames );
+       Mem_free ( s_pmi[i].skindisplaynames );
        s_pmi[i].skindisplaynames = 0;
        s_pmi[i].nskins = 0;
      }

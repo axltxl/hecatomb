@@ -164,6 +164,11 @@
  #cmakedefine HT_ENDIAN_BIG
  #cmakedefine HT_ENDIAN_LITTLE
 
+ /* Memory allocator */
+ #cmakedefine HT_MEM_STDC
+ #cmakedefine HT_MEM_JEMALLOC
+ #cmakedefine HT_MEM_DLMALLOC
+
  /* Features */
  #cmakedefine HT_WITH_SYSTEMWIDE
  #cmakedefine HT_WITH_SYSTEMDIR "@HT_WITH_SYSTEMDIR@"

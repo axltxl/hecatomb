@@ -35,6 +35,7 @@
  */
 
  #include "prereqs.h"
+ #include "memory.h"
  #include "common/zone.h"
  #include "backend/generic/sdl.h"
 
@@ -1103,7 +1104,7 @@
    backend->submission_chunk = 1;
    backend->speed = obtained.freq;
    samplesize = ( backend->samples * ( backend->samplebits / 8 ) );
-   backend->buffer = calloc ( 1, samplesize );
+   backend->buffer = Mem_calloc ( 1, samplesize );
    s_numchannels = MAX_CHANNELS;
    SDL_UpdateScaletable();
    SDL_PauseAudio ( 0 );
@@ -1123,7 +1124,7 @@
    SDL_PauseAudio ( 1 );
    SDL_CloseAudio();
    SDL_QuitSubSystem ( SDL_INIT_AUDIO );
-   free ( backend->buffer );
+   Mem_free ( backend->buffer );
    backend->buffer = NULL;
    playpos = samplesize = 0;
    snd_inited = 0;

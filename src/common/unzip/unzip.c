@@ -37,6 +37,7 @@ woven in by Terry Thorsen 1/2003.
 
  #include "prereqs.h"
  #include "zlib.h"
+ #include "memory.h"
  #include "common/unzip/unzip.h"
 
  #ifdef STDC
@@ -73,10 +74,10 @@ woven in by Terry Thorsen 1/2003.
  #endif
 
  #ifndef ALLOC
- # define ALLOC(size) (malloc(size))
+ # define ALLOC(size) (Mem_malloc(size))
  #endif
  #ifndef TRYFREE
- # define TRYFREE(p) {if (p) free(p);}
+ # define TRYFREE(p) {if (p) Mem_free(p);}
  #endif
 
  #define SIZECENTRALDIRITEM (0x2e)

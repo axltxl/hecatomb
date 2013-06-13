@@ -26,6 +26,7 @@
 
  #include "prereqs.h"
  #include "filesystem.h"
+ #include "memory.h"
  #include "refresh/local.h"
 
  /* ========================================================================= */
@@ -79,12 +80,12 @@
      return;
    }
 
-   out = malloc ( ( pcx->ymax + 1 ) * ( pcx->xmax + 1 ) );
+   out = Mem_malloc ( ( pcx->ymax + 1 ) * ( pcx->xmax + 1 ) );
    *pic = out;
    pix = out;
 
    if ( palette ) {
-     *palette = malloc ( 768 );
+     *palette = Mem_malloc ( 768 );
      memcpy ( *palette, ( byte * ) pcx + len - 768, 768 );
    }
 
@@ -115,7 +116,7 @@
 
    if ( raw - ( byte * ) pcx > len ) {
      VID_Printf ( PRINT_DEVELOPER, "PCX file %s was malformed", filename );
-     free ( *pic );
+     Mem_free ( *pic );
      *pic = NULL;
    }
 

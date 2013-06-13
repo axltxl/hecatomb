@@ -22,6 +22,11 @@ set (
   ${BACKEND_GENERIC_DIR}/qgl.c
 )
 
+# dlmalloc as the memory allocator
+if (HT_MEM_DLMALLOC)
+  list (APPEND BACKEND_GENERIC_SRC ${BACKEND_GENERIC_DIR}/dlmalloc.c)
+endif()
+
 # OpenAL support (QAL)
 if (HT_WITH_OPENAL)
   list (APPEND BACKEND_GENERIC_SRC ${BACKEND_GENERIC_DIR}/qal.c)

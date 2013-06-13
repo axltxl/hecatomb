@@ -28,6 +28,7 @@
  #include "prereqs.h"
  #include "system.h"
  #include "filesystem.h"
+ #include "memory.h"
  #include "common/glob.h"
  #include "common/zone.h"
 
@@ -760,7 +761,7 @@
      }
    }
 
-   list = calloc ( nfiles, sizeof ( char * ) );
+   list = Mem_calloc ( nfiles, sizeof ( char * ) );
 
    for ( search = fs_searchPaths; search != NULL; search = search->next ) {
      if ( search->pack == NULL ) {
@@ -779,7 +780,7 @@
    }
 
    *num = nfound;
-   list = realloc ( list, sizeof ( char * ) * nfound );
+   list = Mem_realloc ( list, sizeof ( char * ) * nfound );
    return list;
  }
 
@@ -1554,7 +1555,7 @@
    nfiles++; /* Add space for a guard. */
    *numfiles = nfiles;
    /* Allocate the list. */
-   list = calloc ( nfiles, sizeof ( char * ) );
+   list = Mem_calloc ( nfiles, sizeof ( char * ) );
    /* Fill the list. */
    s = Sys_FindFirst ( findname, musthave, canthave );
    nfiles = 0;
@@ -1636,7 +1637,7 @@
    char **list; /* List of files found. */
    char path[MAX_OSPATH]; /* Temporary path. */
    nfiles = 0;
-   list = malloc ( sizeof ( char * ) );
+   list = Mem_malloc ( sizeof ( char * ) );
 
    for ( search = fs_searchPaths; search != NULL; search = search->next ) {
      if ( search->pack != NULL ) {
@@ -1656,7 +1657,7 @@
        }
 
        nfiles += j;
-       list = realloc ( list, nfiles * sizeof ( char * ) );
+       list = Mem_realloc ( list, nfiles * sizeof ( char * ) );
 
        for ( i = 0, j = nfiles - j; i < search->pack->numFiles; i++ ) {
          if ( ComparePackFiles ( findname, search->pack->files[i].name,
@@ -1675,7 +1676,7 @@
        if ( tmplist != NULL ) {
          tmpnfiles--;
          nfiles += tmpnfiles;
-         list = realloc ( list, nfiles * sizeof ( char * ) );
+         list = Mem_realloc ( list, nfiles * sizeof ( char * ) );
 
          for ( i = 0, j = nfiles - tmpnfiles; i < tmpnfiles; i++, j++ ) {
            list[j] = strdup ( tmplist[i] + strlen ( search->path ) + 1 );
@@ -1697,7 +1698,7 @@
      for ( j = i + 1; j < nfiles; j++ ) {
        if ( ( list[j] != NULL ) &&
             ( strcmp ( list[i], list[j] ) == 0 ) ) {
-         free ( list[j] );
+         Mem_free ( list[j] );
          list[j] = NULL;
          tmpnfiles++;
        }
@@ -1706,7 +1707,7 @@
 
    if ( tmpnfiles > 0 ) {
      nfiles -= tmpnfiles;
-     tmplist = malloc ( nfiles * sizeof ( char * ) );
+     tmplist = Mem_malloc ( nfiles * sizeof ( char * ) );
 
      for ( i = 0, j = 0; i < nfiles + tmpnfiles; i++ ) {
        if ( list[i] != NULL ) {
@@ -1714,17 +1715,17 @@
        }
      }
 
-     free ( list );
+     Mem_free ( list );
      list = tmplist;
    }
 
    /* Add a guard. */
    if ( nfiles > 0 ) {
      nfiles++;
-     list = realloc ( list, nfiles * sizeof ( char * ) );
+     list = Mem_realloc ( list, nfiles * sizeof ( char * ) );
      list[nfiles - 1] = NULL;
    } else {
-     free ( list );
+     Mem_free ( list );
      list = NULL;
    }
 
@@ -1739,10 +1740,10 @@
    int i;
 
    for ( i = 0; i < nfiles - 1; i++ ) {
-     free ( list[i] );
+     Mem_free ( list[i] );
    }
 
-   free ( list );
+   Mem_free ( list );
  }
 
  /*

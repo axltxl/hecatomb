@@ -29,6 +29,7 @@
 
  #include "prereqs.h"
  #include "client.h"
+ #include "memory.h"
  #include "client/sound/local.h"
  #include "client/sound/vorbis.h"
 
@@ -267,12 +268,12 @@
    }
 
    /* Allocate list of files. */
-   ogg_filelist = malloc ( sizeof ( char * ) * ogg_numfiles );
+   ogg_filelist = Mem_malloc ( sizeof ( char * ) * ogg_numfiles );
 
    /* Add valid Ogg Vorbis file to the list. */
    for ( i = 0, j = 0; i < ogg_numfiles; i++ ) {
      if ( !OGG_Check ( list[i] ) ) {
-       free ( list[i] );
+       Mem_free ( list[i] );
        continue;
      }
 
@@ -280,11 +281,11 @@
    }
 
    /* Free the file list. */
-   free ( list );
+   Mem_free ( list );
    /* Adjust the list size (remove
       space for invalid music files). */
    ogg_numfiles = j;
-   ogg_filelist = realloc ( ogg_filelist, sizeof ( char * ) * ogg_numfiles );
+   ogg_filelist = Mem_realloc ( ogg_filelist, sizeof ( char * ) * ogg_numfiles );
  }
 
  /*
@@ -320,7 +321,7 @@
    }
 
    /* Allocate file list. */
-   ogg_filelist = malloc ( sizeof ( char * ) * ogg_numfiles );
+   ogg_filelist = Mem_malloc ( sizeof ( char * ) * ogg_numfiles );
    i = 0;
 
    for ( ptr = strtok ( ( char * ) buffer, "\n" );

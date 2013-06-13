@@ -48,6 +48,12 @@
  #ifdef HT_WITH_X11GAMMA
    printf ( " X11Gamma" );
  #endif
+ #ifdef HT_MEM_JEMALLOC
+   printf ( " jemalloc" );
+ #endif
+ #ifdef HT_MEM_DLMALLOC
+   printf ( " dlmalloc" );
+ #endif
    printf ( "\n" );
  #endif /* DEDICATED_ONLY */
    printf ( "Platform: %s\n", HT_OS_NAME );
