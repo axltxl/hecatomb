@@ -6,7 +6,7 @@
  *                    by Steven Fuller
  */
 
- #include <inttypes.h>
+ #include "prereqs.h"
 
  #define ROTATELEFT32(x, s) (((x) << (s)) | ((x) >> (32 - (s))))
 
@@ -30,11 +30,11 @@
      a = ROTATELEFT32(a, s); \
    }
 
- static uint32_t X[16];
- static uint32_t A, AA;
- static uint32_t B, BB;
- static uint32_t C, CC;
- static uint32_t D, DD;
+ static q_uint32_t X[16];
+ static q_uint32_t A, AA;
+ static q_uint32_t B, BB;
+ static q_uint32_t C, CC;
+ static q_uint32_t D, DD;
 
  static void
  DoMD4()
@@ -99,12 +99,12 @@
 
  /* ========================================================================= */
  static void
- PerformMD4 ( const unsigned char *buf, int length, unsigned char *digest )
+ PerformMD4 ( const q_uint8_t *buf, q_int32_t length, q_uint8_t *digest )
  {
-   int len = length / 64; /* number of full blocks */
-   int rem = length % 64; /* number of left over bytes */
-   int i, j;
-   const unsigned char *ptr = buf;
+   q_int32_t len = length / 64; /* number of full blocks */
+   q_int32_t rem = length % 64; /* number of left over bytes */
+   q_int32_t i, j;
+   const q_uint8_t *ptr = buf;
    /* initialize the MD buffer */
    A = 0x67452301;
    B = 0xEFCDAB89;
@@ -194,12 +194,12 @@
  }
 
  /* ========================================================================= */
- unsigned
- Com_BlockChecksum ( void *buffer, int length )
+ q_uint32_t
+ Com_BlockChecksum ( void *buffer, q_int32_t length )
  {
    uint32_t digest[4];
-   unsigned val;
-   PerformMD4 ( ( unsigned char * ) buffer, length, ( unsigned char * ) digest );
+   q_uint32_t val;
+   PerformMD4 ( ( q_uint8_t * ) buffer, length, ( q_uint8_t * ) digest );
    val = digest[0] ^ digest[1] ^ digest[2] ^ digest[3];
    return val;
  }

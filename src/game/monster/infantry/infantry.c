@@ -29,18 +29,18 @@
 
  void InfantryMachineGun ( edict_t *self );
 
- static int sound_pain1;
- static int sound_pain2;
- static int sound_die1;
- static int sound_die2;
+ static q_int32_t sound_pain1;
+ static q_int32_t sound_pain2;
+ static q_int32_t sound_die1;
+ static q_int32_t sound_die2;
 
- static int sound_gunshot;
- static int sound_weapon_cock;
- static int sound_punch_swing;
- static int sound_punch_hit;
- static int sound_sight;
- static int sound_search;
- static int sound_idle;
+ static q_int32_t sound_gunshot;
+ static q_int32_t sound_weapon_cock;
+ static q_int32_t sound_punch_swing;
+ static q_int32_t sound_punch_hit;
+ static q_int32_t sound_sight;
+ static q_int32_t sound_search;
+ static q_int32_t sound_idle;
 
  mframe_t infantry_frames_stand[] = {
    {ai_stand, 0, NULL},
@@ -256,9 +256,9 @@
 
  void
  infantry_pain ( edict_t *self, edict_t *other /* unused */,
-                 float kick /* unused */, int damage )
+                 float kick /* unused */, q_int32_t damage )
  {
-   int n;
+   q_int32_t n;
 
    if ( !self ) {
      return;
@@ -310,7 +310,7 @@
    vec3_t start, target;
    vec3_t forward, right;
    vec3_t vec;
-   int flash_number;
+   q_int32_t flash_number;
 
    if ( !self ) {
      return;
@@ -460,10 +460,10 @@
 
  void
  infantry_die ( edict_t *self, edict_t *inflictor /* unused */,
-                edict_t *attacker /* unused */, int damage,
+                edict_t *attacker /* unused */, q_int32_t damage,
                 vec3_t point /* unused */ )
  {
-   int n;
+   q_int32_t n;
 
    if ( !self ) {
      return;
@@ -592,7 +592,7 @@
  void
  infantry_cock_gun ( edict_t *self )
  {
-   int n;
+   q_int32_t n;
 
    if ( !self ) {
      return;

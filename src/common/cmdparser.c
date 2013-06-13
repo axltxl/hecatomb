@@ -48,11 +48,11 @@
  } cmdalias_t;
 
  char retval[256];
- int alias_count; /* for detecting runaway loops */
+ q_int32_t alias_count; /* for detecting runaway loops */
  cmdalias_t *cmd_alias;
  qboolean cmd_wait;
- static int cmd_argc;
- static int cmd_argc;
+ static q_int32_t cmd_argc;
+ static q_int32_t cmd_argc;
  static char *cmd_argv[MAX_STRING_TOKENS];
  static char *cmd_null_string = "";
  static char cmd_args[MAX_STRING_CHARS];
@@ -84,7 +84,7 @@
  void
  Cbuf_AddText ( char *text )
  {
-   int l;
+   q_int32_t l;
    l = strlen ( text );
 
    if ( cmd_text.cursize + l >= cmd_text.maxsize ) {
@@ -103,7 +103,7 @@
  Cbuf_InsertText ( char *text )
  {
    char *temp;
-   int templen;
+   q_int32_t templen;
    /* copy off any commands still remaining in the exec buffer */
    templen = cmd_text.cursize;
 
@@ -144,7 +144,7 @@
 
  /* ========================================================================= */
  void
- Cbuf_ExecuteText ( int exec_when, char *text )
+ Cbuf_ExecuteText ( q_int32_t exec_when, char *text )
  {
    switch ( exec_when ) {
    case EXEC_NOW:
@@ -168,10 +168,10 @@
  void
  Cbuf_Execute ( void )
  {
-   int i;
+   q_int32_t i;
    char *text;
    char line[1024];
-   int quotes;
+   q_int32_t quotes;
    alias_count = 0; /* don't allow infinite alias loops */
 
    while ( cmd_text.cursize ) {
@@ -235,7 +235,7 @@
  void
  Cbuf_AddEarlyCommands ( qboolean clear )
  {
-   int i;
+   q_int32_t i;
    char *s;
 
    for ( i = 0; i < COM_Argc(); i++ ) {
@@ -268,10 +268,10 @@
  qboolean
  Cbuf_AddLateCommands ( void )
  {
-   int i, j;
-   int s;
+   q_int32_t i, j;
+   q_int32_t s;
    char *text, *build, c;
-   int argc;
+   q_int32_t argc;
    qboolean ret;
    /* build the combined string to parse from */
    s = 0;
@@ -332,7 +332,7 @@
  Cmd_Exec_f ( void )
  {
    char *f, *f2;
-   int len;
+   q_int32_t len;
 
    if ( Cmd_Argc() != 2 ) {
      Com_Printf ( "exec <filename> : execute a script file\n" );
@@ -362,7 +362,7 @@
  void
  Cmd_Echo_f ( void )
  {
-   int i;
+   q_int32_t i;
 
    for ( i = 1; i < Cmd_Argc(); i++ ) {
      Com_Printf ( "%s ", Cmd_Argv ( i ) );
@@ -380,7 +380,7 @@
  {
    cmdalias_t *a;
    char cmd[1024];
-   int i, c;
+   q_int32_t i, c;
    char *s;
 
    if ( Cmd_Argc() == 1 ) {
@@ -432,7 +432,7 @@
  }
 
  /* ========================================================================= */
- int
+ q_int32_t
  Cmd_Argc ( void )
  {
    return cmd_argc;
@@ -440,9 +440,9 @@
 
  /* ========================================================================= */
  char *
- Cmd_Argv ( int arg )
+ Cmd_Argv ( q_int32_t arg )
  {
-   if ( ( unsigned ) arg >= cmd_argc ) {
+   if ( ( q_uint32_t ) arg >= cmd_argc ) {
      return cmd_null_string;
    }
 
@@ -462,7 +462,7 @@
  char *
  Cmd_MacroExpandString ( char *text )
  {
-   int i, j, count, len;
+   q_int32_t i, j, count, len;
    qboolean inquote;
    char *scan;
    static char expanded[MAX_STRING_CHARS];
@@ -538,7 +538,7 @@
  void
  Cmd_TokenizeString ( char *text, qboolean macroExpand )
  {
-   int i;
+   q_int32_t i;
    const char *com_token;
 
    /* clear the args from the last string */
@@ -576,7 +576,7 @@
 
      /* set cmd_args to everything after the first arg */
      if ( cmd_argc == 1 ) {
-       int l;
+       q_int32_t l;
        strcpy ( cmd_args, text );
        /* strip off any trailing whitespace */
        l = strlen ( cmd_args ) - 1;
@@ -679,7 +679,7 @@
  }
 
  /* ========================================================================= */
- int
+ q_int32_t
  qsort_strcomp ( const void *s1, const void *s2 )
  {
    return strcmp ( * ( char ** ) s1, * ( char ** ) s2 );
@@ -690,7 +690,7 @@
  Cmd_CompleteCommand ( char *partial )
  {
    cmd_function_t *cmd;
-   int len, i, o, p;
+   q_int32_t len, i, o, p;
    cmdalias_t *a;
    cvar_t *cvar;
    char *pmatch[1024];
@@ -875,7 +875,7 @@
  Cmd_List_f ( void )
  {
    cmd_function_t *cmd;
-   int i;
+   q_int32_t i;
    i = 0;
 
    for ( cmd = cmd_functions; cmd; cmd = cmd->next, i++ ) {

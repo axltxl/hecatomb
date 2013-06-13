@@ -33,10 +33,10 @@
  extern cvar_t *allow_download_sounds;
  extern cvar_t *allow_download_maps;
 
- extern int precache_check;
- extern int precache_spawncount;
- extern int precache_tex;
- extern int precache_model_skin;
+ extern q_int32_t precache_check;
+ extern q_int32_t precache_spawncount;
+ extern q_int32_t precache_tex;
+ extern q_int32_t precache_model_skin;
 
  extern byte *precache_model;
 
@@ -52,7 +52,7 @@
  void
  CL_RequestNextDownload ( void )
  {
-   unsigned int map_checksum; /* for detecting cheater maps */
+   q_uint32_t map_checksum; /* for detecting cheater maps */
    char fn[MAX_OSPATH];
    dmdl_t *pheader;
 
@@ -105,7 +105,7 @@
              continue; /* couldn't load it */
            }
 
-           if ( LittleLong ( * ( unsigned * ) precache_model ) !=
+           if ( LittleLong ( * ( q_uint32_t * ) precache_model ) !=
                 IDALIASHEADER ) {
              /* not an alias model */
              FS_FreeFile ( precache_model );
@@ -202,7 +202,7 @@
         ( precache_check < CS_PLAYERSKINS + MAX_CLIENTS * PLAYER_MULT ) ) {
      if ( allow_download_players->value ) {
        while ( precache_check < CS_PLAYERSKINS + MAX_CLIENTS * PLAYER_MULT ) {
-         int i, n;
+         q_int32_t i, n;
          char model[MAX_QPATH], skin[MAX_QPATH], *p;
          i = ( precache_check - CS_PLAYERSKINS ) / PLAYER_MULT;
          n = ( precache_check - CS_PLAYERSKINS ) % PLAYER_MULT;
@@ -295,7 +295,7 @@
      precache_check = ENV_CNT + 1;
      CM_LoadMap ( cl.configstrings[CS_MODELS + 1], true, &map_checksum );
 
-     if ( map_checksum != ( int ) strtol ( cl.configstrings[CS_MAPCHECKSUM], ( char ** ) NULL, 10 ) ) {
+     if ( map_checksum != ( q_int32_t ) strtol ( cl.configstrings[CS_MAPCHECKSUM], ( char ** ) NULL, 10 ) ) {
        Com_Error ( ERR_DROP, "Local map version differs from server: %i != '%s'\n",
                    map_checksum, cl.configstrings[CS_MAPCHECKSUM] );
        return;
@@ -305,7 +305,7 @@
    if ( ( precache_check > ENV_CNT ) && ( precache_check < TEXTURE_CNT ) ) {
      if ( allow_download->value && allow_download_maps->value ) {
        while ( precache_check < TEXTURE_CNT ) {
-         int n = precache_check++ - ENV_CNT - 1;
+         q_int32_t n = precache_check++ - ENV_CNT - 1;
 
          if ( n & 1 ) {
            Com_sprintf ( fn, sizeof ( fn ), "env/%s%s.pcx",
@@ -331,7 +331,7 @@
 
    /* confirm existance of textures, download any that don't exist */
    if ( precache_check == TEXTURE_CNT + 1 ) {
-     extern int numtexinfo;
+     extern q_int32_t numtexinfo;
      extern mapsurface_t map_surfaces[];
 
      if ( allow_download->value && allow_download_maps->value ) {
@@ -357,7 +357,7 @@
 
  /* ========================================================================= */
  void
- CL_DownloadFileName ( char *dest, int destlen, char *fn )
+ CL_DownloadFileName ( char *dest, q_int32_t destlen, char *fn )
  {
    if ( strncmp ( fn, "players", 7 ) == 0 ) {
      Com_sprintf ( dest, destlen, "%s/%s", HT_DIR_BASE, fn );
@@ -406,7 +406,7 @@
 
    if ( fp ) {
      /* it exists */
-     int len;
+     q_int32_t len;
      fseek ( fp, 0, SEEK_END );
      len = ftell ( fp );
      cls.download = fp;
@@ -468,9 +468,9 @@
  void
  CL_ParseDownload ( void )
  {
-   int size, percent;
+   q_int32_t size, percent;
    char name[MAX_OSPATH];
-   int r;
+   q_int32_t r;
    /* read the data */
    size = MSG_ReadShort ( &net_message );
    percent = MSG_ReadByte ( &net_message );

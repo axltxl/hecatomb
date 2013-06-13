@@ -30,36 +30,36 @@
  #include "refresh/local.h"
 
  image_t gltextures[MAX_GLTEXTURES];
- int numgltextures;
- int base_textureid; /* gltextures[i] = base_textureid+i */
+ q_int32_t numgltextures;
+ q_int32_t base_textureid; /* gltextures[i] = base_textureid+i */
  extern qboolean scrap_dirty;
  extern byte scrap_texels[MAX_SCRAPS][BLOCK_WIDTH *BLOCK_HEIGHT];
 
  static byte intensitytable[256];
- static unsigned char gammatable[256];
+ static q_uint8_t gammatable[256];
 
  cvar_t *intensity;
 
- unsigned d_8to24table[256];
+ q_uint32_t d_8to24table[256];
 
- qboolean R_Upload8 ( byte *data, int width, int height,
+ qboolean R_Upload8 ( byte *data, q_int32_t width, q_int32_t height,
                       qboolean mipmap, qboolean is_sky );
- qboolean R_Upload32 ( unsigned *data, int width, int height, qboolean mipmap );
+ qboolean R_Upload32 ( q_uint32_t *data, q_int32_t width, q_int32_t height, qboolean mipmap );
 
- int gl_solid_format = 3;
- int gl_alpha_format = 4;
+ q_int32_t gl_solid_format = 3;
+ q_int32_t gl_alpha_format = 4;
 
- int gl_tex_solid_format = 3;
- int gl_tex_alpha_format = 4;
+ q_int32_t gl_tex_solid_format = 3;
+ q_int32_t gl_tex_alpha_format = 4;
 
- int gl_filter_min = GL_LINEAR_MIPMAP_NEAREST;
- int gl_filter_max = GL_LINEAR;
+ q_int32_t gl_filter_min = GL_LINEAR_MIPMAP_NEAREST;
+ q_int32_t gl_filter_max = GL_LINEAR;
 
- int Draw_GetPalette ( void );
+ q_int32_t Draw_GetPalette ( void );
 
  typedef struct {
    char *name;
-   int minimize, maximize;
+   q_int32_t minimize, maximize;
  } glmode_t;
 
  glmode_t modes[] = {
@@ -75,7 +75,7 @@
 
  typedef struct {
    char *name;
-   int mode;
+   q_int32_t mode;
  } gltmode_t;
 
  gltmode_t gl_alpha_modes[] = {
@@ -104,7 +104,7 @@
  #define NUM_GL_SOLID_MODES (sizeof(gl_solid_modes) / sizeof(gltmode_t))
 
  typedef struct {
-   short x, y;
+   q_int16_t x, y;
  } floodfill_t;
 
  /* must be a power of 2 */
@@ -125,15 +125,15 @@
      } \
    }
 
- int upload_width, upload_height;
+ q_int32_t upload_width, upload_height;
  qboolean uploaded_paletted;
 
  /* ========================================================================= */
  void
- R_SetTexturePalette ( unsigned palette[256] )
+ R_SetTexturePalette ( q_uint32_t palette[256] )
  {
-   int i;
-   unsigned char temptable[768];
+   q_int32_t i;
+   q_uint8_t temptable[768];
 
    if ( qglColorTableEXT && gl_ext_palettedtexture->value ) {
      for ( i = 0; i < 256; i++ ) {
@@ -173,7 +173,7 @@
  void
  R_SelectTexture ( GLenum texture )
  {
-   int tmu;
+   q_int32_t tmu;
 
    if ( !qglSelectTextureSGIS && !qglActiveTextureARB ) {
      return;
@@ -203,7 +203,7 @@
  void
  R_TexEnv ( GLenum mode )
  {
-   static int lastmodes[2] = { -1, -1};
+   static q_int32_t lastmodes[2] = { -1, -1};
 
    if ( mode != lastmodes[gl_state.currenttmu] ) {
      qglTexEnvf ( GL_TEXTURE_ENV, GL_TEXTURE_ENV_MODE, mode );
@@ -213,7 +213,7 @@
 
  /* ========================================================================= */
  void
- R_Bind ( int texnum )
+ R_Bind ( q_int32_t texnum )
  {
    extern image_t *draw_chars;
 
@@ -231,7 +231,7 @@
 
  /* ========================================================================= */
  void
- R_MBind ( GLenum target, int texnum )
+ R_MBind ( GLenum target, q_int32_t texnum )
  {
    R_SelectTexture ( target );
 
@@ -252,7 +252,7 @@
  void
  R_TextureMode ( char *string )
  {
-   int i;
+   q_int32_t i;
    image_t *glt;
 
    for ( i = 0; i < NUM_GL_MODES; i++ ) {
@@ -300,7 +300,7 @@
  void
  R_TextureAlphaMode ( char *string )
  {
-   int i;
+   q_int32_t i;
 
    for ( i = 0; i < NUM_GL_ALPHA_MODES; i++ ) {
      if ( !Q_stricmp ( gl_alpha_modes[i].name, string ) ) {
@@ -320,7 +320,7 @@
  void
  R_TextureSolidMode ( char *string )
  {
-   int i;
+   q_int32_t i;
 
    for ( i = 0; i < NUM_GL_SOLID_MODES; i++ ) {
      if ( !Q_stricmp ( gl_solid_modes[i].name, string ) ) {
@@ -340,9 +340,9 @@
  void
  R_ImageList_f ( void )
  {
-   int i;
+   q_int32_t i;
    image_t *image;
-   int texels;
+   q_int32_t texels;
    const char *palstrings[2] = {
      "RGB",
      "PAL"
@@ -393,13 +393,13 @@
   * Fill background pixels so mipmapping doesn't have haloes
   */
  void
- R_FloodFillSkin ( byte *skin, int skinwidth, int skinheight )
+ R_FloodFillSkin ( byte *skin, q_int32_t skinwidth, q_int32_t skinheight )
  {
    byte fillcolor = *skin; /* assume this is the pixel to fill */
    floodfill_t fifo[FLOODFILL_FIFO_SIZE];
-   int inpt = 0, outpt = 0;
-   int filledcolor = -1;
-   int i;
+   q_int32_t inpt = 0, outpt = 0;
+   q_int32_t filledcolor = -1;
+   q_int32_t i;
 
    if ( filledcolor == -1 ) {
      filledcolor = 0;
@@ -422,8 +422,8 @@
    inpt = ( inpt + 1 ) & FLOODFILL_FIFO_MASK;
 
    while ( outpt != inpt ) {
-     int x = fifo[outpt].x, y = fifo[outpt].y;
-     int fdc = filledcolor;
+     q_int32_t x = fifo[outpt].x, y = fifo[outpt].y;
+     q_int32_t fdc = filledcolor;
      byte *pos = &skin[x + skinwidth * y];
      outpt = ( outpt + 1 ) & FLOODFILL_FIFO_MASK;
 
@@ -449,13 +449,13 @@
 
  /* ========================================================================= */
  void
- R_ResampleTexture ( unsigned *in, int inwidth, int inheight,
-                     unsigned *out, int outwidth, int outheight )
+ R_ResampleTexture ( q_uint32_t *in, q_int32_t inwidth, q_int32_t inheight,
+                     q_uint32_t *out, q_int32_t outwidth, q_int32_t outheight )
  {
-   int i, j;
-   unsigned *inrow, *inrow2;
-   unsigned frac, fracstep;
-   unsigned p1[1024], p2[1024];
+   q_int32_t i, j;
+   q_uint32_t *inrow, *inrow2;
+   q_uint32_t frac, fracstep;
+   q_uint32_t p1[1024], p2[1024];
    byte *pix1, *pix2, *pix3, *pix4;
    fracstep = inwidth * 0x10000 / outwidth;
    frac = fracstep >> 2;
@@ -473,8 +473,8 @@
    }
 
    for ( i = 0; i < outheight; i++, out += outwidth ) {
-     inrow = in + inwidth * ( int ) ( ( i + 0.25 ) * inheight / outheight );
-     inrow2 = in + inwidth * ( int ) ( ( i + 0.75 ) * inheight / outheight );
+     inrow = in + inwidth * ( q_int32_t ) ( ( i + 0.25 ) * inheight / outheight );
+     inrow2 = in + inwidth * ( q_int32_t ) ( ( i + 0.75 ) * inheight / outheight );
 
      for ( j = 0; j < outwidth; j++ ) {
        pix1 = ( byte * ) inrow + p1[j];
@@ -495,11 +495,11 @@
   * lighting range
   */
  void
- R_LightScaleTexture ( unsigned *in, int inwidth,
-                       int inheight, qboolean only_gamma )
+ R_LightScaleTexture ( q_uint32_t *in, q_int32_t inwidth,
+                       q_int32_t inheight, qboolean only_gamma )
  {
    if ( only_gamma ) {
-     int i, c;
+     q_int32_t i, c;
      byte *p;
      p = ( byte * ) in;
      c = inwidth * inheight;
@@ -510,7 +510,7 @@
        p[2] = gammatable[p[2]];
      }
    } else {
-     int i, c;
+     q_int32_t i, c;
      byte *p;
      p = ( byte * ) in;
      c = inwidth * inheight;
@@ -527,9 +527,9 @@
   * Operates in place, quartering the size of the texture
   */
  void
- R_MipMap ( byte *in, int width, int height )
+ R_MipMap ( byte *in, q_int32_t width, q_int32_t height )
  {
-   int i, j;
+   q_int32_t i, j;
    byte *out;
    width <<= 2;
    height >>= 1;
@@ -549,13 +549,13 @@
   * Returns has_alpha
   */
  void
- R_BuildPalettedTexture ( unsigned char *paletted_texture, unsigned char *scaled,
-                          int scaled_width, int scaled_height )
+ R_BuildPalettedTexture ( q_uint8_t *paletted_texture, q_uint8_t *scaled,
+                          q_int32_t scaled_width, q_int32_t scaled_height )
  {
-   int i;
+   q_int32_t i;
 
    for ( i = 0; i < scaled_width * scaled_height; i++ ) {
-     unsigned int r, g, b, c;
+     q_uint32_t r, g, b, c;
      r = ( scaled[0] >> 3 ) & 31;
      g = ( scaled[1] >> 2 ) & 63;
      b = ( scaled[2] >> 3 ) & 31;
@@ -567,15 +567,15 @@
 
  /* ========================================================================= */
  qboolean
- R_Upload32 ( unsigned *data, int width, int height, qboolean mipmap )
+ R_Upload32 ( q_uint32_t *data, q_int32_t width, q_int32_t height, qboolean mipmap )
  {
-   int samples;
-   unsigned scaled[256 * 256];
-   unsigned char paletted_texture[256 * 256];
-   int scaled_width, scaled_height;
-   int i, c;
+   q_int32_t samples;
+   q_uint32_t scaled[256 * 256];
+   q_uint8_t paletted_texture[256 * 256];
+   q_int32_t scaled_width, scaled_height;
+   q_int32_t i, c;
    byte *scan;
-   int comp;
+   q_int32_t comp;
    uploaded_paletted = false;
 
    for ( scaled_width = 1; scaled_width < width; scaled_width <<= 1 ) {
@@ -594,8 +594,8 @@
 
    /* let people sample down the world textures for speed */
    if ( mipmap ) {
-     scaled_width >>= ( int ) gl_picmip->value;
-     scaled_height >>= ( int ) gl_picmip->value;
+     scaled_width >>= ( q_int32_t ) gl_picmip->value;
+     scaled_height >>= ( q_int32_t ) gl_picmip->value;
    }
 
    /* don't ever bother with >256 textures */
@@ -649,7 +649,7 @@
        if ( qglColorTableEXT && gl_ext_palettedtexture->value &&
             ( samples == gl_solid_format ) ) {
          uploaded_paletted = true;
-         R_BuildPalettedTexture ( paletted_texture, ( unsigned char * ) data,
+         R_BuildPalettedTexture ( paletted_texture, ( q_uint8_t * ) data,
                                   scaled_width, scaled_height );
          qglTexImage2D ( GL_TEXTURE_2D, 0, GL_COLOR_INDEX8_EXT,
                          scaled_width, scaled_height, 0, GL_COLOR_INDEX,
@@ -674,7 +674,7 @@
    if ( qglColorTableEXT && gl_ext_palettedtexture->value &&
         ( samples == gl_solid_format ) ) {
      uploaded_paletted = true;
-     R_BuildPalettedTexture ( paletted_texture, ( unsigned char * ) scaled,
+     R_BuildPalettedTexture ( paletted_texture, ( q_uint8_t * ) scaled,
                               scaled_width, scaled_height );
      qglTexImage2D ( GL_TEXTURE_2D, 0, GL_COLOR_INDEX8_EXT,
                      scaled_width, scaled_height, 0, GL_COLOR_INDEX,
@@ -686,7 +686,7 @@
    }
 
    if ( mipmap ) {
-     int miplevel;
+     q_int32_t miplevel;
      miplevel = 0;
 
      while ( scaled_width > 1 || scaled_height > 1 ) {
@@ -707,7 +707,7 @@
        if ( qglColorTableEXT && gl_ext_palettedtexture->value &&
             ( samples == gl_solid_format ) ) {
          uploaded_paletted = true;
-         R_BuildPalettedTexture ( paletted_texture, ( unsigned char * ) scaled,
+         R_BuildPalettedTexture ( paletted_texture, ( q_uint8_t * ) scaled,
                                   scaled_width, scaled_height );
          qglTexImage2D ( GL_TEXTURE_2D, miplevel, GL_COLOR_INDEX8_EXT,
                          scaled_width, scaled_height, 0, GL_COLOR_INDEX,
@@ -741,11 +741,11 @@
   * Returns has_alpha
   */
  qboolean
- R_Upload8 ( byte *data, int width, int height, qboolean mipmap, qboolean is_sky )
+ R_Upload8 ( byte *data, q_int32_t width, q_int32_t height, qboolean mipmap, qboolean is_sky )
  {
-   unsigned trans[512 * 256];
-   int i, s;
-   int p;
+   q_uint32_t trans[512 * 256];
+   q_int32_t i, s;
+   q_int32_t p;
    s = width * height;
 
    if ( s > sizeof ( trans ) / 4 ) {
@@ -794,11 +794,11 @@
   * This is also used as an entry point for the generated r_notexture
   */
  image_t *
- R_LoadPic ( char *name, byte *pic, int width, int realwidth,
-             int height, int realheight, imagetype_t type, int bits )
+ R_LoadPic ( char *name, byte *pic, q_int32_t width, q_int32_t realwidth,
+             q_int32_t height, q_int32_t realheight, imagetype_t type, q_int32_t bits )
  {
    image_t *image;
-   int i;
+   q_int32_t i;
 
    /* find a free image_t */
    for ( i = 0, image = gltextures; i < numgltextures; i++, image++ ) {
@@ -834,9 +834,9 @@
    /* load little pics into the scrap */
    if ( ( image->type == it_pic ) && ( bits == 8 ) &&
         ( image->width < 64 ) && ( image->height < 64 ) ) {
-     int x, y;
-     int i, j, k;
-     int texnum;
+     q_int32_t x, y;
+     q_int32_t i, j, k;
+     q_int32_t texnum;
      texnum = Scrap_AllocBlock ( image->width, image->height, &x, &y );
 
      if ( texnum == -1 ) {
@@ -871,7 +871,7 @@
                                       ( image->type != it_pic && image->type != it_sky ),
                                       image->type == it_sky );
      } else {
-       image->has_alpha = R_Upload32 ( ( unsigned * ) pic, width, height,
+       image->has_alpha = R_Upload32 ( ( q_uint32_t * ) pic, width, height,
                                        ( image->type != it_pic && image->type != it_sky ) );
      }
 
@@ -906,13 +906,13 @@
  R_FindImage ( char *name, imagetype_t type )
  {
    image_t *image;
-   int i, len;
+   q_int32_t i, len;
    byte *pic, *palette;
-   int width, height;
+   q_int32_t width, height;
    char *ptr;
    char namewe[256];
  #ifdef HT_WITH_RETEXTURE
-   int realwidth = 0, realheight = 0;
+   q_int32_t realwidth = 0, realheight = 0;
  #endif
 
    if ( !name ) {
@@ -1074,7 +1074,7 @@
  void
  R_FreeUnusedImages ( void )
  {
-   int i;
+   q_int32_t i;
    image_t *image;
    /* never free r_notexture or particle texture */
    r_notexture->registration_sequence = registration_sequence;
@@ -1103,7 +1103,7 @@
  void
  R_InitImages ( void )
  {
-   int i, j;
+   q_int32_t i, j;
    float g = vid_gamma->value;
    registration_sequence = 1;
    /* init intensity conversions */
@@ -1158,7 +1158,7 @@
  void
  R_ShutdownImages ( void )
  {
-   int i;
+   q_int32_t i;
    image_t *image;
 
    for ( i = 0, image = gltextures; i < numgltextures; i++, image++ ) {

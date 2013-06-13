@@ -33,7 +33,7 @@
  extern qboolean scrap_dirty;
  void Scrap_Upload ( void );
 
- extern unsigned r_rawpalette[256];
+ extern q_uint32_t r_rawpalette[256];
 
  /* ========================================================================= */
  void
@@ -48,9 +48,9 @@
 
  /* ========================================================================= */
  void
- Draw_Char ( int x, int y, int num )
+ Draw_Char ( q_int32_t x, q_int32_t y, q_int32_t num )
  {
-   int row, col;
+   q_int32_t row, col;
    float frow, fcol, size;
    num &= 255;
 
@@ -99,7 +99,7 @@
 
  /* ========================================================================= */
  void
- Draw_GetPicSize ( int *w, int *h, char *pic )
+ Draw_GetPicSize ( q_int32_t *w, q_int32_t *h, char *pic )
  {
    image_t *gl;
    gl = Draw_FindPic ( pic );
@@ -115,7 +115,7 @@
 
  /* ========================================================================= */
  void
- Draw_StretchPic ( int x, int y, int w, int h, char *pic )
+ Draw_StretchPic ( q_int32_t x, q_int32_t y, q_int32_t w, q_int32_t h, char *pic )
  {
    image_t *gl;
    gl = Draw_FindPic ( pic );
@@ -144,7 +144,7 @@
 
  /* ========================================================================= */
  void
- Draw_Pic ( int x, int y, char *pic )
+ Draw_Pic ( q_int32_t x, q_int32_t y, char *pic )
  {
    image_t *gl;
    gl = Draw_FindPic ( pic );
@@ -173,7 +173,7 @@
 
  /* ========================================================================= */
  void
- Draw_TileClear ( int x, int y, int w, int h, char *pic )
+ Draw_TileClear ( q_int32_t x, q_int32_t y, q_int32_t w, q_int32_t h, char *pic )
  {
    image_t *image;
    image = Draw_FindPic ( pic );
@@ -198,14 +198,14 @@
 
  /* ========================================================================= */
  void
- Draw_Fill ( int x, int y, int w, int h, int c )
+ Draw_Fill ( q_int32_t x, q_int32_t y, q_int32_t w, q_int32_t h, q_int32_t c )
  {
    union {
-     unsigned c;
+     q_uint32_t c;
      byte v[4];
    } color;
 
-   if ( ( unsigned ) c > 255 ) {
+   if ( ( q_uint32_t ) c > 255 ) {
      VID_Error ( ERR_FATAL, "Draw_Fill: bad color" );
    }
 
@@ -243,15 +243,15 @@
 
  /* ========================================================================= */
  void
- Draw_StretchRaw ( int x, int y, int w, int h, int cols, int rows, byte *data )
+ Draw_StretchRaw ( q_int32_t x, q_int32_t y, q_int32_t w, q_int32_t h, q_int32_t cols, q_int32_t rows, byte *data )
  {
-   unsigned image32[256 * 256];
-   unsigned char image8[256 * 256];
-   int i, j, trows;
+   q_uint32_t image32[256 * 256];
+   q_uint8_t image8[256 * 256];
+   q_int32_t i, j, trows;
    byte *source;
-   int frac, fracstep;
+   q_int32_t frac, fracstep;
    float hscale;
-   int row;
+   q_int32_t row;
    float t;
    R_Bind ( 0 );
 
@@ -266,10 +266,10 @@
    t = rows * hscale / 256 - 1.0 / 512.0;
 
    if ( !qglColorTableEXT ) {
-     unsigned *dest;
+     q_uint32_t *dest;
 
      for ( i = 0; i < trows; i++ ) {
-       row = ( int ) ( i * hscale );
+       row = ( q_int32_t ) ( i * hscale );
 
        if ( row > rows ) {
          break;
@@ -290,10 +290,10 @@
                      256, 256, 0, GL_RGBA, GL_UNSIGNED_BYTE,
                      image32 );
    } else {
-     unsigned char *dest;
+     q_uint8_t *dest;
 
      for ( i = 0; i < trows; i++ ) {
-       row = ( int ) ( i * hscale );
+       row = ( q_int32_t ) ( i * hscale );
 
        if ( row > rows ) {
          break;
@@ -335,14 +335,14 @@
  }
 
  /* ========================================================================= */
- int
+ q_int32_t
  Draw_GetPalette ( void )
  {
-   int i;
-   int r, g, b;
-   unsigned v;
+   q_int32_t i;
+   q_int32_t r, g, b;
+   q_uint32_t v;
    byte *pic, *pal;
-   int width, height;
+   q_int32_t width, height;
    /* get the palette */
    LoadPCX ( "pics/colormap.pcx", &pic, &pal, &width, &height );
 

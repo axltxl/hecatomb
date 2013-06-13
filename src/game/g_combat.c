@@ -111,7 +111,7 @@
 
  void
  Killed ( edict_t *targ, edict_t *inflictor, edict_t *attacker,
-          int damage, vec3_t point )
+          q_int32_t damage, vec3_t point )
  {
    if ( !targ || !inflictor || !attacker ) {
      return;
@@ -155,7 +155,7 @@
  }
 
  void
- SpawnDamage ( int type, vec3_t origin, vec3_t normal )
+ SpawnDamage ( q_int32_t type, vec3_t origin, vec3_t normal )
  {
    gi.WriteByte ( svc_temp_entity );
    gi.WriteByte ( type );
@@ -185,18 +185,18 @@
   *      DAMAGE_NO_PROTECTION  kills godmode, armor, everything
   */
 
- int
- CheckPowerArmor ( edict_t *ent, vec3_t point, vec3_t normal, int damage,
-                   int dflags )
+ q_int32_t
+ CheckPowerArmor ( edict_t *ent, vec3_t point, vec3_t normal, q_int32_t damage,
+                   q_int32_t dflags )
  {
    gclient_t *client;
-   int save;
-   int power_armor_type;
-   int index;
-   int damagePerCell;
-   int pa_te_type;
-   int power = 0;
-   int power_used;
+   q_int32_t save;
+   q_int32_t power_armor_type;
+   q_int32_t index;
+   q_int32_t damagePerCell;
+   q_int32_t pa_te_type;
+   q_int32_t power = 0;
+   q_int32_t power_used;
 
    if ( !ent ) {
      return 0;
@@ -285,13 +285,13 @@
    return save;
  }
 
- int
- CheckArmor ( edict_t *ent, vec3_t point, vec3_t normal, int damage,
-              int te_sparks, int dflags )
+ q_int32_t
+ CheckArmor ( edict_t *ent, vec3_t point, vec3_t normal, q_int32_t damage,
+              q_int32_t te_sparks, q_int32_t dflags )
  {
    gclient_t *client;
-   int save;
-   int index;
+   q_int32_t save;
+   q_int32_t index;
    gitem_t *armor;
 
    if ( !ent ) {
@@ -442,15 +442,15 @@
 
  void
  T_Damage ( edict_t *targ, edict_t *inflictor, edict_t *attacker,
-            vec3_t dir, vec3_t point, vec3_t normal, int damage,
-            int knockback, int dflags, int mod )
+            vec3_t dir, vec3_t point, vec3_t normal, q_int32_t damage,
+            q_int32_t knockback, q_int32_t dflags, q_int32_t mod )
  {
    gclient_t *client;
-   int take;
-   int save;
-   int asave;
-   int psave;
-   int te_sparks;
+   q_int32_t take;
+   q_int32_t save;
+   q_int32_t asave;
+   q_int32_t psave;
+   q_int32_t te_sparks;
 
    if ( !targ || !inflictor || !attacker ) {
      return;
@@ -464,10 +464,10 @@
       can't hurt teammates (but you can hurt
       yourself) knockback still occurs */
    if ( ( targ != attacker ) && ( ( deathmatch->value &&
-                                    ( ( int ) ( dmflags->value ) & ( DF_MODELTEAMS | DF_SKINTEAMS ) ) ) ||
+                                    ( ( q_int32_t ) ( dmflags->value ) & ( DF_MODELTEAMS | DF_SKINTEAMS ) ) ) ||
                                   coop->value ) ) {
      if ( OnSameTeam ( targ, attacker ) ) {
-       if ( ( int ) ( dmflags->value ) & DF_NO_FRIENDLY_FIRE ) {
+       if ( ( q_int32_t ) ( dmflags->value ) & DF_NO_FRIENDLY_FIRE ) {
          damage = 0;
        } else {
          mod |= MOD_FRIENDLY_FIRE;
@@ -624,7 +624,7 @@
 
  void
  T_RadiusDamage ( edict_t *inflictor, edict_t *attacker, float damage,
-                  edict_t *ignore, float radius, int mod )
+                  edict_t *ignore, float radius, q_int32_t mod )
  {
    float points;
    edict_t *ent = NULL;
@@ -657,7 +657,7 @@
        if ( CanDamage ( ent, inflictor ) ) {
          VectorSubtract ( ent->s.origin, inflictor->s.origin, dir );
          T_Damage ( ent, inflictor, attacker, dir, inflictor->s.origin,
-                    vec3_origin, ( int ) points, ( int ) points, DAMAGE_RADIUS,
+                    vec3_origin, ( q_int32_t ) points, ( q_int32_t ) points, DAMAGE_RADIUS,
                     mod );
        }
      }

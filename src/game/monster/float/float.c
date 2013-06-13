@@ -27,13 +27,13 @@
  #include "game/local.h"
  #include "game/monster/float/float.h"
 
- static int sound_attack2;
- static int sound_attack3;
- static int sound_death1;
- static int sound_idle;
- static int sound_pain1;
- static int sound_pain2;
- static int sound_sight;
+ static q_int32_t sound_attack2;
+ static q_int32_t sound_attack3;
+ static q_int32_t sound_death1;
+ static q_int32_t sound_idle;
+ static q_int32_t sound_pain1;
+ static q_int32_t sound_pain2;
+ static q_int32_t sound_sight;
 
  void
  floater_sight ( edict_t *self, edict_t *other /* unused */ )
@@ -57,7 +57,7 @@
 
  void floater_dead ( edict_t *self );
  void floater_die ( edict_t *self, edict_t *inflictor, edict_t *attacker,
-                    int damage, vec3_t point );
+                    q_int32_t damage, vec3_t point );
  void floater_run ( edict_t *self );
  void floater_wham ( edict_t *self );
  void floater_zap ( edict_t *self );
@@ -69,7 +69,7 @@
    vec3_t forward, right;
    vec3_t end;
    vec3_t dir;
-   int effect;
+   q_int32_t effect;
 
    if ( !self ) {
      return;
@@ -669,9 +669,9 @@
 
  void
  floater_pain ( edict_t *self, edict_t *other /* unused */,
-                float kick /* unused */, int damage )
+                float kick /* unused */, q_int32_t damage )
  {
-   int n;
+   q_int32_t n;
 
    if ( !self ) {
      return;
@@ -719,7 +719,7 @@
 
  void
  floater_die ( edict_t *self, edict_t *inflictor /* unused */, edict_t *attacker /* unused */,
-               int damage /* unused */, vec3_t point /* unused */ )
+               q_int32_t damage /* unused */, vec3_t point /* unused */ )
  {
    if ( !self ) {
      return;

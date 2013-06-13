@@ -32,13 +32,13 @@
  void
  LoadMD2 ( model_t *mod, void *buffer )
  {
-   int i, j;
+   q_int32_t i, j;
    dmdl_t *pinmodel, *pheader;
    dstvert_t *pinst, *poutst;
    dtriangle_t *pintri, *pouttri;
    daliasframe_t *pinframe, *poutframe;
-   int *pincmd, *poutcmd;
-   int version;
+   q_int32_t *pincmd, *poutcmd;
+   q_int32_t version;
    pinmodel = ( dmdl_t * ) buffer;
    version = LittleLong ( pinmodel->version );
 
@@ -51,7 +51,7 @@
 
    /* byte swap the header fields and sanity check */
    for ( i = 0; i < sizeof ( dmdl_t ) / 4; i++ ) {
-     ( ( int * ) pheader ) [i] = LittleLong ( ( ( int * ) buffer ) [i] );
+     ( ( q_int32_t * ) pheader ) [i] = LittleLong ( ( ( q_int32_t * ) buffer ) [i] );
    }
 
    if ( pheader->skinheight > MAX_LBM_HEIGHT ) {
@@ -119,8 +119,8 @@
 
    mod->type = mod_alias;
    /* load the glcmds */
-   pincmd = ( int * ) ( ( byte * ) pinmodel + pheader->ofs_glcmds );
-   poutcmd = ( int * ) ( ( byte * ) pheader + pheader->ofs_glcmds );
+   pincmd = ( q_int32_t * ) ( ( byte * ) pinmodel + pheader->ofs_glcmds );
+   poutcmd = ( q_int32_t * ) ( ( byte * ) pheader + pheader->ofs_glcmds );
 
    for ( i = 0; i < pheader->num_glcmds; i++ ) {
      poutcmd[i] = LittleLong ( pincmd[i] );

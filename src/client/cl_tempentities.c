@@ -35,11 +35,11 @@
    exptype_t type;
    entity_t ent;
 
-   int frames;
+   q_int32_t frames;
    float light;
    vec3_t lightcolor;
    float start;
-   int baseframe;
+   q_int32_t baseframe;
  } explosion_t;
 
  #define MAX_EXPLOSIONS 64
@@ -49,10 +49,10 @@
  explosion_t cl_explosions[MAX_EXPLOSIONS];
 
  typedef struct {
-   int entity;
-   int dest_entity;
+   q_int32_t entity;
+   q_int32_t dest_entity;
    struct model_s *model;
-   int endtime;
+   q_int32_t endtime;
    vec3_t offset;
    vec3_t start, end;
  } beam_t;
@@ -62,7 +62,7 @@
 
  typedef struct {
    entity_t ent;
-   int endtime;
+   q_int32_t endtime;
  } laser_t;
  laser_t cl_lasers[MAX_LASERS];
 
@@ -115,7 +115,7 @@
  void
  CL_RegisterTEntSounds ( void )
  {
-   int i;
+   q_int32_t i;
    char name[MAX_QPATH];
    cl_sfx_ric1 = S_RegisterSound ( "world/ric1.wav" );
    cl_sfx_ric2 = S_RegisterSound ( "world/ric2.wav" );
@@ -187,9 +187,9 @@
  explosion_t *
  CL_AllocExplosion ( void )
  {
-   int i;
+   q_int32_t i;
    float time;
-   int index;
+   q_int32_t index;
 
    for ( i = 0; i < MAX_EXPLOSIONS; i++ ) {
      if ( cl_explosions[i].type == ex_free ) {
@@ -238,7 +238,7 @@
  void
  CL_ParseParticles ( void )
  {
-   int color, count;
+   q_int32_t color, count;
    vec3_t pos, dir;
    MSG_ReadPos ( &net_message, pos );
    MSG_ReadDir ( &net_message, dir );
@@ -251,10 +251,10 @@
  void
  CL_ParseBeam ( struct model_s *model )
  {
-   int ent;
+   q_int32_t ent;
    vec3_t start, end;
    beam_t *b;
-   int i;
+   q_int32_t i;
    ent = MSG_ReadShort ( &net_message );
    MSG_ReadPos ( &net_message, start );
    MSG_ReadPos ( &net_message, end );
@@ -293,10 +293,10 @@
  void
  CL_ParseBeam2 ( struct model_s *model )
  {
-   int ent;
+   q_int32_t ent;
    vec3_t start, end, offset;
    beam_t *b;
-   int i;
+   q_int32_t i;
    ent = MSG_ReadShort ( &net_message );
    MSG_ReadPos ( &net_message, start );
    MSG_ReadPos ( &net_message, end );
@@ -338,10 +338,10 @@
  void
  CL_ParsePlayerBeam ( struct model_s *model )
  {
-   int ent;
+   q_int32_t ent;
    vec3_t start, end, offset;
    beam_t *b;
-   int i;
+   q_int32_t i;
    ent = MSG_ReadShort ( &net_message );
    MSG_ReadPos ( &net_message, start );
    MSG_ReadPos ( &net_message, end );
@@ -390,13 +390,13 @@
  }
 
  /* ========================================================================= */
- int
+ q_int32_t
  CL_ParseLightning ( struct model_s *model )
  {
-   int srcEnt, destEnt;
+   q_int32_t srcEnt, destEnt;
    vec3_t start, end;
    beam_t *b;
-   int i;
+   q_int32_t i;
    srcEnt = MSG_ReadShort ( &net_message );
    destEnt = MSG_ReadShort ( &net_message );
    MSG_ReadPos ( &net_message, start );
@@ -437,12 +437,12 @@
 
  /* ========================================================================= */
  void
- CL_ParseLaser ( int colors )
+ CL_ParseLaser ( q_int32_t colors )
  {
    vec3_t start;
    vec3_t end;
    laser_t *l;
-   int i;
+   q_int32_t i;
    MSG_ReadPos ( &net_message, start );
    MSG_ReadPos ( &net_message, end );
 
@@ -466,11 +466,11 @@
  CL_ParseSteam ( void )
  {
    vec3_t pos, dir;
-   int id, i;
-   int r;
-   int cnt;
-   int color;
-   int magnitude;
+   q_int32_t id, i;
+   q_int32_t r;
+   q_int32_t cnt;
+   q_int32_t color;
+   q_int32_t magnitude;
    cl_sustain_t *s, *free_sustain;
    id = MSG_ReadShort ( &net_message ); /* an id of -1 is an instant effect */
 
@@ -521,7 +521,7 @@
  CL_ParseWidow ( void )
  {
    vec3_t pos;
-   int id, i;
+   q_int32_t id, i;
    cl_sustain_t *s, *free_sustain;
    id = MSG_ReadShort ( &net_message );
    free_sustain = NULL;
@@ -551,7 +551,7 @@
  CL_ParseNuke ( void )
  {
    vec3_t pos;
-   int i;
+   q_int32_t i;
    cl_sustain_t *s, *free_sustain;
    free_sustain = NULL;
 
@@ -581,14 +581,14 @@
  void
  CL_ParseTEnt ( void )
  {
-   int type;
+   q_int32_t type;
    vec3_t pos, pos2, dir;
    explosion_t *ex;
-   int cnt;
-   int color;
-   int r;
-   int ent;
-   int magnitude;
+   q_int32_t cnt;
+   q_int32_t color;
+   q_int32_t r;
+   q_int32_t ent;
+   q_int32_t magnitude;
    type = MSG_ReadByte ( &net_message );
 
    switch ( type ) {
@@ -1097,7 +1097,7 @@
  void
  CL_AddBeams ( void )
  {
-   int i, j;
+   q_int32_t i, j;
    beam_t *b;
    vec3_t dist, org;
    float d;
@@ -1214,7 +1214,7 @@
  void
  CL_AddPlayerBeams ( void )
  {
-   int i, j;
+   q_int32_t i, j;
    beam_t *b;
    vec3_t dist, org;
    float d;
@@ -1222,7 +1222,7 @@
    float yaw, pitch;
    float forward;
    float len, steps;
-   int framenum;
+   q_int32_t framenum;
    float model_length;
    float hand_multiplier;
    frame_t *oldframe;
@@ -1436,10 +1436,10 @@
  CL_AddExplosions ( void )
  {
    entity_t *ent;
-   int i;
+   q_int32_t i;
    explosion_t *ex;
    float frac;
-   int f;
+   q_int32_t f;
    memset ( &ent, 0, sizeof ( ent ) );
 
    for ( i = 0, ex = cl_explosions; i < MAX_EXPLOSIONS; i++, ex++ ) {
@@ -1448,7 +1448,7 @@
      }
 
      frac = ( cl.time - ex->start ) / 100.0;
-     f = ( int ) floor ( frac );
+     f = ( q_int32_t ) floor ( frac );
      ent = &ex->ent;
 
      switch ( ex->type ) {
@@ -1545,7 +1545,7 @@
  CL_AddLasers ( void )
  {
    laser_t *l;
-   int i;
+   q_int32_t i;
 
    for ( i = 0, l = cl_lasers; i < MAX_LASERS; i++, l++ ) {
      if ( l->endtime >= cl.time ) {
@@ -1559,7 +1559,7 @@
  CL_ProcessSustain()
  {
    cl_sustain_t *s;
-   int i;
+   q_int32_t i;
 
    for ( i = 0, s = cl_sustains; i < MAX_SUSTAINS; i++, s++ ) {
      if ( s->id ) {

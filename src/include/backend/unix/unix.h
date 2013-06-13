@@ -29,6 +29,6 @@
 
  #include "prereqs.h"
 
- void Sys_SigHandler ( int sig );
+ void Sys_SigHandler ( q_int32_t sig );
 
  #endif

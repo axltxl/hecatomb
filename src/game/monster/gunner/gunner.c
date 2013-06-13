@@ -27,13 +27,13 @@
  #include "game/local.h"
  #include "game/monster/gunner/gunner.h"
 
- static int sound_pain;
- static int sound_pain2;
- static int sound_death;
- static int sound_idle;
- static int sound_open;
- static int sound_search;
- static int sound_sight;
+ static q_int32_t sound_pain;
+ static q_int32_t sound_pain2;
+ static q_int32_t sound_death;
+ static q_int32_t sound_idle;
+ static q_int32_t sound_open;
+ static q_int32_t sound_search;
+ static q_int32_t sound_sight;
 
  void
  gunner_idlesound(edict_t *self)
@@ -379,7 +379,7 @@
 
  void
  gunner_pain(edict_t *self, edict_t *other /* unused */,
-      float kick /* unused */, int damage)
+      float kick /* unused */, q_int32_t damage)
  {
   if (!self)
   {
@@ -466,10 +466,10 @@
 
  void
  gunner_die(edict_t *self, edict_t *inflictor /* unused */,
-   edict_t *attacker /* unused */, int damage /* unused */,
+   edict_t *attacker /* unused */, q_int32_t damage /* unused */,
    vec3_t point)
  {
-  int n;
+  q_int32_t n;
 
   if (!self)
   {
@@ -633,7 +633,7 @@
   vec3_t forward, right;
   vec3_t target;
   vec3_t aim;
-  int flash_number;
+  q_int32_t flash_number;
 
   if (!self)
   {
@@ -664,7 +664,7 @@
   vec3_t start;
   vec3_t forward, right;
   vec3_t aim;
-  int flash_number;
+  q_int32_t flash_number;
 
   if (!self)
   {

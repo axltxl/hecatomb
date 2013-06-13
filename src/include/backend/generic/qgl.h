@@ -461,6 +461,6 @@
  extern void ( APIENTRY *qglActiveTextureARB ) ( GLenum );
  extern void ( APIENTRY *qglClientActiveTextureARB ) ( GLenum );
 
- extern int QGL_TEXTURE0, QGL_TEXTURE1;
+ extern q_int32_t QGL_TEXTURE0, QGL_TEXTURE1;
 
 #endif /* REF_QGL_H */

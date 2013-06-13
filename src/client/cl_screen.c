@@ -34,7 +34,7 @@
 
  qboolean scr_initialized; /* ready to draw */
 
- int scr_draw_loading;
+ q_int32_t scr_draw_loading;
 
  vrect_t scr_vrect; /* position of render window on screen */
 
@@ -53,13 +53,13 @@
  cvar_t *scr_drawall;
 
  typedef struct {
-   int x1, y1, x2, y2;
+   q_int32_t x1, y1, x2, y2;
  } dirty_t;
 
  dirty_t scr_dirty, scr_old_dirty[2];
 
  char crosshair_pic[MAX_QPATH];
- int crosshair_width, crosshair_height;
+ q_int32_t crosshair_width, crosshair_height;
 
  extern cvar_t *cl_drawfps;
  extern cvar_t *crosshair_scale;
@@ -73,9 +73,9 @@
  void
  CL_AddNetgraph ( void )
  {
-   int i;
-   int in;
-   int ping;
+   q_int32_t i;
+   q_int32_t in;
+   q_int32_t ping;
 
    /* if using the debuggraph for something
       else, don't add the net lines */
@@ -105,15 +105,15 @@
 
  typedef struct {
    float value;
-   int color;
+   q_int32_t color;
  } graphsamp_t;
 
- static int current;
+ static q_int32_t current;
  static graphsamp_t values[2024];
 
  /* ========================================================================= */
  void
- SCR_DebugGraph ( float value, int color )
+ SCR_DebugGraph ( float value, q_int32_t color )
  {
    values[current & 2023].value = value;
    values[current & 2023].color = color;
@@ -124,9 +124,9 @@
  void
  SCR_DrawDebugGraph ( void )
  {
-   int a, x, y, w, i, h;
+   q_int32_t a, x, y, w, i, h;
    float v;
-   int color;
+   q_int32_t color;
    /* draw the graph */
    w = scr_vrect.width;
    x = scr_vrect.x;
@@ -142,10 +142,10 @@
 
      if ( v < 0 ) {
        v += scr_graphheight->value *
-            ( 1 + ( int ) ( -v / scr_graphheight->value ) );
+            ( 1 + ( q_int32_t ) ( -v / scr_graphheight->value ) );
      }
 
-     h = ( int ) v % ( int ) scr_graphheight->value;
+     h = ( q_int32_t ) v % ( q_int32_t ) scr_graphheight->value;
      Draw_Fill ( x + w - 1 - a, y - h, 1, h, color );
    }
  }
@@ -153,8 +153,8 @@
  char scr_centerstring[1024];
  float scr_centertime_start; /* for slow victory printing */
  float scr_centertime_off;
- int scr_center_lines;
- int scr_erase_center;
+ q_int32_t scr_center_lines;
+ q_int32_t scr_erase_center;
 
  /* ========================================================================= */
  void
@@ -162,7 +162,7 @@
  {
    char *s;
    char line[64];
-   int i, j, l;
+   q_int32_t i, j, l;
    strncpy ( scr_centerstring, str, sizeof ( scr_centerstring ) - 1 );
    scr_centertime_off = scr_centertime->value;
    scr_centertime_start = cl.time;
@@ -222,10 +222,10 @@
  SCR_DrawCenterString ( void )
  {
    char *start;
-   int l;
-   int j;
-   int x, y;
-   int remaining;
+   q_int32_t l;
+   q_int32_t j;
+   q_int32_t x, y;
+   q_int32_t remaining;
    /* the finale prints the characters one at a time */
    remaining = 9999;
    scr_erase_center = 0;
@@ -290,7 +290,7 @@
  static void
  SCR_CalcVrect ( void )
  {
-   int size;
+   q_int32_t size;
 
    /* bound viewsize */
    if ( scr_viewsize->value < 40 ) {
@@ -401,7 +401,7 @@
  void
  SCR_DrawPause ( void )
  {
-   int w, h;
+   q_int32_t w, h;
 
    if ( !scr_showpause->value ) { /* turn off for screenshots */
      return;
@@ -419,7 +419,7 @@
  void
  SCR_DrawLoading ( void )
  {
-   int w, h;
+   q_int32_t w, h;
 
    if ( !scr_draw_loading ) {
      return;
@@ -540,7 +540,7 @@
  }
 
  /* ========================================================================= */
- int
+ q_int32_t
  entitycmpfnc ( const entity_t *a, const entity_t *b )
  {
    /* all other models are sorted by model then skin */
@@ -555,8 +555,8 @@
  void
  SCR_TimeRefresh_f ( void )
  {
-   int i;
-   int start, stop;
+   q_int32_t i;
+   q_int32_t start, stop;
    float time;
 
    if ( cls.state != ca_active ) {
@@ -567,7 +567,7 @@
 
    if ( Cmd_Argc() == 2 ) {
      /* run without page flipping */
-     int j;
+     q_int32_t j;
 
      for ( j = 0; j < 1000; j++ ) {
        R_BeginFrame ( 0 );
@@ -595,7 +595,7 @@
 
  /* ========================================================================= */
  void
- SCR_AddDirtyPoint ( int x, int y )
+ SCR_AddDirtyPoint ( q_int32_t x, q_int32_t y )
  {
    if ( x < scr_dirty.x1 ) {
      scr_dirty.x1 = x;
@@ -628,8 +628,8 @@
  void
  SCR_TileClear ( void )
  {
-   int i;
-   int top, bottom, left, right;
+   q_int32_t i;
+   q_int32_t top, bottom, left, right;
    dirty_t clear;
 
    if ( scr_con_current == 1.0 ) {
@@ -673,7 +673,7 @@
    scr_dirty.y1 = 9999;
    scr_dirty.y2 = -9999;
    /* don't bother with anything convered by the console */
-   top = ( int ) ( scr_con_current * viddef.height );
+   top = ( q_int32_t ) ( scr_con_current * viddef.height );
 
    if ( top >= clear.y1 ) {
      clear.y1 = top;
@@ -742,9 +742,9 @@
   * Allow embedded \n in the string
   */
  void
- SizeHUDString ( char *string, int *w, int *h )
+ SizeHUDString ( char *string, q_int32_t *w, q_int32_t *h )
  {
-   int lines, width, current;
+   q_int32_t lines, width, current;
    lines = 1;
    width = 0;
    current = 0;
@@ -770,12 +770,12 @@
 
  /* ========================================================================= */
  void
- DrawHUDString ( char *string, int x, int y, int centerwidth, int xor )
+ DrawHUDString ( char *string, q_int32_t x, q_int32_t y, q_int32_t centerwidth, q_int32_t xor )
  {
-   int margin;
+   q_int32_t margin;
    char line[1024];
-   int width;
-   int i;
+   q_int32_t width;
+   q_int32_t i;
    margin = x;
 
    while ( *string ) {
@@ -808,11 +808,11 @@
 
  /* ========================================================================= */
  void
- SCR_DrawField ( int x, int y, int color, int width, int value )
+ SCR_DrawField ( q_int32_t x, q_int32_t y, q_int32_t color, q_int32_t width, q_int32_t value )
  {
    char num[16], *ptr;
-   int l;
-   int frame;
+   q_int32_t l;
+   q_int32_t frame;
 
    if ( width < 1 ) {
      return;
@@ -826,7 +826,7 @@
    SCR_AddDirtyPoint ( x, y );
    SCR_AddDirtyPoint ( x + width * CHAR_WIDTH + 2, y + 23 );
    Com_sprintf ( num, sizeof ( num ), "%i", value );
-   l = ( int ) strlen ( num );
+   l = ( q_int32_t ) strlen ( num );
 
    if ( l > width ) {
      l = width;
@@ -853,7 +853,7 @@
  void
  SCR_TouchPics ( void )
  {
-   int i, j;
+   q_int32_t i, j;
 
    for ( i = 0; i < 2; i++ ) {
      for ( j = 0; j < 11; j++ ) {
@@ -867,7 +867,7 @@
      }
 
      Com_sprintf ( crosshair_pic, sizeof ( crosshair_pic ), "ch%i",
-                   ( int ) ( crosshair->value ) );
+                   ( q_int32_t ) ( crosshair->value ) );
      Draw_GetPicSize ( &crosshair_width, &crosshair_height, crosshair_pic );
 
      if ( !crosshair_width ) {
@@ -880,11 +880,11 @@
  void
  SCR_ExecuteLayoutString ( char *s )
  {
-   int x, y;
-   int value;
+   q_int32_t x, y;
+   q_int32_t value;
    char *token;
-   int width;
-   int index;
+   q_int32_t width;
+   q_int32_t index;
    clientinfo_t *ci;
 
    if ( ( cls.state != ca_active ) || !cl.refresh_prepped ) {
@@ -903,44 +903,44 @@
 
      if ( !strcmp ( token, "xl" ) ) {
        token = COM_Parse ( &s );
-       x = ( int ) strtol ( token, ( char ** ) NULL, 10 );
+       x = ( q_int32_t ) strtol ( token, ( char ** ) NULL, 10 );
        continue;
      }
 
      if ( !strcmp ( token, "xr" ) ) {
        token = COM_Parse ( &s );
-       x = viddef.width + ( int ) strtol ( token, ( char ** ) NULL, 10 );
+       x = viddef.width + ( q_int32_t ) strtol ( token, ( char ** ) NULL, 10 );
        continue;
      }
 
      if ( !strcmp ( token, "xv" ) ) {
        token = COM_Parse ( &s );
-       x = viddef.width / 2 - 160 + ( int ) strtol ( token, ( char ** ) NULL, 10 );
+       x = viddef.width / 2 - 160 + ( q_int32_t ) strtol ( token, ( char ** ) NULL, 10 );
        continue;
      }
 
      if ( !strcmp ( token, "yt" ) ) {
        token = COM_Parse ( &s );
-       y = ( int ) strtol ( token, ( char ** ) NULL, 10 );
+       y = ( q_int32_t ) strtol ( token, ( char ** ) NULL, 10 );
        continue;
      }
 
      if ( !strcmp ( token, "yb" ) ) {
        token = COM_Parse ( &s );
-       y = viddef.height + ( int ) strtol ( token, ( char ** ) NULL, 10 );
+       y = viddef.height + ( q_int32_t ) strtol ( token, ( char ** ) NULL, 10 );
        continue;
      }
 
      if ( !strcmp ( token, "yv" ) ) {
        token = COM_Parse ( &s );
-       y = viddef.height / 2 - 120 + ( int ) strtol ( token, ( char ** ) NULL, 10 );
+       y = viddef.height / 2 - 120 + ( q_int32_t ) strtol ( token, ( char ** ) NULL, 10 );
        continue;
      }
 
      if ( !strcmp ( token, "pic" ) ) {
        /* draw a pic from a stat number */
        token = COM_Parse ( &s );
-       index = ( int ) strtol ( token, ( char ** ) NULL, 10 );
+       index = ( q_int32_t ) strtol ( token, ( char ** ) NULL, 10 );
 
        if ( ( index < 0 ) || ( index >= sizeof ( cl.frame.playerstate.stats ) ) ) {
          Com_Error ( ERR_DROP, "bad stats index %d (0x%x)", index, index );
@@ -963,15 +963,15 @@
 
      if ( !strcmp ( token, "client" ) ) {
        /* draw a deathmatch client block */
-       int score, ping, time;
+       q_int32_t score, ping, time;
        token = COM_Parse ( &s );
-       x = viddef.width / 2 - 160 + ( int ) strtol ( token, ( char ** ) NULL, 10 );
+       x = viddef.width / 2 - 160 + ( q_int32_t ) strtol ( token, ( char ** ) NULL, 10 );
        token = COM_Parse ( &s );
-       y = viddef.height / 2 - 120 + ( int ) strtol ( token, ( char ** ) NULL, 10 );
+       y = viddef.height / 2 - 120 + ( q_int32_t ) strtol ( token, ( char ** ) NULL, 10 );
        SCR_AddDirtyPoint ( x, y );
        SCR_AddDirtyPoint ( x + 159, y + 31 );
        token = COM_Parse ( &s );
-       value = ( int ) strtol ( token, ( char ** ) NULL, 10 );
+       value = ( q_int32_t ) strtol ( token, ( char ** ) NULL, 10 );
 
        if ( ( value >= MAX_CLIENTS ) || ( value < 0 ) ) {
          Com_Error ( ERR_DROP, "client >= MAX_CLIENTS" );
@@ -979,11 +979,11 @@
 
        ci = &cl.clientinfo[value];
        token = COM_Parse ( &s );
-       score = ( int ) strtol ( token, ( char ** ) NULL, 10 );
+       score = ( q_int32_t ) strtol ( token, ( char ** ) NULL, 10 );
        token = COM_Parse ( &s );
-       ping = ( int ) strtol ( token, ( char ** ) NULL, 10 );
+       ping = ( q_int32_t ) strtol ( token, ( char ** ) NULL, 10 );
        token = COM_Parse ( &s );
-       time = ( int ) strtol ( token, ( char ** ) NULL, 10 );
+       time = ( q_int32_t ) strtol ( token, ( char ** ) NULL, 10 );
        DrawAltString ( x + 32, y, ci->name );
        DrawString ( x + 32, y + 8, "Score: " );
        DrawAltString ( x + 32 + 7 * 8, y + 8, va ( "%i", score ) );
@@ -1000,16 +1000,16 @@
 
      if ( !strcmp ( token, "ctf" ) ) {
        /* draw a ctf client block */
-       int score, ping;
+       q_int32_t score, ping;
        char block[80];
        token = COM_Parse ( &s );
-       x = viddef.width / 2 - 160 + ( int ) strtol ( token, ( char ** ) NULL, 10 );
+       x = viddef.width / 2 - 160 + ( q_int32_t ) strtol ( token, ( char ** ) NULL, 10 );
        token = COM_Parse ( &s );
-       y = viddef.height / 2 - 120 + ( int ) strtol ( token, ( char ** ) NULL, 10 );
+       y = viddef.height / 2 - 120 + ( q_int32_t ) strtol ( token, ( char ** ) NULL, 10 );
        SCR_AddDirtyPoint ( x, y );
        SCR_AddDirtyPoint ( x + 159, y + 31 );
        token = COM_Parse ( &s );
-       value = ( int ) strtol ( token, ( char ** ) NULL, 10 );
+       value = ( q_int32_t ) strtol ( token, ( char ** ) NULL, 10 );
 
        if ( ( value >= MAX_CLIENTS ) || ( value < 0 ) ) {
          Com_Error ( ERR_DROP, "client >= MAX_CLIENTS" );
@@ -1017,9 +1017,9 @@
 
        ci = &cl.clientinfo[value];
        token = COM_Parse ( &s );
-       score = ( int ) strtol ( token, ( char ** ) NULL, 10 );
+       score = ( q_int32_t ) strtol ( token, ( char ** ) NULL, 10 );
        token = COM_Parse ( &s );
-       ping = ( int ) strtol ( token, ( char ** ) NULL, 10 );
+       ping = ( q_int32_t ) strtol ( token, ( char ** ) NULL, 10 );
 
        if ( ping > 999 ) {
          ping = 999;
@@ -1048,16 +1048,16 @@
      if ( !strcmp ( token, "num" ) ) {
        /* draw a number */
        token = COM_Parse ( &s );
-       width = ( int ) strtol ( token, ( char ** ) NULL, 10 );
+       width = ( q_int32_t ) strtol ( token, ( char ** ) NULL, 10 );
        token = COM_Parse ( &s );
-       value = cl.frame.playerstate.stats[ ( int ) strtol ( token, ( char ** ) NULL, 10 )];
+       value = cl.frame.playerstate.stats[ ( q_int32_t ) strtol ( token, ( char ** ) NULL, 10 )];
        SCR_DrawField ( x, y, 0, width, value );
        continue;
      }
 
      if ( !strcmp ( token, "hnum" ) ) {
        /* health number */
-       int color;
+       q_int32_t color;
        width = 3;
        value = cl.frame.playerstate.stats[STAT_HEALTH];
 
@@ -1079,7 +1079,7 @@
 
      if ( !strcmp ( token, "anum" ) ) {
        /* ammo number */
-       int color;
+       q_int32_t color;
        width = 3;
        value = cl.frame.playerstate.stats[STAT_AMMO];
 
@@ -1101,7 +1101,7 @@
 
      if ( !strcmp ( token, "rnum" ) ) {
        /* armor number */
-       int color;
+       q_int32_t color;
        width = 3;
        value = cl.frame.playerstate.stats[STAT_ARMOR];
 
@@ -1121,7 +1121,7 @@
 
      if ( !strcmp ( token, "stat_string" ) ) {
        token = COM_Parse ( &s );
-       index = ( int ) strtol ( token, ( char ** ) NULL, 10 );
+       index = ( q_int32_t ) strtol ( token, ( char ** ) NULL, 10 );
 
        if ( ( index < 0 ) || ( index >= MAX_CONFIGSTRINGS ) ) {
          Com_Error ( ERR_DROP, "Bad stat_string index" );
@@ -1164,7 +1164,7 @@
      if ( !strcmp ( token, "if" ) ) {
        /* draw a number */
        token = COM_Parse ( &s );
-       value = cl.frame.playerstate.stats[ ( int ) strtol ( token, ( char ** ) NULL, 10 )];
+       value = cl.frame.playerstate.stats[ ( q_int32_t ) strtol ( token, ( char ** ) NULL, 10 )];
 
        if ( !value ) {
          /* skip to endif */
@@ -1205,8 +1205,8 @@
  void
  SCR_UpdateScreen ( void )
  {
-   int numframes;
-   int i;
+   q_int32_t numframes;
+   q_int32_t i;
    float separation[2] = {0, 0};
 
    /* if the screen is disabled (loading plaque is
@@ -1233,7 +1233,7 @@
 
      if ( scr_draw_loading == 2 ) {
        /* loading plaque over black screen */
-       int w, h;
+       q_int32_t w, h;
        R_SetPalette ( NULL );
        scr_draw_loading = false;
        Draw_GetPicSize ( &w, &h, "loading" );

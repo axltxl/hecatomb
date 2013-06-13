@@ -34,9 +34,9 @@
   */
  typedef struct zhead_s {
    struct zhead_s  *prev, *next;
-   short magic;
-   short tag; /* for group free */
-   int   size;
+   q_int16_t magic;
+   q_int16_t tag; /* for group free */
+   q_int32_t   size;
  } zhead_t;
 
  /**
@@ -52,16 +52,16 @@
  /**
   * Allocate some mem
   */
- void *Z_Malloc ( int size );        /* returns 0 filled memory */
+ void *Z_Malloc ( q_int32_t size );        /* returns 0 filled memory */
 
 /**
   * Allocate some tagged mem
   */
- void *Z_TagMalloc ( int size, int tag );
+ void *Z_TagMalloc ( q_int32_t size, q_int32_t tag );
 
  /**
   * Free all tags
   */
- void Z_FreeTags ( int tag );
+ void Z_FreeTags ( q_int32_t tag );
 
  #endif /* CO_ZONE_H */

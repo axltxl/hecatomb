@@ -38,7 +38,7 @@
 
  /* ========================================================================= */
  void *
- Hunk_Begin ( int maxsize )
+ Hunk_Begin ( q_int32_t maxsize )
  {
    if (hunk_trace->value) {
      mbase = Sys_HunkBegin ( maxsize );
@@ -52,7 +52,7 @@
 
  /* ========================================================================= */
  void *
- Hunk_Alloc ( int size )
+ Hunk_Alloc ( q_int32_t size )
  {
    if (hunk_trace->value)
     Com_DPrintf ( "! [%p]: %d byte(s) claimed\n", mbase, size );
@@ -60,7 +60,7 @@
  }
 
  /* ========================================================================= */
- int
+ q_int32_t
  Hunk_End ( void )
  {
    if (hunk_trace->value)

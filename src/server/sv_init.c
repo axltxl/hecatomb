@@ -33,10 +33,10 @@
  server_t sv; /* local server */
 
  /* ========================================================================= */
- int
- SV_FindIndex ( char *name, int start, int max, qboolean create )
+ q_int32_t
+ SV_FindIndex ( char *name, q_int32_t start, q_int32_t max, qboolean create )
  {
-   int i;
+   q_int32_t i;
 
    if ( !name || !name[0] ) {
      return 0;
@@ -70,21 +70,21 @@
  }
 
 /* ========================================================================= */
- int
+ q_int32_t
  SV_ModelIndex ( char *name )
  {
    return SV_FindIndex ( name, CS_MODELS, MAX_MODELS, true );
  }
 
 /* ========================================================================= */
- int
+ q_int32_t
  SV_SoundIndex ( char *name )
  {
    return SV_FindIndex ( name, CS_SOUNDS, MAX_SOUNDS, true );
  }
 
 /* ========================================================================= */
- int
+ q_int32_t
  SV_ImageIndex ( char *name )
  {
    return SV_FindIndex ( name, CS_IMAGES, MAX_IMAGES, true );
@@ -99,7 +99,7 @@
  SV_CreateBaseline ( void )
  {
    edict_t *svent;
-   int entnum;
+   q_int32_t entnum;
 
    for ( entnum = 1; entnum < ge->num_edicts; entnum++ ) {
      svent = EDICT_NUM ( entnum );
@@ -124,7 +124,7 @@
  {
    char name[MAX_OSPATH];
    FILE *f;
-   int i;
+   q_int32_t i;
 
    if ( sv_noreload->value ) {
      return;
@@ -170,8 +170,8 @@
  SV_SpawnServer ( char *server, char *spawnpoint, server_state_t serverstate,
                   qboolean attractloop, qboolean loadgame )
  {
-   int i;
-   unsigned checksum;
+   q_int32_t i;
+   q_uint32_t checksum;
 
    if ( attractloop ) {
      Cvar_Set ( "paused", "0" );
@@ -252,8 +252,8 @@
    ge->RunFrame();
 
    /* verify game didn't clobber important stuff */
-   if ( ( int ) checksum !=
-        ( int ) strtol ( sv.configstrings[CS_MAPCHECKSUM], ( char ** ) NULL, 10 ) ) {
+   if ( ( q_int32_t ) checksum !=
+        ( q_int32_t ) strtol ( sv.configstrings[CS_MAPCHECKSUM], ( char ** ) NULL, 10 ) ) {
      Com_Error ( ERR_DROP, "Game DLL corrupted server configstrings" );
    }
 
@@ -273,7 +273,7 @@
  void
  SV_InitGame ( void )
  {
-   int i;
+   q_int32_t i;
    edict_t *ent;
    char idmaster[32];
 
@@ -362,7 +362,7 @@
  {
    char level[MAX_QPATH];
    char *ch;
-   int l;
+   q_int32_t l;
    char spawnpoint[MAX_QPATH];
    sv.loadgame = loadgame;
    sv.attractloop = attractloop;

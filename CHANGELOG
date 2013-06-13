@@ -6,9 +6,13 @@ htq2 0.2.0
 - gl_log cvar and GL logging system are now purged
 - gl_driver cvar is now purged
 - Severe code cleanup
+<<<<<<< HEAD
 - windres is now compiling the Windows icon into the executables
 - dlmalloc and jemalloc can be chosen as memory allocator backends
   (malloc, calloc, realloc, free)
+=======
+- Massive use of fixed integer types
+>>>>>>> stdint
 
 htq2 0.1.0
 - CMake integrated build automation

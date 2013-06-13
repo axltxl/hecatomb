@@ -33,7 +33,7 @@
    edict_t *targ;
    vec3_t forward, right;
    trace_t trace;
-   int i;
+   q_int32_t i;
    vec3_t angles;
 
    if ( !ent ) {
@@ -133,7 +133,7 @@
  void
  ChaseNext ( edict_t *ent )
  {
-   int i;
+   q_int32_t i;
    edict_t *e;
 
    if ( !ent ) {
@@ -171,7 +171,7 @@
  void
  ChasePrev ( edict_t *ent )
  {
-   int i;
+   q_int32_t i;
    edict_t *e;
 
    if ( !ent ) {
@@ -209,7 +209,7 @@
  void
  GetChaseTarget ( edict_t *ent )
  {
-   int i;
+   q_int32_t i;
    edict_t *other;
 
    if ( !ent ) {

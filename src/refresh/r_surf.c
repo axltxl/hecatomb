@@ -27,8 +27,8 @@
  #include "prereqs.h"
  #include "refresh/local.h"
 
- int c_visible_lightmaps;
- int c_visible_textures;
+ q_int32_t c_visible_lightmaps;
+ q_int32_t c_visible_textures;
  static vec3_t modelorg; /* relative to viewpoint */
  msurface_t *r_alpha_surfaces;
 
@@ -36,10 +36,10 @@
 
  void LM_InitBlock ( void );
  void LM_UploadBlock ( qboolean dynamic );
- qboolean LM_AllocBlock ( int w, int h, int *x, int *y );
+ qboolean LM_AllocBlock ( q_int32_t w, q_int32_t h, q_int32_t *x, q_int32_t *y );
 
  void R_SetCacheState ( msurface_t *surf );
- void R_BuildLightMap ( msurface_t *surf, byte *dest, int stride );
+ void R_BuildLightMap ( msurface_t *surf, byte *dest, q_int32_t stride );
 
  /*
   * Returns the proper texture for a given time and base texture
@@ -47,7 +47,7 @@
  image_t *
  R_TextureAnimation ( mtexinfo_t *tex )
  {
-   int c;
+   q_int32_t c;
 
    if ( !tex->next ) {
      return tex->image;
@@ -67,7 +67,7 @@
  void
  R_DrawGLPoly ( glpoly_t *p )
  {
-   int i;
+   q_int32_t i;
    float *v;
    qglBegin ( GL_POLYGON );
    v = p->verts[0];
@@ -84,12 +84,12 @@
  void
  R_DrawGLFlowingPoly ( msurface_t *fa )
  {
-   int i;
+   q_int32_t i;
    float *v;
    glpoly_t *p;
    float scroll;
    p = fa->polys;
-   scroll = -64 * ( ( r_newrefdef.time / 40.0 ) - ( int ) ( r_newrefdef.time / 40.0 ) );
+   scroll = -64 * ( ( r_newrefdef.time / 40.0 ) - ( q_int32_t ) ( r_newrefdef.time / 40.0 ) );
 
    if ( scroll == 0.0 ) {
      scroll = -64.0;
@@ -110,7 +110,7 @@
  void
  R_DrawTriangleOutlines ( void )
  {
-   int i, j;
+   q_int32_t i, j;
    glpoly_t *p;
 
    if ( !gl_showtris->value ) {
@@ -153,7 +153,7 @@
    if ( ( soffset == 0 ) && ( toffset == 0 ) ) {
      for ( ; p != 0; p = p->chain ) {
        float *v;
-       int j;
+       q_int32_t j;
        v = p->verts[0];
 
        if ( v == NULL ) {
@@ -173,7 +173,7 @@
    } else {
      for ( ; p != 0; p = p->chain ) {
        float *v;
-       int j;
+       q_int32_t j;
        qglBegin ( GL_POLYGON );
        v = p->verts[0];
 
@@ -194,7 +194,7 @@
  void
  R_BlendLightmaps ( void )
  {
-   int i;
+   q_int32_t i;
    msurface_t *surf, *newdrawsurf = 0;
 
    /* don't bother if we're set to fullbright */
@@ -258,7 +258,7 @@
      for ( surf = gl_lms.lightmap_surfaces[0];
            surf != 0;
            surf = surf->lightmapchain ) {
-       int smax, tmax;
+       q_int32_t smax, tmax;
        byte *base;
        smax = ( surf->extents[0] >> 4 ) + 1;
        tmax = ( surf->extents[1] >> 4 ) + 1;
@@ -326,7 +326,7 @@
  void
  R_RenderBrushPoly ( msurface_t *fa )
  {
-   int maps;
+   q_int32_t maps;
    image_t *image;
    qboolean is_dynamic = false;
    c_brush_polys++;
@@ -377,8 +377,8 @@
      if ( ( ( fa->styles[maps] >= 32 ) ||
             ( fa->styles[maps] == 0 ) ) &&
           ( fa->dlightframe != r_framecount ) ) {
-       unsigned temp[34 * 34];
-       int smax, tmax;
+       q_uint32_t temp[34 * 34];
+       q_int32_t smax, tmax;
        smax = ( fa->extents[0] >> 4 ) + 1;
        tmax = ( fa->extents[1] >> 4 ) + 1;
        R_BuildLightMap ( fa, ( void * ) temp, smax * 4 );
@@ -447,7 +447,7 @@
  void
  R_DrawTextureChains ( void )
  {
-   int i;
+   q_int32_t i;
    msurface_t *s;
    image_t *image;
    c_visible_textures = 0;
@@ -521,12 +521,12 @@
  static void
  R_RenderLightmappedPoly ( msurface_t *surf )
  {
-   int i, nv = surf->polys->numverts;
-   int map;
+   q_int32_t i, nv = surf->polys->numverts;
+   q_int32_t map;
    float *v;
    image_t *image = R_TextureAnimation ( surf->texinfo );
    qboolean is_dynamic = false;
-   unsigned lmtex = surf->lightmaptexturenum;
+   q_uint32_t lmtex = surf->lightmaptexturenum;
    glpoly_t *p;
 
    for ( map = 0; map < MAXLIGHTMAPS && surf->styles[map] != 255; map++ ) {
@@ -548,8 +548,8 @@
    }
 
    if ( is_dynamic ) {
-     unsigned temp[128 * 128];
-     int smax, tmax;
+     q_uint32_t temp[128 * 128];
+     q_int32_t smax, tmax;
 
      if ( ( ( surf->styles[map] >= 32 ) ||
             ( surf->styles[map] == 0 ) ) &&
@@ -579,7 +579,7 @@
      if ( surf->texinfo->flags & SURF_FLOWING ) {
        float scroll;
        scroll = -64 *
-                ( ( r_newrefdef.time / 40.0 ) - ( int ) ( r_newrefdef.time / 40.0 ) );
+                ( ( r_newrefdef.time / 40.0 ) - ( q_int32_t ) ( r_newrefdef.time / 40.0 ) );
 
        if ( scroll == 0.0 ) {
          scroll = -64.0;
@@ -618,7 +618,7 @@
 
      if ( surf->texinfo->flags & SURF_FLOWING ) {
        float scroll;
-       scroll = -64 * ( ( r_newrefdef.time / 40.0 ) - ( int ) ( r_newrefdef.time / 40.0 ) );
+       scroll = -64 * ( ( r_newrefdef.time / 40.0 ) - ( q_int32_t ) ( r_newrefdef.time / 40.0 ) );
 
        if ( scroll == 0.0 ) {
          scroll = -64.0;
@@ -657,7 +657,7 @@
  void
  R_DrawInlineBModel ( void )
  {
-   int i, k;
+   q_int32_t i, k;
    cplane_t *pplane;
    float dot;
    msurface_t *psurf;
@@ -720,7 +720,7 @@
  R_DrawBrushModel ( entity_t *e )
  {
    vec3_t mins, maxs;
-   int i;
+   q_int32_t i;
    qboolean rotated;
 
    if ( currentmodel->nummodelsurfaces == 0 ) {
@@ -827,7 +827,7 @@
  void
  R_RecursiveWorldNode ( mnode_t *node )
  {
-   int c, side, sidebit;
+   q_int32_t c, side, sidebit;
    cplane_t *plane;
    msurface_t *surf, **mark;
    mleaf_t *pleaf;
@@ -956,7 +956,7 @@
    VectorCopy ( r_newrefdef.vieworg, modelorg );
    /* auto cycle the world frame for texture animation */
    memset ( &ent, 0, sizeof ( ent ) );
-   ent.frame = ( int ) ( r_newrefdef.time * 2 );
+   ent.frame = ( q_int32_t ) ( r_newrefdef.time * 2 );
    currententity = &ent;
    gl_state.currenttextures[0] = gl_state.currenttextures[1] = -1;
    qglColor3f ( 1, 1, 1 );
@@ -1029,9 +1029,9 @@
    byte *vis;
    byte fatvis[MAX_MAP_LEAFS / 8];
    mnode_t *node;
-   int i, c;
+   q_int32_t i, c;
    mleaf_t *leaf;
-   int cluster;
+   q_int32_t cluster;
 
    if ( ( r_oldviewcluster == r_viewcluster ) &&
         ( r_oldviewcluster2 == r_viewcluster2 ) &&
@@ -1072,7 +1072,7 @@
      c = ( r_worldmodel->numleafs + 31 ) / 32;
 
      for ( i = 0; i < c; i++ ) {
-       ( ( int * ) fatvis ) [i] |= ( ( int * ) vis ) [i];
+       ( ( q_int32_t * ) fatvis ) [i] |= ( ( q_int32_t * ) vis ) [i];
      }
 
      vis = fatvis;

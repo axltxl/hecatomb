@@ -33,9 +33,9 @@
  LoadWal ( char *origname )
  {
    miptex_t *mt;
-   int width, height, ofs;
+   q_int32_t width, height, ofs;
    image_t *image;
-   int len;
+   q_int32_t len;
    char name[256];
    /* Add the extension */
    len = strlen ( origname );
@@ -64,7 +64,7 @@
 
  /* ========================================================================= */
  void
- GetWalInfo ( char *name, int *width, int *height )
+ GetWalInfo ( char *name, q_int32_t *width, q_int32_t *height )
  {
    miptex_t *mt;
    FS_LoadFile ( name, ( void ** ) &mt );

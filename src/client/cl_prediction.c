@@ -32,10 +32,10 @@
  void
  CL_CheckPredictionError ( void )
  {
-   int frame;
-   int delta[3];
-   int i;
-   int len;
+   q_int32_t frame;
+   q_int32_t delta[3];
+   q_int32_t i;
+   q_int32_t len;
 
    if ( !cl_predict->value ||
         ( cl.frame.playerstate.pmove.pm_flags & PMF_NO_PREDICTION ) ) {
@@ -76,12 +76,12 @@
  CL_ClipMoveToEntities ( vec3_t start, vec3_t mins, vec3_t maxs,
                          vec3_t end, trace_t *tr )
  {
-   int i, x, zd, zu;
+   q_int32_t i, x, zd, zu;
    trace_t trace;
-   int headnode;
+   q_int32_t headnode;
    float *angles;
    entity_state_t *ent;
-   int num;
+   q_int32_t num;
    cmodel_t *cmodel;
    vec3_t bmins, bmaxs;
 
@@ -162,14 +162,14 @@
  }
 
  /* ========================================================================= */
- int
+ q_int32_t
  CL_PMpointcontents ( vec3_t point )
  {
-   int i;
+   q_int32_t i;
    entity_state_t *ent;
-   int num;
+   q_int32_t num;
    cmodel_t *cmodel;
-   int contents;
+   q_int32_t contents;
    contents = CM_PointContents ( point, 0 );
 
    for ( i = 0; i < cl.frame.num_entities; i++ ) {
@@ -199,14 +199,14 @@
  void
  CL_PredictMovement ( void )
  {
-   int ack, current;
-   int frame;
-   int oldframe;
+   q_int32_t ack, current;
+   q_int32_t frame;
+   q_int32_t oldframe;
    usercmd_t *cmd;
    pmove_t pm;
-   int i;
-   int step;
-   int oldz;
+   q_int32_t i;
+   q_int32_t step;
+   q_int32_t oldz;
 
    if ( cls.state != ca_active ) {
      return;

@@ -64,11 +64,11 @@
  cvar_t *s_ambient;
 
  channel_t channels[MAX_CHANNELS];
- int num_sfx;
- int paintedtime;
- int s_numchannels;
- int s_rawend;
- int s_registration_sequence;
+ q_int32_t num_sfx;
+ q_int32_t paintedtime;
+ q_int32_t s_numchannels;
+ q_int32_t s_rawend;
+ q_int32_t s_registration_sequence;
  portable_samplepair_t s_rawsamples[MAX_RAW_SAMPLES];
  qboolean snd_initialized = false;
  sfx_t known_sfx[MAX_SFX];
@@ -88,7 +88,7 @@
    byte *data;
    wavinfo_t info;
    sfxcache_t *sc;
-   int size;
+   q_int32_t size;
    char *name;
 
    if ( s->name[0] == '*' ) {
@@ -157,7 +157,7 @@
  sfx_t *
  S_FindName ( char *name, qboolean create )
  {
-   int i;
+   q_int32_t i;
    sfx_t *sfx;
 
    if ( !name ) {
@@ -214,7 +214,7 @@
  {
    sfx_t *sfx;
    char *s;
-   int i;
+   q_int32_t i;
    s = Z_Malloc ( MAX_QPATH );
    strcpy ( s, truename );
 
@@ -277,9 +277,9 @@
  struct sfx_s *
  S_RegisterSexedSound ( entity_state_t *ent, char *base )
  {
-   int n;
+   q_int32_t n;
    char *p;
-   int len;
+   q_int32_t len;
    struct sfx_s *sfx;
    char model[MAX_QPATH];
    char sexedFilename[MAX_QPATH];
@@ -337,7 +337,7 @@
  void
  S_EndRegistration ( void )
  {
-   int i;
+   q_int32_t i;
    sfx_t *sfx;
 
    /* free any sounds not from this registration sequence */
@@ -379,11 +379,11 @@
   * Picks a free channel
   */
  channel_t *
- S_PickChannel ( int entnum, int entchannel )
+ S_PickChannel ( q_int32_t entnum, q_int32_t entchannel )
  {
-   int ch_idx;
-   int first_to_die;
-   int life_left;
+   q_int32_t ch_idx;
+   q_int32_t first_to_die;
+   q_int32_t life_left;
    channel_t *ch;
 
    if ( entchannel < 0 ) {
@@ -527,7 +527,7 @@
  #endif
    {
      if ( sound_started == SS_SDL ) {
-       ch->master_vol = ( int ) ps->volume;
+       ch->master_vol = ( q_int32_t ) ps->volume;
        SDL_Spatialize ( ch );
      }
    }
@@ -545,7 +545,7 @@
   * override a playing sound.
   */
  void
- S_StartSound ( vec3_t origin, int entnum, int entchannel, sfx_t *sfx,
+ S_StartSound ( vec3_t origin, q_int32_t entnum, q_int32_t entchannel, sfx_t *sfx,
                 float fvol, float attenuation, float timeofs )
  {
    sfxcache_t *sc;
@@ -649,7 +649,7 @@
  void
  S_StopAllSounds ( void )
  {
-   int i;
+   q_int32_t i;
 
    if ( !sound_started ) {
      return;
@@ -687,10 +687,10 @@
   * Builds a list of all sounds
   */
  void
- S_BuildSoundList ( int *sounds )
+ S_BuildSoundList ( q_int32_t *sounds )
  {
-   int i;
-   int num;
+   q_int32_t i;
+   q_int32_t num;
    entity_state_t *ent;
 
    for ( i = 0; i < cl.frame.num_entities; i++ ) {
@@ -717,8 +717,8 @@
   * that would be terrible slow.
   */
  void
- S_RawSamples ( int samples, int rate, int width,
-                int channels, byte *data, float volume )
+ S_RawSamples ( q_int32_t samples, q_int32_t rate, q_int32_t width,
+                q_int32_t channels, byte *data, float volume )
  {
    if ( !sound_started ) {
      return;
@@ -778,7 +778,7 @@
  void
  S_Play ( void )
  {
-   int i;
+   q_int32_t i;
    char name[256];
    sfx_t *sfx;
    i = 1;
@@ -808,11 +808,11 @@
  void
  S_SoundList ( void )
  {
-   int i;
+   q_int32_t i;
    sfx_t *sfx;
    sfxcache_t *sc;
-   int size, total;
-   int numsounds;
+   q_int32_t size, total;
+   q_int32_t numsounds;
    total = 0;
    numsounds = 0;
 
@@ -933,7 +933,7 @@
  void
  S_Shutdown ( void )
  {
-   int i;
+   q_int32_t i;
    sfx_t *sfx;
 
    if ( !sound_started ) {

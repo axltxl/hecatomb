@@ -49,20 +49,20 @@
    vec3_t mins, maxs;
    vec3_t origin; /* for sounds or lights */
    float radius;
-   int headnode;
-   int visleafs; /* not including the solid leaf 0 */
-   int firstface, numfaces;
+   q_int32_t headnode;
+   q_int32_t visleafs; /* not including the solid leaf 0 */
+   q_int32_t firstface, numfaces;
  } mmodel_t;
 
  typedef struct {
-   unsigned short v[2];
-   unsigned int cachededgeoffset;
+   q_uint16_t v[2];
+   q_uint32_t cachededgeoffset;
  } medge_t;
 
  typedef struct mtexinfo_s {
    float vecs[2][4];
-   int flags;
-   int numframes;
+   q_int32_t flags;
+   q_int32_t numframes;
    struct mtexinfo_s *next; /* animation chain */
    image_t *image;
  } mtexinfo_t;
@@ -70,25 +70,25 @@
  typedef struct glpoly_s {
    struct  glpoly_s *next;
    struct  glpoly_s *chain;
-   int numverts;
-   int flags; /* for SURF_UNDERWATER (not needed anymore?) */
+   q_int32_t numverts;
+   q_int32_t flags; /* for SURF_UNDERWATER (not needed anymore?) */
    float verts[4][VERTEXSIZE]; /* variable sized (xyz s1t1 s2t2) */
  } glpoly_t;
 
  typedef struct msurface_s {
-   int visframe; /* should be drawn when node is crossed */
+   q_int32_t visframe; /* should be drawn when node is crossed */
 
    cplane_t *plane;
-   int flags;
+   q_int32_t flags;
 
-   int firstedge;          /* look up in model->surfedges[], negative numbers */
-   int numedges;           /* are backwards edges */
+   q_int32_t firstedge;          /* look up in model->surfedges[], negative numbers */
+   q_int32_t numedges;           /* are backwards edges */
 
-   short texturemins[2];
-   short extents[2];
+   q_int16_t texturemins[2];
+   q_int16_t extents[2];
 
-   int light_s, light_t;           /* gl lightmap coordinates */
-   int dlight_s, dlight_t;         /* gl lightmap coordinates for dynamic lightmaps */
+   q_int32_t light_s, light_t;           /* gl lightmap coordinates */
+   q_int32_t dlight_s, dlight_t;         /* gl lightmap coordinates for dynamic lightmaps */
 
    glpoly_t *polys;                /* multiple if warped */
    struct  msurface_s *texturechain;
@@ -97,10 +97,10 @@
    mtexinfo_t *texinfo;
 
    /* lighting info */
-   int dlightframe;
-   int dlightbits;
+   q_int32_t dlightframe;
+   q_int32_t dlightbits;
 
-   int lightmaptexturenum;
+   q_int32_t lightmaptexturenum;
    byte styles[MAXLIGHTMAPS];
    float cached_light[MAXLIGHTMAPS];       /* values currently used in lightmap */
    byte *samples;                          /* [numstyles*surfsize] */
@@ -108,8 +108,8 @@
 
  typedef struct mnode_s {
    /* common with leaf */
-   int contents;               /* -1, to differentiate from leafs */
-   int visframe;               /* node needs to be traversed if current */
+   q_int32_t contents;               /* -1, to differentiate from leafs */
+   q_int32_t visframe;               /* node needs to be traversed if current */
 
    float minmaxs[6];           /* for bounding box culling */
 
@@ -119,25 +119,25 @@
    cplane_t *plane;
    struct mnode_s *children[2];
 
-   unsigned short firstsurface;
-   unsigned short numsurfaces;
+   q_uint16_t firstsurface;
+   q_uint16_t numsurfaces;
  } mnode_t;
 
  typedef struct mleaf_s {
    /* common with node */
-   int contents;               /* wil be a negative contents number */
-   int visframe;               /* node needs to be traversed if current */
+   q_int32_t contents;               /* wil be a negative contents number */
+   q_int32_t visframe;               /* node needs to be traversed if current */
 
    float minmaxs[6];           /* for bounding box culling */
 
    struct mnode_s *parent;
 
    /* leaf specific */
-   int cluster;
-   int area;
+   q_int32_t cluster;
+   q_int32_t area;
 
    msurface_t **firstmarksurface;
-   int nummarksurfaces;
+   q_int32_t nummarksurfaces;
  } mleaf_t;
 
  /* Whole model */
@@ -146,12 +146,12 @@
  typedef struct model_s {
    char name[MAX_QPATH];
 
-   int registration_sequence;
+   q_int32_t registration_sequence;
 
    modtype_t type;
-   int numframes;
+   q_int32_t numframes;
 
-   int flags;
+   q_int32_t flags;
 
    /* volume occupied by the model graphics */
    vec3_t mins, maxs;
@@ -162,38 +162,38 @@
    vec3_t clipmins, clipmaxs;
 
    /* brush model */
-   int firstmodelsurface, nummodelsurfaces;
-   int lightmap; /* only for submodels */
+   q_int32_t firstmodelsurface, nummodelsurfaces;
+   q_int32_t lightmap; /* only for submodels */
 
-   int numsubmodels;
+   q_int32_t numsubmodels;
    mmodel_t *submodels;
 
-   int numplanes;
+   q_int32_t numplanes;
    cplane_t *planes;
 
-   int numleafs; /* number of visible leafs, not counting 0 */
+   q_int32_t numleafs; /* number of visible leafs, not counting 0 */
    mleaf_t *leafs;
 
-   int numvertexes;
+   q_int32_t numvertexes;
    mvertex_t *vertexes;
 
-   int numedges;
+   q_int32_t numedges;
    medge_t *edges;
 
-   int numnodes;
-   int firstnode;
+   q_int32_t numnodes;
+   q_int32_t firstnode;
    mnode_t *nodes;
 
-   int numtexinfo;
+   q_int32_t numtexinfo;
    mtexinfo_t *texinfo;
 
-   int numsurfaces;
+   q_int32_t numsurfaces;
    msurface_t *surfaces;
 
-   int numsurfedges;
-   int *surfedges;
+   q_int32_t numsurfedges;
+   q_int32_t *surfedges;
 
-   int nummarksurfaces;
+   q_int32_t nummarksurfaces;
    msurface_t **marksurfaces;
 
    dvis_t *vis;
@@ -203,7 +203,7 @@
    /* for alias models and skins */
    image_t *skins[MAX_MD2SKINS];
 
-   int extradatasize;
+   q_int32_t extradatasize;
    void *extradata;
  } model_t;
 
@@ -211,7 +211,7 @@
  void Mod_ClearAll ( void );
  model_t *Mod_ForName ( char *name, qboolean crash );
  mleaf_t *Mod_PointInLeaf ( float *p, model_t *model );
- byte *Mod_ClusterPVS ( int cluster, model_t *model );
+ byte *Mod_ClusterPVS ( q_int32_t cluster, model_t *model );
  void Mod_Modellist_f ( void );
  void Mod_FreeAll ( void );
  void Mod_Free ( model_t *mod );

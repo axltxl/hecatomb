@@ -37,20 +37,20 @@
  void makronBFG ( edict_t *self );
  void makron_dead ( edict_t *self );
 
- static int sound_pain4;
- static int sound_pain5;
- static int sound_pain6;
- static int sound_death;
- static int sound_step_left;
- static int sound_step_right;
- static int sound_attack_bfg;
- static int sound_brainsplorch;
- static int sound_prerailgun;
- static int sound_popup;
- static int sound_taunt1;
- static int sound_taunt2;
- static int sound_taunt3;
- static int sound_hit;
+ static q_int32_t sound_pain4;
+ static q_int32_t sound_pain5;
+ static q_int32_t sound_pain6;
+ static q_int32_t sound_death;
+ static q_int32_t sound_step_left;
+ static q_int32_t sound_step_right;
+ static q_int32_t sound_attack_bfg;
+ static q_int32_t sound_brainsplorch;
+ static q_int32_t sound_prerailgun;
+ static q_int32_t sound_popup;
+ static q_int32_t sound_taunt1;
+ static q_int32_t sound_taunt2;
+ static q_int32_t sound_taunt3;
+ static q_int32_t sound_hit;
 
  void
  makron_taunt ( edict_t *self )
@@ -643,7 +643,7 @@
    vec3_t vec;
    vec3_t start;
    vec3_t forward, right;
-   int flash_number;
+   q_int32_t flash_number;
 
    if ( !self ) {
      return;
@@ -681,7 +681,7 @@
 
  void
  makron_pain ( edict_t *self, edict_t *other /* unused */,
-               float kick /* unused */, int damage )
+               float kick /* unused */, q_int32_t damage )
  {
    if ( !self ) {
      return;
@@ -811,10 +811,10 @@
 
  void
  makron_die ( edict_t *self, edict_t *inflictor /* unused */, edict_t *attacker /* unused */,
-              int damage /* unused */, vec3_t point /* unused */ )
+              q_int32_t damage /* unused */, vec3_t point /* unused */ )
  {
    edict_t *tempent;
-   int n;
+   q_int32_t n;
 
    if ( !self ) {
      return;
@@ -867,7 +867,7 @@
    vec3_t temp;
    float chance;
    trace_t tr;
-   int enemy_range;
+   q_int32_t enemy_range;
    float enemy_yaw;
 
    if ( !self ) {

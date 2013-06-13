@@ -30,7 +30,7 @@
 
  typedef struct {
    cplane_t  *plane;
-   int     children[2]; /* negative numbers are leafs */
+   q_int32_t     children[2]; /* negative numbers are leafs */
  } cnode_t;
 
  typedef struct {
@@ -39,25 +39,25 @@
  } cbrushside_t;
 
  typedef struct {
-   int     contents;
-   int     cluster;
-   int     area;
-   unsigned short  firstleafbrush;
-   unsigned short  numleafbrushes;
+   q_int32_t     contents;
+   q_int32_t     cluster;
+   q_int32_t     area;
+   q_uint16_t  firstleafbrush;
+   q_uint16_t  numleafbrushes;
  } cleaf_t;
 
  typedef struct {
-   int     contents;
-   int     numsides;
-   int     firstbrushside;
-   int     checkcount; /* to avoid repeated testings */
+   q_int32_t     contents;
+   q_int32_t     numsides;
+   q_int32_t     firstbrushside;
+   q_int32_t     checkcount; /* to avoid repeated testings */
  } cbrush_t;
 
  typedef struct {
-   int   numareaportals;
-   int   firstareaportal;
-   int   floodnum; /* if two areas have equal floodnums, they are connected */
-   int   floodvalid;
+   q_int32_t   numareaportals;
+   q_int32_t   firstareaportal;
+   q_int32_t   floodnum; /* if two areas have equal floodnums, they are connected */
+   q_int32_t   floodvalid;
  } carea_t;
 
  byte *cmod_base;
@@ -79,41 +79,41 @@
  cvar_t *map_noareas;
  dareaportal_t map_areaportals[MAX_MAP_AREAPORTALS];
  dvis_t *map_vis = ( dvis_t * ) map_visibility;
- int box_headnode;
- int checkcount;
- int emptyleaf, solidleaf;
- int floodvalid;
+ q_int32_t box_headnode;
+ q_int32_t checkcount;
+ q_int32_t emptyleaf, solidleaf;
+ q_int32_t floodvalid;
  float *leaf_mins, *leaf_maxs;
- int leaf_count, leaf_maxcount;
- int *leaf_list;
- int leaf_topnode;
- int numareaportals;
- int numareas = 1;
- int numbrushes;
- int numbrushsides;
- int numclusters = 1;
- int numcmodels;
- int numentitychars;
- int numleafbrushes;
- int numleafs = 1; /* allow leaf funcs to be called without a map */
- int numnodes;
- int numplanes;
- int numtexinfo;
- int numvisibility;
- int trace_contents;
+ q_int32_t leaf_count, leaf_maxcount;
+ q_int32_t *leaf_list;
+ q_int32_t leaf_topnode;
+ q_int32_t numareaportals;
+ q_int32_t numareas = 1;
+ q_int32_t numbrushes;
+ q_int32_t numbrushsides;
+ q_int32_t numclusters = 1;
+ q_int32_t numcmodels;
+ q_int32_t numentitychars;
+ q_int32_t numleafbrushes;
+ q_int32_t numleafs = 1; /* allow leaf funcs to be called without a map */
+ q_int32_t numnodes;
+ q_int32_t numplanes;
+ q_int32_t numtexinfo;
+ q_int32_t numvisibility;
+ q_int32_t trace_contents;
  mapsurface_t map_surfaces[MAX_MAP_TEXINFO];
  mapsurface_t nullsurface;
  qboolean portalopen[MAX_MAP_AREAPORTALS];
  qboolean trace_ispoint; /* optimized case */
  trace_t trace_trace;
- unsigned short  map_leafbrushes[MAX_MAP_LEAFBRUSHES];
+ q_uint16_t  map_leafbrushes[MAX_MAP_LEAFBRUSHES];
  vec3_t trace_start, trace_end;
  vec3_t trace_mins, trace_maxs;
  vec3_t trace_extents;
 
  #ifndef DEDICATED_ONLY
- int   c_pointcontents;
- int   c_traces, c_brush_traces;
+ q_int32_t   c_pointcontents;
+ q_int32_t   c_traces, c_brush_traces;
  #endif
 
  /* 1/32 epsilon to keep floating point happy */
@@ -121,9 +121,9 @@
 
  /* ========================================================================= */
  void
- FloodArea_r ( carea_t *area, int floodnum )
+ FloodArea_r ( carea_t *area, q_int32_t floodnum )
  {
-   int i;
+   q_int32_t i;
    dareaportal_t *p;
 
    if ( area->floodvalid == floodvalid ) {
@@ -149,9 +149,9 @@
  void
  FloodAreaConnections ( void )
  {
-   int i;
+   q_int32_t i;
    carea_t *area;
-   int floodnum;
+   q_int32_t floodnum;
    /* all current floods are now invalid */
    floodvalid++;
    floodnum = 0;
@@ -171,7 +171,7 @@
 
  /* ========================================================================= */
  void
- CM_SetAreaPortalState ( int portalnum, qboolean open )
+ CM_SetAreaPortalState ( q_int32_t portalnum, qboolean open )
  {
    if ( portalnum > numareaportals ) {
      Com_Error ( ERR_DROP, "areaportal > numareaportals" );
@@ -183,7 +183,7 @@
 
  /* ========================================================================= */
  qboolean
- CM_AreasConnected ( int area1, int area2 )
+ CM_AreasConnected ( q_int32_t area1, q_int32_t area2 )
  {
    if ( map_noareas->value ) {
      return true;
@@ -206,12 +206,12 @@
   *
   * This is used by the client refreshes to cull visibility
   */
- int
- CM_WriteAreaBits ( byte *buffer, int area )
+ q_int32_t
+ CM_WriteAreaBits ( byte *buffer, q_int32_t area )
  {
-   int i;
-   int floodnum;
-   int bytes;
+   q_int32_t i;
+   q_int32_t floodnum;
+   q_int32_t bytes;
    bytes = ( numareas + 7 ) >> 3;
 
    if ( map_noareas->value ) {
@@ -256,10 +256,10 @@
   * is potentially visible
   */
  qboolean
- CM_HeadnodeVisible ( int nodenum, byte *visbits )
+ CM_HeadnodeVisible ( q_int32_t nodenum, byte *visbits )
  {
-   int leafnum1;
-   int cluster;
+   q_int32_t leafnum1;
+   q_int32_t cluster;
    cnode_t *node;
 
    if ( nodenum < 0 ) {
@@ -293,8 +293,8 @@
  void
  CM_InitBoxHull ( void )
  {
-   int i;
-   int side;
+   q_int32_t i;
+   q_int32_t side;
    cnode_t *c;
    cplane_t *p;
    cbrushside_t *s;
@@ -354,7 +354,7 @@
   * To keep everything totally uniform, bounding boxes are turned into
   * small BSP trees instead of being compared directly.
   */
- int
+ q_int32_t
  CM_HeadnodeForBox ( vec3_t mins, vec3_t maxs )
  {
    box_planes[0].dist = maxs[0];
@@ -373,8 +373,8 @@
  }
 
  /* ========================================================================= */
- int
- CM_PointLeafnum_r ( vec3_t p, int num )
+ q_int32_t
+ CM_PointLeafnum_r ( vec3_t p, q_int32_t num )
  {
    float d;
    cnode_t *node;
@@ -404,7 +404,7 @@
  }
 
  /* ========================================================================= */
- int
+ q_int32_t
  CM_PointLeafnum ( vec3_t p )
  {
    if ( !numplanes ) {
@@ -419,11 +419,11 @@
   */
 
  void
- CM_BoxLeafnums_r ( int nodenum )
+ CM_BoxLeafnums_r ( q_int32_t nodenum )
  {
    cplane_t *plane;
    cnode_t *node;
-   int s;
+   q_int32_t s;
 
    while ( 1 ) {
      if ( nodenum < 0 ) {
@@ -456,9 +456,9 @@
  }
 
  /* ========================================================================= */
- int
- CM_BoxLeafnums_headnode ( vec3_t mins, vec3_t maxs, int *list,
-                           int listsize, int headnode, int *topnode )
+ q_int32_t
+ CM_BoxLeafnums_headnode ( vec3_t mins, vec3_t maxs, q_int32_t *list,
+                           q_int32_t listsize, q_int32_t headnode, q_int32_t *topnode )
  {
    leaf_list = list;
    leaf_count = 0;
@@ -476,18 +476,18 @@
  }
 
  /* ========================================================================= */
- int
- CM_BoxLeafnums ( vec3_t mins, vec3_t maxs, int *list, int listsize, int *topnode )
+ q_int32_t
+ CM_BoxLeafnums ( vec3_t mins, vec3_t maxs, q_int32_t *list, q_int32_t listsize, q_int32_t *topnode )
  {
    return CM_BoxLeafnums_headnode ( mins, maxs, list,
                                     listsize, map_cmodels[0].headnode, topnode );
  }
 
  /* ========================================================================= */
- int
- CM_PointContents ( vec3_t p, int headnode )
+ q_int32_t
+ CM_PointContents ( vec3_t p, q_int32_t headnode )
  {
-   int l;
+   q_int32_t l;
 
    if ( !numnodes ) { /* map not loaded */
      return 0;
@@ -501,14 +501,14 @@
   * Handles offseting and rotation of the end points for moving and
   * rotating entities
   */
- int
- CM_TransformedPointContents ( vec3_t p, int headnode,
+ q_int32_t
+ CM_TransformedPointContents ( vec3_t p, q_int32_t headnode,
                                vec3_t origin, vec3_t angles )
  {
    vec3_t p_l;
    vec3_t temp;
    vec3_t forward, right, up;
-   int l;
+   q_int32_t l;
    /* subtract origin offset */
    VectorSubtract ( p, origin, p_l );
 
@@ -531,7 +531,7 @@
  CM_ClipBoxToBrush ( vec3_t mins, vec3_t maxs, vec3_t p1,
                      vec3_t p2, trace_t *trace, cbrush_t *brush )
  {
-   int i, j;
+   q_int32_t i, j;
    cplane_t *plane, *clipplane;
    float dist;
    float enterfrac, leavefrac;
@@ -652,7 +652,7 @@
  CM_TestBoxInBrush ( vec3_t mins, vec3_t maxs, vec3_t p1,
                      trace_t *trace, cbrush_t *brush )
  {
-   int i, j;
+   q_int32_t i, j;
    cplane_t *plane;
    float dist;
    vec3_t ofs;
@@ -696,10 +696,10 @@
 
  /* ========================================================================= */
  void
- CM_TraceToLeaf ( int leafnum )
+ CM_TraceToLeaf ( q_int32_t leafnum )
  {
-   int k;
-   int brushnum;
+   q_int32_t k;
+   q_int32_t brushnum;
    cleaf_t *leaf;
    cbrush_t *b;
    leaf = &map_leafs[leafnum];
@@ -734,10 +734,10 @@
 
  /* ========================================================================= */
  void
- CM_TestInLeaf ( int leafnum )
+ CM_TestInLeaf ( q_int32_t leafnum )
  {
-   int k;
-   int brushnum;
+   q_int32_t k;
+   q_int32_t brushnum;
    cleaf_t *leaf;
    cbrush_t *b;
    leaf = &map_leafs[leafnum];
@@ -771,16 +771,16 @@
 
  /* ========================================================================= */
  void
- CM_RecursiveHullCheck ( int num, float p1f, float p2f, vec3_t p1, vec3_t p2 )
+ CM_RecursiveHullCheck ( q_int32_t num, float p1f, float p2f, vec3_t p1, vec3_t p2 )
  {
    cnode_t *node;
    cplane_t *plane;
    float t1, t2, offset;
    float frac, frac2;
    float idist;
-   int i;
+   q_int32_t i;
    vec3_t mid;
-   int side;
+   q_int32_t side;
    float midf;
 
    if ( trace_trace.fraction <= p1f ) {
@@ -881,9 +881,9 @@
  /* ========================================================================= */
  trace_t
  CM_BoxTrace ( vec3_t start, vec3_t end, vec3_t mins, vec3_t maxs,
-               int headnode, int brushmask )
+               q_int32_t headnode, q_int32_t brushmask )
  {
-   int i;
+   q_int32_t i;
    checkcount++; /* for multi-check avoidance */
  #ifndef DEDICATED_ONLY
    c_traces++; /* for statistics, may be zeroed */
@@ -905,10 +905,10 @@
 
    /* check for position test special case */
    if ( ( start[0] == end[0] ) && ( start[1] == end[1] ) && ( start[2] == end[2] ) ) {
-     int leafs[1024];
-     int i, numleafs;
+     q_int32_t leafs[1024];
+     q_int32_t i, numleafs;
      vec3_t c1, c2;
-     int topnode;
+     q_int32_t topnode;
      VectorAdd ( start, mins, c1 );
      VectorAdd ( start, maxs, c2 );
 
@@ -965,7 +965,7 @@
   */
  trace_t
  CM_TransformedBoxTrace ( vec3_t start, vec3_t end, vec3_t mins, vec3_t maxs,
-                          int headnode, int brushmask, vec3_t origin, vec3_t angles )
+                          q_int32_t headnode, q_int32_t brushmask, vec3_t origin, vec3_t angles )
  {
    trace_t trace;
    vec3_t start_l, end_l;
@@ -1021,7 +1021,7 @@
  {
    dmodel_t *in;
    cmodel_t *out;
-   int i, j, count;
+   q_int32_t i, j, count;
    in = ( void * ) ( cmod_base + l->fileofs );
 
    if ( l->filelen % sizeof ( *in ) ) {
@@ -1060,7 +1060,7 @@
  {
    texinfo_t *in;
    mapsurface_t *out;
-   int i, count;
+   q_int32_t i, count;
    in = ( void * ) ( cmod_base + l->fileofs );
 
    if ( l->filelen % sizeof ( *in ) ) {
@@ -1093,9 +1093,9 @@
  CMod_LoadNodes ( lump_t *l )
  {
    dnode_t *in;
-   int child;
+   q_int32_t child;
    cnode_t *out;
-   int i, j, count;
+   q_int32_t i, j, count;
    in = ( void * ) ( cmod_base + l->fileofs );
 
    if ( l->filelen % sizeof ( *in ) ) {
@@ -1131,7 +1131,7 @@
  {
    dbrush_t *in;
    cbrush_t *out;
-   int i, count;
+   q_int32_t i, count;
    in = ( void * ) ( cmod_base + l->fileofs );
 
    if ( l->filelen % sizeof ( *in ) ) {
@@ -1158,10 +1158,10 @@
  void
  CMod_LoadLeafs ( lump_t *l )
  {
-   int i;
+   q_int32_t i;
    cleaf_t *out;
    dleaf_t *in;
-   int count;
+   q_int32_t count;
    in = ( void * ) ( cmod_base + l->fileofs );
 
    if ( l->filelen % sizeof ( *in ) ) {
@@ -1218,11 +1218,11 @@
  void
  CMod_LoadPlanes ( lump_t *l )
  {
-   int i, j;
+   q_int32_t i, j;
    cplane_t *out;
    dplane_t *in;
-   int count;
-   int bits;
+   q_int32_t count;
+   q_int32_t bits;
    in = ( void * ) ( cmod_base + l->fileofs );
 
    if ( l->filelen % sizeof ( *in ) ) {
@@ -1264,10 +1264,10 @@
  void
  CMod_LoadLeafBrushes ( lump_t *l )
  {
-   int i;
-   unsigned short *out;
-   unsigned short *in;
-   int count;
+   q_int32_t i;
+   q_uint16_t *out;
+   q_uint16_t *in;
+   q_int32_t count;
    in = ( void * ) ( cmod_base + l->fileofs );
 
    if ( l->filelen % sizeof ( *in ) ) {
@@ -1297,11 +1297,11 @@
  void
  CMod_LoadBrushSides ( lump_t *l )
  {
-   int i, j;
+   q_int32_t i, j;
    cbrushside_t *out;
    dbrushside_t *in;
-   int count;
-   int num;
+   q_int32_t count;
+   q_int32_t num;
    in = ( void * ) ( cmod_base + l->fileofs );
 
    if ( l->filelen % sizeof ( *in ) ) {
@@ -1335,10 +1335,10 @@
  void
  CMod_LoadAreas ( lump_t *l )
  {
-   int i;
+   q_int32_t i;
    carea_t *out;
    darea_t *in;
-   int count;
+   q_int32_t count;
    in = ( void * ) ( cmod_base + l->fileofs );
 
    if ( l->filelen % sizeof ( *in ) ) {
@@ -1368,7 +1368,7 @@
  {
    dareaportal_t *out;
    dareaportal_t *in;
-   int count;
+   q_int32_t count;
    in = ( void * ) ( cmod_base + l->fileofs );
 
    if ( l->filelen % sizeof ( *in ) ) {
@@ -1417,13 +1417,13 @@
   * Loads in the map and all submodels
   */
  cmodel_t *
- CM_LoadMap ( char *name, qboolean clientload, unsigned *checksum )
+ CM_LoadMap ( char *name, qboolean clientload, q_uint32_t *checksum )
  {
-   unsigned *buf;
-   int i;
+   q_uint32_t *buf;
+   q_int32_t i;
    dheader_t header;
-   int length;
-   static unsigned last_checksum;
+   q_int32_t length;
+   static q_uint32_t last_checksum;
    map_noareas = Cvar_Get ( "map_noareas", "0", 0 );
 
    if ( !strcmp ( map_name,
@@ -1467,7 +1467,7 @@
    header = * ( dheader_t * ) buf;
 
    for ( i = 0; i < sizeof ( dheader_t ) / 4; i++ ) {
-     ( ( int * ) &header ) [i] = LittleLong ( ( ( int * ) &header ) [i] );
+     ( ( q_int32_t * ) &header ) [i] = LittleLong ( ( ( q_int32_t * ) &header ) [i] );
    }
 
    if ( header.version != BSPVERSION ) {
@@ -1502,13 +1502,13 @@
  cmodel_t *
  CM_InlineModel ( char *name )
  {
-   int num;
+   q_int32_t num;
 
    if ( !name || ( name[0] != '*' ) ) {
      Com_Error ( ERR_DROP, "CM_InlineModel: bad name" );
    }
 
-   num = ( int ) strtol ( name + 1, ( char ** ) NULL, 10 );
+   num = ( q_int32_t ) strtol ( name + 1, ( char ** ) NULL, 10 );
 
    if ( ( num < 1 ) || ( num >= numcmodels ) ) {
      Com_Error ( ERR_DROP, "CM_InlineModel: bad number" );
@@ -1518,14 +1518,14 @@
  }
 
  /* ========================================================================= */
- int
+ q_int32_t
  CM_NumClusters ( void )
  {
    return numclusters;
  }
 
  /* ========================================================================= */
- int
+ q_int32_t
  CM_NumInlineModels ( void )
  {
    return numcmodels;
@@ -1539,8 +1539,8 @@
  }
 
  /* ========================================================================= */
- int
- CM_LeafContents ( int leafnum )
+ q_int32_t
+ CM_LeafContents ( q_int32_t leafnum )
  {
    if ( ( leafnum < 0 ) || ( leafnum >= numleafs ) ) {
      Com_Error ( ERR_DROP, "CM_LeafContents: bad number" );
@@ -1550,8 +1550,8 @@
  }
 
  /* ========================================================================= */
- int
- CM_LeafCluster ( int leafnum )
+ q_int32_t
+ CM_LeafCluster ( q_int32_t leafnum )
  {
    if ( ( leafnum < 0 ) || ( leafnum >= numleafs ) ) {
      Com_Error ( ERR_DROP, "CM_LeafCluster: bad number" );
@@ -1561,8 +1561,8 @@
  }
 
  /* ========================================================================= */
- int
- CM_LeafArea ( int leafnum )
+ q_int32_t
+ CM_LeafArea ( q_int32_t leafnum )
  {
    if ( ( leafnum < 0 ) || ( leafnum >= numleafs ) ) {
      Com_Error ( ERR_DROP, "CM_LeafArea: bad number" );
@@ -1575,9 +1575,9 @@
  void
  CM_DecompressVis ( byte *in, byte *out )
  {
-   int c;
+   q_int32_t c;
    byte *out_p;
-   int row;
+   q_int32_t row;
    row = ( numclusters + 7 ) >> 3;
    out_p = out;
 
@@ -1614,7 +1614,7 @@
 
  /* ========================================================================= */
  byte *
- CM_ClusterPVS ( int cluster )
+ CM_ClusterPVS ( q_int32_t cluster )
  {
    if ( cluster == -1 ) {
      memset ( pvsrow, 0, ( numclusters + 7 ) >> 3 );
@@ -1628,7 +1628,7 @@
 
  /* ========================================================================= */
  byte *
- CM_ClusterPHS ( int cluster )
+ CM_ClusterPHS ( q_int32_t cluster )
  {
    if ( cluster == -1 ) {
      memset ( phsrow, 0, ( numclusters + 7 ) >> 3 );

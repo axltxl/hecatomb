@@ -51,11 +51,11 @@
 
  /* Globals */
  cvar_t *s_openal_maxgain;
- int active_buffers;
+ q_int32_t active_buffers;
  qboolean streamPlaying;
  static ALuint s_srcnums[MAX_CHANNELS - 1];
  static ALuint streamSource;
- static int s_framecount;
+ static q_int32_t s_framecount;
 
  /* Apple crappy OpenAL implementation
     has no support for filters. */
@@ -71,7 +71,7 @@
  static void
  AL_StreamDie ( void )
  {
-   int numBuffers;
+   q_int32_t numBuffers;
    streamPlaying = false;
    qalSourceStop ( streamSource );
    /* Un-queue any buffers, and delete them */
@@ -92,7 +92,7 @@
  static void
  AL_StreamUpdate ( void )
  {
-   int numBuffers;
+   q_int32_t numBuffers;
    ALint state;
    /* Un-queue any buffers, and delete them */
    qalGetSourcei ( streamSource, AL_BUFFERS_PROCESSED, &numBuffers );
@@ -273,7 +273,7 @@
  void
  AL_StopAllChannels ( void )
  {
-   int i;
+   q_int32_t i;
    channel_t *ch;
    ch = channels;
 
@@ -300,9 +300,9 @@
   * "entnum".
   */
  static channel_t *
- AL_FindLoopingSound ( int entnum, sfx_t *sfx )
+ AL_FindLoopingSound ( q_int32_t entnum, sfx_t *sfx )
  {
-   int i;
+   q_int32_t i;
    channel_t *ch;
    ch = channels;
 
@@ -335,12 +335,12 @@
  static void
  AL_AddLoopSounds ( void )
  {
-   int i;
-   int sounds[MAX_EDICTS];
+   q_int32_t i;
+   q_int32_t sounds[MAX_EDICTS];
    channel_t *ch;
    sfx_t *sfx;
    sfxcache_t *sc;
-   int num;
+   q_int32_t num;
    entity_state_t *ent;
 
    if ( ( cls.state != ca_active ) || cl_paused->value || !s_ambient->value ) {
@@ -423,7 +423,7 @@
   * by the background music an cinematics.
   */
  void
- AL_RawSamples ( int samples, int rate, int width, int channels,
+ AL_RawSamples ( q_int32_t samples, q_int32_t rate, q_int32_t width, q_int32_t channels,
                  byte *data, float volume )
  {
    ALuint buffer;
@@ -480,7 +480,7 @@
  void
  AL_Update ( void )
  {
-   int i;
+   q_int32_t i;
    channel_t *ch;
    vec_t orientation[6];
    paintedtime = cl.time;
@@ -545,7 +545,7 @@
  AL_Underwater()
  {
  #if !defined (HT_OS_OSX)
-   int i;
+   q_int32_t i;
 
    if ( sound_started != SS_OAL ) {
      return;
@@ -566,7 +566,7 @@
  AL_Overwater()
  {
  #if !defined (HT_OS_OSX)
-   int i;
+   q_int32_t i;
 
    if ( sound_started != SS_OAL ) {
      return;
@@ -632,7 +632,7 @@
  qboolean
  AL_Init ( void )
  {
-   int i;
+   q_int32_t i;
 
    if ( !QAL_Init() ) {
      Com_Printf ( "ERROR: OpenAL failed to initialize.\n" );

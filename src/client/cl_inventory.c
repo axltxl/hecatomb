@@ -31,7 +31,7 @@
  void
  CL_ParseInventory ( void )
  {
-   int i;
+   q_int32_t i;
 
    for ( i = 0; i < MAX_ITEMS; i++ ) {
      cl.inventory[i] = MSG_ReadShort ( &net_message );
@@ -40,7 +40,7 @@
 
  /* ========================================================================= */
  static void
- Inv_DrawString ( int x, int y, char *string )
+ Inv_DrawString ( q_int32_t x, q_int32_t y, char *string )
  {
    while ( *string ) {
      Draw_Char ( x, y, *string );
@@ -64,15 +64,15 @@
  void
  CL_DrawInventory ( void )
  {
-   int i, j;
-   int num, selected_num, item;
-   int index[MAX_ITEMS];
+   q_int32_t i, j;
+   q_int32_t num, selected_num, item;
+   q_int32_t index[MAX_ITEMS];
    char string[1024];
-   int x, y;
+   q_int32_t x, y;
    char binding[1024];
    const char *bind;
-   int selected;
-   int top;
+   q_int32_t selected;
+   q_int32_t top;
    selected = cl.frame.playerstate.stats[STAT_SELECTED_ITEM];
    num = 0;
    selected_num = 0;
@@ -131,7 +131,7 @@
        SetStringHighBit ( string );
      } else {
        /* draw a blinky cursor by the selected item */
-       if ( ( int ) ( cls.realtime * 10 ) & 1 ) {
+       if ( ( q_int32_t ) ( cls.realtime * 10 ) & 1 ) {
          Draw_Char ( x - 8, y, 15 );
        }
      }

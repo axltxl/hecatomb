@@ -43,8 +43,8 @@
 
  typedef struct vidmode_s {
    const char *description;
-   int width, height;
-   int mode;
+   q_int32_t width, height;
+   q_int32_t mode;
  } vidmode_t;
 
  /* This must be the same as in videomenu.c! */
@@ -87,7 +87,7 @@
 
  #define VID_NUM_MODES (sizeof(vid_modes) / sizeof(vid_modes[0]))
 
- void Do_Key_Event ( int key, qboolean down );
+ void Do_Key_Event ( q_int32_t key, qboolean down );
 
  // Input state
  in_state_t in_state;
@@ -96,7 +96,7 @@
 
  /* ========================================================================= */
  void
- VID_Printf ( int print_level, char *fmt, ... )
+ VID_Printf ( q_int32_t print_level, char *fmt, ... )
  {
    va_list argptr;
    char msg[MAXPRINTMSG];
@@ -113,7 +113,7 @@
 
  /* ========================================================================= */
  void
- VID_Error ( int err_level, char *fmt, ... )
+ VID_Error ( q_int32_t err_level, char *fmt, ... )
  {
    va_list argptr;
    char msg[MAXPRINTMSG];
@@ -137,7 +137,7 @@
 
  /* ========================================================================= */
  qboolean
- VID_GetModeInfo ( int *width, int *height, int mode )
+ VID_GetModeInfo ( q_int32_t *width, q_int32_t *height, q_int32_t mode )
  {
    if ( ( mode < 0 ) || ( mode >= VID_NUM_MODES ) ) {
      return false;
@@ -150,7 +150,7 @@
 
  /* ========================================================================= */
  void
- VID_NewWindow ( int width, int height )
+ VID_NewWindow ( q_int32_t width, q_int32_t height )
  {
    viddef.width = width;
    viddef.height = height;
@@ -271,7 +271,7 @@
 
  /* ========================================================================= */
  void
- Do_Key_Event ( int key, qboolean down )
+ Do_Key_Event ( q_int32_t key, qboolean down )
  {
    Key_Event ( key, down, Sys_Milliseconds() );
  }

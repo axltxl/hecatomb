@@ -45,12 +45,12 @@
  /**
   * Reserve a huge chunk of memory, but don't commit any yet
   */
- void *Hunk_Begin ( int maxsize );
+ void *Hunk_Begin ( q_int32_t maxsize );
 
  /**
   * Commit a portion of the previous allocated base memory
   */
- void *Hunk_Alloc ( int size );
+ void *Hunk_Alloc ( q_int32_t size );
 
  /**
   * Release the chunk of base memory
@@ -60,6 +60,6 @@
  /**
   * Release current portion of the previous allocated base memory in use
   */
- int Hunk_End ( void );
+ q_int32_t Hunk_End ( void );
 
  #endif /* MEM_H */

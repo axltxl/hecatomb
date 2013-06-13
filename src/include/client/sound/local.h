@@ -36,8 +36,8 @@
   * Holds one sample with 2 channels
   */
  typedef struct {
-   int left;
-   int right;
+   q_int32_t left;
+   q_int32_t right;
  } portable_samplepair_t;
 
  /*
@@ -45,15 +45,15 @@
   * it's meta data
   */
  typedef struct {
-   int length;
-   int loopstart;
-   int speed;
-   int width;
+   q_int32_t length;
+   q_int32_t loopstart;
+   q_int32_t speed;
+   q_int32_t width;
  #ifdef HT_WITH_OPENAL
-   int size;
-   int bufnum;
+   q_int32_t size;
+   q_int32_t bufnum;
  #endif
-   int stereo;
+   q_int32_t stereo;
    byte data[1];
  } sfxcache_t;
 
@@ -62,7 +62,7 @@
   */
  typedef struct sfx_s {
    char name[MAX_QPATH];
-   int registration_sequence;
+   q_int32_t registration_sequence;
    sfxcache_t *cache;
    char *truename;
  } sfx_t;
@@ -76,11 +76,11 @@
    sfx_t *sfx;
    float volume;
    float attenuation;
-   int entnum;
-   int entchannel;
+   q_int32_t entnum;
+   q_int32_t entchannel;
    qboolean fixed_origin;
    vec3_t origin;
-   unsigned begin;
+   q_uint32_t begin;
  } playsound_t;
 
  /*
@@ -91,13 +91,13 @@
   * based magic.
   */
  typedef struct {
-   int channels;
-   int samples;          /* mono samples in buffer */
-   int submission_chunk; /* don't mix less than this */
-   int samplepos;        /* in mono samples */
-   int samplebits;
-   int speed;
-   unsigned char *buffer;
+   q_int32_t channels;
+   q_int32_t samples;          /* mono samples in buffer */
+   q_int32_t submission_chunk; /* don't mix less than this */
+   q_int32_t samplepos;        /* in mono samples */
+   q_int32_t samplebits;
+   q_int32_t speed;
+   q_uint8_t *buffer;
  } sound_t;
 
  /*
@@ -106,22 +106,22 @@
   */
  typedef struct {
    sfx_t *sfx;                 /* sfx number */
-   int leftvol;                /* 0-255 volume */
-   int rightvol;               /* 0-255 volume */
-   int end;                    /* end time in global paintsamples */
-   int pos;                    /* sample position in sfx */
-   int looping;                /* where to loop, -1 = no looping */
-   int entnum;                 /* to allow overriding a specific sound */
-   int entchannel;
+   q_int32_t leftvol;                /* 0-255 volume */
+   q_int32_t rightvol;               /* 0-255 volume */
+   q_int32_t end;                    /* end time in global paintsamples */
+   q_int32_t pos;                    /* sample position in sfx */
+   q_int32_t looping;                /* where to loop, -1 = no looping */
+   q_int32_t entnum;                 /* to allow overriding a specific sound */
+   q_int32_t entchannel;
    vec3_t origin;              /* only use if fixed_origin is set */
    vec_t dist_mult;            /* distance multiplier (attenuation/clipK) */
-   int master_vol;             /* 0-255 master volume */
+   q_int32_t master_vol;             /* 0-255 master volume */
    qboolean fixed_origin;      /* use origin instead of fetching entnum's origin */
    qboolean autosound;         /* from an entity->sound, cleared each frame */
  #ifdef HT_WITH_OPENAL
-   int autoframe;
+   q_int32_t autoframe;
    float oal_vol;
-   int srcnum;
+   q_int32_t srcnum;
  #endif
  } channel_t;
 
@@ -130,12 +130,12 @@
   * wave file header.
   */
  typedef struct {
-   int rate;
-   int width;
-   int channels;
-   int loopstart;
-   int samples;
-   int dataofs; /* chunk starts this many bytes from file start */
+   q_int32_t rate;
+   q_int32_t width;
+   q_int32_t channels;
+   q_int32_t loopstart;
+   q_int32_t samples;
+   q_int32_t dataofs; /* chunk starts this many bytes from file start */
  } wavinfo_t;
 
  /*
@@ -163,9 +163,9 @@
   * Globals
   */
  extern channel_t channels[MAX_CHANNELS];
- extern int paintedtime;
- extern int s_numchannels;
- extern int s_rawend;
+ extern q_int32_t paintedtime;
+ extern q_int32_t s_numchannels;
+ extern q_int32_t s_rawend;
  extern playsound_t s_pendingplays;
  extern portable_samplepair_t s_rawsamples[MAX_RAW_SAMPLES];
  extern sndstarted_t sound_started;
@@ -179,7 +179,7 @@
   * Returns the header infos
   * of a wave file
   */
- wavinfo_t GetWavinfo ( char *name, byte *wav, int wavlength );
+ wavinfo_t GetWavinfo ( char *name, byte *wav, q_int32_t wavlength );
 
  /*
   * Loads one sample into
@@ -196,13 +196,13 @@
   * picks a channel based on priorities,
   * empty slots, number of channels
   */
- channel_t *S_PickChannel ( int entnum, int entchannel );
+ channel_t *S_PickChannel ( q_int32_t entnum, q_int32_t entchannel );
 
  /*
   * Builds a list of all
   * sound still in flight
   */
- void S_BuildSoundList ( int *sounds );
+ void S_BuildSoundList ( q_int32_t *sounds );
 
  /* ----------------------------------------------------------------- */
 
@@ -226,7 +226,7 @@
   * Alters start position of
   * sound playback
   */
- int  SDL_DriftBeginofs ( float );
+ q_int32_t  SDL_DriftBeginofs ( float );
 
  /*
   * Clears all playback buffers
@@ -250,8 +250,8 @@
   * Queues raw samples for
   * playback
   */
- void SDL_RawSamples ( int samples, int rate, int width,
-                       int channels, byte *data, float volume );
+ void SDL_RawSamples ( q_int32_t samples, q_int32_t rate, q_int32_t width,
+                       q_int32_t channels, byte *data, float volume );
 
  /*
   * Spartializes a sample
@@ -268,7 +268,7 @@
  #define     SOUND_LOOPATTENUATE 0.003
 
  /* number of buffers in flight (needed for ogg) */
- extern int active_buffers;
+ extern q_int32_t active_buffers;
 
  /*
   * Informations about the
@@ -320,8 +320,8 @@
  /*
   * Plays raw samples
   */
- void AL_RawSamples ( int samples, int rate, int width,
-                      int channels, byte *data, float volume );
+ void AL_RawSamples ( q_int32_t samples, q_int32_t rate, q_int32_t width,
+                      q_int32_t channels, byte *data, float volume );
 
  /*
   * Unqueues any raw samples

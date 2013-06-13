@@ -31,7 +31,7 @@
  extern gllightmapstate_t gl_lms;
 
  void R_SetCacheState ( msurface_t *surf );
- void R_BuildLightMap ( msurface_t *surf, byte *dest, int stride );
+ void R_BuildLightMap ( msurface_t *surf, byte *dest, q_int32_t stride );
 
  /* ========================================================================= */
  void
@@ -44,8 +44,8 @@
  void
  LM_UploadBlock ( qboolean dynamic )
  {
-   int texture;
-   int height = 0;
+   q_int32_t texture;
+   q_int32_t height = 0;
 
    if ( dynamic ) {
      texture = 0;
@@ -58,7 +58,7 @@
    qglTexParameteri ( GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR );
 
    if ( dynamic ) {
-     int i;
+     q_int32_t i;
 
      for ( i = 0; i < BLOCK_WIDTH; i++ ) {
        if ( gl_lms.allocated[i] > height ) {
@@ -85,10 +85,10 @@
   * returns a texture number and the position inside it
   */
  qboolean
- LM_AllocBlock ( int w, int h, int *x, int *y )
+ LM_AllocBlock ( q_int32_t w, q_int32_t h, q_int32_t *x, q_int32_t *y )
  {
-   int i, j;
-   int best, best2;
+   q_int32_t i, j;
+   q_int32_t best, best2;
    best = BLOCK_HEIGHT;
 
    for ( i = 0; i < BLOCK_WIDTH - w; i++ ) {
@@ -126,7 +126,7 @@
  void
  LM_BuildPolygonFromSurface ( msurface_t *fa )
  {
-   int i, lindex, lnumverts;
+   q_int32_t i, lindex, lnumverts;
    medge_t *pedges, *r_pedge;
    float *vec;
    float s, t;
@@ -185,7 +185,7 @@
  void
  LM_CreateSurfaceLightmap ( msurface_t *surf )
  {
-   int smax, tmax;
+   q_int32_t smax, tmax;
    byte *base;
 
    if ( surf->flags & ( SURF_DRAWSKY | SURF_DRAWTURB ) ) {
@@ -217,8 +217,8 @@
  LM_BeginBuildingLightmaps ( model_t *m )
  {
    static lightstyle_t lightstyles[MAX_LIGHTSTYLES];
-   int i;
-   unsigned dummy[128 * 128];
+   q_int32_t i;
+   q_uint32_t dummy[128 * 128];
    memset ( gl_lms.allocated, 0, sizeof ( gl_lms.allocated ) );
    r_framecount = 1; /* no dlightcache */
    R_EnableMultitexture ( true );

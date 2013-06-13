@@ -30,15 +30,15 @@
  #include "prereqs.h"
  #include "common/shared.h"
 
- typedef void ( *Key_Event_fp_t ) ( int key, qboolean down );
+ typedef void ( *Key_Event_fp_t ) ( q_int32_t key, qboolean down );
 
  typedef struct in_state {
    /* Pointers to functions back in client, set by vid_so */
    void ( *IN_CenterView_fp ) ( void );
    Key_Event_fp_t Key_Event_fp;
    vec_t *viewangles;
-   int *in_strafe_state;
-   int *in_speed_state;
+   q_int32_t *in_strafe_state;
+   q_int32_t *in_speed_state;
  } in_state_t;
 
  /**

@@ -119,22 +119,22 @@
  };
 
  /* host_speeds times */
- int time_before_game;
- int time_after_game;
- int time_before_ref;
- int time_after_ref;
+ q_int32_t time_before_game;
+ q_int32_t time_after_game;
+ q_int32_t time_before_ref;
+ q_int32_t time_after_ref;
 
  /*
   * For proxy protecting
   */
  byte
- COM_BlockSequenceCRCByte ( byte *base, int length, int sequence )
+ COM_BlockSequenceCRCByte ( byte *base, q_int32_t length, q_int32_t sequence )
  {
-   int n;
-   int x;
+   q_int32_t n;
+   q_int32_t x;
    byte *p;
    byte chkb[60 + 4];
-   unsigned short crc;
+   q_uint16_t crc;
    byte r;
 
    if ( sequence < 0 ) {
@@ -180,7 +180,7 @@
 
  /* ========================================================================= */
  void
- Qcommon_Init ( int argc, char **argv )
+ Qcommon_Init ( q_int32_t argc, char **argv )
  {
    char *s;
 
@@ -282,13 +282,13 @@
 
  /* ========================================================================= */
  void
- Qcommon_Frame ( int msec )
+ Qcommon_Frame ( q_int32_t msec )
  {
    char *s;
  #ifndef DEDICATED_ONLY
-   int time_before = 0;
-   int time_between = 0;
-   int time_after;
+   q_int32_t time_before = 0;
+   q_int32_t time_between = 0;
+   q_int32_t time_after;
  #endif
 
    if ( setjmp ( abortframe ) ) {
@@ -330,8 +330,8 @@
  #ifndef DEDICATED_ONLY
 
    if ( showtrace->value ) {
-     extern int c_traces, c_brush_traces;
-     extern int c_pointcontents;
+     extern q_int32_t c_traces, c_brush_traces;
+     extern q_int32_t c_pointcontents;
      Com_Printf ( "%4i traces  %4i points\n", c_traces, c_pointcontents );
      c_traces = 0;
      c_brush_traces = 0;
@@ -366,7 +366,7 @@
    CL_Frame ( msec );
 
    if ( host_speeds->value ) {
-     int all, sv, gm, cl, rf;
+     q_int32_t all, sv, gm, cl, rf;
      time_after = Sys_Milliseconds();
      all = time_after - time_before;
      sv = time_between - time_before;

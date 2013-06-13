@@ -27,7 +27,7 @@
  #include "game/local.h"
 
  void infantry_die ( edict_t *self, edict_t *inflictor, edict_t *attacker,
-                     int damage );
+                     q_int32_t damage );
  void infantry_stand ( edict_t *self );
  void monster_use ( edict_t *self, edict_t *other, edict_t *activator );
  qboolean FindTarget ( edict_t *self );
@@ -63,7 +63,7 @@
      x -= 0.5;
    }
 
-   return 0.125 * ( int ) x;
+   return 0.125 * ( q_int32_t ) x;
  }
 
  void
@@ -108,8 +108,8 @@
  {
    vec3_t f, r, u;
    vec3_t start;
-   int damage;
-   int speed;
+   q_int32_t damage;
+   q_int32_t speed;
 
    if ( !self ) {
      return;
@@ -358,7 +358,7 @@
   */
  void
  turret_driver_die ( edict_t *self, edict_t *inflictor, edict_t *attacker,
-                     int damage, vec3_t point /* unused */ )
+                     q_int32_t damage, vec3_t point /* unused */ )
  {
    edict_t *ent;
 

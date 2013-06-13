@@ -93,12 +93,12 @@
  /**
   * pass in an attribute mask of things you wish to REJECT
   */
- char *Sys_FindFirst ( char *path, unsigned musthave, unsigned canthave );
+ char *Sys_FindFirst ( char *path, q_uint32_t musthave, q_uint32_t canthave );
 
  /**
   *
   */
- char *Sys_FindNext ( unsigned musthave, unsigned canthave );
+ char *Sys_FindNext ( q_uint32_t musthave, q_uint32_t canthave );
 
  /**
   *
@@ -108,7 +108,7 @@
  /**
   * Get time (in milliseconds) since last frame
   */
- int Sys_Milliseconds ( void );
+ q_int32_t Sys_Milliseconds ( void );
 
  /**
   * Create a directory
@@ -129,17 +129,17 @@
  /**
   * Reserve a huge chunk of base memory, but don't commit any yet
   */
- void * Sys_HunkBegin ( int maxsize );
+ void * Sys_HunkBegin ( q_int32_t maxsize );
 
  /**
   * Commit a portion of the previous allocated base memory
   */
- void *Sys_HunkAlloc ( int size );
+ void *Sys_HunkAlloc ( q_int32_t size );
 
  /**
   * Release current portion of the previous allocated base memory in use
   */
- int Sys_HunkEnd ( void );
+ q_int32_t Sys_HunkEnd ( void );
 
  /**
   * Release the chunk of base memory

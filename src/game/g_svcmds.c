@@ -72,18 +72,18 @@
   */
 
  typedef struct {
-   unsigned mask;
-   unsigned compare;
+   q_uint32_t mask;
+   q_uint32_t compare;
  } ipfilter_t;
 
  ipfilter_t ipfilters[MAX_IPFILTERS];
- int numipfilters;
+ q_int32_t numipfilters;
 
  qboolean
  StringToFilter ( char *s, ipfilter_t *f )
  {
    char num[128];
-   int i, j;
+   q_int32_t i, j;
    byte b[4];
    byte m[4];
 
@@ -109,7 +109,7 @@
      }
 
      num[j] = 0;
-     b[i] = ( int ) strtol ( num, ( char ** ) NULL, 10 );
+     b[i] = ( q_int32_t ) strtol ( num, ( char ** ) NULL, 10 );
 
      if ( b[i] != 0 ) {
        m[i] = 255;
@@ -122,8 +122,8 @@
      s++;
    }
 
-   f->mask = * ( unsigned * ) m;
-   f->compare = * ( unsigned * ) b;
+   f->mask = * ( q_uint32_t * ) m;
+   f->compare = * ( q_uint32_t * ) b;
 
    return true;
  }
@@ -131,8 +131,8 @@
  qboolean
  SV_FilterPacket ( char *from )
  {
-   int i;
-   unsigned in;
+   q_int32_t i;
+   q_uint32_t in;
    byte m[4];
    char *p;
 
@@ -158,21 +158,21 @@
      i++, p++;
    }
 
-   in = * ( unsigned * ) m;
+   in = * ( q_uint32_t * ) m;
 
    for ( i = 0; i < numipfilters; i++ ) {
      if ( ( in & ipfilters[i].mask ) == ipfilters[i].compare ) {
-       return ( int ) filterban->value;
+       return ( q_int32_t ) filterban->value;
      }
    }
 
-   return ( int ) !filterban->value;
+   return ( q_int32_t ) !filterban->value;
  }
 
  void
  SVCmd_AddIP_f ( void )
  {
-   int i;
+   q_int32_t i;
 
    if ( gi.argc() < 3 ) {
      gi.cprintf ( NULL, PRINT_HIGH, "Usage:  addip <ip-mask>\n" );
@@ -203,7 +203,7 @@
  SVCmd_RemoveIP_f ( void )
  {
    ipfilter_t f;
-   int i, j;
+   q_int32_t i, j;
 
    if ( gi.argc() < 3 ) {
      gi.cprintf ( NULL, PRINT_HIGH, "Usage:  sv removeip <ip-mask>\n" );
@@ -233,13 +233,13 @@
  void
  SVCmd_ListIP_f ( void )
  {
-   int i;
+   q_int32_t i;
    byte b[4];
 
    gi.cprintf ( NULL, PRINT_HIGH, "Filter list:\n" );
 
    for ( i = 0; i < numipfilters; i++ ) {
-     * ( unsigned * ) b = ipfilters[i].compare;
+     * ( q_uint32_t * ) b = ipfilters[i].compare;
      gi.cprintf ( NULL, PRINT_HIGH, "%3i.%3i.%3i.%3i\n", b[0],
                   b[1], b[2], b[3] );
    }
@@ -251,7 +251,7 @@
    FILE *f;
    char name[MAX_OSPATH];
    byte b[4];
-   int i;
+   q_int32_t i;
    cvar_t *game;
 
    game = gi.cvar ( "game", "", 0 );
@@ -271,10 +271,10 @@
      return;
    }
 
-   fprintf ( f, "set filterban %d\n", ( int ) filterban->value );
+   fprintf ( f, "set filterban %d\n", ( q_int32_t ) filterban->value );
 
    for ( i = 0; i < numipfilters; i++ ) {
-     * ( unsigned * ) b = ipfilters[i].compare;
+     * ( q_uint32_t * ) b = ipfilters[i].compare;
      fprintf ( f, "sv addip %i.%i.%i.%i\n", b[0], b[1], b[2], b[3] );
    }
 

@@ -55,14 +55,14 @@
  SVC_Info ( void )
  {
    char string[64];
-   int i, count;
-   int version;
+   q_int32_t i, count;
+   q_int32_t version;
 
    if ( maxclients->value == 1 ) {
      return; /* ignore in single player */
    }
 
-   version = ( int ) strtol ( Cmd_Argv ( 1 ), ( char ** ) NULL, 10 );
+   version = ( q_int32_t ) strtol ( Cmd_Argv ( 1 ), ( char ** ) NULL, 10 );
 
    if ( version != PROTOCOL_VERSION ) {
      Com_sprintf ( string, sizeof ( string ), "%s: wrong version\n",
@@ -78,7 +78,7 @@
 
      Com_sprintf ( string, sizeof ( string ), "%16s %8s %2i/%2i\n",
                    hostname->string, sv.name, count,
-                   ( int ) maxclients->value );
+                   ( q_int32_t ) maxclients->value );
    }
 
    Netchan_OutOfBandPrint ( NS_SERVER, net_from, "info\n%s", string );
@@ -103,9 +103,9 @@
  void
  SVC_GetChallenge ( void )
  {
-   int i;
-   int oldest;
-   int oldestTime;
+   q_int32_t i;
+   q_int32_t oldest;
+   q_int32_t oldestTime;
    oldest = 0;
    oldestTime = 0x7fffffff;
 
@@ -142,17 +142,17 @@
  {
    char userinfo[MAX_INFO_STRING];
    netadr_t adr;
-   int i;
+   q_int32_t i;
    client_t *cl, *newcl;
    client_t temp;
    edict_t *ent;
-   int edictnum;
-   int version;
-   int qport;
-   int challenge;
+   q_int32_t edictnum;
+   q_int32_t version;
+   q_int32_t qport;
+   q_int32_t challenge;
    adr = net_from;
    Com_DPrintf ( "SVC_DirectConnect ()\n" );
-   version = ( int ) strtol ( Cmd_Argv ( 1 ), ( char ** ) NULL, 10 );
+   version = ( q_int32_t ) strtol ( Cmd_Argv ( 1 ), ( char ** ) NULL, 10 );
 
    if ( version != PROTOCOL_VERSION ) {
      Netchan_OutOfBandPrint ( NS_SERVER, adr,
@@ -161,8 +161,8 @@
      return;
    }
 
-   qport = ( int ) strtol ( Cmd_Argv ( 2 ), ( char ** ) NULL, 10 );
-   challenge = ( int ) strtol ( Cmd_Argv ( 3 ), ( char ** ) NULL, 10 );
+   qport = ( q_int32_t ) strtol ( Cmd_Argv ( 2 ), ( char ** ) NULL, 10 );
+   challenge = ( q_int32_t ) strtol ( Cmd_Argv ( 3 ), ( char ** ) NULL, 10 );
    strncpy ( userinfo, Cmd_Argv ( 4 ), sizeof ( userinfo ) - 1 );
    userinfo[sizeof ( userinfo ) - 1] = 0;
    /* force the IP key/value pair so the game can filter based on ip */
@@ -278,7 +278,7 @@
  }
 
  /* ========================================================================= */
- int
+ q_int32_t
  Rcon_Validate ( void )
  {
    if ( !strlen ( rcon_password->string ) ) {
@@ -300,7 +300,7 @@
  void
  SVC_RemoteCommand ( void )
  {
-   int i;
+   q_int32_t i;
    char remaining[1024];
    i = Rcon_Validate();
 

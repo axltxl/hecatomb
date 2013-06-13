@@ -47,7 +47,7 @@
 
    csurface_t *groundsurface;
    cplane_t groundplane;
-   int groundcontents;
+   q_int32_t groundcontents;
 
    vec3_t previous_origin;
    qboolean ladder;
@@ -77,7 +77,7 @@
  {
    float backoff;
    float change;
-   int i;
+   q_int32_t i;
    backoff = DotProduct ( in, normal ) * overbounce;
 
    for ( i = 0; i < 3; i++ ) {
@@ -100,13 +100,13 @@
  void
  PM_StepSlideMove_ ( void )
  {
-   int bumpcount, numbumps;
+   q_int32_t bumpcount, numbumps;
    vec3_t dir;
    float d;
-   int numplanes;
+   q_int32_t numplanes;
    vec3_t planes[MAX_CLIP_PLANES];
    vec3_t primal_velocity;
-   int i, j;
+   q_int32_t i, j;
    trace_t trace;
    vec3_t end;
    float time_left;
@@ -304,7 +304,7 @@
  void
  PM_Accelerate ( vec3_t wishdir, float wishspeed, float accel )
  {
-   int i;
+   q_int32_t i;
    float addspeed, accelspeed, currentspeed;
    currentspeed = DotProduct ( pml.velocity, wishdir );
    addspeed = wishspeed - currentspeed;
@@ -328,7 +328,7 @@
  void
  PM_AirAccelerate ( vec3_t wishdir, float wishspeed, float accel )
  {
-   int i;
+   q_int32_t i;
    float addspeed, accelspeed, currentspeed, wishspd = wishspeed;
 
    if ( wishspd > 30 ) {
@@ -461,7 +461,7 @@
  void
  PM_WaterMove ( void )
  {
-   int i;
+   q_int32_t i;
    vec3_t wishvel;
    float wishspeed;
    vec3_t wishdir;
@@ -496,7 +496,7 @@
  void
  PM_AirMove ( void )
  {
-   int i;
+   q_int32_t i;
    vec3_t wishvel;
    float fmove, smove;
    vec3_t wishdir;
@@ -576,7 +576,7 @@
  PM_CatagorizePosition ( void )
  {
    vec3_t point;
-   int cont;
+   q_int32_t cont;
    trace_t trace;
    float sample1;
    float sample2;
@@ -720,7 +720,7 @@
  PM_CheckSpecialMovement ( void )
  {
    vec3_t spot;
-   int cont;
+   q_int32_t cont;
    vec3_t flatforward;
    trace_t trace;
 
@@ -774,7 +774,7 @@
  {
    float speed, drop, friction, control, newspeed;
    float currentspeed, addspeed, accelspeed;
-   int i;
+   q_int32_t i;
    vec3_t wishvel;
    float fmove, smove;
    vec3_t wishdir;
@@ -929,7 +929,7 @@
  {
    trace_t trace;
    vec3_t origin, end;
-   int i;
+   q_int32_t i;
 
    if ( pm->s.pm_type == PM_SPECTATOR ) {
      return true;
@@ -950,15 +950,15 @@
  void
  PM_SnapPosition ( void )
  {
-   int sign[3];
-   int i, j, bits;
-   short base[3];
+   q_int32_t sign[3];
+   q_int32_t i, j, bits;
+   q_int16_t base[3];
    /* try all single bits first */
-   static int jitterbits[8] = {0, 4, 1, 2, 3, 5, 6, 7};
+   static q_int32_t jitterbits[8] = {0, 4, 1, 2, 3, 5, 6, 7};
 
    /* snap velocity to eigths */
    for ( i = 0; i < 3; i++ ) {
-     pm->s.velocity[i] = ( int ) ( pml.velocity[i] * 8 );
+     pm->s.velocity[i] = ( q_int32_t ) ( pml.velocity[i] * 8 );
    }
 
    for ( i = 0; i < 3; i++ ) {
@@ -968,7 +968,7 @@
        sign[i] = -1;
      }
 
-     pm->s.origin[i] = ( int ) ( pml.origin[i] * 8 );
+     pm->s.origin[i] = ( q_int32_t ) ( pml.origin[i] * 8 );
 
      if ( pm->s.origin[i] * 0.125f == pml.origin[i] ) {
        sign[i] = 0;
@@ -1001,9 +1001,9 @@
  void
  PM_InitialSnapPosition ( void )
  {
-   int x, y, z;
-   short base[3];
-   static int offset[3] = {0, -1, 1};
+   q_int32_t x, y, z;
+   q_int16_t base[3];
+   static q_int32_t offset[3] = {0, -1, 1};
    VectorCopy ( pm->s.origin, base );
 
    for ( z = 0; z < 3; z++ ) {
@@ -1033,8 +1033,8 @@
  void
  PM_ClampAngles ( void )
  {
-   short temp;
-   int i;
+   q_int16_t temp;
+   q_int32_t i;
 
    if ( pm->s.pm_flags & PMF_TIME_TELEPORT ) {
      pm->viewangles[YAW] = SHORT2ANGLE (
@@ -1066,7 +1066,7 @@
  Pmove ( pmove_t *pmove )
  {
  #if !defined(DEDICATED_ONLY) && defined(HT_WITH_OPENAL)
-   static int underwater;
+   static q_int32_t underwater;
  #endif
    pm = pmove;
    /* clear results */
@@ -1124,7 +1124,7 @@
 
    /* drop timing counter */
    if ( pm->s.pm_time ) {
-     int msec;
+     q_int32_t msec;
      msec = pm->cmd.msec >> 3;
 
      if ( !msec ) {

@@ -31,14 +31,14 @@
  void tank_doattack_rocket ( edict_t *self );
  void tank_reattack_blaster ( edict_t *self );
 
- static int sound_thud;
- static int sound_pain;
- static int sound_idle;
- static int sound_die;
- static int sound_step;
- static int sound_sight;
- static int sound_windup;
- static int sound_strike;
+ static q_int32_t sound_thud;
+ static q_int32_t sound_pain;
+ static q_int32_t sound_idle;
+ static q_int32_t sound_die;
+ static q_int32_t sound_step;
+ static q_int32_t sound_sight;
+ static q_int32_t sound_windup;
+ static q_int32_t sound_strike;
 
  void
  tank_sight ( edict_t *self, edict_t *other )
@@ -347,7 +347,7 @@
 
  void
  tank_pain ( edict_t *self, edict_t *other /* other */,
-             float kick /* other */, int damage )
+             float kick /* other */, q_int32_t damage )
  {
    if ( !self ) {
      return;
@@ -407,7 +407,7 @@
    vec3_t start;
    vec3_t end;
    vec3_t dir;
-   int flash_number;
+   q_int32_t flash_number;
 
    if ( !self ) {
      return;
@@ -445,7 +445,7 @@
    vec3_t start;
    vec3_t dir;
    vec3_t vec;
-   int flash_number;
+   q_int32_t flash_number;
 
    if ( !self ) {
      return;
@@ -478,7 +478,7 @@
    vec3_t vec;
    vec3_t start;
    vec3_t forward, right;
-   int flash_number;
+   q_int32_t flash_number;
 
    if ( !self ) {
      return;
@@ -917,10 +917,10 @@
 
  void
  tank_die ( edict_t *self, edict_t *inflictor /* unused */,
-            edict_t *attacker /* unused */, int damage,
+            edict_t *attacker /* unused */, q_int32_t damage,
             vec3_t point /* unused */ )
  {
-   int n;
+   q_int32_t n;
 
    if ( !self ) {
      return;

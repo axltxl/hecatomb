@@ -50,16 +50,16 @@
 
  /* Globals */
  cvar_t *s_sdldriver;
- int *snd_p;
+ q_int32_t *snd_p;
  static sound_t *backend;
  static portable_samplepair_t paintbuffer[SDL_PAINTBUFFER_SIZE];
- static int beginofs;
- static int playpos = 0;
- static int samplesize = 0;
- static int snd_inited = 0;
- static int snd_scaletable[32][256];
- static int snd_vol;
- static int soundtime;
+ static q_int32_t beginofs;
+ static q_int32_t playpos = 0;
+ static q_int32_t samplesize = 0;
+ static q_int32_t snd_inited = 0;
+ static q_int32_t snd_scaletable[32][256];
+ static q_int32_t snd_vol;
+ static q_int32_t soundtime;
 
  /*
   * Transfers a mixed "paint buffer" to
@@ -67,41 +67,41 @@
   * at the appropriate position.
   */
  void
- SDL_TransferPaintBuffer ( int endtime )
+ SDL_TransferPaintBuffer ( q_int32_t endtime )
  {
-   int i;
-   int lpos;
-   int ls_paintedtime;
-   int out_idx;
-   int count;
-   int out_mask;
-   int *p;
-   int snd_linear_count;
-   int step;
-   int val;
-   short *snd_out;
-   unsigned char *pbuf;
+   q_int32_t i;
+   q_int32_t lpos;
+   q_int32_t ls_paintedtime;
+   q_int32_t out_idx;
+   q_int32_t count;
+   q_int32_t out_mask;
+   q_int32_t *p;
+   q_int32_t snd_linear_count;
+   q_int32_t step;
+   q_int32_t val;
+   q_int16_t *snd_out;
+   q_uint8_t *pbuf;
    pbuf = sound.buffer;
 
    if ( s_testsound->value ) {
-     int i;
-     int count;
+     q_int32_t i;
+     q_int32_t count;
      /* write a fixed sine wave */
      count = ( endtime - paintedtime );
 
      for ( i = 0; i < count; i++ ) {
        paintbuffer[i].left = paintbuffer[i].right =
-                               ( int ) ( ( float ) sin ( ( paintedtime + i ) * 0.1f ) * 20000 * 256 );
+                               ( q_int32_t ) ( ( float ) sin ( ( paintedtime + i ) * 0.1f ) * 20000 * 256 );
      }
    }
 
    if ( ( sound.samplebits == 16 ) && ( sound.channels == 2 ) ) {
-     snd_p = ( int * ) paintbuffer;
+     snd_p = ( q_int32_t * ) paintbuffer;
      ls_paintedtime = paintedtime;
 
      while ( ls_paintedtime < endtime ) {
        lpos = ls_paintedtime & ( ( sound.samples >> 1 ) - 1 );
-       snd_out = ( short * ) pbuf + ( lpos << 1 );
+       snd_out = ( q_int16_t * ) pbuf + ( lpos << 1 );
        snd_linear_count = ( sound.samples >> 1 ) - lpos;
 
        if ( ls_paintedtime + snd_linear_count > endtime ) {
@@ -136,14 +136,14 @@
        ls_paintedtime += ( snd_linear_count >> 1 );
      }
    } else {
-     p = ( int * ) paintbuffer;
+     p = ( q_int32_t * ) paintbuffer;
      count = ( endtime - paintedtime ) * sound.channels;
      out_mask = sound.samples - 1;
      out_idx = paintedtime * sound.channels & out_mask;
      step = 3 - sound.channels;
 
      if ( sound.samplebits == 16 ) {
-       short *out = ( short * ) pbuf;
+       q_int16_t *out = ( q_int16_t * ) pbuf;
 
        while ( count-- ) {
          val = *p >> 8;
@@ -159,7 +159,7 @@
          out_idx = ( out_idx + 1 ) & out_mask;
        }
      } else if ( sound.samplebits == 8 ) {
-       unsigned char *out = ( unsigned char * ) pbuf;
+       q_uint8_t *out = ( q_uint8_t * ) pbuf;
 
        while ( count-- ) {
          val = *p >> 8;
@@ -182,12 +182,12 @@
   * Mixes an 8 bit sample into a channel.
   */
  void
- SDL_PaintChannelFrom8 ( channel_t *ch, sfxcache_t *sc, int count, int offset )
+ SDL_PaintChannelFrom8 ( channel_t *ch, sfxcache_t *sc, q_int32_t count, q_int32_t offset )
  {
-   int data;
-   int *lscale, *rscale;
-   unsigned char *sfx;
-   int i;
+   q_int32_t data;
+   q_int32_t *lscale, *rscale;
+   q_uint8_t *sfx;
+   q_int32_t i;
    portable_samplepair_t *samp;
 
    if ( ch->leftvol > 255 ) {
@@ -216,17 +216,17 @@
   * Mixes an 16 bit sample into a channel
   */
  void
- SDL_PaintChannelFrom16 ( channel_t *ch, sfxcache_t *sc, int count, int offset )
+ SDL_PaintChannelFrom16 ( channel_t *ch, sfxcache_t *sc, q_int32_t count, q_int32_t offset )
  {
-   int data;
-   int left, right;
-   int leftvol, rightvol;
-   signed short *sfx;
-   int i;
+   q_int32_t data;
+   q_int32_t left, right;
+   q_int32_t leftvol, rightvol;
+   q_int16_t *sfx;
+   q_int32_t i;
    portable_samplepair_t *samp;
    leftvol = ch->leftvol * snd_vol;
    rightvol = ch->rightvol * snd_vol;
-   sfx = ( signed short * ) sc->data + ch->pos;
+   sfx = ( q_int16_t * ) sc->data + ch->pos;
    samp = &paintbuffer[offset];
 
    for ( i = 0; i < count; i++, samp++ ) {
@@ -245,15 +245,15 @@
   * the available output channels.
   */
  void
- SDL_PaintChannels ( int endtime )
+ SDL_PaintChannels ( q_int32_t endtime )
  {
-   int i;
-   int end;
+   q_int32_t i;
+   q_int32_t end;
    channel_t *ch;
    sfxcache_t *sc;
-   int ltime, count;
+   q_int32_t ltime, count;
    playsound_t *ps;
-   snd_vol = ( int ) ( s_volume->value * 256 );
+   snd_vol = ( q_int32_t ) ( s_volume->value * 256 );
 
    while ( paintedtime < endtime ) {
      /* if paintbuffer is smaller than SDL buffer */
@@ -293,8 +293,8 @@
                 * sizeof ( portable_samplepair_t ) );
      } else {
        /* copy from the streaming sound source */
-       int s;
-       int stop;
+       q_int32_t s;
+       q_int32_t stop;
        stop = ( end < s_rawend ) ? end : s_rawend;
 
        for ( i = paintedtime; i < stop; i++ ) {
@@ -372,17 +372,17 @@
   * Calculates when a sound
   * must be started.
   */
- int
+ q_int32_t
  SDL_DriftBeginofs ( float timeofs )
  {
-   int start = ( int ) ( cl.frame.servertime * 0.001f * sound.speed + beginofs );
+   q_int32_t start = ( q_int32_t ) ( cl.frame.servertime * 0.001f * sound.speed + beginofs );
 
    if ( start < paintedtime ) {
      start = paintedtime;
-     beginofs = ( int ) ( start - ( cl.frame.servertime * 0.001f * sound.speed ) );
+     beginofs = ( q_int32_t ) ( start - ( cl.frame.servertime * 0.001f * sound.speed ) );
    } else if ( start > paintedtime + 0.3f * sound.speed ) {
-     start = ( int ) ( paintedtime + 0.1f * sound.speed );
-     beginofs = ( int ) ( start - ( cl.frame.servertime * 0.001f * sound.speed ) );
+     start = ( q_int32_t ) ( paintedtime + 0.1f * sound.speed );
+     beginofs = ( q_int32_t ) ( start - ( cl.frame.servertime * 0.001f * sound.speed ) );
    } else {
      beginofs -= 10;
    }
@@ -395,7 +395,7 @@
   */
  void
  SDL_SpatializeOrigin ( vec3_t origin, float master_vol, float dist_mult,
-                        int *left_vol, int *right_vol )
+                        q_int32_t *left_vol, q_int32_t *right_vol )
  {
    vec_t dot;
    vec_t dist;
@@ -429,14 +429,14 @@
 
    /* Add in distance effect */
    scale = ( 1.0f - dist ) * rscale;
-   *right_vol = ( int ) ( master_vol * scale );
+   *right_vol = ( q_int32_t ) ( master_vol * scale );
 
    if ( *right_vol < 0 ) {
      *right_vol = 0;
    }
 
    scale = ( 1.0 - dist ) * lscale;
-   *left_vol = ( int ) ( master_vol * scale );
+   *left_vol = ( q_int32_t ) ( master_vol * scale );
 
    if ( *left_vol < 0 ) {
      *left_vol = 0;
@@ -477,13 +477,13 @@
  void
  SDL_AddLoopSounds ( void )
  {
-   int i, j;
-   int sounds[MAX_EDICTS];
-   int left, right, left_total, right_total;
+   q_int32_t i, j;
+   q_int32_t sounds[MAX_EDICTS];
+   q_int32_t left, right, left_total, right_total;
    channel_t *ch;
    sfx_t *sfx;
    sfxcache_t *sc;
-   int num;
+   q_int32_t num;
    entity_state_t *ent;
    vec3_t origin;
 
@@ -499,7 +499,7 @@
      return;
    }
 
-   memset ( &sounds, 0, sizeof ( int ) * MAX_EDICTS );
+   memset ( &sounds, 0, sizeof ( q_int32_t ) * MAX_EDICTS );
    S_BuildSoundList ( sounds );
 
    for ( i = 0; i < cl.frame.num_entities; i++ ) {
@@ -585,9 +585,9 @@
  void
  SDL_ClearBuffer ( void )
  {
-   int clear;
-   int i;
-   unsigned char *ptr = sound.buffer;
+   q_int32_t clear;
+   q_int32_t i;
+   q_uint8_t *ptr = sound.buffer;
 
    if ( !sound_started ) {
      return;
@@ -622,9 +622,9 @@
  void
  SDL_UpdateSoundtime ( void )
  {
-   static int buffers;
-   static int oldsamplepos;
-   int fullsamples;
+   static q_int32_t buffers;
+   static q_int32_t oldsamplepos;
+   q_int32_t fullsamples;
    fullsamples = sound.samples / sound.channels;
 
    /* it is possible to miscount buffers if it has wrapped twice between
@@ -651,8 +651,8 @@
  void
  SDL_UpdateScaletable ( void )
  {
-   int i, j;
-   int scale;
+   q_int32_t i, j;
+   q_int32_t scale;
 
    if ( s_volume->value > 2.0f ) {
      Cvar_Set ( "s_volume", "2" );
@@ -663,7 +663,7 @@
    s_volume->modified = false;
 
    for ( i = 0; i < 32; i++ ) {
-     scale = ( int ) ( i * 8 * 256 * s_volume->value );
+     scale = ( q_int32_t ) ( i * 8 * 256 * s_volume->value );
 
      for ( j = 0; j < 256; j++ ) {
        snd_scaletable[i][j] = ( ( j < 128 ) ? j : j - 0xff ) * scale;
@@ -680,14 +680,14 @@
  SDL_Cache ( sfx_t *sfx, wavinfo_t *info, byte *data )
  {
    float stepscale;
-   int i;
-   int len;
-   int sample;
-   int srcsample;
+   q_int32_t i;
+   q_int32_t len;
+   q_int32_t sample;
+   q_int32_t srcsample;
    sfxcache_t *sc;
-   unsigned int samplefrac = 0;
+   q_uint32_t samplefrac = 0;
    stepscale = ( float ) info->rate / sound.speed;
-   len = ( int ) ( info->samples / stepscale );
+   len = ( q_int32_t ) ( info->samples / stepscale );
 
    if ( ( info->samples == 0 ) || ( len == 0 ) ) {
      Com_Printf ( "WARNING: Zero length sound encountered: %s\n", sfx->name );
@@ -703,10 +703,10 @@
 
    sc->loopstart = info->loopstart;
    sc->stereo = 0;
-   sc->length = ( int ) ( info->samples / stepscale );
+   sc->length = ( q_int32_t ) ( info->samples / stepscale );
    sc->speed = sound.speed;
 
-   if ( ( int ) ( info->samples / stepscale ) == 0 ) {
+   if ( ( q_int32_t ) ( info->samples / stepscale ) == 0 ) {
      Com_Printf ( "ResampleSfx: Invalid sound file '%s' (zero length)\n", sfx->name );
      Z_Free ( sfx->cache );
      sfx->cache = NULL;
@@ -714,7 +714,7 @@
    }
 
    if ( sc->loopstart != -1 ) {
-     sc->loopstart = ( int ) ( sc->loopstart / stepscale );
+     sc->loopstart = ( q_int32_t ) ( sc->loopstart / stepscale );
    }
 
    if ( s_loadas8bit->value ) {
@@ -724,20 +724,20 @@
    }
 
    /* resample / decimate to the current source rate */
-   for ( i = 0; i < ( int ) ( info->samples / stepscale ); i++ ) {
+   for ( i = 0; i < ( q_int32_t ) ( info->samples / stepscale ); i++ ) {
      srcsample = samplefrac >> 8;
-     samplefrac += ( int ) ( stepscale * 256 );
+     samplefrac += ( q_int32_t ) ( stepscale * 256 );
 
      if ( info->width == 2 ) {
-       sample = LittleShort ( ( ( short * ) data ) [srcsample] );
+       sample = LittleShort ( ( ( q_int16_t * ) data ) [srcsample] );
      } else {
-       sample = ( int ) ( ( unsigned char ) ( data[srcsample] ) - 128 ) << 8;
+       sample = ( q_int32_t ) ( ( q_uint8_t ) ( data[srcsample] ) - 128 ) << 8;
      }
 
      if ( sc->width == 2 ) {
-       ( ( short * ) sc->data ) [i] = sample;
+       ( ( q_int16_t * ) sc->data ) [i] = sample;
      } else {
-       ( ( signed char * ) sc->data ) [i] = sample >> 8;
+       ( ( q_int8_t * ) sc->data ) [i] = sample >> 8;
      }
    }
 
@@ -750,20 +750,20 @@
   * and cinematic playback.
   */
  void
- SDL_RawSamples ( int samples, int rate, int width,
-                  int channels, byte *data, float volume )
+ SDL_RawSamples ( q_int32_t samples, q_int32_t rate, q_int32_t width,
+                  q_int32_t channels, byte *data, float volume )
  {
    float scale;
-   int dst;
-   int i;
-   int src;
-   int intVolume;
+   q_int32_t dst;
+   q_int32_t i;
+   q_int32_t src;
+   q_int32_t intVolume;
    scale = ( float ) rate / sound.speed;
-   intVolume = ( int ) ( 256 * volume );
+   intVolume = ( q_int32_t ) ( 256 * volume );
 
    if ( ( channels == 2 ) && ( width == 2 ) ) {
      for ( i = 0; ; i++ ) {
-       src = ( int ) ( i * scale );
+       src = ( q_int32_t ) ( i * scale );
 
        if ( src >= samples ) {
          break;
@@ -771,12 +771,12 @@
 
        dst = s_rawend & ( MAX_RAW_SAMPLES - 1 );
        s_rawend++;
-       s_rawsamples[dst].left = ( ( short * ) data ) [src * 2] * intVolume;
-       s_rawsamples[dst].right = ( ( short * ) data ) [src * 2 + 1] * intVolume;
+       s_rawsamples[dst].left = ( ( q_int16_t * ) data ) [src * 2] * intVolume;
+       s_rawsamples[dst].right = ( ( q_int16_t * ) data ) [src * 2 + 1] * intVolume;
      }
    } else if ( ( channels == 1 ) && ( width == 2 ) ) {
      for ( i = 0; ; i++ ) {
-       src = ( int ) ( i * scale );
+       src = ( q_int32_t ) ( i * scale );
 
        if ( src >= samples ) {
          break;
@@ -784,14 +784,14 @@
 
        dst = s_rawend & ( MAX_RAW_SAMPLES - 1 );
        s_rawend++;
-       s_rawsamples[dst].left = ( ( short * ) data ) [src] * intVolume;
-       s_rawsamples[dst].right = ( ( short * ) data ) [src] * intVolume;
+       s_rawsamples[dst].left = ( ( q_int16_t * ) data ) [src] * intVolume;
+       s_rawsamples[dst].right = ( ( q_int16_t * ) data ) [src] * intVolume;
      }
    } else if ( ( channels == 2 ) && ( width == 1 ) ) {
      intVolume *= 256;
 
      for ( i = 0; ; i++ ) {
-       src = ( int ) ( i * scale );
+       src = ( q_int32_t ) ( i * scale );
 
        if ( src >= samples ) {
          break;
@@ -808,7 +808,7 @@
      intVolume *= 256;
 
      for ( i = 0; ; i++ ) {
-       src = ( int ) ( i * scale );
+       src = ( q_int32_t ) ( i * scale );
 
        if ( src >= samples ) {
          break;
@@ -831,10 +831,10 @@
  SDL_Update ( void )
  {
    channel_t *ch;
-   int i;
-   int samps;
-   int total;
-   unsigned int endtime;
+   q_int32_t i;
+   q_int32_t samps;
+   q_int32_t total;
+   q_uint32_t endtime;
 
    /* if the loading plaque is up, clear everything
       out to make sure we aren't looping a dirty
@@ -919,7 +919,7 @@
    }
 
    /* mix ahead of current position */
-   endtime = ( int ) ( soundtime + s_mixahead->value * sound.speed );
+   endtime = ( q_int32_t ) ( soundtime + s_mixahead->value * sound.speed );
    /* mix to an even submission block size */
    endtime = ( endtime + sound.submission_chunk - 1 ) & ~ ( sound.submission_chunk - 1 );
    samps = sound.samples >> ( sound.channels - 1 );
@@ -955,11 +955,11 @@
   * sound data to SDL when requested.
   */
  static void
- SDL_Callback ( void *data, Uint8 *stream, int length )
+ SDL_Callback ( void *data, Uint8 *stream, q_int32_t length )
  {
-   int length1;
-   int length2;
-   int pos = ( playpos * ( backend->samplebits / 8 ) );
+   q_int32_t length1;
+   q_int32_t length2;
+   q_int32_t pos = ( playpos * ( backend->samplebits / 8 ) );
 
    if ( pos >= samplesize ) {
      playpos = pos = 0;
@@ -971,7 +971,7 @@
      return;
    }
 
-   int tobufferend = samplesize - pos;
+   q_int32_t tobufferend = samplesize - pos;
 
    if ( length > tobufferend ) {
      length1 = tobufferend;
@@ -1007,7 +1007,7 @@
    char reqdriver[128];
    SDL_AudioSpec desired;
    SDL_AudioSpec obtained;
-   int tmp, val;
+   q_int32_t tmp, val;
 
    /* This should never happen,
       but this is Quake 2 ... */
@@ -1015,9 +1015,9 @@
      return 1;
    }
 
-   int sndbits = ( Cvar_Get ( "sndbits", "16", CVAR_ARCHIVE ) )->value;
-   int sndfreq = ( Cvar_Get ( "s_khz", "44", CVAR_ARCHIVE ) )->value;
-   int sndchans = ( Cvar_Get ( "sndchannels", "2", CVAR_ARCHIVE ) )->value;
+   q_int32_t sndbits = ( Cvar_Get ( "sndbits", "16", CVAR_ARCHIVE ) )->value;
+   q_int32_t sndfreq = ( Cvar_Get ( "s_khz", "44", CVAR_ARCHIVE ) )->value;
+   q_int32_t sndchans = ( Cvar_Get ( "sndchannels", "2", CVAR_ARCHIVE ) )->value;
  #ifdef _WIN32
    s_sdldriver = ( Cvar_Get ( "s_sdldriver", "dsound", CVAR_ARCHIVE ) );
  #elif __linux__

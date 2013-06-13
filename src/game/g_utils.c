@@ -48,7 +48,7 @@
   * if the end of the list is reached.
   */
  edict_t *
- G_Find ( edict_t *from, int fieldofs, char *match )
+ G_Find ( edict_t *from, q_int32_t fieldofs, char *match )
  {
    char *s;
 
@@ -89,7 +89,7 @@
  findradius ( edict_t *from, vec3_t org, float rad )
  {
    vec3_t eorg;
-   int j;
+   q_int32_t j;
 
    if ( !from ) {
      from = g_edicts;
@@ -135,7 +135,7 @@
  G_PickTarget ( char *targetname )
  {
    edict_t *ent = NULL;
-   int num_choices = 0;
+   q_int32_t num_choices = 0;
    edict_t *choice[MAXCHOICES];
 
    if ( !targetname ) {
@@ -291,7 +291,7 @@
  float *
  tv ( float x, float y, float z )
  {
-   static int index;
+   static q_int32_t index;
    static vec3_t vecs[8];
    float *v;
 
@@ -315,7 +315,7 @@
  char *
  vtos ( vec3_t v )
  {
-   static int index;
+   static q_int32_t index;
    static char str[8][32];
    char *s;
 
@@ -323,7 +323,7 @@
    s = str[index];
    index = ( index + 1 ) & 7;
 
-   Com_sprintf ( s, 32, "(%i %i %i)", ( int ) v[0], ( int ) v[1], ( int ) v[2] );
+   Com_sprintf ( s, 32, "(%i %i %i)", ( q_int32_t ) v[0], ( q_int32_t ) v[1], ( q_int32_t ) v[2] );
 
    return s;
  }
@@ -361,7 +361,7 @@
        yaw = -90;
      }
    } else {
-     yaw = ( int ) ( atan2 ( vec[YAW], vec[PITCH] ) * 180 / M_PI );
+     yaw = ( q_int32_t ) ( atan2 ( vec[YAW], vec[PITCH] ) * 180 / M_PI );
 
      if ( yaw < 0 ) {
        yaw += 360;
@@ -387,7 +387,7 @@
      }
    } else {
      if ( value1[0] ) {
-       yaw = ( int ) ( atan2 ( value1[1], value1[0] ) * 180 / M_PI );
+       yaw = ( q_int32_t ) ( atan2 ( value1[1], value1[0] ) * 180 / M_PI );
      } else if ( value1[1] > 0 ) {
        yaw = 90;
      } else {
@@ -399,7 +399,7 @@
      }
 
      forward = sqrt ( value1[0] * value1[0] + value1[1] * value1[1] );
-     pitch = ( int ) ( atan2 ( value1[2], forward ) * 180 / M_PI );
+     pitch = ( q_int32_t ) ( atan2 ( value1[2], forward ) * 180 / M_PI );
 
      if ( pitch < 0 ) {
        pitch += 360;
@@ -442,10 +442,10 @@
  edict_t *
  G_Spawn ( void )
  {
-   int i;
+   q_int32_t i;
    edict_t *e;
 
-   e = &g_edicts[ ( int ) maxclients->value + 1];
+   e = &g_edicts[ ( q_int32_t ) maxclients->value + 1];
 
    for ( i = maxclients->value + 1; i < globals.num_edicts; i++, e++ ) {
      /* the first couple seconds of
@@ -494,7 +494,7 @@
  void
  G_TouchTriggers ( edict_t *ent )
  {
-   int i, num;
+   q_int32_t i, num;
    edict_t *touch[MAX_EDICTS], *hit;
 
    if ( !ent ) {
@@ -535,7 +535,7 @@
  void
  G_TouchSolids ( edict_t *ent )
  {
-   int i, num;
+   q_int32_t i, num;
    edict_t *touch[MAX_EDICTS], *hit;
 
    if ( !ent ) {

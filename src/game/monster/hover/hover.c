@@ -29,13 +29,13 @@
 
  qboolean visible ( edict_t *self, edict_t *other );
 
- static int sound_pain1;
- static int sound_pain2;
- static int sound_death1;
- static int sound_death2;
- static int sound_sight;
- static int sound_search1;
- static int sound_search2;
+ static q_int32_t sound_pain1;
+ static q_int32_t sound_pain2;
+ static q_int32_t sound_death1;
+ static q_int32_t sound_death2;
+ static q_int32_t sound_sight;
+ static q_int32_t sound_search1;
+ static q_int32_t sound_search2;
 
  void
  hover_sight ( edict_t *self, edict_t *other /* unused */ )
@@ -65,7 +65,7 @@
  void hover_reattack ( edict_t *self );
  void hover_fire_blaster ( edict_t *self );
  void hover_die ( edict_t *self, edict_t *inflictor, edict_t *attacker,
-                  int damage, vec3_t point );
+                  q_int32_t damage, vec3_t point );
 
  mframe_t hover_frames_stand[] = {
    {ai_stand, 0, NULL},
@@ -528,7 +528,7 @@
    vec3_t forward, right;
    vec3_t end;
    vec3_t dir;
-   int effect;
+   q_int32_t effect;
 
    if ( !self ) {
      return;
@@ -607,7 +607,7 @@
 
  void
  hover_pain ( edict_t *self, edict_t *other /* unused */,
-              float kick /* unused */, int damage )
+              float kick /* unused */, q_int32_t damage )
  {
    if ( !self ) {
      return;
@@ -674,10 +674,10 @@
 
  void
  hover_die ( edict_t *self, edict_t *inflictor /* unused */,
-             edict_t *attacker /* unused */, int damage,
+             edict_t *attacker /* unused */, q_int32_t damage,
              vec3_t point /* unused */ )
  {
-   int n;
+   q_int32_t n;
 
    if ( !self ) {
      return;

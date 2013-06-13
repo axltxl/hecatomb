@@ -193,7 +193,7 @@
 
  /* ========================================================================= */
  void
- MSG_WriteChar ( sizebuf_t *sb, int c )
+ MSG_WriteChar ( sizebuf_t *sb, q_int32_t c )
  {
    byte *buf;
    buf = SZ_GetSpace ( sb, 1 );
@@ -202,7 +202,7 @@
 
  /* ========================================================================= */
  void
- MSG_WriteByte ( sizebuf_t *sb, int c )
+ MSG_WriteByte ( sizebuf_t *sb, q_int32_t c )
  {
    byte *buf;
    buf = SZ_GetSpace ( sb, 1 );
@@ -211,7 +211,7 @@
 
  /* ========================================================================= */
  void
- MSG_WriteShort ( sizebuf_t *sb, int c )
+ MSG_WriteShort ( sizebuf_t *sb, q_int32_t c )
  {
    byte *buf;
    buf = SZ_GetSpace ( sb, 2 );
@@ -221,7 +221,7 @@
 
  /* ========================================================================= */
  void
- MSG_WriteLong ( sizebuf_t *sb, int c )
+ MSG_WriteLong ( sizebuf_t *sb, q_int32_t c )
  {
    byte *buf;
    buf = SZ_GetSpace ( sb, 4 );
@@ -237,7 +237,7 @@
  {
    union {
      float f;
-     int l;
+     q_int32_t l;
    } dat;
    dat.f = f;
    dat.l = LittleLong ( dat.l );
@@ -251,7 +251,7 @@
    if ( !s ) {
      SZ_Write ( sb, "", 1 );
    } else {
-     SZ_Write ( sb, s, ( int ) strlen ( s ) + 1 );
+     SZ_Write ( sb, s, ( q_int32_t ) strlen ( s ) + 1 );
    }
  }
 
@@ -259,23 +259,23 @@
  void
  MSG_WriteCoord ( sizebuf_t *sb, float f )
  {
-   MSG_WriteShort ( sb, ( int ) ( f * 8 ) );
+   MSG_WriteShort ( sb, ( q_int32_t ) ( f * 8 ) );
  }
 
  /* ========================================================================= */
  void
  MSG_WritePos ( sizebuf_t *sb, vec3_t pos )
  {
-   MSG_WriteShort ( sb, ( int ) ( pos[0] * 8 ) );
-   MSG_WriteShort ( sb, ( int ) ( pos[1] * 8 ) );
-   MSG_WriteShort ( sb, ( int ) ( pos[2] * 8 ) );
+   MSG_WriteShort ( sb, ( q_int32_t ) ( pos[0] * 8 ) );
+   MSG_WriteShort ( sb, ( q_int32_t ) ( pos[1] * 8 ) );
+   MSG_WriteShort ( sb, ( q_int32_t ) ( pos[2] * 8 ) );
  }
 
  /* ========================================================================= */
  void
  MSG_WriteAngle ( sizebuf_t *sb, float f )
  {
-   MSG_WriteByte ( sb, ( int ) ( f * 256 / 360 ) & 255 );
+   MSG_WriteByte ( sb, ( q_int32_t ) ( f * 256 / 360 ) & 255 );
  }
 
  /* ========================================================================= */
@@ -289,7 +289,7 @@
  void
  MSG_WriteDeltaUsercmd ( sizebuf_t *buf, usercmd_t *from, usercmd_t *cmd )
  {
-   int bits;
+   q_int32_t bits;
    /* Movement messages */
    bits = 0;
 
@@ -367,7 +367,7 @@
  void
  MSG_WriteDir ( sizebuf_t *sb, vec3_t dir )
  {
-   int i, best;
+   q_int32_t i, best;
    float d, bestd;
 
    if ( !dir ) {
@@ -394,7 +394,7 @@
  void
  MSG_ReadDir ( sizebuf_t *sb, vec3_t dir )
  {
-   int b;
+   q_int32_t b;
    b = MSG_ReadByte ( sb );
 
    if ( b >= NUMVERTEXNORMALS ) {
@@ -415,7 +415,7 @@
                         qboolean force,
                         qboolean newentity )
  {
-   int bits;
+   q_int32_t bits;
 
    if ( !to->number ) {
      Com_Error ( ERR_FATAL, "Unset entity number" );
@@ -457,9 +457,9 @@
    }
 
    if ( to->skinnum != from->skinnum ) {
-     if ( ( unsigned ) to->skinnum < 256 ) {
+     if ( ( q_uint32_t ) to->skinnum < 256 ) {
        bits |= U_SKIN8;
-     } else if ( ( unsigned ) to->skinnum < 0x10000 ) {
+     } else if ( ( q_uint32_t ) to->skinnum < 0x10000 ) {
        bits |= U_SKIN16;
      } else {
        bits |= ( U_SKIN8 | U_SKIN16 );
@@ -658,15 +658,15 @@
  }
 
  /* ========================================================================= */
- int
+ q_int32_t
  MSG_ReadChar ( sizebuf_t *msg_read )
  {
-   int c;
+   q_int32_t c;
 
    if ( msg_read->readcount + 1 > msg_read->cursize ) {
      c = -1;
    } else {
-     c = ( signed char ) msg_read->data[msg_read->readcount];
+     c = ( q_int8_t ) msg_read->data[msg_read->readcount];
    }
 
    msg_read->readcount++;
@@ -674,15 +674,15 @@
  }
 
  /* ========================================================================= */
- int
+ q_int32_t
  MSG_ReadByte ( sizebuf_t *msg_read )
  {
-   int c;
+   q_int32_t c;
 
    if ( msg_read->readcount + 1 > msg_read->cursize ) {
      c = -1;
    } else {
-     c = ( unsigned char ) msg_read->data[msg_read->readcount];
+     c = ( q_uint8_t ) msg_read->data[msg_read->readcount];
    }
 
    msg_read->readcount++;
@@ -690,15 +690,15 @@
  }
 
  /* ========================================================================= */
- int
+ q_int32_t
  MSG_ReadShort ( sizebuf_t *msg_read )
  {
-   int c;
+   q_int32_t c;
 
    if ( msg_read->readcount + 2 > msg_read->cursize ) {
      c = -1;
    } else {
-     c = ( short ) ( msg_read->data[msg_read->readcount]
+     c = ( q_int16_t ) ( msg_read->data[msg_read->readcount]
                      + ( msg_read->data[msg_read->readcount + 1] << 8 ) );
    }
 
@@ -707,10 +707,10 @@
  }
 
  /* ========================================================================= */
- int
+ q_int32_t
  MSG_ReadLong ( sizebuf_t *msg_read )
  {
-   int c;
+   q_int32_t c;
 
    if ( msg_read->readcount + 4 > msg_read->cursize ) {
      c = -1;
@@ -732,7 +732,7 @@
    union {
      byte b[4];
      float f;
-     int l;
+     q_int32_t l;
    } dat;
 
    if ( msg_read->readcount + 4 > msg_read->cursize ) {
@@ -754,7 +754,7 @@
  MSG_ReadString ( sizebuf_t *msg_read )
  {
    static char string[2048];
-   int l, c;
+   q_int32_t l, c;
    l = 0;
 
    do {
@@ -777,7 +777,7 @@
  MSG_ReadStringLine ( sizebuf_t *msg_read )
  {
    static char string[2048];
-   int l, c;
+   q_int32_t l, c;
    l = 0;
 
    do {
@@ -829,7 +829,7 @@
  void
  MSG_ReadDeltaUsercmd ( sizebuf_t *msg_read, usercmd_t *from, usercmd_t *move )
  {
-   int bits;
+   q_int32_t bits;
    memcpy ( move, from, sizeof ( *move ) );
    bits = MSG_ReadByte ( msg_read );
 
@@ -877,9 +877,9 @@
 
  /* ========================================================================= */
  void
- MSG_ReadData ( sizebuf_t *msg_read, void *data, int len )
+ MSG_ReadData ( sizebuf_t *msg_read, void *data, q_int32_t len )
  {
-   int i;
+   q_int32_t i;
 
    for ( i = 0; i < len; i++ ) {
      ( ( byte * ) data ) [i] = MSG_ReadByte ( msg_read );

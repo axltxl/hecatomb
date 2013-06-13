@@ -29,14 +29,14 @@
 
  #define FLIPPER_RUN_SPEED 24
 
- static int sound_chomp;
- static int sound_attack;
- static int sound_pain1;
- static int sound_pain2;
- static int sound_death;
- static int sound_idle;
- static int sound_search;
- static int sound_sight;
+ static q_int32_t sound_chomp;
+ static q_int32_t sound_attack;
+ static q_int32_t sound_pain1;
+ static q_int32_t sound_pain2;
+ static q_int32_t sound_death;
+ static q_int32_t sound_idle;
+ static q_int32_t sound_search;
+ static q_int32_t sound_sight;
 
  void flipper_stand ( edict_t *self );
 
@@ -297,9 +297,9 @@
 
  void
  flipper_pain ( edict_t *self, edict_t *other /* unused */,
-                float kick /* unused */, int damage )
+                float kick /* unused */, q_int32_t damage )
  {
-   int n;
+   q_int32_t n;
 
    if ( !self ) {
      return;
@@ -428,9 +428,9 @@
 
  void
  flipper_die ( edict_t *self, edict_t *inflictor /* unused */, edict_t *attacker /* unused */,
-               int damage, vec3_t point /* unused */ )
+               q_int32_t damage, vec3_t point /* unused */ )
  {
-   int n;
+   q_int32_t n;
 
    if ( !self ) {
      return;

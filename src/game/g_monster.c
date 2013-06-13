@@ -31,8 +31,8 @@
  /* Monster weapons */
 
  void
- monster_fire_bullet ( edict_t *self, vec3_t start, vec3_t dir, int damage,
-                       int kick, int hspread, int vspread, int flashtype )
+ monster_fire_bullet ( edict_t *self, vec3_t start, vec3_t dir, q_int32_t damage,
+                       q_int32_t kick, q_int32_t hspread, q_int32_t vspread, q_int32_t flashtype )
  {
    if ( !self ) {
      return;
@@ -47,8 +47,8 @@
  }
 
  void
- monster_fire_shotgun ( edict_t *self, vec3_t start, vec3_t aimdir, int damage,
-                        int kick, int hspread, int vspread, int count, int flashtype )
+ monster_fire_shotgun ( edict_t *self, vec3_t start, vec3_t aimdir, q_int32_t damage,
+                        q_int32_t kick, q_int32_t hspread, q_int32_t vspread, q_int32_t count, q_int32_t flashtype )
  {
    if ( !self ) {
      return;
@@ -64,8 +64,8 @@
  }
 
  void
- monster_fire_blaster ( edict_t *self, vec3_t start, vec3_t dir, int damage,
-                        int speed, int flashtype, int effect )
+ monster_fire_blaster ( edict_t *self, vec3_t start, vec3_t dir, q_int32_t damage,
+                        q_int32_t speed, q_int32_t flashtype, q_int32_t effect )
  {
    if ( !self ) {
      return;
@@ -81,7 +81,7 @@
 
  void
  monster_fire_grenade ( edict_t *self, vec3_t start, vec3_t aimdir,
-                        int damage, int speed, int flashtype )
+                        q_int32_t damage, q_int32_t speed, q_int32_t flashtype )
  {
    if ( !self ) {
      return;
@@ -97,7 +97,7 @@
 
  void
  monster_fire_rocket ( edict_t *self, vec3_t start, vec3_t dir,
-                       int damage, int speed, int flashtype )
+                       q_int32_t damage, q_int32_t speed, q_int32_t flashtype )
  {
    if ( !self ) {
      return;
@@ -113,7 +113,7 @@
 
  void
  monster_fire_railgun ( edict_t *self, vec3_t start, vec3_t aimdir,
-                        int damage, int kick, int flashtype )
+                        q_int32_t damage, q_int32_t kick, q_int32_t flashtype )
  {
    if ( !self ) {
      return;
@@ -129,8 +129,8 @@
 
  void
  monster_fire_bfg ( edict_t *self, vec3_t start, vec3_t aimdir,
-                    int damage, int speed, int kick /* unused */, float damage_radius,
-                    int flashtype )
+                    q_int32_t damage, q_int32_t speed, q_int32_t kick /* unused */, float damage_radius,
+                    q_int32_t flashtype )
  {
    if ( !self ) {
      return;
@@ -256,7 +256,7 @@
  M_CatagorizePosition ( edict_t *ent )
  {
    vec3_t point;
-   int cont;
+   q_int32_t cont;
 
    if ( !ent ) {
      return;
@@ -295,7 +295,7 @@
  void
  M_WorldEffects ( edict_t *ent )
  {
-   int dmg;
+   q_int32_t dmg;
 
    if ( !ent ) {
      return;
@@ -450,7 +450,7 @@
  M_MoveFrame ( edict_t *self )
  {
    mmove_t *move;
-   int index;
+   q_int32_t index;
 
    if ( !self ) {
      return;
@@ -768,10 +768,10 @@
                                  self->combattarget ) ) != NULL ) {
        if ( strcmp ( target->classname, "point_combat" ) != 0 ) {
          gi.dprintf ( "%s at (%i %i %i) has a bad combattarget %s : %s at (%i %i %i)\n",
-                      self->classname, ( int ) self->s.origin[0], ( int ) self->s.origin[1],
-                      ( int ) self->s.origin[2], self->combattarget, target->classname,
-                      ( int ) target->s.origin[0], ( int ) target->s.origin[1],
-                      ( int ) target->s.origin[2] );
+                      self->classname, ( q_int32_t ) self->s.origin[0], ( q_int32_t ) self->s.origin[1],
+                      ( q_int32_t ) self->s.origin[2], self->combattarget, target->classname,
+                      ( q_int32_t ) target->s.origin[0], ( q_int32_t ) target->s.origin[1],
+                      ( q_int32_t ) target->s.origin[2] );
        }
      }
    }

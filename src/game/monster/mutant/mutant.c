@@ -27,24 +27,24 @@
  #include "game/local.h"
  #include "game/monster/mutant/mutant.h"
 
- static int sound_swing;
- static int sound_hit;
- static int sound_hit2;
- static int sound_death;
- static int sound_idle;
- static int sound_pain1;
- static int sound_pain2;
- static int sound_sight;
- static int sound_search;
- static int sound_step1;
- static int sound_step2;
- static int sound_step3;
- static int sound_thud;
+ static q_int32_t sound_swing;
+ static q_int32_t sound_hit;
+ static q_int32_t sound_hit2;
+ static q_int32_t sound_death;
+ static q_int32_t sound_idle;
+ static q_int32_t sound_pain1;
+ static q_int32_t sound_pain2;
+ static q_int32_t sound_sight;
+ static q_int32_t sound_search;
+ static q_int32_t sound_step1;
+ static q_int32_t sound_step2;
+ static q_int32_t sound_step3;
+ static q_int32_t sound_thud;
 
  void
  mutant_step ( edict_t *self )
  {
-   int n;
+   q_int32_t n;
 
    if ( !self ) {
      return;
@@ -393,7 +393,7 @@
      if ( VectorLength ( self->velocity ) > 400 ) {
        vec3_t point;
        vec3_t normal;
-       int damage;
+       q_int32_t damage;
 
        VectorCopy ( self->velocity, normal );
        VectorNormalize ( normal );
@@ -613,7 +613,7 @@
 
  void
  mutant_pain ( edict_t *self, edict_t *other /* unused */,
-               float kick /* unused */, int damage /* unused */ )
+               float kick /* unused */, q_int32_t damage /* unused */ )
  {
    float r;
 
@@ -702,10 +702,10 @@
 
  void
  mutant_die ( edict_t *self, edict_t *inflictor /* unused */,
-              edict_t *attacker /* unused */, int damage,
+              edict_t *attacker /* unused */, q_int32_t damage,
               vec3_t point /* unused */ )
  {
-   int n;
+   q_int32_t n;
 
    if ( !self ) {
      return;

@@ -42,18 +42,18 @@
  };
 
  typedef struct _TargaHeader {
-   unsigned char id_length, colormap_type, image_type;
-   unsigned short colormap_index, colormap_length;
-   unsigned char colormap_size;
-   unsigned short x_origin, y_origin, width, height;
-   unsigned char pixel_size, attributes;
+   q_uint8_t id_length, colormap_type, image_type;
+   q_uint16_t colormap_index, colormap_length;
+   q_uint8_t colormap_size;
+   q_uint16_t x_origin, y_origin, width, height;
+   q_uint8_t pixel_size, attributes;
  } TargaHeader;
 
  /* ================================================================ */
  void
  R_InitParticleTexture ( void )
  {
-   int x, y;
+   q_int32_t x, y;
    byte data[8][8][4];
 
    /* particle texture */
@@ -90,7 +90,7 @@
    byte *buffer;
    char picname[80];
    char checkname[MAX_OSPATH];
-   int i, c, temp;
+   q_int32_t i, c, temp;
    FILE *f;
    /* create the scrnshots directory if it doesn't exist */
    Com_sprintf ( checkname, sizeof ( checkname ), "%s/scrnshot", FS_Gamedir() );

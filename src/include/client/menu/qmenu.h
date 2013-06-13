@@ -43,11 +43,11 @@
  #define QMF_NUMBERSONLY 0x00000004
 
  typedef struct _tag_menuframework {
-   int x, y;
-   int cursor;
+   q_int32_t x, y;
+   q_int32_t cursor;
 
-   int nitems;
-   int nslots;
+   q_int32_t nitems;
+   q_int32_t nslots;
    void *items[64];
 
    const char *statusbar;
@@ -56,13 +56,13 @@
  } menuframework_s;
 
  typedef struct {
-   int type;
+   q_int32_t type;
    const char *name;
-   int x, y;
+   q_int32_t x, y;
    menuframework_s *parent;
-   int cursor_offset;
-   int localdata[4];
-   unsigned flags;
+   q_int32_t cursor_offset;
+   q_int32_t localdata[4];
+   q_uint32_t flags;
 
    const char *statusbar;
 
@@ -76,10 +76,10 @@
    menucommon_s generic;
 
    char buffer[80];
-   int cursor;
-   int length;
-   int visible_length;
-   int visible_offset;
+   q_int32_t cursor;
+   q_int32_t length;
+   q_int32_t visible_length;
+   q_int32_t visible_offset;
  } menufield_s;
 
  typedef struct {
@@ -95,7 +95,7 @@
  typedef struct {
    menucommon_s generic;
 
-   int curvalue;
+   q_int32_t curvalue;
 
    const char **itemnames;
  } menulist_s;
@@ -108,21 +108,21 @@
    menucommon_s generic;
  } menuseparator_s;
 
- qboolean Field_Key ( menufield_s *field, int key );
+ qboolean Field_Key ( menufield_s *field, q_int32_t key );
 
  void Menu_AddItem ( menuframework_s *menu, void *item );
- void Menu_AdjustCursor ( menuframework_s *menu, int dir );
+ void Menu_AdjustCursor ( menuframework_s *menu, q_int32_t dir );
  void Menu_Center ( menuframework_s *menu );
  void Menu_Draw ( menuframework_s *menu );
  void *Menu_ItemAtCursor ( menuframework_s *m );
  qboolean Menu_SelectItem ( menuframework_s *s );
  void Menu_SetStatusBar ( menuframework_s *s, const char *string );
- void Menu_SlideItem ( menuframework_s *s, int dir );
- int Menu_TallySlots ( menuframework_s *menu );
+ void Menu_SlideItem ( menuframework_s *s, q_int32_t dir );
+ q_int32_t Menu_TallySlots ( menuframework_s *menu );
 
- void Menu_DrawString ( int, int, const char * );
- void Menu_DrawStringDark ( int, int, const char * );
- void Menu_DrawStringR2L ( int, int, const char * );
- void Menu_DrawStringR2LDark ( int, int, const char * );
+ void Menu_DrawString ( q_int32_t, q_int32_t, const char * );
+ void Menu_DrawStringDark ( q_int32_t, q_int32_t, const char * );
+ void Menu_DrawStringR2L ( q_int32_t, q_int32_t, const char * );
+ void Menu_DrawStringR2LDark ( q_int32_t, q_int32_t, const char * );
 
  #endif /* CL_MENU_QMENU_H */

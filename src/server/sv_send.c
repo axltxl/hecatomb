@@ -32,7 +32,7 @@
 
  /* ========================================================================= */
  void
- SV_FlushRedirect ( int sv_redirected, char *outputbuf )
+ SV_FlushRedirect ( q_int32_t sv_redirected, char *outputbuf )
  {
    if ( sv_redirected == RD_PACKET ) {
      Netchan_OutOfBandPrint ( NS_SERVER, net_from, "print\n%s", outputbuf );
@@ -45,7 +45,7 @@
 
  /* ========================================================================= */
  void
- SV_ClientPrintf ( client_t *cl, int level, char *fmt, ... )
+ SV_ClientPrintf ( client_t *cl, q_int32_t level, char *fmt, ... )
  {
    va_list argptr;
    char string[1024];
@@ -64,12 +64,12 @@
 
  /* ========================================================================= */
  void
- SV_BroadcastPrintf ( int level, char *fmt, ... )
+ SV_BroadcastPrintf ( q_int32_t level, char *fmt, ... )
  {
    va_list argptr;
    char string[2048];
    client_t *cl;
-   int i;
+   q_int32_t i;
    va_start ( argptr, fmt );
    vsprintf ( string, fmt, argptr );
    va_end ( argptr );
@@ -77,7 +77,7 @@
    /* echo to console */
    if ( dedicated->value ) {
      char copy[1024];
-     int i;
+     q_int32_t i;
 
      /* mask off high bits */
      for ( i = 0; i < 1023 && string[i]; i++ ) {
@@ -128,10 +128,10 @@
  {
    client_t *client;
    byte *mask;
-   int leafnum = 0, cluster;
-   int j;
+   q_int32_t leafnum = 0, cluster;
+   q_int32_t j;
    qboolean reliable;
-   int area1, area2;
+   q_int32_t area1, area2;
    reliable = false;
 
    if ( ( to != MULTICAST_ALL_R ) && ( to != MULTICAST_ALL ) ) {
@@ -214,13 +214,13 @@
 
  /* ========================================================================= */
  void
- SV_StartSound ( vec3_t origin, edict_t *entity, int channel, int soundindex,
+ SV_StartSound ( vec3_t origin, edict_t *entity, q_int32_t channel, q_int32_t soundindex,
                  float volume, float attenuation, float timeofs )
  {
-   int sendchan;
-   int flags;
-   int i;
-   int ent;
+   q_int32_t sendchan;
+   q_int32_t flags;
+   q_int32_t i;
+   q_int32_t ent;
    vec3_t origin_v;
    qboolean use_phs;
 
@@ -388,8 +388,8 @@
  qboolean
  SV_RateDrop ( client_t *c )
  {
-   int total;
-   int i;
+   q_int32_t total;
+   q_int32_t i;
 
    /* never drop over the loopback */
    if ( c->netchan.remote_address.type == NA_LOOPBACK ) {
@@ -415,9 +415,9 @@
  void
  SV_SendClientMessages ( void )
  {
-   int i;
+   q_int32_t i;
    client_t *c;
-   int msglen;
+   q_int32_t msglen;
    byte msgbuf[MAX_MSGLEN];
    size_t r;
    msglen = 0;

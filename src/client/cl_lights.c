@@ -28,13 +28,13 @@
  #include "client.h"
 
  typedef struct {
-   int length;
+   q_int32_t length;
    float value[3];
    float map[MAX_QPATH];
  } clightstyle_t;
 
  clightstyle_t cl_lightstyle[MAX_LIGHTSTYLES];
- int lastofs;
+ q_int32_t lastofs;
 
  /* ========================================================================= */
  void
@@ -48,8 +48,8 @@
  void
  CL_RunLightStyles ( void )
  {
-   int ofs;
-   int i;
+   q_int32_t ofs;
+   q_int32_t i;
    clightstyle_t *ls;
    ofs = cl.time / 100;
 
@@ -75,12 +75,12 @@
 
  /* ========================================================================= */
  void
- CL_SetLightstyle ( int i )
+ CL_SetLightstyle ( q_int32_t i )
  {
    char *s;
-   int j, k;
+   q_int32_t j, k;
    s = cl.configstrings[i + CS_LIGHTS];
-   j = ( int ) strlen ( s );
+   j = ( q_int32_t ) strlen ( s );
    cl_lightstyle[i].length = j;
 
    for ( k = 0; k < j; k++ ) {
@@ -92,7 +92,7 @@
  void
  CL_AddLightStyles ( void )
  {
-   int i;
+   q_int32_t i;
    clightstyle_t *ls;
 
    for ( i = 0, ls = cl_lightstyle; i < MAX_LIGHTSTYLES; i++, ls++ ) {
@@ -111,9 +111,9 @@
 
  /* ========================================================================= */
  cdlight_t *
- CL_AllocDlight ( int key )
+ CL_AllocDlight ( q_int32_t key )
  {
-   int i;
+   q_int32_t i;
    cdlight_t *dl;
 
    /* first look for an exact key match */
@@ -145,7 +145,7 @@
 
  /* ========================================================================= */
  void
- CL_NewDlight ( int key, float x, float y, float z, float radius, float time )
+ CL_NewDlight ( q_int32_t key, float x, float y, float z, float radius, float time )
  {
    cdlight_t *dl;
    dl = CL_AllocDlight ( key );
@@ -160,7 +160,7 @@
  void
  CL_RunDLights ( void )
  {
-   int i;
+   q_int32_t i;
    cdlight_t *dl;
    dl = cl_dlights;
 
@@ -186,7 +186,7 @@
  void
  CL_AddDLights ( void )
  {
-   int i;
+   q_int32_t i;
    cdlight_t *dl;
    dl = cl_dlights;
 

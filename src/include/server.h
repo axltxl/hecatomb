@@ -64,8 +64,8 @@
    qboolean attractloop;           /* running cinematics and demos for the local system only */
    qboolean loadgame;              /* client begins should reuse existing entity */
 
-   unsigned time;                  /* always sv.framenum * 100 msec */
-   int framenum;
+   q_uint32_t time;                  /* always sv.framenum * 100 msec */
+   q_int32_t framenum;
 
    char name[MAX_QPATH];           /* map name, or cinematic name */
    struct cmodel_s *models[MAX_MODELS];
@@ -98,12 +98,12 @@
   *
   */
  typedef struct {
-   int areabytes;
+   q_int32_t areabytes;
    byte areabits[MAX_MAP_AREAS / 8];       /* portalarea visibility bits */
    player_state_t ps;
-   int num_entities;
-   int first_entity;                       /* into the circular sv_packet_entities[] */
-   int senttime;                           /* for ping calculations */
+   q_int32_t num_entities;
+   q_int32_t first_entity;                       /* into the circular sv_packet_entities[] */
+   q_int32_t senttime;                           /* for ping calculations */
  } client_frame_t;
 
  /**
@@ -114,22 +114,22 @@
 
    char userinfo[MAX_INFO_STRING];     /* name, etc */
 
-   int lastframe;                      /* for delta compression */
+   q_int32_t lastframe;                      /* for delta compression */
    usercmd_t lastcmd;                  /* for filling in big drops */
 
-   int commandMsec;                    /* every seconds this is reset, if user */
+   q_int32_t commandMsec;                    /* every seconds this is reset, if user */
    /* commands exhaust it, assume time cheating */
 
-   int frame_latency[LATENCY_COUNTS];
-   int ping;
+   q_int32_t frame_latency[LATENCY_COUNTS];
+   q_int32_t ping;
 
-   int message_size[RATE_MESSAGES];    /* used to rate drop packets */
-   int rate;
-   int surpressCount;                  /* number of messages rate supressed */
+   q_int32_t message_size[RATE_MESSAGES];    /* used to rate drop packets */
+   q_int32_t rate;
+   q_int32_t surpressCount;                  /* number of messages rate supressed */
 
    edict_t *edict;                     /* EDICT_NUM(clientnum+1) */
    char name[32];                      /* extracted from userinfo, high bits masked */
-   int messagelevel;                   /* for filtering printed messages */
+   q_int32_t messagelevel;                   /* for filtering printed messages */
 
    /* The datagram is written to by sound calls, prints,
       temp ents, etc. It can be harmlessly overflowed. */
@@ -139,13 +139,13 @@
    client_frame_t frames[UPDATE_BACKUP];     /* updates can be delta'd from here */
 
    byte *download;                     /* file being downloaded */
-   int downloadsize;                   /* total bytes (can't use EOF because of paks) */
-   int downloadcount;                  /* bytes sent */
+   q_int32_t downloadsize;                   /* total bytes (can't use EOF because of paks) */
+   q_int32_t downloadcount;                  /* bytes sent */
 
-   int lastmessage;                    /* sv.framenum when packet was last received */
-   int lastconnect;
+   q_int32_t lastmessage;                    /* sv.framenum when packet was last received */
+   q_int32_t lastconnect;
 
-   int challenge;                      /* challenge of this user, randomly generated */
+   q_int32_t challenge;                      /* challenge of this user, randomly generated */
 
    netchan_t netchan;
  } client_t;
@@ -155,8 +155,8 @@
   */
  typedef struct {
    netadr_t adr;
-   int challenge;
-   int time;
+   q_int32_t challenge;
+   q_int32_t time;
  } challenge_t;
 
  /**
@@ -164,19 +164,19 @@
   */
  typedef struct {
    qboolean initialized;               /* sv_init has completed */
-   int realtime;                       /* always increasing, no clamping, etc */
+   q_int32_t realtime;                       /* always increasing, no clamping, etc */
 
    char mapcmd[MAX_TOKEN_CHARS];       /* ie: *intro.cin+base */
 
-   int spawncount;                     /* incremented each server start */
+   q_int32_t spawncount;                     /* incremented each server start */
    /* used to check late spawns */
 
    client_t *clients;                  /* [maxclients->value]; */
-   int num_client_entities;            /* maxclients->value*UPDATE_BACKUP*MAX_PACKET_ENTITIES */
-   int next_client_entities;           /* next client_entity to use */
+   q_int32_t num_client_entities;            /* maxclients->value*UPDATE_BACKUP*MAX_PACKET_ENTITIES */
+   q_int32_t next_client_entities;           /* next client_entity to use */
    entity_state_t *client_entities;    /* [num_client_entities] */
 
-   int last_heartbeat;
+   q_int32_t last_heartbeat;
 
    challenge_t challenges[MAX_CHALLENGES];    /* to prevent invalid IPs from connecting */
 
@@ -218,7 +218,7 @@
  /**
   *
   */
- void SV_Frame ( int msec );
+ void SV_Frame ( q_int32_t msec );
 
  /**
   * Used by SV_Shutdown to send a final message to all
@@ -239,17 +239,17 @@
  /**
   *
   */
- int SV_ModelIndex ( char *name );
+ q_int32_t SV_ModelIndex ( char *name );
 
  /**
   *
   */
- int SV_SoundIndex ( char *name );
+ q_int32_t SV_SoundIndex ( char *name );
 
  /**
   *
   */
- int SV_ImageIndex ( char *name );
+ q_int32_t SV_ImageIndex ( char *name );
 
  /**
   *
@@ -304,7 +304,7 @@
  /**
   *
   */
- void SV_FlushRedirect ( int sv_redirected, char *outputbuf );
+ void SV_FlushRedirect ( q_int32_t sv_redirected, char *outputbuf );
 
  /**
   *
@@ -345,20 +345,20 @@
   * If origin is NULL, the origin is determined from the entity origin
   * or the midpoint of the entity box for bmodels.
   */
- void SV_StartSound ( vec3_t origin, edict_t *entity, int channel,
-                      int soundindex, float volume, float attenuation,
+ void SV_StartSound ( vec3_t origin, edict_t *entity, q_int32_t channel,
+                      q_int32_t soundindex, float volume, float attenuation,
                       float timeofs );
 
 
  /**
   * Sends text across to be displayed if the level passes
   */
- void SV_ClientPrintf ( client_t *cl, int level, char *fmt, ... );
+ void SV_ClientPrintf ( client_t *cl, q_int32_t level, char *fmt, ... );
 
  /**
   * Sends text to all active clients
   */
- void SV_BroadcastPrintf ( int level, char *fmt, ... );
+ void SV_BroadcastPrintf ( q_int32_t level, char *fmt, ... );
 
  /**
   * Sends text to all active clients
@@ -472,20 +472,20 @@
   * ent->v.absmax sets ent->leafnums[] for pvs determination even if
   * the entity is not solid
   */
- int SV_AreaEdicts ( vec3_t mins, vec3_t maxs, edict_t **list,
-                     int maxcount, int areatype );
+ q_int32_t SV_AreaEdicts ( vec3_t mins, vec3_t maxs, edict_t **list,
+                     q_int32_t maxcount, q_int32_t areatype );
 
  /**
   *
   */
- int SV_PointContents ( vec3_t p );
+ q_int32_t SV_PointContents ( vec3_t p );
 
  /**
   * Moves the given mins/maxs volume through the world from start to end.
   * Passedict and edicts owned by passedict are explicitly not checked.
   */
  trace_t SV_Trace ( vec3_t start, vec3_t mins, vec3_t maxs,
-                    vec3_t end, edict_t *passedict, int contentmask );
+                    vec3_t end, edict_t *passedict, q_int32_t contentmask );
 
  #endif /* SV_SERVER_H */
 

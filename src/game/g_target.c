@@ -79,7 +79,7 @@
  void
  Use_Target_Speaker ( edict_t *ent, edict_t *other /* unused */, edict_t *activator /* unused */ )
  {
-   int chan;
+   q_int32_t chan;
 
    if ( !ent ) {
      return;
@@ -383,7 +383,7 @@
    }
 
    /* if noexit, do a ton of damage to other */
-   if ( deathmatch->value && ! ( ( int ) dmflags->value & DF_ALLOW_EXIT ) &&
+   if ( deathmatch->value && ! ( ( q_int32_t ) dmflags->value & DF_ALLOW_EXIT ) &&
         ( other != world ) ) {
      T_Damage ( other, self, self, vec3_origin, other->s.origin,
                 vec3_origin, 10 * other->max_health, 1000,
@@ -686,7 +686,7 @@
    trace_t tr;
    vec3_t point;
    vec3_t last_movedir;
-   int count;
+   q_int32_t count;
 
    if ( !self ) {
      return;
@@ -1011,7 +1011,7 @@
  void
  target_earthquake_think ( edict_t *self )
  {
-   int i;
+   q_int32_t i;
    edict_t *e;
 
    if ( !self ) {

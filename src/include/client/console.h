@@ -40,18 +40,18 @@
    qboolean  initialized;
 
    char  text[CON_TEXTSIZE];
-   int   current; /* line where next message will be printed */
-   int   x; /* offset in current line for next print */
-   int   display; /* bottom of console displays this line */
+   q_int32_t   current; /* line where next message will be printed */
+   q_int32_t   x; /* offset in current line for next print */
+   q_int32_t   display; /* bottom of console displays this line */
 
-   int   ormask; /* high bit mask for colored characters */
+   q_int32_t   ormask; /* high bit mask for colored characters */
 
-   int   linewidth; /* characters across screen */
-   int   totallines; /* total lines in console scrollback */
+   q_int32_t   linewidth; /* characters across screen */
+   q_int32_t   totallines; /* total lines in console scrollback */
 
    float cursorspeed;
 
-   int   vislines;
+   q_int32_t   vislines;
 
    float times[NUM_CON_TIMES]; /* cls.realtime time the line was generated */
  } console_t;

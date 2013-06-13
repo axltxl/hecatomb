@@ -29,16 +29,16 @@
 
  qboolean visible ( edict_t *self, edict_t *other );
 
- static int sound_idle1;
- static int sound_pain1;
- static int sound_pain2;
- static int sound_die;
- static int sound_sight;
- static int sound_search;
- static int sound_hook_launch;
- static int sound_hook_hit;
- static int sound_hook_heal;
- static int sound_hook_retract;
+ static q_int32_t sound_idle1;
+ static q_int32_t sound_pain1;
+ static q_int32_t sound_pain2;
+ static q_int32_t sound_die;
+ static q_int32_t sound_sight;
+ static q_int32_t sound_search;
+ static q_int32_t sound_hook_launch;
+ static q_int32_t sound_hook_hit;
+ static q_int32_t sound_hook_heal;
+ static q_int32_t sound_hook_retract;
 
  edict_t *
  medic_FindDeadMonster ( edict_t *self )
@@ -381,7 +381,7 @@
 
  void
  medic_pain ( edict_t *self, edict_t *other /* unused */,
-              float kick, int damage /* unused */ )
+              float kick, q_int32_t damage /* unused */ )
  {
    if ( !self ) {
      return;
@@ -417,7 +417,7 @@
    vec3_t forward, right;
    vec3_t end;
    vec3_t dir;
-   int effect;
+   q_int32_t effect;
 
    if ( !self ) {
      return;
@@ -502,10 +502,10 @@
 
  void
  medic_die ( edict_t *self, edict_t *inflictor /* unused */,
-             edict_t *attacker /* unused */, int damage,
+             edict_t *attacker /* unused */, q_int32_t damage,
              vec3_t point /* unused */ )
  {
-   int n;
+   q_int32_t n;
 
    if ( !self ) {
      return;

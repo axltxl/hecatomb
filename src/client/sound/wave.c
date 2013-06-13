@@ -32,13 +32,13 @@
  byte *iff_end;
  byte *last_chunk;
  byte *iff_data;
- int iff_chunk_len;
+ q_int32_t iff_chunk_len;
 
  /* ========================================================================= */
- short
+ q_int16_t
  GetLittleShort ( void )
  {
-   short val = 0;
+   q_int16_t val = 0;
 
    val = *data_p;
    val = val + ( * ( data_p + 1 ) << 8 );
@@ -47,10 +47,10 @@
  }
 
  /* ========================================================================= */
- int
+ q_int32_t
  GetLittleLong ( void )
  {
-   int val = 0;
+   q_int32_t val = 0;
 
    val = *data_p;
    val = val + ( * ( data_p + 1 ) << 8 );
@@ -99,12 +99,12 @@
 
  /* ========================================================================= */
  wavinfo_t
- GetWavinfo ( char *name, byte *wav, int wavlength )
+ GetWavinfo ( char *name, byte *wav, q_int32_t wavlength )
  {
    wavinfo_t info;
-   int i;
-   int format;
-   int samples;
+   q_int32_t i;
+   q_int32_t format;
+   q_int32_t samples;
 
    memset ( &info, 0, sizeof ( info ) );
 
@@ -190,7 +190,7 @@
      info.samples = samples;
    }
 
-   info.dataofs = ( int ) ( data_p - wav );
+   info.dataofs = ( q_int32_t ) ( data_p - wav );
 
    return info;
  }

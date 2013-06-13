@@ -276,7 +276,7 @@
  {
    spawn_t *s;
    gitem_t *item;
-   int i;
+   q_int32_t i;
 
    if ( !ent ) {
      return;
@@ -317,7 +317,7 @@
  ED_NewString ( const char *string )
  {
    char *newb, *new_p;
-   int i, l;
+   q_int32_t i, l;
 
    l = strlen ( string ) + 1;
 
@@ -378,7 +378,7 @@
          ( ( float * ) ( b + f->ofs ) ) [2] = vec[2];
          break;
        case F_INT:
-         * ( int * ) ( b + f->ofs ) = ( int ) strtol ( value, ( char ** ) NULL, 10 );
+         * ( q_int32_t * ) ( b + f->ofs ) = ( q_int32_t ) strtol ( value, ( char ** ) NULL, 10 );
          break;
        case F_FLOAT:
          * ( float * ) ( b + f->ofs ) = strtod ( value, ( char ** ) NULL );
@@ -472,8 +472,8 @@
  G_FindTeams ( void )
  {
    edict_t *e, *e2, *chain;
-   int i, j;
-   int c, c2;
+   q_int32_t i, j;
+   q_int32_t c, c2;
 
    c = 0;
    c2 = 0;
@@ -530,9 +530,9 @@
  SpawnEntities ( const char *mapname, char *entities, const char *spawnpoint )
  {
    edict_t *ent;
-   int inhibit;
+   q_int32_t inhibit;
    const char *com_token;
-   int i;
+   q_int32_t i;
    float skill_level;
 
    if ( !mapname || !entities || !spawnpoint ) {
@@ -834,7 +834,7 @@
 
    gi.configstring ( CS_CDTRACK, va ( "%i", ent->sounds ) );
 
-   gi.configstring ( CS_MAXCLIENTS, va ( "%i", ( int ) ( maxclients->value ) ) );
+   gi.configstring ( CS_MAXCLIENTS, va ( "%i", ( q_int32_t ) ( maxclients->value ) ) );
 
    /* status bar program */
    if ( deathmatch->value ) {

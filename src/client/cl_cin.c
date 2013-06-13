@@ -34,41 +34,41 @@
 
  typedef struct {
    byte *data;
-   int count;
+   q_int32_t count;
  } cblock_t;
 
  typedef struct {
    qboolean restart_sound;
-   int s_rate;
-   int s_width;
-   int s_channels;
+   q_int32_t s_rate;
+   q_int32_t s_width;
+   q_int32_t s_channels;
 
-   int width;
-   int height;
+   q_int32_t width;
+   q_int32_t height;
    byte *pic;
    byte *pic_pending;
 
    /* order 1 huffman stuff */
-   int *hnodes1;
+   q_int32_t *hnodes1;
 
    /* [256][256][2]; */
-   int numhnodes1[256];
+   q_int32_t numhnodes1[256];
 
-   int h_used[512];
-   int h_count[512];
+   q_int32_t h_used[512];
+   q_int32_t h_count[512];
  } cinematics_t;
 
  cinematics_t cin;
 
  /* ========================================================================= */
  void
- SCR_LoadPCX ( char *filename, byte **pic, byte **palette, int *width, int *height )
+ SCR_LoadPCX ( char *filename, byte **pic, byte **palette, q_int32_t *width, q_int32_t *height )
  {
    byte *raw;
    pcx_t *pcx;
-   int x, y;
-   int len;
-   int dataByte, runLength;
+   q_int32_t x, y;
+   q_int32_t len;
+   q_int32_t dataByte, runLength;
    byte *out, *pix;
    *pic = NULL;
    /* load the file */
@@ -183,11 +183,11 @@
  }
 
  /* ========================================================================= */
- int
- SmallestNode1 ( int numhnodes )
+ q_int32_t
+ SmallestNode1 ( q_int32_t numhnodes )
  {
-   int i;
-   int best, bestnode;
+   q_int32_t i;
+   q_int32_t best, bestnode;
    best = 99999999;
    bestnode = -1;
 
@@ -220,11 +220,11 @@
  void
  Huff1TableInit ( void )
  {
-   int prev;
-   int j;
-   int *node, *nodebase;
+   q_int32_t prev;
+   q_int32_t j;
+   q_int32_t *node, *nodebase;
    byte counts[256];
-   int numhnodes;
+   q_int32_t numhnodes;
    cin.hnodes1 = Z_Malloc ( 256 * 256 * 2 * 4 );
    memset ( cin.hnodes1, 0, 256 * 256 * 2 * 4 );
 
@@ -272,11 +272,11 @@
  {
    byte *input;
    byte *out_p;
-   int nodenum;
-   int count;
+   q_int32_t nodenum;
+   q_int32_t count;
    cblock_t out;
-   int inbyte;
-   int *hnodes, *hnodesbase;
+   q_int32_t inbyte;
+   q_int32_t *hnodes, *hnodesbase;
    /* get decompressed count */
    count = in.data[0] +
            ( in.data[1] << 8 ) + ( in.data[2] << 16 ) + ( in.data[3] << 24 );
@@ -289,7 +289,7 @@
 
    while ( count ) {
      inbyte = *input++;
-     int i = 0;
+     q_int32_t i = 0;
 
      for ( i = 0; i < 8; i++ ) {
        if ( nodenum < 256 ) {
@@ -320,14 +320,14 @@
  byte *
  SCR_ReadNextFrame ( void )
  {
-   int r;
-   int command;
+   q_int32_t r;
+   q_int32_t command;
    byte samples[22050 / 14 * 4];
    byte compressed[0x20000];
-   int size;
+   q_int32_t size;
    byte *pic;
    cblock_t in, huf1;
-   int start, end, count;
+   q_int32_t start, end, count;
    /* read the next frame */
    r = FS_FRead ( &command, 4, 1, ( size_t ) cl.cinematic_file );
 
@@ -357,7 +357,7 @@
    FS_Read ( &size, 4, ( size_t ) cl.cinematic_file );
    size = LittleLong ( size );
 
-   if ( ( ( unsigned long ) size > sizeof ( compressed ) ) || ( size < 1 ) ) {
+   if ( ( ( q_uint32_t ) size > sizeof ( compressed ) ) || ( size < 1 ) ) {
      Com_Error ( ERR_DROP, "Bad compressed frame size" );
    }
 
@@ -371,7 +371,7 @@
 
    if ( cin.s_width == 2 ) {
      for ( r = 0; r < count * cin.s_channels; r++ ) {
-       ( ( short * ) samples ) [r] = LittleShort ( ( ( short * ) samples ) [r] );
+       ( ( q_int16_t * ) samples ) [r] = LittleShort ( ( ( q_int16_t * ) samples ) [r] );
      }
    }
 
@@ -389,7 +389,7 @@
  void
  SCR_RunCinematic ( void )
  {
-   int frame;
+   q_int32_t frame;
 
    if ( cl.cinematictime <= 0 ) {
      SCR_StopCinematic();
@@ -442,7 +442,7 @@
  qboolean
  SCR_DrawCinematic ( void )
  {
-   int x, y, w, h;
+   q_int32_t x, y, w, h;
 
    if ( cl.cinematictime <= 0 ) {
      return false;
@@ -505,7 +505,7 @@
  void
  SCR_PlayCinematic ( char *arg )
  {
-   int width, height;
+   q_int32_t width, height;
    byte *palette;
    char name[MAX_OSPATH], *dot;
    /* make sure background music is not playing */

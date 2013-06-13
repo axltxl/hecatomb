@@ -33,16 +33,16 @@
  FILE *logfile;
  cvar_t *logfile_active;  /* 1 = buffer log, 2 = flush after each print */
  jmp_buf abortframe; /* an ERR_DROP occured, exit the entire frame */
- int server_state;
+ q_int32_t server_state;
 
- static int rd_target;
+ static q_int32_t rd_target;
  static char *rd_buffer;
- static int rd_buffersize;
- static void ( *rd_flush ) ( int target, char *buffer );
+ static q_int32_t rd_buffersize;
+ static void ( *rd_flush ) ( q_int32_t target, char *buffer );
 
  /* ========================================================================= */
  void
- Com_BeginRedirect ( int target, char *buffer, int buffersize, void ( *flush ) )
+ Com_BeginRedirect ( q_int32_t target, char *buffer, q_int32_t buffersize, void ( *flush ) )
  {
    if ( !target || !buffer || !buffersize || !flush ) {
      return;
@@ -137,7 +137,7 @@
   * A Com_Printf that only shows up if the "developer" cvar is set
   */
  void
- Com_DPrintfEx ( const char *function, char *file, int line, char *fmt, ... )
+ Com_DPrintfEx ( const char *function, char *file, q_int32_t line, char *fmt, ... )
  {
    va_list argptr;
    char msg[MAXPRINTMSG], // Brute message goes in here
@@ -184,7 +184,7 @@
   * do the apropriate things.
   */
  void
- Com_Error ( int code, char *fmt, ... )
+ Com_Error ( q_int32_t code, char *fmt, ... )
  {
    va_list argptr;
    static char msg[MAXPRINTMSG];
@@ -243,7 +243,7 @@
  }
 
  /* ========================================================================= */
- int
+ q_int32_t
  Com_ServerState ( void )
  {
    return server_state;
@@ -251,7 +251,7 @@
 
  /* ========================================================================= */
  void
- Com_SetServerState ( int state )
+ Com_SetServerState ( q_int32_t state )
  {
    server_state = state;
  }

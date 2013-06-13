@@ -32,7 +32,7 @@
 
  viddef_t vid;
 
- int QGL_TEXTURE0, QGL_TEXTURE1;
+ q_int32_t QGL_TEXTURE0, QGL_TEXTURE1;
 
  model_t *r_worldmodel;
 
@@ -49,10 +49,10 @@
 
  cplane_t frustum[4];
 
- int r_visframecount; /* bumped when going to a new PVS */
- int r_framecount; /* used for dlight push checking */
+ q_int32_t r_visframecount; /* bumped when going to a new PVS */
+ q_int32_t r_framecount; /* used for dlight push checking */
 
- int c_brush_polys, c_alias_polys;
+ q_int32_t c_brush_polys, c_alias_polys;
 
  float v_blend[4]; /* final blending color */
 
@@ -70,9 +70,9 @@
  /* screen size info */
  refdef_t r_newrefdef;
 
- int r_viewcluster, r_viewcluster2, r_oldviewcluster, r_oldviewcluster2;
+ q_int32_t r_viewcluster, r_viewcluster2, r_oldviewcluster, r_oldviewcluster2;
  extern qboolean have_stencil;
- unsigned r_rawpalette[256];
+ q_uint32_t r_rawpalette[256];
 
  cvar_t *gl_norefresh;
  cvar_t *gl_drawentities;
@@ -154,7 +154,7 @@
  qboolean
  R_CullBox ( vec3_t mins, vec3_t maxs )
  {
-   int i;
+   q_int32_t i;
 
    if ( gl_nocull->value ) {
      return false;
@@ -248,7 +248,7 @@
  R_DrawNullModel ( void )
  {
    vec3_t shadelight;
-   int i;
+   q_int32_t i;
 
    if ( currententity->flags & RF_FULLBRIGHT ) {
      shadelight[0] = shadelight[1] = shadelight[2] = 1.0F;
@@ -285,7 +285,7 @@
  void
  R_DrawEntitiesOnList ( void )
  {
-   int i;
+   q_int32_t i;
 
    if ( !gl_drawentities->value ) {
      return;
@@ -376,11 +376,11 @@
 
  /* ========================================================================= */
  void
- R_DrawParticles2 ( int num_particles, const particle_t particles[],
-                    const unsigned colortable[768] )
+ R_DrawParticles2 ( q_int32_t num_particles, const particle_t particles[],
+                    const q_uint32_t colortable[768] )
  {
    const particle_t *p;
-   int i;
+   q_int32_t i;
    vec3_t up, right;
    float scale;
    byte color[4];
@@ -404,7 +404,7 @@
        scale = 1 + scale * 0.004;
      }
 
-     * ( int * ) color = colortable[p->color];
+     * ( q_int32_t * ) color = colortable[p->color];
      color[3] = p->alpha * 255;
      qglColor4ubv ( color );
      qglTexCoord2f ( 0.0625, 0.0625 );
@@ -431,8 +431,8 @@
  R_DrawParticles ( void )
  {
    if ( gl_ext_pointparameters->value && qglPointParameterfEXT ) {
-     int i;
-     unsigned char color[4];
+     q_int32_t i;
+     q_uint8_t color[4];
      const particle_t *p;
      qglDepthMask ( GL_FALSE );
      qglEnable ( GL_BLEND );
@@ -443,7 +443,7 @@
      for ( i = 0, p = r_newrefdef.particles;
            i < r_newrefdef.num_particles;
            i++, p++ ) {
-       * ( int * ) color = d_8to24table[p->color & 0xFF];
+       * ( q_int32_t * ) color = d_8to24table[p->color & 0xFF];
        color[3] = p->alpha * 255;
        qglColor4ubv ( color );
        qglVertex3fv ( p->origin );
@@ -493,10 +493,10 @@
  }
 
  /* ========================================================================= */
- int
+ q_int32_t
  R_SignbitsForPlane ( cplane_t *out )
  {
-   int bits, j;
+   q_int32_t bits, j;
    /* for fast box on planeside test */
    bits = 0;
 
@@ -513,7 +513,7 @@
  void
  R_SetFrustum ( void )
  {
-   int i;
+   q_int32_t i;
    /* rotate VPN right by FOV_X/2 degrees */
    RotatePointAroundVector ( frustum[0].normal, vup, vpn,
                              - ( 90 - r_newrefdef.fov_x / 2 ) );
@@ -538,7 +538,7 @@
  void
  R_SetupFrame ( void )
  {
-   int i;
+   q_int32_t i;
    mleaf_t *leaf;
    r_framecount++;
    /* build the transformation matrix for the given view angles */
@@ -618,7 +618,7 @@
  R_SetupGL ( void )
  {
    float screenaspect;
-   int x, x2, y2, y, w, h;
+   q_int32_t x, x2, y2, y, w, h;
    /* set up viewport */
    x = floor ( r_newrefdef.x * vid.width / vid.width );
    x2 = ceil ( ( r_newrefdef.x + r_newrefdef.width ) * vid.width / vid.width );
@@ -668,7 +668,7 @@
  R_Clear ( void )
  {
    if ( gl_ztrick->value ) {
-     static int trickframe;
+     static q_int32_t trickframe;
 
      if ( gl_clear->value ) {
        qglClear ( GL_COLOR_BUFFER_BIT );
@@ -943,13 +943,13 @@
  }
 
  /* ========================================================================= */
- int
+ q_int32_t
  R_Init ( void *hinstance, void *hWnd )
  {
    char renderer_buffer[1000];
    char vendor_buffer[1000];
-   int err;
-   int j;
+   q_int32_t err;
+   q_int32_t j;
    extern float r_turbsin[256];
    Swap_Init();
 
@@ -1212,9 +1212,9 @@
 
  /* ========================================================================= */
  void
- R_SetPalette ( const unsigned char *palette )
+ R_SetPalette ( const q_uint8_t *palette )
  {
-   int i;
+   q_int32_t i;
    byte *rp = ( byte * ) r_rawpalette;
 
    if ( palette ) {
@@ -1243,7 +1243,7 @@
  void
  R_DrawBeam ( entity_t *e )
  {
-   int i;
+   q_int32_t i;
    float r, g, b;
    vec3_t perpvec;
    vec3_t direction, normalized_direction;

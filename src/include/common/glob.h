@@ -29,6 +29,6 @@
 
  #include "prereqs.h"
 
- int glob_match ( char *pattern, char *text );
+ q_int32_t glob_match ( char *pattern, char *text );
 
  #endif /* UNIX_GLOB_H */

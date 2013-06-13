@@ -28,7 +28,7 @@
 
  /* ========================================================================= */
  void
- SZ_Init ( sizebuf_t *buf, byte *data, int length )
+ SZ_Init ( sizebuf_t *buf, byte *data, q_int32_t length )
  {
    memset ( buf, 0, sizeof ( *buf ) );
    buf->data = data;
@@ -45,7 +45,7 @@
 
  /* ========================================================================= */
  void *
- SZ_GetSpace ( sizebuf_t *buf, int length )
+ SZ_GetSpace ( sizebuf_t *buf, q_int32_t length )
  {
    void *data;
 
@@ -71,7 +71,7 @@
 
  /* ========================================================================= */
  void
- SZ_Write ( sizebuf_t *buf, void *data, int length )
+ SZ_Write ( sizebuf_t *buf, void *data, q_int32_t length )
  {
    memcpy ( SZ_GetSpace ( buf, length ), data, length );
  }
@@ -80,8 +80,8 @@
  void
  SZ_Print ( sizebuf_t *buf, char *data )
  {
-   int len;
-   len = ( int ) strlen ( data ) + 1;
+   q_int32_t len;
+   len = ( q_int32_t ) strlen ( data ) + 1;
 
    if ( buf->cursize ) {
      if ( buf->data[buf->cursize - 1] ) {

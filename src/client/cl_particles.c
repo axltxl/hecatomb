@@ -29,13 +29,13 @@
 
  cparticle_t *active_particles, *free_particles;
  cparticle_t particles[MAX_PARTICLES];
- int cl_numparticles = MAX_PARTICLES;
+ q_int32_t cl_numparticles = MAX_PARTICLES;
 
  /* ========================================================================= */
  void
  CL_ClearParticles ( void )
  {
-   int i;
+   q_int32_t i;
    free_particles = &particles[0];
    active_particles = NULL;
 
@@ -48,9 +48,9 @@
 
  /* ========================================================================= */
  void
- CL_ParticleEffect ( vec3_t org, vec3_t dir, int color, int count )
+ CL_ParticleEffect ( vec3_t org, vec3_t dir, q_int32_t color, q_int32_t count )
  {
-   int i, j;
+   q_int32_t i, j;
    cparticle_t *p;
    float d;
 
@@ -81,9 +81,9 @@
 
  /* ========================================================================= */
  void
- CL_ParticleEffect2 ( vec3_t org, vec3_t dir, int color, int count )
+ CL_ParticleEffect2 ( vec3_t org, vec3_t dir, q_int32_t color, q_int32_t count )
  {
-   int i, j;
+   q_int32_t i, j;
    cparticle_t *p;
    float d;
    float time;
@@ -116,9 +116,9 @@
 
  /* ========================================================================= */
  void
- CL_ParticleEffect3 ( vec3_t org, vec3_t dir, int color, int count )
+ CL_ParticleEffect3 ( vec3_t org, vec3_t dir, q_int32_t color, q_int32_t count )
  {
-   int i, j;
+   q_int32_t i, j;
    cparticle_t *p;
    float d;
    float time;
@@ -157,7 +157,7 @@
    float alpha;
    float time, time2;
    vec3_t org;
-   int color;
+   q_int32_t color;
    cparticle_t *active, *tail;
    active = NULL;
    tail = NULL;
@@ -211,10 +211,10 @@
 
  /* ========================================================================= */
  void
- CL_GenericParticleEffect ( vec3_t org, vec3_t dir, int color,
-                            int count, int numcolors, int dirspread, float alphavel )
+ CL_GenericParticleEffect ( vec3_t org, vec3_t dir, q_int32_t color,
+                            q_int32_t count, q_int32_t numcolors, q_int32_t dirspread, float alphavel )
  {
-   int i, j;
+   q_int32_t i, j;
    cparticle_t *p;
    float d;
    float time;

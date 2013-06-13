@@ -34,10 +34,10 @@
  static void Menu_DrawStatusBar ( const char *string );
  static void MenuList_Draw ( menulist_s *l );
  static void Separator_Draw ( menuseparator_s *s );
- static void Slider_DoSlide ( menuslider_s *s, int dir );
+ static void Slider_DoSlide ( menuslider_s *s, q_int32_t dir );
  static void Slider_Draw ( menuslider_s *s );
  static void SpinControl_Draw ( menulist_s *s );
- static void SpinControl_DoSlide ( menulist_s *s, int dir );
+ static void SpinControl_DoSlide ( menulist_s *s, q_int32_t dir );
 
  #define RCOLUMN_OFFSET 16
  #define LCOLUMN_OFFSET -16
@@ -103,7 +103,7 @@
  void
  Field_Draw ( menufield_s *f )
  {
-   int i;
+   q_int32_t i;
    char tempbuffer[128] = "";
 
    if ( f->generic.name ) {
@@ -135,7 +135,7 @@
                      f->generic.y + f->generic.parent->y, tempbuffer );
 
    if ( Menu_ItemAtCursor ( f->generic.parent ) == f ) {
-     int offset;
+     q_int32_t offset;
 
      if ( f->visible_offset ) {
        offset = f->visible_length;
@@ -143,7 +143,7 @@
        offset = f->cursor;
      }
 
-     if ( ( ( int ) ( Sys_Milliseconds() / 250 ) ) & 1 ) {
+     if ( ( ( q_int32_t ) ( Sys_Milliseconds() / 250 ) ) & 1 ) {
        Draw_Char ( f->generic.x + f->generic.parent->x +
                    ( offset + 2 ) * 8 + 8, f->generic.y +
                    f->generic.parent->y, 11 );
@@ -155,11 +155,11 @@
    }
  }
 
- extern int keydown[];
+ extern q_int32_t keydown[];
 
  /* ========================================================================= */
  qboolean
- Field_Key ( menufield_s *f, int key )
+ Field_Key ( menufield_s *f, q_int32_t key )
  {
    switch ( key ) {
    case K_KP_SLASH:
@@ -294,7 +294,7 @@
   * slot.
   */
  void
- Menu_AdjustCursor ( menuframework_s *m, int dir )
+ Menu_AdjustCursor ( menuframework_s *m, q_int32_t dir )
  {
    menucommon_s *citem;
 
@@ -348,7 +348,7 @@
  void
  Menu_Center ( menuframework_s *menu )
  {
-   int height;
+   q_int32_t height;
    height = ( ( menucommon_s * ) menu->items[menu->nitems - 1] )->y;
    height += 10;
    menu->y = ( VID_HEIGHT - height ) / 2;
@@ -358,7 +358,7 @@
  void
  Menu_Draw ( menuframework_s *menu )
  {
-   int i;
+   q_int32_t i;
    menucommon_s *item;
 
    /* draw contents */
@@ -399,11 +399,11 @@
    } else if ( item && ( item->type != MTYPE_FIELD ) ) {
      if ( item->flags & QMF_LEFT_JUSTIFY ) {
        Draw_Char ( menu->x + item->x - 24 + item->cursor_offset,
-                   menu->y + item->y, 12 + ( ( int ) ( Sys_Milliseconds() /
+                   menu->y + item->y, 12 + ( ( q_int32_t ) ( Sys_Milliseconds() /
                                              250 ) & 1 ) );
      } else {
        Draw_Char ( menu->x + item->cursor_offset, menu->y + item->y,
-                   12 + ( ( int ) ( Sys_Milliseconds() / 250 ) & 1 ) );
+                   12 + ( ( q_int32_t ) ( Sys_Milliseconds() / 250 ) & 1 ) );
      }
    }
 
@@ -425,9 +425,9 @@
  Menu_DrawStatusBar ( const char *string )
  {
    if ( string ) {
-     int l = ( int ) strlen ( string );
-     int maxcol = VID_WIDTH / 8;
-     int col = maxcol / 2 - l / 2;
+     q_int32_t l = ( q_int32_t ) strlen ( string );
+     q_int32_t maxcol = VID_WIDTH / 8;
+     q_int32_t col = maxcol / 2 - l / 2;
      Draw_Fill ( 0, VID_HEIGHT - 8, VID_WIDTH, 8, 4 );
      Menu_DrawString ( col * 8, VID_HEIGHT - 8, string );
    } else {
@@ -437,9 +437,9 @@
 
  /* ========================================================================= */
  void
- Menu_DrawString ( int x, int y, const char *string )
+ Menu_DrawString ( q_int32_t x, q_int32_t y, const char *string )
  {
-   unsigned i;
+   q_uint32_t i;
 
    for ( i = 0; i < strlen ( string ); i++ ) {
      Draw_Char ( ( x + i * 8 ), y, string[i] );
@@ -448,9 +448,9 @@
 
  /* ========================================================================= */
  void
- Menu_DrawStringDark ( int x, int y, const char *string )
+ Menu_DrawStringDark ( q_int32_t x, q_int32_t y, const char *string )
  {
-   unsigned i;
+   q_uint32_t i;
 
    for ( i = 0; i < strlen ( string ); i++ ) {
      Draw_Char ( ( x + i * 8 ), y, string[i] + 128 );
@@ -459,9 +459,9 @@
 
  /* ========================================================================= */
  void
- Menu_DrawStringR2L ( int x, int y, const char *string )
+ Menu_DrawStringR2L ( q_int32_t x, q_int32_t y, const char *string )
  {
-   unsigned i;
+   q_uint32_t i;
 
    for ( i = 0; i < strlen ( string ); i++ ) {
      Draw_Char ( ( x - i * 8 ), y, string[strlen ( string ) - i - 1] );
@@ -470,9 +470,9 @@
 
  /* ========================================================================= */
  void
- Menu_DrawStringR2LDark ( int x, int y, const char *string )
+ Menu_DrawStringR2LDark ( q_int32_t x, q_int32_t y, const char *string )
  {
-   unsigned i;
+   q_uint32_t i;
 
    for ( i = 0; i < strlen ( string ); i++ ) {
      Draw_Char ( ( x - i * 8 ), y, string[strlen ( string ) - i - 1] + 128 );
@@ -525,7 +525,7 @@
 
  /* ========================================================================= */
  void
- Menu_SlideItem ( menuframework_s *s, int dir )
+ Menu_SlideItem ( menuframework_s *s, q_int32_t dir )
  {
    menucommon_s *item = ( menucommon_s * ) Menu_ItemAtCursor ( s );
 
@@ -543,15 +543,15 @@
  }
 
  /* ========================================================================= */
- int
+ q_int32_t
  Menu_TallySlots ( menuframework_s *menu )
  {
-   int i;
-   int total = 0;
+   q_int32_t i;
+   q_int32_t total = 0;
 
    for ( i = 0; i < menu->nitems; i++ ) {
      if ( ( ( menucommon_s * ) menu->items[i] )->type == MTYPE_LIST ) {
-       int nitems = 0;
+       q_int32_t nitems = 0;
        const char **n = ( ( menulist_s * ) menu->items[i] )->itemnames;
 
        while ( *n ) {
@@ -572,7 +572,7 @@
  MenuList_Draw ( menulist_s *l )
  {
    const char **n;
-   int y = 0;
+   q_int32_t y = 0;
    Menu_DrawStringR2LDark ( l->generic.x + l->generic.parent->x
                             + LCOLUMN_OFFSET, l->generic.y + l->generic.parent->y,
                             l->generic.name );
@@ -603,7 +603,7 @@
 
  /* ========================================================================= */
  void
- Slider_DoSlide ( menuslider_s *s, int dir )
+ Slider_DoSlide ( menuslider_s *s, q_int32_t dir )
  {
    s->curvalue += dir;
 
@@ -624,7 +624,7 @@
  void
  Slider_Draw ( menuslider_s *s )
  {
-   int i;
+   q_int32_t i;
    Menu_DrawStringR2LDark ( s->generic.x + s->generic.parent->x +
                             LCOLUMN_OFFSET, s->generic.y + s->generic.parent->y,
                             s->generic.name );
@@ -652,7 +652,7 @@
    Draw_Char ( RCOLUMN_OFFSET + s->generic.x + i * 8 +
                s->generic.parent->x + 8, s->generic.y +
                s->generic.parent->y, 130 );
-   Draw_Char ( ( int ) ( 8 + RCOLUMN_OFFSET + s->generic.parent->x +
+   Draw_Char ( ( q_int32_t ) ( 8 + RCOLUMN_OFFSET + s->generic.parent->x +
                          s->generic.x + ( SLIDER_RANGE - 1 ) * 8 * s->range ),
                s->generic.y + s->generic.parent->y,
                131 );
@@ -660,7 +660,7 @@
 
  /* ========================================================================= */
  void
- SpinControl_DoSlide ( menulist_s *s, int dir )
+ SpinControl_DoSlide ( menulist_s *s, q_int32_t dir )
  {
    s->curvalue += dir;
 

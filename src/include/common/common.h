@@ -38,15 +38,15 @@
    qboolean allowoverflow;     /* if false, do a Com_Error */
    qboolean overflowed;        /* set to true if the buffer size failed */
    byte *data;
-   int maxsize;
-   int cursize;
-   int readcount;
+   q_int32_t maxsize;
+   q_int32_t cursize;
+   q_int32_t readcount;
  } sizebuf_t;
 
- void SZ_Init ( sizebuf_t *buf, byte *data, int length );
+ void SZ_Init ( sizebuf_t *buf, byte *data, q_int32_t length );
  void SZ_Clear ( sizebuf_t *buf );
- void *SZ_GetSpace ( sizebuf_t *buf, int length );
- void SZ_Write ( sizebuf_t *buf, void *data, int length );
+ void *SZ_GetSpace ( sizebuf_t *buf, q_int32_t length );
+ void SZ_Write ( sizebuf_t *buf, void *data, q_int32_t length );
  void SZ_Print ( sizebuf_t *buf, char *data ); /* strcats onto the sizebuf */
 
  /* ================================================================== */
@@ -54,10 +54,10 @@
  struct usercmd_s;
  struct entity_state_s;
 
- void MSG_WriteChar ( sizebuf_t *sb, int c );
- void MSG_WriteByte ( sizebuf_t *sb, int c );
- void MSG_WriteShort ( sizebuf_t *sb, int c );
- void MSG_WriteLong ( sizebuf_t *sb, int c );
+ void MSG_WriteChar ( sizebuf_t *sb, q_int32_t c );
+ void MSG_WriteByte ( sizebuf_t *sb, q_int32_t c );
+ void MSG_WriteShort ( sizebuf_t *sb, q_int32_t c );
+ void MSG_WriteLong ( sizebuf_t *sb, q_int32_t c );
  void MSG_WriteFloat ( sizebuf_t *sb, float f );
  void MSG_WriteString ( sizebuf_t *sb, char *s );
  void MSG_WriteCoord ( sizebuf_t *sb, float f );
@@ -73,10 +73,10 @@
 
  void MSG_BeginReading ( sizebuf_t *sb );
 
- int MSG_ReadChar ( sizebuf_t *sb );
- int MSG_ReadByte ( sizebuf_t *sb );
- int MSG_ReadShort ( sizebuf_t *sb );
- int MSG_ReadLong ( sizebuf_t *sb );
+ q_int32_t MSG_ReadChar ( sizebuf_t *sb );
+ q_int32_t MSG_ReadByte ( sizebuf_t *sb );
+ q_int32_t MSG_ReadShort ( sizebuf_t *sb );
+ q_int32_t MSG_ReadLong ( sizebuf_t *sb );
  float MSG_ReadFloat ( sizebuf_t *sb );
  char *MSG_ReadString ( sizebuf_t *sb );
  char *MSG_ReadStringLine ( sizebuf_t *sb );
@@ -91,29 +91,29 @@
 
  void MSG_ReadDir ( sizebuf_t *sb, vec3_t vector );
 
- void MSG_ReadData ( sizebuf_t *sb, void *buffer, int size );
+ void MSG_ReadData ( sizebuf_t *sb, void *buffer, q_int32_t size );
 
  /* ================================================================== */
 
  extern qboolean bigendien;
 
- extern short BigShort ( short l );
- extern short LittleShort ( short l );
- extern int BigLong ( int l );
- extern int LittleLong ( int l );
+ extern q_int16_t BigShort ( q_int16_t l );
+ extern q_int16_t LittleShort ( q_int16_t l );
+ extern q_int32_t BigLong ( q_int32_t l );
+ extern q_int32_t LittleLong ( q_int32_t l );
  extern float BigFloat ( float l );
  extern float LittleFloat ( float l );
 
  /* ================================================================== */
 
- int COM_Argc ( void );
- char *COM_Argv ( int arg ); /* range and null checked */
- void COM_ClearArgv ( int arg );
- int COM_CheckParm ( char *parm );
+ q_int32_t COM_Argc ( void );
+ char *COM_Argv ( q_int32_t arg ); /* range and null checked */
+ void COM_ClearArgv ( q_int32_t arg );
+ q_int32_t COM_CheckParm ( char *parm );
  void COM_AddParm ( char *parm );
 
  void COM_Init ( void );
- void COM_InitArgv ( int argc, char **argv );
+ void COM_InitArgv ( q_int32_t argc, char **argv );
 
  char *CopyString ( char *in );
 
@@ -294,7 +294,7 @@
  /* inserted at the beginning of the buffer, before any remaining unexecuted */
  /* commands. */
 
- void Cbuf_ExecuteText ( int exec_when, char *text );
+ void Cbuf_ExecuteText ( q_int32_t exec_when, char *text );
 
  /* this can be used in place of either Cbuf_AddText or Cbuf_InsertText */
 
@@ -350,8 +350,8 @@
  /* attempts to match a partial command for automatic command line completion */
  /* returns NULL if nothing fits */
 
- int Cmd_Argc ( void );
- char *Cmd_Argv ( int arg );
+ q_int32_t Cmd_Argc ( void );
+ char *Cmd_Argv ( q_int32_t arg );
  char *Cmd_Args ( void );
 
  /* The functions that execute commands get their parameters with these */
@@ -391,7 +391,7 @@
 
  extern cvar_t *cvar_vars;
 
- cvar_t *Cvar_Get ( char *var_name, char *value, int flags );
+ cvar_t *Cvar_Get ( char *var_name, char *value, q_int32_t flags );
 
  /* creates the variable if it doesn't exist, or returns the existing one */
  /* if it exists, the value will not be changed, but flags will be ORed in */
@@ -405,7 +405,7 @@
 
  /* will set the variable even if NOSET or LATCH */
 
- cvar_t *Cvar_FullSet ( char *var_name, char *value, int flags );
+ cvar_t *Cvar_FullSet ( char *var_name, char *value, q_int32_t flags );
 
  void Cvar_SetValue ( char *var_name, float value );
 
@@ -474,10 +474,10 @@
  typedef struct {
    netadrtype_t type;
    byte ip[16];
-   unsigned int scope_id;
+   q_uint32_t scope_id;
    byte ipx[10];
 
-   unsigned short port;
+   q_uint16_t port;
  } netadr_t;
 
  void NET_Init ( void );
@@ -487,14 +487,14 @@
 
  qboolean NET_GetPacket ( netsrc_t sock, netadr_t *net_from,
                           sizebuf_t *net_message );
- void NET_SendPacket ( netsrc_t sock, int length, void *data, netadr_t to );
+ void NET_SendPacket ( netsrc_t sock, q_int32_t length, void *data, netadr_t to );
 
  qboolean NET_CompareAdr ( netadr_t a, netadr_t b );
  qboolean NET_CompareBaseAdr ( netadr_t a, netadr_t b );
  qboolean NET_IsLocalAddress ( netadr_t adr );
  char *NET_AdrToString ( netadr_t a );
  qboolean NET_StringToAdr ( char *s, netadr_t *a );
- void NET_Sleep ( int msec );
+ void NET_Sleep ( q_int32_t msec );
 
  /*=================================================================== */
 
@@ -506,31 +506,31 @@
 
    netsrc_t sock;
 
-   int dropped;                    /* between last packet and previous */
+   q_int32_t dropped;                    /* between last packet and previous */
 
-   int last_received;              /* for timeouts */
-   int last_sent;                  /* for retransmits */
+   q_int32_t last_received;              /* for timeouts */
+   q_int32_t last_sent;                  /* for retransmits */
 
    netadr_t remote_address;
-   int qport;                      /* qport value to write when transmitting */
+   q_int32_t qport;                      /* qport value to write when transmitting */
 
    /* sequencing variables */
-   int incoming_sequence;
-   int incoming_acknowledged;
-   int incoming_reliable_acknowledged;         /* single bit */
+   q_int32_t incoming_sequence;
+   q_int32_t incoming_acknowledged;
+   q_int32_t incoming_reliable_acknowledged;         /* single bit */
 
-   int incoming_reliable_sequence;             /* single bit, maintained local */
+   q_int32_t incoming_reliable_sequence;             /* single bit, maintained local */
 
-   int outgoing_sequence;
-   int reliable_sequence;                  /* single bit */
-   int last_reliable_sequence;             /* sequence number of last send */
+   q_int32_t outgoing_sequence;
+   q_int32_t reliable_sequence;                  /* single bit */
+   q_int32_t last_reliable_sequence;             /* sequence number of last send */
 
    /* reliable staging and holding areas */
    sizebuf_t message;          /* writing buffer to send to server */
    byte message_buf[MAX_MSGLEN - 16];          /* leave space for header */
 
    /* message is copied to this buffer when it is first transfered */
-   int reliable_length;
+   q_int32_t reliable_length;
    byte reliable_buf[MAX_MSGLEN - 16];         /* unacked reliable message */
  } netchan_t;
 
@@ -539,12 +539,12 @@
  extern byte net_message_buffer[MAX_MSGLEN];
 
  void Netchan_Init ( void );
- void Netchan_Setup ( netsrc_t sock, netchan_t *chan, netadr_t adr, int qport );
+ void Netchan_Setup ( netsrc_t sock, netchan_t *chan, netadr_t adr, q_int32_t qport );
 
  qboolean Netchan_NeedReliable ( netchan_t *chan );
- void Netchan_Transmit ( netchan_t *chan, int length, byte *data );
- void Netchan_OutOfBand ( int net_socket, netadr_t adr, int length, byte *data );
- void Netchan_OutOfBandPrint ( int net_socket, netadr_t adr, char *format, ... );
+ void Netchan_Transmit ( netchan_t *chan, q_int32_t length, byte *data );
+ void Netchan_OutOfBand ( q_int32_t net_socket, netadr_t adr, q_int32_t length, byte *data );
+ void Netchan_OutOfBandPrint ( q_int32_t net_socket, netadr_t adr, char *format, ... );
  qboolean Netchan_Process ( netchan_t *chan, sizebuf_t *msg );
 
  qboolean Netchan_CanReliable ( netchan_t *chan );
@@ -553,46 +553,46 @@
 
  #include "files.h"
 
- cmodel_t *CM_LoadMap ( char *name, qboolean clientload, unsigned *checksum );
+ cmodel_t *CM_LoadMap ( char *name, qboolean clientload, q_uint32_t *checksum );
  cmodel_t *CM_InlineModel ( char *name );    /* *1, *2, etc */
 
- int CM_NumClusters ( void );
- int CM_NumInlineModels ( void );
+ q_int32_t CM_NumClusters ( void );
+ q_int32_t CM_NumInlineModels ( void );
  char *CM_EntityString ( void );
 
  /* creates a clipping hull for an arbitrary box */
- int CM_HeadnodeForBox ( vec3_t mins, vec3_t maxs );
+ q_int32_t CM_HeadnodeForBox ( vec3_t mins, vec3_t maxs );
 
  /* returns an ORed contents mask */
- int CM_PointContents ( vec3_t p, int headnode );
- int CM_TransformedPointContents ( vec3_t p, int headnode,
+ q_int32_t CM_PointContents ( vec3_t p, q_int32_t headnode );
+ q_int32_t CM_TransformedPointContents ( vec3_t p, q_int32_t headnode,
                                    vec3_t origin, vec3_t angles );
 
  trace_t CM_BoxTrace ( vec3_t start, vec3_t end, vec3_t mins,
-                       vec3_t maxs, int headnode, int brushmask );
+                       vec3_t maxs, q_int32_t headnode, q_int32_t brushmask );
  trace_t CM_TransformedBoxTrace ( vec3_t start, vec3_t end,
-                                  vec3_t mins, vec3_t maxs, int headnode,
-                                  int brushmask, vec3_t origin, vec3_t angles );
+                                  vec3_t mins, vec3_t maxs, q_int32_t headnode,
+                                  q_int32_t brushmask, vec3_t origin, vec3_t angles );
 
- byte *CM_ClusterPVS ( int cluster );
- byte *CM_ClusterPHS ( int cluster );
+ byte *CM_ClusterPVS ( q_int32_t cluster );
+ byte *CM_ClusterPHS ( q_int32_t cluster );
 
- int CM_PointLeafnum ( vec3_t p );
+ q_int32_t CM_PointLeafnum ( vec3_t p );
 
  /* call with topnode set to the headnode, returns with topnode */
  /* set to the first node that splits the box */
- int CM_BoxLeafnums ( vec3_t mins, vec3_t maxs, int *list,
-                      int listsize, int *topnode );
+ q_int32_t CM_BoxLeafnums ( vec3_t mins, vec3_t maxs, q_int32_t *list,
+                      q_int32_t listsize, q_int32_t *topnode );
 
- int CM_LeafContents ( int leafnum );
- int CM_LeafCluster ( int leafnum );
- int CM_LeafArea ( int leafnum );
+ q_int32_t CM_LeafContents ( q_int32_t leafnum );
+ q_int32_t CM_LeafCluster ( q_int32_t leafnum );
+ q_int32_t CM_LeafArea ( q_int32_t leafnum );
 
- void CM_SetAreaPortalState ( int portalnum, qboolean open );
- qboolean CM_AreasConnected ( int area1, int area2 );
+ void CM_SetAreaPortalState ( q_int32_t portalnum, qboolean open );
+ qboolean CM_AreasConnected ( q_int32_t area1, q_int32_t area2 );
 
- int CM_WriteAreaBits ( byte *buffer, int area );
- qboolean CM_HeadnodeVisible ( int headnode, byte *visbits );
+ q_int32_t CM_WriteAreaBits ( byte *buffer, q_int32_t area );
+ qboolean CM_HeadnodeVisible ( q_int32_t headnode, byte *visbits );
 
  void CM_WritePortalState ( FILE *f );
 
@@ -616,14 +616,14 @@
  #define PRINT_ALL 0
  #define PRINT_DEVELOPER 1   /* only print when "developer 1" */
 
- void Com_BeginRedirect ( int target, char *buffer, int buffersize, void ( *flush ) );
+ void Com_BeginRedirect ( q_int32_t target, char *buffer, q_int32_t buffersize, void ( *flush ) );
  void Com_EndRedirect ( void );
  void Com_Printf ( char *fmt, ... );
- void Com_DPrintfEx ( const char *function, char *file, int line, char *fmt, ... );
+ void Com_DPrintfEx ( const char *function, char *file, q_int32_t line, char *fmt, ... );
  #define Com_DPrintf(msg, ...) \
   Com_DPrintfEx(__func__, __FILE__, __LINE__, msg, ##__VA_ARGS__)
  void Com_MDPrintf ( char *fmt, ... );
- void Com_Error ( int code, char *fmt, ... );
+ void Com_Error ( q_int32_t code, char *fmt, ... );
  void Com_Quit ( void );
 
   /**
@@ -631,11 +631,11 @@
   */
   void Com_Splash ( void );
 
- int Com_ServerState ( void );           /* this should have just been a cvar... */
- void Com_SetServerState ( int state );
+ q_int32_t Com_ServerState ( void );           /* this should have just been a cvar... */
+ void Com_SetServerState ( q_int32_t state );
 
- unsigned Com_BlockChecksum ( void *buffer, int length );
- byte COM_BlockSequenceCRCByte ( byte *base, int length, int sequence );
+ q_uint32_t Com_BlockChecksum ( void *buffer, q_int32_t length );
+ byte COM_BlockSequenceCRCByte ( byte *base, q_int32_t length, q_int32_t sequence );
 
  extern cvar_t *developer;
  extern cvar_t *modder;
@@ -646,32 +646,32 @@
  extern FILE *log_stats_file;
 
  /* host_speeds times */
- extern int time_before_game;
- extern int time_after_game;
- extern int time_before_ref;
- extern int time_after_ref;
+ extern q_int32_t time_before_game;
+ extern q_int32_t time_after_game;
+ extern q_int32_t time_before_ref;
+ extern q_int32_t time_after_ref;
 
- void Qcommon_Init ( int argc, char **argv );
- void Qcommon_Frame ( int msec );
+ void Qcommon_Init ( q_int32_t argc, char **argv );
+ void Qcommon_Frame ( q_int32_t msec );
  void Qcommon_Shutdown ( void );
 
  #define NUMVERTEXNORMALS 162
  extern vec3_t bytedirs[NUMVERTEXNORMALS];
 
  /* this is in the client code, but can be used for debugging from server */
- void SCR_DebugGraph ( float value, int color );
+ void SCR_DebugGraph ( float value, q_int32_t color );
 
  /* CLIENT / SERVER SYSTEMS */
 
  void CL_Init ( void );
  void CL_Drop ( void );
  void CL_Shutdown ( void );
- void CL_Frame ( int msec );
+ void CL_Frame ( q_int32_t msec );
  void Con_Print ( char *text );
  void SCR_BeginLoadingPlaque ( void );
 
  void SV_Init ( void );
  void SV_Shutdown ( char *finalmsg, qboolean reconnect );
- void SV_Frame ( int msec );
+ void SV_Frame ( q_int32_t msec );
 
  #endif /* CO_COMMON_H */

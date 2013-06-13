@@ -30,7 +30,7 @@
 
  qboolean enemy_vis;
  qboolean enemy_infront;
- int enemy_range;
+ q_int32_t enemy_range;
  float enemy_yaw;
 
  qboolean FindTarget ( edict_t *self );
@@ -48,7 +48,7 @@
  AI_SetSightClient ( void )
  {
    edict_t *ent;
-   int start, check;
+   q_int32_t start, check;
 
    if ( level.sight_client == NULL ) {
      start = 1;
@@ -263,7 +263,7 @@
   * 2  infront and show hostile
   * 3  only triggered by damage
   */
- int
+ q_int32_t
  range ( edict_t *self, edict_t *other )
  {
    vec3_t v;
@@ -446,7 +446,7 @@
  {
    edict_t *client;
    qboolean heardit;
-   int r;
+   q_int32_t r;
 
    if ( !self ) {
      return false;

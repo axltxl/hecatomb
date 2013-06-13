@@ -41,13 +41,13 @@
  #define PREV(n) (((n) - 1) & (TRAIL_LENGTH - 1))
 
  edict_t *trail[TRAIL_LENGTH];
- int trail_head;
+ q_int32_t trail_head;
  qboolean trail_active = false;
 
  void
  PlayerTrail_Init ( void )
  {
-   int n;
+   q_int32_t n;
 
    if ( deathmatch->value ) {
      return;
@@ -95,8 +95,8 @@
  edict_t *
  PlayerTrail_PickFirst ( edict_t *self )
  {
-   int marker;
-   int n;
+   q_int32_t marker;
+   q_int32_t n;
 
    if ( !self ) {
      return NULL;
@@ -128,8 +128,8 @@
  edict_t *
  PlayerTrail_PickNext ( edict_t *self )
  {
-   int marker;
-   int n;
+   q_int32_t marker;
+   q_int32_t n;
 
    if ( !self ) {
      return NULL;

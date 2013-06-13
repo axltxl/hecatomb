@@ -41,14 +41,14 @@
 
  /* This is a hack to work around a missing MinGW prototype */
  #ifndef _controlfp
- unsigned int _controlfp ( unsigned int new, unsigned int mask );
+ q_uint32_t _controlfp ( q_uint32_t new, q_uint32_t mask );
  #endif
 
  extern HINSTANCE global_hInstance;
 
  extern qboolean ActiveApp, Minimized;
 
- extern int window_center_x, window_center_y;
+ extern q_int32_t window_center_x, window_center_y;
  extern RECT window_rect;
 
  #endif

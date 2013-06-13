@@ -32,11 +32,11 @@
  #define MAX_MOD_KNOWN 512
 
  model_t *loadmodel;
- int modfilelen;
+ q_int32_t modfilelen;
  byte mod_novis[MAX_MAP_LEAFS / 8];
  model_t mod_known[MAX_MOD_KNOWN];
- int mod_numknown;
- int registration_sequence;
+ q_int32_t mod_numknown;
+ q_int32_t registration_sequence;
  byte *mod_base;
 
  void LoadSP2 ( model_t *mod, void *buffer );
@@ -88,9 +88,9 @@
  Mod_DecompressVis ( byte *in, model_t *model )
  {
    static byte decompressed[MAX_MAP_LEAFS / 8];
-   int c;
+   q_int32_t c;
    byte *out;
-   int row;
+   q_int32_t row;
    row = ( model->vis->numclusters + 7 ) >> 3;
    out = decompressed;
 
@@ -124,7 +124,7 @@
 
  /* ========================================================================= */
  byte *
- Mod_ClusterPVS ( int cluster, model_t *model )
+ Mod_ClusterPVS ( q_int32_t cluster, model_t *model )
  {
    if ( ( cluster == -1 ) || !model->vis ) {
      return mod_novis;
@@ -139,9 +139,9 @@
  void
  Mod_Modellist_f ( void )
  {
-   int i;
+   q_int32_t i;
    model_t *mod;
-   int total;
+   q_int32_t total;
    total = 0;
    VID_Printf ( PRINT_ALL, "Loaded models:\n" );
 
@@ -171,8 +171,8 @@
  Mod_ForName ( char *name, qboolean crash )
  {
    model_t *mod;
-   unsigned *buf;
-   int i;
+   q_uint32_t *buf;
+   q_int32_t i;
 
    if ( !name[0] ) {
      VID_Error ( ERR_DROP, "Mod_ForName: NULL name" );
@@ -180,7 +180,7 @@
 
    /* inline models are grabbed only from worldmodel */
    if ( name[0] == '*' ) {
-     i = ( int ) strtol ( name + 1, ( char ** ) NULL, 10 );
+     i = ( q_int32_t ) strtol ( name + 1, ( char ** ) NULL, 10 );
 
      if ( ( i < 1 ) || !r_worldmodel || ( i >= r_worldmodel->numsubmodels ) ) {
        VID_Error ( ERR_DROP, "bad inline model number" );
@@ -231,7 +231,7 @@
    loadmodel = mod;
 
    /* call the apropriate loader */
-   switch ( LittleLong ( * ( unsigned * ) buf ) ) {
+   switch ( LittleLong ( * ( q_uint32_t * ) buf ) ) {
    case IDALIASHEADER:
      loadmodel->extradata = Hunk_Begin ( 0x200000 );
      LoadMD2 ( mod, buf );
@@ -276,7 +276,7 @@
  void
  Mod_LoadVisibility ( lump_t *l )
  {
-   int i;
+   q_int32_t i;
 
    if ( !l->filelen ) {
      loadmodel->vis = NULL;
@@ -299,7 +299,7 @@
  {
    dvertex_t *in;
    mvertex_t *out;
-   int i, count;
+   q_int32_t i, count;
    in = ( void * ) ( mod_base + l->fileofs );
 
    if ( l->filelen % sizeof ( *in ) ) {
@@ -323,7 +323,7 @@
  float
  Mod_RadiusFromBounds ( vec3_t mins, vec3_t maxs )
  {
-   int i;
+   q_int32_t i;
    vec3_t corner;
 
    for ( i = 0; i < 3; i++ ) {
@@ -339,7 +339,7 @@
  {
    dmodel_t *in;
    mmodel_t *out;
-   int i, j, count;
+   q_int32_t i, j, count;
    in = ( void * ) ( mod_base + l->fileofs );
 
    if ( l->filelen % sizeof ( *in ) ) {
@@ -373,7 +373,7 @@
  {
    dedge_t *in;
    medge_t *out;
-   int i, count;
+   q_int32_t i, count;
    in = ( void * ) ( mod_base + l->fileofs );
 
    if ( l->filelen % sizeof ( *in ) ) {
@@ -387,8 +387,8 @@
    loadmodel->numedges = count;
 
    for ( i = 0; i < count; i++, in++, out++ ) {
-     out->v[0] = ( unsigned short ) LittleShort ( in->v[0] );
-     out->v[1] = ( unsigned short ) LittleShort ( in->v[1] );
+     out->v[0] = ( q_uint16_t ) LittleShort ( in->v[0] );
+     out->v[1] = ( q_uint16_t ) LittleShort ( in->v[1] );
    }
  }
 
@@ -398,9 +398,9 @@
  {
    texinfo_t *in;
    mtexinfo_t *out, *step;
-   int i, j, count;
+   q_int32_t i, j, count;
    char name[MAX_QPATH];
-   int next;
+   q_int32_t next;
    in = ( void * ) ( mod_base + l->fileofs );
 
    if ( l->filelen % sizeof ( *in ) ) {
@@ -455,10 +455,10 @@
  Mod_CalcSurfaceExtents ( msurface_t *s )
  {
    float mins[2], maxs[2], val;
-   int i, j, e;
+   q_int32_t i, j, e;
    mvertex_t *v;
    mtexinfo_t *tex;
-   int bmins[2], bmaxs[2];
+   q_int32_t bmins[2], bmaxs[2];
    mins[0] = mins[1] = 999999;
    maxs[0] = maxs[1] = -99999;
    tex = s->texinfo;
@@ -502,9 +502,9 @@
  {
    dface_t *in;
    msurface_t *out;
-   int i, count, surfnum;
-   int planenum, side;
-   int ti;
+   q_int32_t i, count, surfnum;
+   q_int32_t planenum, side;
+   q_int32_t ti;
    in = ( void * ) ( mod_base + l->fileofs );
 
    if ( l->filelen % sizeof ( *in ) ) {
@@ -598,7 +598,7 @@
  void
  Mod_LoadNodes ( lump_t *l )
  {
-   int i, j, count, p;
+   q_int32_t i, j, count, p;
    dnode_t *in;
    mnode_t *out;
    in = ( void * ) ( mod_base + l->fileofs );
@@ -645,7 +645,7 @@
  {
    dleaf_t *in;
    mleaf_t *out;
-   int i, j, count, p;
+   q_int32_t i, j, count, p;
    in = ( void * ) ( mod_base + l->fileofs );
 
    if ( l->filelen % sizeof ( *in ) ) {
@@ -678,8 +678,8 @@
  void
  Mod_LoadMarksurfaces ( lump_t *l )
  {
-   int i, j, count;
-   short *in;
+   q_int32_t i, j, count;
+   q_int16_t *in;
    msurface_t **out;
    in = ( void * ) ( mod_base + l->fileofs );
 
@@ -708,8 +708,8 @@
  void
  Mod_LoadSurfedges ( lump_t *l )
  {
-   int i, count;
-   int *in, *out;
+   q_int32_t i, count;
+   q_int32_t *in, *out;
    in = ( void * ) ( mod_base + l->fileofs );
 
    if ( l->filelen % sizeof ( *in ) ) {
@@ -737,11 +737,11 @@
  void
  Mod_LoadPlanes ( lump_t *l )
  {
-   int i, j;
+   q_int32_t i, j;
    cplane_t *out;
    dplane_t *in;
-   int count;
-   int bits;
+   q_int32_t count;
+   q_int32_t bits;
    in = ( void * ) ( mod_base + l->fileofs );
 
    if ( l->filelen % sizeof ( *in ) ) {
@@ -775,7 +775,7 @@
  void
  Mod_LoadBrushModel ( model_t *mod, void *buffer )
  {
-   int i;
+   q_int32_t i;
    dheader_t *header;
    mmodel_t *bm;
    loadmodel->type = mod_brush;
@@ -796,7 +796,7 @@
    mod_base = ( byte * ) header;
 
    for ( i = 0; i < sizeof ( dheader_t ) / 4; i++ ) {
-     ( ( int * ) header ) [i] = LittleLong ( ( ( int * ) header ) [i] );
+     ( ( q_int32_t * ) header ) [i] = LittleLong ( ( ( q_int32_t * ) header ) [i] );
    }
 
    /* load into heap */
@@ -852,7 +852,7 @@
  void
  Mod_FreeAll ( void )
  {
-   int i;
+   q_int32_t i;
 
    for ( i = 0; i < mod_numknown; i++ ) {
      if ( mod_known[i].extradatasize ) {
@@ -888,7 +888,7 @@
  R_RegisterModel ( char *name )
  {
    model_t *mod;
-   int i;
+   q_int32_t i;
    dsprite_t *sprout;
    dmdl_t *pheader;
    mod = Mod_ForName ( name, false );
@@ -927,7 +927,7 @@
  void
  R_EndRegistration ( void )
  {
-   int i;
+   q_int32_t i;
    model_t *mod;
 
    for ( i = 0, mod = mod_known; i < mod_numknown; i++, mod++ ) {

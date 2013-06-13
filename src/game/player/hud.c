@@ -74,7 +74,7 @@
  void
  BeginIntermission ( edict_t *targ )
  {
-   int i, n;
+   q_int32_t i, n;
    edict_t *ent, *client;
 
    if ( !targ ) {
@@ -181,12 +181,12 @@
  {
    char entry[1024];
    char string[1400];
-   int stringlength;
-   int i, j, k;
-   int sorted[MAX_CLIENTS];
-   int sortedscores[MAX_CLIENTS];
-   int score, total;
-   int x, y;
+   q_int32_t stringlength;
+   q_int32_t i, j, k;
+   q_int32_t sorted[MAX_CLIENTS];
+   q_int32_t sortedscores[MAX_CLIENTS];
+   q_int32_t score, total;
+   q_int32_t x, y;
    gclient_t *cl;
    edict_t *cl_ent;
    char *tag;
@@ -325,7 +325,7 @@
  void
  InventoryMessage ( edict_t *ent )
  {
-   int i;
+   q_int32_t i;
 
    if ( !ent ) {
      return;
@@ -345,8 +345,8 @@
  G_SetStats ( edict_t *ent )
  {
    gitem_t *item;
-   int index, cells = 0;
-   int power_armor_type;
+   q_int32_t index, cells = 0;
+   q_int32_t power_armor_type;
 
    if ( !ent ) {
      return;
@@ -486,7 +486,7 @@
  void
  G_CheckChaseStats ( edict_t *ent )
  {
-   int i;
+   q_int32_t i;
    gclient_t *cl;
 
    if ( !ent ) {

@@ -369,7 +369,7 @@
 
  void
  player_pain ( edict_t *self /* unused */, edict_t *other /* unused */,
-               float kick /* unused */, int damage /* unused */ )
+               float kick /* unused */, q_int32_t damage /* unused */ )
  {
    /* Player pain is handled at the end
     * of the frame in P_DamageFeedback.
@@ -435,7 +435,7 @@
  ClientObituary ( edict_t *self, edict_t *inflictor /* unused */,
                   edict_t *attacker )
  {
-   int mod;
+   q_int32_t mod;
    char *message;
    char *message2;
    qboolean ff;
@@ -677,7 +677,7 @@
      item = NULL;
    }
 
-   if ( ! ( ( int ) ( dmflags->value ) & DF_QUAD_DROP ) ) {
+   if ( ! ( ( q_int32_t ) ( dmflags->value ) & DF_QUAD_DROP ) ) {
      quad = false;
    } else {
      quad = ( self->client->quad_framenum > ( level.framenum + 10 ) );
@@ -747,9 +747,9 @@
 
  void
  player_die ( edict_t *self, edict_t *inflictor, edict_t *attacker,
-              int damage, vec3_t point /* unused */ )
+              q_int32_t damage, vec3_t point /* unused */ )
  {
-   int n;
+   q_int32_t n;
 
    if ( !self || !inflictor || !attacker ) {
      return;
@@ -818,7 +818,7 @@
    } else {
      /* normal death */
      if ( !self->deadflag ) {
-       static int i;
+       static q_int32_t i;
 
        i = ( i + 1 ) % 3;
 
@@ -913,7 +913,7 @@
  void
  SaveClientData ( void )
  {
-   int i;
+   q_int32_t i;
    edict_t *ent;
 
    for ( i = 0; i < game.maxclients; i++ ) {
@@ -962,7 +962,7 @@
    edict_t *player;
    float bestplayerdistance;
    vec3_t v;
-   int n;
+   q_int32_t n;
    float playerdistance;
 
    if ( !spot ) {
@@ -1001,8 +1001,8 @@
  SelectRandomDeathmatchSpawnPoint ( void )
  {
    edict_t *spot, *spot1, *spot2;
-   int count = 0;
-   int selection;
+   q_int32_t count = 0;
+   q_int32_t selection;
    float range, range1, range2;
 
    spot = NULL;
@@ -1089,7 +1089,7 @@
  edict_t *
  SelectDeathmatchSpawnPoint ( void )
  {
-   if ( ( int ) ( dmflags->value ) & DF_SPAWN_FARTHEST ) {
+   if ( ( q_int32_t ) ( dmflags->value ) & DF_SPAWN_FARTHEST ) {
      return SelectFarthestDeathmatchSpawnPoint();
    } else {
      return SelectRandomDeathmatchSpawnPoint();
@@ -1099,7 +1099,7 @@
  edict_t *
  SelectCoopSpawnPoint ( edict_t *ent )
  {
-   int index;
+   q_int32_t index;
    edict_t *spot = NULL;
    char *target;
 
@@ -1152,8 +1152,8 @@
  {
    edict_t *spot = NULL;
    edict_t *coopspot = NULL;
-   int index;
-   int counter = 0;
+   q_int32_t index;
+   q_int32_t counter = 0;
    vec3_t d;
 
    if ( !ent ) {
@@ -1235,7 +1235,7 @@
  InitBodyQue ( void )
  {
    if ( deathmatch->value || coop->value ) {
-     int i;
+     q_int32_t i;
      edict_t *ent;
 
      level.body_que = 0;
@@ -1249,10 +1249,10 @@
 
  void
  body_die ( edict_t *self, edict_t *inflictor /* unused */,
-            edict_t *attacker /* unused */, int damage,
+            edict_t *attacker /* unused */, q_int32_t damage,
             vec3_t point /* unused */ )
  {
-   int n;
+   q_int32_t n;
 
    if ( !self ) {
      return;
@@ -1283,7 +1283,7 @@
    }
 
    /* grab a body que and cycle to the next one */
-   body = &g_edicts[ ( int ) maxclients->value + level.body_que + 1];
+   body = &g_edicts[ ( q_int32_t ) maxclients->value + level.body_que + 1];
    level.body_que = ( level.body_que + 1 ) % BODY_QUEUE_SIZE;
 
    gi.unlinkentity ( ent );
@@ -1348,7 +1348,7 @@
  void
  spectator_respawn ( edict_t *ent )
  {
-   int i, numspec;
+   q_int32_t i, numspec;
 
    if ( !ent ) {
      return;
@@ -1450,10 +1450,10 @@
 
    vec3_t mins = { -16, -16, -24};
    vec3_t maxs = {16, 16, 32};
-   int index;
+   q_int32_t index;
    vec3_t spawn_origin, spawn_angles;
    gclient_t *client;
-   int i;
+   q_int32_t i;
    client_persistant_t saved;
    client_respawn_t resp;
 
@@ -1535,10 +1535,10 @@
    client->ps.pmove.origin[1] = spawn_origin[1] * 8;
    client->ps.pmove.origin[2] = spawn_origin[2] * 8;
 
-   if ( deathmatch->value && ( ( int ) dmflags->value & DF_FIXED_FOV ) ) {
+   if ( deathmatch->value && ( ( q_int32_t ) dmflags->value & DF_FIXED_FOV ) ) {
      client->ps.fov = 90;
    } else {
-     client->ps.fov = ( int ) strtol ( Info_ValueForKey ( client->pers.userinfo, "fov" ), ( char ** ) NULL, 10 );
+     client->ps.fov = ( q_int32_t ) strtol ( Info_ValueForKey ( client->pers.userinfo, "fov" ), ( char ** ) NULL, 10 );
 
      if ( client->ps.fov < 1 ) {
        client->ps.fov = 90;
@@ -1644,7 +1644,7 @@
  void
  ClientBegin ( edict_t *ent )
  {
-   int i;
+   q_int32_t i;
 
    if ( !ent ) {
      return;
@@ -1706,7 +1706,7 @@
  ClientUserinfoChanged ( edict_t *ent, char *userinfo )
  {
    char *s;
-   int playernum;
+   q_int32_t playernum;
 
    if ( !ent || !userinfo ) {
      return;
@@ -1741,10 +1741,10 @@
                      va ( "%s\\%s", ent->client->pers.netname, s ) );
 
    /* fov */
-   if ( deathmatch->value && ( ( int ) dmflags->value & DF_FIXED_FOV ) ) {
+   if ( deathmatch->value && ( ( q_int32_t ) dmflags->value & DF_FIXED_FOV ) ) {
      ent->client->ps.fov = 90;
    } else {
-     ent->client->ps.fov = ( int ) strtol ( Info_ValueForKey ( userinfo, "fov" ), ( char ** ) NULL, 10 );
+     ent->client->ps.fov = ( q_int32_t ) strtol ( Info_ValueForKey ( userinfo, "fov" ), ( char ** ) NULL, 10 );
 
      if ( ent->client->ps.fov < 1 ) {
        ent->client->ps.fov = 90;
@@ -1757,7 +1757,7 @@
    s = Info_ValueForKey ( userinfo, "hand" );
 
    if ( strlen ( s ) ) {
-     ent->client->pers.hand = ( int ) strtol ( s, ( char ** ) NULL, 10 );
+     ent->client->pers.hand = ( q_int32_t ) strtol ( s, ( char ** ) NULL, 10 );
    }
 
    /* save off the userinfo in case we want to check something later */
@@ -1793,7 +1793,7 @@
    value = Info_ValueForKey ( userinfo, "spectator" );
 
    if ( deathmatch->value && *value && strcmp ( value, "0" ) ) {
-     int i, numspec;
+     q_int32_t i, numspec;
 
      if ( *spectator_password->string &&
           strcmp ( spectator_password->string, "none" ) &&
@@ -1859,7 +1859,7 @@
  void
  ClientDisconnect ( edict_t *ent )
  {
-   int playernum;
+   q_int32_t playernum;
 
    if ( !ent ) {
      return;
@@ -1906,10 +1906,10 @@
    }
  }
 
- unsigned
- CheckBlock ( void *b, int c )
+ q_uint32_t
+ CheckBlock ( void *b, q_int32_t c )
  {
-   int v, i;
+   q_int32_t v, i;
 
    if ( !b ) {
      return 0;
@@ -1927,7 +1927,7 @@
  void
  PrintPmove ( pmove_t *pm )
  {
-   unsigned c1, c2;
+   q_uint32_t c1, c2;
 
    if ( !pm ) {
      return;
@@ -1947,7 +1947,7 @@
  {
    gclient_t *client;
    edict_t *other;
-   int i, j;
+   q_int32_t i, j;
    pmove_t pm;
 
    if ( !ent || !ucmd ) {
@@ -2138,7 +2138,7 @@
  ClientBeginServerFrame ( edict_t *ent )
  {
    gclient_t *client;
-   int buttonMask;
+   q_int32_t buttonMask;
 
    if ( !ent ) {
      return;
@@ -2175,7 +2175,7 @@
        }
 
        if ( ( client->latched_buttons & buttonMask ) ||
-            ( deathmatch->value && ( ( int ) dmflags->value & DF_FORCE_RESPAWN ) ) ) {
+            ( deathmatch->value && ( ( q_int32_t ) dmflags->value & DF_FORCE_RESPAWN ) ) ) {
          respawn ( ent );
          client->latched_buttons = 0;
        }

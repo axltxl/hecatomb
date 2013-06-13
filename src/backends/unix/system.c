@@ -32,8 +32,8 @@
  #include "backend/generic/input.h"
  #include "backend/unix/unix.h"
 
- unsigned sys_frame_time;
- int curtime;
+ q_uint32_t sys_frame_time;
+ q_int32_t curtime;
  static void *game_library;
 
  static char findbase[MAX_OSPATH];
@@ -46,7 +46,7 @@
 
  /* ========================================================================= */
  static qboolean
- CompareAttributes ( char *path, char *name, unsigned musthave, unsigned canthave )
+ CompareAttributes ( char *path, char *name, q_uint32_t musthave, q_uint32_t canthave )
  {
    struct stat st;
    char fn[MAX_OSPATH];
@@ -80,12 +80,12 @@
  }
 
  /* ========================================================================= */
- int
+ q_int32_t
  Sys_Milliseconds ( void )
  {
    struct timeval tp;
    struct timezone tzp;
-   static int secbase;
+   static q_int32_t secbase;
    gettimeofday ( &tp, &tzp );
 
    if ( !secbase ) {
@@ -119,7 +119,7 @@
 
  /* ========================================================================= */
  char *
- Sys_FindFirst ( char *path, unsigned musthave, unsigned canhave )
+ Sys_FindFirst ( char *path, q_uint32_t musthave, q_uint32_t canhave )
  {
    struct dirent *d;
    char *p;
@@ -159,7 +159,7 @@
 
 /* ========================================================================= */
  char *
- Sys_FindNext ( unsigned musthave, unsigned canhave )
+ Sys_FindNext ( q_uint32_t musthave, q_uint32_t canhave )
  {
    struct dirent *d;
 
@@ -204,12 +204,12 @@
  {
    va_list argptr;
    char text[1024];
-   unsigned char *p;
+   q_uint8_t *p;
    va_start ( argptr, fmt );
    vsnprintf ( text, 1024, fmt, argptr );
    va_end ( argptr );
 
-   for ( p = ( unsigned char * ) text; *p; p++ ) {
+   for ( p = ( q_uint8_t * ) text; *p; p++ ) {
      *p &= 0x7f;
 
      if ( ( ( *p > 128 ) || ( *p < 32 ) ) && ( *p != 10 ) && ( *p != 13 ) && ( *p != 9 ) ) {
@@ -262,7 +262,7 @@
   * returns -1 if not present
   * I don't see this being actually used
   */
- int
+ q_int32_t
  Sys_FileTime ( char *path )
  {
    struct  stat buf;
@@ -276,7 +276,7 @@
 
  /* ========================================================================= */
  void
- floating_point_exception_handler ( int whatever )
+ floating_point_exception_handler ( q_int32_t whatever )
  {
    signal ( SIGFPE, floating_point_exception_handler );
  }
@@ -286,7 +286,7 @@
  Sys_ConsoleInput ( void )
  {
    static char text[256];
-   int len;
+   q_int32_t len;
    fd_set fdset;
    struct timeval timeout;
 

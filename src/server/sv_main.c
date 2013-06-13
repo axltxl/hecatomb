@@ -87,13 +87,13 @@
  {
    char player[1024];
    static char status[MAX_MSGLEN - 16];
-   int i;
+   q_int32_t i;
    client_t *cl;
-   int statusLength;
-   int playerLength;
+   q_int32_t statusLength;
+   q_int32_t playerLength;
    strcpy ( status, Cvar_Serverinfo() );
    strcat ( status, "\n" );
-   statusLength = ( int ) strlen ( status );
+   statusLength = ( q_int32_t ) strlen ( status );
 
    for ( i = 0; i < maxclients->value; i++ ) {
      cl = &svs.clients[i];
@@ -101,7 +101,7 @@
      if ( ( cl->state == cs_connected ) || ( cl->state == cs_spawned ) ) {
        Com_sprintf ( player, sizeof ( player ), "%i %i \"%s\"\n",
                      cl->edict->client->ps.stats[STAT_FRAGS], cl->ping, cl->name );
-       playerLength = ( int ) strlen ( player );
+       playerLength = ( q_int32_t ) strlen ( player );
 
        if ( statusLength + playerLength >= sizeof ( status ) ) {
          break; /* can't hold any more */
@@ -121,9 +121,9 @@
  void
  SV_CalcPings ( void )
  {
-   int i, j;
+   q_int32_t i, j;
    client_t *cl;
-   int total, count;
+   q_int32_t total, count;
 
    for ( i = 0; i < maxclients->value; i++ ) {
      cl = &svs.clients[i];
@@ -160,7 +160,7 @@
  void
  SV_GiveMsec ( void )
  {
-   int i;
+   q_int32_t i;
    client_t *cl;
 
    if ( sv.framenum & 15 ) {
@@ -182,13 +182,13 @@
  void
  SV_ReadPackets ( void )
  {
-   int i;
+   q_int32_t i;
    client_t *cl;
-   int qport;
+   q_int32_t qport;
 
    while ( NET_GetPacket ( NS_SERVER, &net_from, &net_message ) ) {
      /* check for connectionless packet (0xffffffff) first */
-     if ( * ( int * ) net_message.data == -1 ) {
+     if ( * ( q_int32_t * ) net_message.data == -1 ) {
        SV_ConnectionlessPacket();
        continue;
      }
@@ -251,10 +251,10 @@
  void
  SV_CheckTimeouts ( void )
  {
-   int i;
+   q_int32_t i;
    client_t *cl;
-   int droppoint;
-   int zombiepoint;
+   q_int32_t droppoint;
+   q_int32_t zombiepoint;
    droppoint = svs.realtime - 1000 * timeout->value;
    zombiepoint = svs.realtime - 1000 * zombietime->value;
 
@@ -284,7 +284,7 @@
  SV_PrepWorldFrame ( void )
  {
    edict_t *ent;
-   int i;
+   q_int32_t i;
 
    for ( i = 0; i < ge->num_edicts; i++, ent++ ) {
      ent = EDICT_NUM ( i );
@@ -336,7 +336,7 @@
 
  /* ========================================================================= */
  void
- SV_Frame ( int msec )
+ SV_Frame ( q_int32_t msec )
  {
  #ifndef DEDICATED_ONLY
    time_before_game = time_after_game = 0;
@@ -391,7 +391,7 @@
  Master_Heartbeat ( void )
  {
    char *string;
-   int i;
+   q_int32_t i;
 
    if ( !dedicated || !dedicated->value ) {
      return; /* only dedicated servers send heartbeats */
@@ -431,7 +431,7 @@
  void
  Master_Shutdown ( void )
  {
-   int i;
+   q_int32_t i;
 
    if ( !dedicated || !dedicated->value ) {
      return; /* only dedicated servers send heartbeats */
@@ -459,7 +459,7 @@
  SV_UserinfoChanged ( client_t *cl )
  {
    char *val;
-   int i;
+   q_int32_t i;
    /* call prog code to allow overrides */
    ge->ClientUserinfoChanged ( cl->edict, cl->userinfo );
    /* name for C code */
@@ -475,7 +475,7 @@
    val = Info_ValueForKey ( cl->userinfo, "rate" );
 
    if ( strlen ( val ) ) {
-     i = ( int ) strtol ( val, ( char ** ) NULL, 10 );
+     i = ( q_int32_t ) strtol ( val, ( char ** ) NULL, 10 );
      cl->rate = i;
 
      if ( cl->rate < 100 ) {
@@ -493,7 +493,7 @@
    val = Info_ValueForKey ( cl->userinfo, "msg" );
 
    if ( strlen ( val ) ) {
-     cl->messagelevel = ( int ) strtol ( val, ( char ** ) NULL, 10 );
+     cl->messagelevel = ( q_int32_t ) strtol ( val, ( char ** ) NULL, 10 );
    }
  }
 
@@ -534,7 +534,7 @@
  void
  SV_FinalMessage ( char *message, qboolean reconnect )
  {
-   int i;
+   q_int32_t i;
    client_t *cl;
    SZ_Clear ( &net_message );
    MSG_WriteByte ( &net_message, svc_print );
