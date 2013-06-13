@@ -1,0 +1,235 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <style type="text/css">
+      @import url(http://fonts.googleapis.com/css?family=Droid+Sans+Mono);
+      * {
+        margin : 0;
+      }
+      body {
+        font-family: 'Droid Sans Mono','DejaVu Sans', 'Courier New', sans-serif;
+        background-color: white;
+        color: #333;
+        margin: 5em auto;
+        width: 960px;
+      }
+      a:link, a:valid, a:visited {
+        text-decoration: underline;
+        color: #00CED1;
+      }
+      a:hover {
+        text-decoration:none;
+      }
+      h1, h2, h3 {
+        margin-bottom: 0.5em;
+      }
+      h4 {
+        padding : 0;
+      }
+      p {
+        margin-bottom: 2em;
+        text-align: justify;
+      }
+      section div {
+        margin-bottom: 1em;
+      }
+      #download {
+        position:fixed;
+        bottom: 0;
+        right:0;
+        background: #333;
+        width: 384px;
+      }
+      #download h3 {
+        color: white;
+        text-align: center;
+        padding-top: .7em;
+      }
+      #slogan {
+        font-style: italic;
+      }
+      #download ul {
+        display: none;
+        background-color:darkturquoise;
+        padding-top: 1em;
+        padding-bottom: 1em;
+      }
+      #download li a {
+        color: black;
+        padding: .1em;
+      }
+      #download li a:hover {
+        background-color:#333;
+        color: white;
+        transition: background 300ms, color 300ms;
+      }
+      #title {
+        color:darkturquoise;
+        font-size: 3em;
+        background-image: url(icon.png); 
+        background-repeat: no-repeat;
+        background-position: center left;
+        background-size: auto 100%;
+        padding-left:1em;
+      }
+      .irc-chan {
+        color:darkturquoise;
+      }
+      .column {
+        float: left;
+      }
+      #arch, #platforms, #compilers {
+        width: 33%;
+        margin-bottom:3em;
+      }
+      #features, #irc {
+        margin-bottom: 2em;
+        width:50%;
+      }
+      #irc {
+        background:rgba(0,0,0,0.6);
+        color:white;
+        padding: 2em;
+        -moz-box-sizing: border-box;
+        -webkit-box-sizing: border-box;
+        box-sizing: border-box;
+        -moz-border-radius: 12px;
+        -webkit-border-radius: 12px;
+        border-radius: 12px;
+        font-size: 1.3em;
+        text-align: center;
+      }
+      #cmdline {
+        margin-top: 1.5em;
+        margin-left: 1em;
+        display: none;
+        font-size: .75em;
+        max-width: 300px;
+        white-space: nowrap;
+      }
+    </style>
+    <link rel="icon" href="favicon.png">
+    <title>Hecatomb Quake II</title>
+  </head>
+  <body>
+    <a href="https://github.com/alericoveri/hecatomb">
+      <img style="position: fixed; top: 0; left: 0; border: 0;" 
+           src="https://s3.amazonaws.com/github/ribbons/forkme_left_gray_6d6d6d.png" 
+           alt="Fork me on GitHub">
+    </a>
+    <section>
+      <div class="column"><h1 id="title">htq2</h1></div>
+      <div class="column" id="cmdline"></div>
+      <div style="clear:both"></div>
+    </section>
+    <p id="slogan">A portable Quake II client</p>
+    <p>Hecatomb (a.k.a. <strong>htq2</strong>) is
+      a Quake II client who's being intensely developed 
+      towards <span style="font-style:italic">high portability</span></p>
+    <p> Serious decisions are being made. 
+      The main focus is portability, modernization and expansion capabilities, 
+      that means htq2 is not only portable but also extensible. With the power 
+      and stability of <a href="http://yamagi.org/quake2">Yamagi Quake II</a>, htq2 has already full support of 64-bit 
+      architectures, processors and operating systems.</p>
+    <section>
+      <div id="features" class="column">
+        <h2>Features</h2>
+        <ul>
+          <li>All the same goodies from <a href="http://yamagi.org/quake2">YQ2</a></li>
+          <li>Solid codebase with porting capabilities</li>
+          <li>CMake build system fully automated for all supported platforms</li>
+          <li>Generic Hunk allocator (based on plain malloc/free) for easier porting</li>
+          <li>Hunk memory system debug through <code>hunk_trace 1</code></li>
+          <li>Com_DPrintf as variadic macro (for easier tracing/debugging)</li>
+          <li>Signal handler for *nix systems with backtrace (if supported by target platform)</li>
+        </ul>
+      </div>
+      <div class="column" id="irc"><p>Come and join us in our <strong>IRC channel</strong> 
+          to have realtime information and latest updates about htq2. Feel free to chat with us, 
+          tell us about your ideas and proposals, make your questions, bug reports, etc. Connect 
+          to <a href="irc://irc.freenode.net/htq2" class="irc-chan">Freenode</a> and join <span class="irc-chan">#htq2</span></p>
+      </div>
+      <div style="clear:both;"></div>
+      <div id="platforms" class="column">
+        <h2>Supported platforms</h2>
+        <ul>
+          <li>Windows XP+</li>
+          <li>GNU/Linux </li>
+          <li>FreeBSD</li>
+          <li>OpenBSD</li>
+          <li>Apple OSX 10.7+</li>
+        </ul>
+      </div>
+      <div id="arch" class="column">
+      <h2>Supported architectures</h2>
+        <ul>
+          <li>IA32 (a.k.a. x86)</li>
+          <li>AMD64 (a.k.a. x86_64)</li>
+          <li>IA64 (Intel Itanium)</li>
+        </ul>
+      </div>
+      <div id="compilers" class="column">
+        <h2>Supported compilers</h2>
+        <h4>(As of May, 2013)</h4>
+        <ul>
+          <li>GCC</li>
+          <li>clang</li>
+        </ul>
+      </div>
+    </section>
+    <div id="download">
+      <ul>
+        <li><a href="release/htq2-v0.1.0-win32.zip">Windows binaries (x86)</a></li>
+        <li><a href="release/htq2-v0.1.0-win64.zip">Windows binaries (x86_64)</a></li>
+        <li><a href="release/htq2-v0.1.0-linux-amd64.tar.gz">GNU/Linux binaries (x86_64)</a></li>
+        <li><a href="release/htq2-v0.1.0-src.tar.gz">Source code</a></li>
+      </ul>
+      <h3>Download htq2 0.1.0</h3>
+    </div>
+     <script type="text/javascript" src="http://code.jquery.com/jquery-1.10.0.min.js"></script>
+     <script>
+       var cmdline = [
+         '+set developer 1 +demomap demo1.dm2',
+         '+set game tdm +connect 192.168.1.1',
+         '+set developer 1 +set hunk_trace 1 +demomap tdmd0.dm2',
+         '+map foobar',
+         '+set dedicated 1 +set game tdm +map q2dm1',
+         '+set developer 1 +gl_speeds 1 +gl_showtris 1',
+         '+connect s0.quake2.org'
+       ];
+       var i;
+       function getRandIndex(){
+         var i, ti, cl, dlul;
+         do {
+           ti = Math.floor(Math.random() * cmdline.length);
+         }while ( ti === i);
+         return i = ti;
+       }
+       $('document').ready(function(){
+         cl = $('#cmdline');
+         dlul = $('#download ul');
+         $('#download').hover(
+          function(){dlul.slideDown();},
+          function(){dlul.slideUp();}
+          );
+         start();
+       });
+       function stop() {
+         clearInterval(i);i=0;
+       }
+       function start() {
+         cl.html(cmdline[getRandIndex()]);
+         cl.fadeIn(function() {
+            if (!i) {
+              i = setInterval(function(){
+               cl.fadeOut(function(){
+                cl.html(cmdline[getRandIndex()]);
+                cl.fadeIn();
+               });
+              }, 2500);
+            }
+           });
+       }
+     </script>
+  </body>
+</html>
