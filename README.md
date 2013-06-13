@@ -237,20 +237,21 @@ be greatly appreciated.
 ### Milestone 0.2
 * No QGL pointers [DONE]
 * C99 fixed integer types
-* Memory allocation wrapper functions : `QMem_malloc`, `QMem_realloc`, `QMem_calloc` and `QMem_free`
-* Optional use of [dlmalloc](http://g.oswego.edu/dl/html/malloc.html) as memory allocator
+* Memory allocation wrapper functions : `Mem_malloc`, `Mem_realloc`, `Mem_calloc` and `Mem_free` [DONE]
+* Optional use of [dlmalloc](http://g.oswego.edu/dl/html/malloc.html) as memory allocator [DONE]
 * SDL 2.0 support (Linux) [DONE]
 
 ### Milestone 0.3
-* Optional use of [libhoard](http://github.com/emeryberger/Hoard) as memory allocator
+* OGG backend plays any files it finds on music/ directory
 * SDL 2.0 support (OSX)
 
 ### Milestone 0.4
 * OpenGL extensions handling through [GLEW](http://glew.sourceforge.net) *-proposed-*
-* OGG plays any files it finds on music/ directory
+* SDL Gamepad support *-proposed-*
 * SDL 2.0 support (Windows)
 
 ### Milestone 0.5
+* Optional use of [libhoard](http://github.com/emeryberger/Hoard) as memory allocator *-proposed-*
 * SDL 2.0 support (FreeBSD)
 
 ### Milestone 0.9
