@@ -29,11 +29,20 @@
 
  #include "prereqs.h"
 
- #ifdef HT_OS_WINDOWS
- # include "SDL/SDL.h"
- #elif defined(HT_OS_OSX)
- # include <SDL/SDL.h>
+ #ifdef HT_WITH_SDL2
+ # ifdef HT_OS_WINDOWS
+ #  include "SDL2/SDL.h"
+ # elif defined(HT_OS_OSX)
+ #  include <SDL2/SDL.h>
+ # endif
  #else
+ # ifdef HT_OS_WINDOWS
+ #  include "SDL/SDL.h"
+ # elif defined(HT_OS_OSX)
+ #  include <SDL/SDL.h>
+ # endif
+ #endif
+ #ifdef HT_OS_UNIX
  // Wonderful UNIX
  # include <SDL.h>
  #endif

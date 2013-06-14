@@ -1038,11 +1038,15 @@
      }
    }
 
+ #ifdef HT_WITH_SDL2
+   Com_Printf ( "SDL audio driver is \"%s\".\n", SDL_GetCurrentAudioDriver() );
+ #else
    if ( SDL_AudioDriverName ( drivername, sizeof ( drivername ) ) == NULL ) {
      strcpy ( drivername, "(UNKNOW)" );
    }
-
    Com_Printf ( "SDL audio driver is \"%s\".\n", drivername );
+ #endif
+
    memset ( &desired, '\0', sizeof ( desired ) );
    memset ( &obtained, '\0', sizeof ( obtained ) );
 

@@ -145,6 +145,7 @@ set (EXTLIBS_BIN "${EXTLIBS_BASE}/bin")
 if (WINDOWS)
   set (CMAKE_INCLUDE_PATH ${CMAKE_INCLUDE_PATH} "${EXTLIBS_HEADERS}")
   set (SDL_INCLUDE_DIR ${EXTLIBS_HEADERS})
+  set (SDL2_INCLUDE_DIR ${EXTLIBS_HEADERS})
   set (OPENAL_INCLUDE_DIR ${EXTLIBS_HEADERS})
   if (COMPILER_GCC)
     set (EXTLIBS_LIBS_MINGW "${EXTLIBS_LIBS}/mingw")
@@ -179,6 +180,10 @@ else ()
 endif()
 mark_as_advanced (HT_WITH_MALLOC)
 
+# SDL 2.0
+# Enables the use of SDL2 instead of SDL1 
+# ---------------------
+ht_set_option(HT_USE_SDL2 FALSE BOOL "Use libSDL-2.0 [EXPERIMENTAL]")
 
 # Enables Generic Hunk Driver, a general purpose Hunk_* backend
 # based solely on plain malloc/free. Use this at your own risk as
@@ -311,7 +316,11 @@ endif()
 
 # SDL
 # ---------------------
-find_package (SDL REQUIRED)
+if (HT_USE_SDL2)
+  find_package (SDL2 REQUIRED)
+else()
+  find_package (SDL REQUIRED)
+endif()
 
 # OGG and Vorbis
 # ---------------------

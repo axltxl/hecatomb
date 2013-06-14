@@ -6,13 +6,18 @@ htq2 0.2.0
 - gl_log cvar and GL logging system are now purged
 - gl_driver cvar is now purged
 - Severe code cleanup
-<<<<<<< HEAD
 - windres is now compiling the Windows icon into the executables
 - dlmalloc and jemalloc can be chosen as memory allocator backends
   (malloc, calloc, realloc, free)
-=======
 - Massive use of fixed integer types
->>>>>>> stdint
+- SDL2 backend (experimental state)
+- SDL2 backend is optional through CMake via HT_WITH_SDL2.
+- SDL_Scancode-based keyboard input interpretation on SDL2 backend
+- Use of the new SDL_SetRelativeMouseMode (where available). 
+  If relative mouse mode is not supported on target platform 
+  htq2 will then proceed to it’s manual calculation through 
+  SDL_WarpMouseInWindow and SDL_GetMouseState (SDL2).
+- Use of SDL_SetWindowBrightness (SDL2) for setting up the gamma ramp
 
 htq2 0.1.0
 - CMake integrated build automation

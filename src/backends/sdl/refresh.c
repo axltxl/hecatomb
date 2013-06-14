@@ -1,4 +1,5 @@
 /*
+ * Copyright (C) 2013 Alejandro Ricoveri
  * Copyright (C) 2010 Yamagi Burmeister
  * Copyright (C) 1997-2001 Id Software, Inc.
  *
@@ -41,7 +42,12 @@
  # include <X11/extensions/xf86vmode.h>
  #endif
 
+ #ifdef HT_WITH_SDL2
+ SDL_Window *window;
+ #else
  SDL_Surface *surface;
+ #endif
+
  qboolean have_stencil = false;
 
  char *displayname = NULL;
@@ -56,8 +62,14 @@
  q_int32_t
  GLimp_Init ( void )
  {
+   // Print SDL version
+   VID_Printf ( PRINT_ALL, "SDL version is \"%d.%d.%d\"\n",
+              SDL_MAJOR_VERSION, SDL_MINOR_VERSION, SDL_PATCHLEVEL );
+
    if ( !SDL_WasInit ( SDL_INIT_VIDEO ) ) {
+ #ifndef HT_WITH_SDL2
      char driverName[64];
+ #endif
 
      if ( SDL_Init ( SDL_INIT_VIDEO ) == -1 ) {
        VID_Printf ( PRINT_ALL, "Couldn't init SDL video: %s.\n",
@@ -65,8 +77,13 @@
        return false;
      }
 
+ #ifdef HT_WITH_SDL2
+     VID_Printf ( PRINT_ALL, "SDL video driver is \"%s\".\n",
+                  SDL_GetCurrentVideoDriver() );
+ #else
      SDL_VideoDriverName ( driverName, sizeof ( driverName ) - 1 );
      VID_Printf ( PRINT_ALL, "SDL video driver is \"%s\".\n", driverName );
+ #endif
    }
 
    return true;
@@ -86,10 +103,19 @@
  SetSDLIcon()
  {
    SDL_Surface *icon;
+ #ifdef HT_WITH_SDL2
+   SDL_Color colors[2];
+ #else
    SDL_Color color;
+ #endif
    Uint8 *ptr;
    q_int32_t i;
    q_int32_t mask;
+ #ifdef HT_WITH_SDL2
+   SDL_Palette *palette;
+ #endif // HT_WITH_SDL2
+
+   /* Create initial icon surface */
    icon = SDL_CreateRGBSurface ( SDL_SWSURFACE,
                                  q2icon_width, q2icon_height, 8,
                                  0, 0, 0, 0 );
@@ -98,6 +124,7 @@
      return;
    }
 
+ #ifndef HT_WITH_SDL2
    SDL_SetColorKey ( icon, SDL_SRCCOLORKEY, 0 );
    color.r = 255;
    color.g = 255;
@@ -107,6 +134,22 @@
    color.g = 16;
    color.b = 0;
    SDL_SetColors ( icon, &color, 1, 1 );
+ #else
+   /* Set color palette for this icon */
+   colors[0].r = 255;
+   colors[0].g = 255;
+   colors[0].b = 255;
+   colors[0].a = 255;
+   colors[1].r = 0;
+   colors[1].g = 16;
+   colors[1].b = 0;
+   colors[1].a = 255;
+
+   /* Set up palette for this icon */
+   palette = icon->format->palette;
+   SDL_SetPaletteColors ( palette, colors, 0, 2 );
+ #endif
+   /* Translate pixels from original image to the icon surface */
    ptr = ( Uint8 * ) icon->pixels;
 
    for ( i = 0; i < sizeof ( q2icon_bits ); i++ ) {
@@ -116,7 +159,14 @@
      }
    }
 
+ /* Attach the icon on the window */
+ #ifdef HT_WITH_SDL2
+   /* Color key must be set after the palette has been set */
+   SDL_SetColorKey ( icon, SDL_TRUE, 0 );
+   SDL_SetWindowIcon ( window, icon );
+ #else
    SDL_WM_SetIcon ( icon, NULL );
+ #endif
    SDL_FreeSurface ( icon );
  }
 
@@ -142,11 +192,14 @@
  void
  UpdateHardwareGamma ( void )
  {
-   float gamma;
-   gamma = ( vid_gamma->value );
+   float gamma = vid_gamma->value;
+ #ifdef HT_WITH_SDL2
+   SDL_SetWindowBrightness ( window, gamma );
+ #else
    SDL_SetGamma ( gamma, gamma, gamma );
- }
  #endif
+ }
+ #endif // HT_WITH_X11GAMMA
 
  /* ========================================================================= */
  static qboolean
@@ -155,62 +208,70 @@
    q_int32_t counter = 0;
    q_int32_t flags;
    q_int32_t stencil_bits;
-   char title[24];
-
-   if ( surface && ( surface->w == vid.width ) && ( surface->h == vid.height ) ) {
-     /* Are we running fullscreen? */
-     q_int32_t isfullscreen = ( surface->flags & SDL_FULLSCREEN ) ? 1 : 0;
-
-     /* We should, but we don't */
-     if ( fullscreen != isfullscreen ) {
-       SDL_WM_ToggleFullScreen ( surface );
-     }
-
-     /* Do we now? */
-     isfullscreen = ( surface->flags & SDL_FULLSCREEN ) ? 1 : 0;
-
-     if ( fullscreen == isfullscreen ) {
-       return true;
-     }
-   }
-
-   /* Is the surface used? */
-   if ( surface ) {
-     SDL_FreeSurface ( surface );
-   }
 
    /* Create the window */
    VID_NewWindow ( vid.width, vid.height );
+
+   /* Set up prior OpenGL attributes before we set our nice context */
    SDL_GL_SetAttribute ( SDL_GL_RED_SIZE, 8 );
    SDL_GL_SetAttribute ( SDL_GL_GREEN_SIZE, 8 );
    SDL_GL_SetAttribute ( SDL_GL_BLUE_SIZE, 8 );
    SDL_GL_SetAttribute ( SDL_GL_DEPTH_SIZE, 24 );
    SDL_GL_SetAttribute ( SDL_GL_DOUBLEBUFFER, 1 );
    SDL_GL_SetAttribute ( SDL_GL_STENCIL_SIZE, 8 );
+
    /* Initiate the flags */
+ #ifdef HT_WITH_SDL2
+   flags = SDL_WINDOW_OPENGL | SDL_WINDOW_SHOWN;
+ #else
    flags = SDL_OPENGL;
+ #endif
 
    if ( fullscreen ) {
+ #ifdef HT_WITH_SDL2
+     flags |= SDL_WINDOW_FULLSCREEN;
+ #else
      flags |= SDL_FULLSCREEN;
+ #endif
    }
 
-   /* Set the icon */
+ #ifndef HT_WITH_SDL2
+   /*
+    * Set the icon for the window:
+    * The window icon can be set right here because SDL-1.2
+    * doesn't support multiple window management like SDL2,
+    * so the single window that SDL1.2 can handle has already
+    * been created at this point of execution
+    */
    SetSDLIcon();
+ #endif
 
    /* Enable vsync */
    if ( gl_swapinterval->value ) {
+ #ifdef HT_WITH_SDL2
+     SDL_GL_SetSwapInterval ( 1 );
+ #else
      SDL_GL_SetAttribute ( SDL_GL_SWAP_CONTROL, 1 );
+ #endif
    }
 
    while ( 1 ) {
+ #ifdef HT_WITH_SDL2
+     if ( ( window = SDL_CreateWindow ( HT_PRODUCT_NAME,
+                                        SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED,
+                                        vid.width, vid.height, flags ) ) == NULL ) {
+ #else
      if ( ( surface = SDL_SetVideoMode ( vid.width, vid.height, 0, flags ) ) == NULL ) {
+ #endif
        if ( counter == 1 ) {
          VID_Error ( ERR_FATAL, "Failed to revert to gl_mode 5. Exiting...\n" );
          return false;
        }
-
-       VID_Printf ( PRINT_ALL, "SDL SetVideoMode failed: %s\n",
-                    SDL_GetError() );
+ #ifdef HT_WITH_SDL2
+       VID_Printf ( PRINT_ALL, "SDL_CreateWindow failed: %s\n", SDL_GetError() );
+ #else
+       VID_Printf ( PRINT_ALL, "SDL_SetVideoMode failed: %s\n", SDL_GetError() );
+ #endif
        VID_Printf ( PRINT_ALL, "Reverting to gl_mode 5 (640x480) and windowed mode.\n" );
        /* Try to recover */
        Cvar_SetValue ( "gl_mode", 5 );
@@ -224,6 +285,14 @@
      }
    }
 
+ #ifdef HT_WITH_SDL2
+   /* Set the icon AFTER window has been created */
+   SetSDLIcon();
+
+   /* Create our OpenGL context and attach it to our window */
+   SDL_GL_CreateContext ( window );
+ #endif
+
    /* Initialize the stencil buffer */
    if ( !SDL_GL_GetAttribute ( SDL_GL_STENCIL_SIZE, &stencil_bits ) ) {
      VID_Printf ( PRINT_ALL, "Got %d bits of stencil.\n", stencil_bits );
@@ -235,7 +304,6 @@
 
    /* Initialize hardware gamma */
  #ifdef HT_WITH_X11GAMMA
-
    if ( ( dpy = XOpenDisplay ( displayname ) ) == NULL ) {
      VID_Printf ( PRINT_ALL, "Unable to open display.\n" );
    } else {
@@ -248,17 +316,25 @@
      XF86VidModeGetGamma ( dpy, screen, &x11_oldgamma );
      VID_Printf ( PRINT_ALL, "Using hardware gamma via X11.\n" );
    }
-
  #else
    gl_state.hwgamma = true;
    vid_gamma->modified = true;
    VID_Printf ( PRINT_ALL, "Using hardware gamma via SDL.\n" );
  #endif
-   /* Window title */
-   snprintf ( title, sizeof ( title ), "%s", HT_PRODUCT_NAME );
-   SDL_WM_SetCaption ( title, title );
-   /* No cursor */
-   SDL_ShowCursor ( 0 );
+ #ifndef HT_WITH_SDL2
+   SDL_WM_SetCaption ( HT_PRODUCT_NAME, HT_PRODUCT_NAME );
+ #endif
+ #ifdef HT_WITH_SDL2
+   /* Probe for SDL relative mouse support */
+   if ( SDL_SetRelativeMouseMode ( SDL_TRUE ) < 0 ) {
+     Com_DPrintf ( "SDL_SetRelativeMouseMode not supported on this platform!" );
+
+ #endif
+     /* No cursor */
+     SDL_ShowCursor ( SDL_DISABLE );
+ #ifdef HT_WITH_SDL2
+   }
+ #endif
    return true;
  }
 
@@ -266,7 +342,11 @@
  void
  GLimp_EndFrame ( void )
  {
+ #ifdef HT_WITH_SDL2
+   SDL_GL_SwapWindow ( window );
+ #else
    SDL_GL_SwapBuffers();
+ #endif
  }
 
  /* ========================================================================= */
@@ -295,22 +375,27 @@
  void
  GLimp_Shutdown ( void )
  {
+ #ifdef HT_WITH_SDL2
+   if ( window )
+ #else
+   if ( surface )
+ #endif
+   {
+     /* Clear the backbuffer and make it
+      current. This may help some broken
+      video drivers like the AMD Catalyst
+      to avoid artifacts in unused screen
+      areas */
+     qglClearColor ( 0.0, 0.0, 0.0, 0.0 );
+     qglClear ( GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT );
+     GLimp_EndFrame();
 
-   /* Clear the backbuffer and make it
-    current. This may help some broken
-    video drivers like the AMD Catalyst
-    to avoid artifacts in unused screen
-    areas */
-   qglClearColor ( 0.0, 0.0, 0.0, 0.0 );
-   qglClear ( GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT );
-   GLimp_EndFrame();
-
-
-   if ( surface ) {
+ #ifdef HT_WITH_SDL2
+     SDL_DestroyWindow ( window );
+ #else
      SDL_FreeSurface ( surface );
+ #endif
    }
-
-   surface = NULL;
 
    if ( SDL_WasInit ( SDL_INIT_EVERYTHING ) == SDL_INIT_VIDEO ) {
      SDL_Quit();
@@ -321,6 +406,7 @@
  #ifdef HT_WITH_X11GAMMA
    if ( gl_state.hwgamma == true ) {
      XF86VidModeSetGamma ( dpy, screen, &x11_oldgamma );
+     
      /* This forces X11 to update the gamma tables */
      XF86VidModeGetGamma ( dpy, screen, &x11_oldgamma );
    }
