@@ -6,26 +6,26 @@ htq2 0.2.0
 - gl_log cvar and GL logging system are now purged
 - gl_driver cvar is now purged
 - Severe code cleanup
-- windres is now compiling the Windows icon into the executables
+- [Windows] windres is now compiling the Windows icon into the executables
 - dlmalloc and jemalloc can be chosen as memory allocator backends
   (malloc, calloc, realloc, free)
 - Massive use of fixed integer types
-- SDL2 backend (experimental state)
-- SDL2 backend is optional through CMake via HT_WITH_SDL2.
-- SDL_Scancode-based keyboard input interpretation on SDL2 backend
-- Use of the new SDL_SetRelativeMouseMode (where available). 
+- Initial inclusion of SDL2 backend (experimental state)
+- [SDL2] CMake new option HT_WITH_SDL2 for using SDL2 backend
+- [SDL2] SDL_Scancode-based keyboard input interpretation
+- [SDL2] Use of the new SDL_SetRelativeMouseMode (where available). 
   If relative mouse mode is not supported on target platform 
   htq2 will then proceed to it’s manual calculation through 
-  SDL_WarpMouseInWindow and SDL_GetMouseState (SDL2).
-- Use of SDL_SetWindowBrightness (SDL2) for setting up the gamma ramp
+  SDL_WarpMouseInWindow and SDL_GetMouseState.
+- [SDL2] Use of SDL_SetWindowBrightness for setting up the gamma ramp
 
 htq2 0.1.1
 - New options for choosing targets on CMake:
   HT_CLIENT, HT_SERVER and HT_GAME
 - CMake script will now check for SDL version 1.2.*
-- On OSX, bundled frameworks are taken into account at last
+- [OSX] Bundled frameworks are taken into account at last
   priority, if external frameworks/libraries are found, there
-  will be used instead
+  will be used instead.
 
 htq2 0.1.0
 - CMake integrated build automation
