@@ -19,6 +19,14 @@ htq2 0.2.0
   SDL_WarpMouseInWindow and SDL_GetMouseState (SDL2).
 - Use of SDL_SetWindowBrightness (SDL2) for setting up the gamma ramp
 
+htq2 0.1.1
+- New options for choosing targets on CMake:
+  HT_CLIENT, HT_SERVER and HT_GAME
+- CMake script will now check for SDL version 1.2.*
+- On OSX, bundled frameworks are taken into account at last
+  priority, if external frameworks/libraries are found, there
+  will be used instead
+
 htq2 0.1.0
 - CMake integrated build automation
 - Architecture detection on configure time

@@ -41,6 +41,8 @@ Software's original code drop indeed, oh well ...
   `$ mkdir /path/to/htq2-build`
 * Go to it and generate your CMake build files (it's your choice what you want to generate: a Makefile, a XCode project, etc.)  
   `$ cd /path/to/htq2-build && cmake /path/to/hecatomb`
+* Choose your targets. You'll need to select `HT_CLIENT` and `HT_GAME` in order to play
+* Reconfigure and generate your build files
 * Let's say you wanted generate a sweet and plain Makefile, now you can actually build it:  
   `$ make`
 * Le voilà, you can already see the binaries on `/path/to/htq2-build/bin/<architecture>`a and test them:  
@@ -55,6 +57,20 @@ Software's original code drop indeed, oh well ...
 * Enjoy!. Happy fragging!, there are great Quake II servers [here](www.q2servers.com) ;) ...
 
 ## CMake build options
+
+#####`HT_CLIENT`
+######default : `false`
+######default : `true` (Windows, OSX) 
+Build client executable
+
+#####`HT_SERVER`
+######default : `true`  
+Build dedicated server executable
+
+#####`HT_GAME`
+######default : `false`
+######default : `true` (Windows, OSX) 
+Build game DLL
 
 #####`HT_WITH_MALLOC`
 ######default: `stdc`  
@@ -74,6 +90,7 @@ You're encouraged to use this allocator for having an easier way
 to porting *htq2* to other platforms, otherwise you should remain
 using the platform-specific drivers, they're much faster and therefore
 reliable.
+
 #####`HT_WITH_OGG`
 ######default : `false`  
 ######default : `true` (Windows, OSX)  

@@ -69,11 +69,16 @@ set (VERSION "${VERSION_MAJOR}.${VERSION_MINOR}.${VERSION_PATCH}")
 # Default values
 # ---------------------
 set (DEF_MEM "stdc")
+set (DEF_CLIENT FALSE)
+set (DEF_SERVER FALSE)
+set (DEF_GAME FALSE)
 set (DEF_OGG FALSE)
 set (DEF_OPENAL FALSE)
 set (DEF_ZIP FALSE)
 set (DEF_RETEXTURE FALSE)
 if (WINDOWS OR OSX)
+  set (DEF_CLIENT TRUE)
+  set (DEF_GAME TRUE)
   set (DEF_OGG TRUE)
   set (DEF_ZIP TRUE)
   set (DEF_RETEXTURE TRUE)
@@ -158,8 +163,11 @@ if (WINDOWS)
     endif()
   endif()
 elseif (OSX)
-  # default to searching for frameworks first
-  set (CMAKE_FIND_FRAMEWORK FIRST)
+  # The source tree comes with all dependencies that are
+  # necessary ready to build all targets
+  # default to searching for frameworks last
+  # so we can give other libraries/frameworks the chance to get used
+  set (CMAKE_FIND_FRAMEWORK LAST)
   # set up the default search directories for frameworks
   set (CMAKE_SYSTEM_FRAMEWORK_PATH "${EXTLIBS_LIBS}/osx" ${CMAKE_SYSTEM_FRAMEWORK_PATH})
 endif()
@@ -180,10 +188,20 @@ else ()
 endif()
 mark_as_advanced (HT_WITH_MALLOC)
 
-# SDL 2.0
-# Enables the use of SDL2 instead of SDL1
+# Enable the 'client' target
 # ---------------------
-ht_set_option(HT_USE_SDL2 FALSE BOOL "Use libSDL-2.0 [EXPERIMENTAL]")
+# This will be probably what you'll want to build the most
+ht_set_option (HT_CLIENT ${DEF_CLIENT} BOOL "Build client executable")
+
+# Enable the 'server' target
+# ---------------------
+# This will build the dedicated server
+ht_set_option (HT_SERVER ${DEF_SERVER} BOOL "Build dedicated server executable")
+
+# Enable the 'game' target
+# ---------------------
+# This will build the baseq2 DLL
+ht_set_option (HT_GAME ${DEF_GAME} BOOL "Build baseq2 game DLL")
 
 # Enables Generic Hunk Driver, a general purpose Hunk_* backend
 # based solely on plain malloc/free. Use this at your own risk as
@@ -195,57 +213,69 @@ ht_set_option(HT_USE_SDL2 FALSE BOOL "Use libSDL-2.0 [EXPERIMENTAL]")
 # ---------------------
 ht_set_option(HT_HUNKDRIVER_GENERIC FALSE BOOL
   "Generic Hunk driver (based on malloc/free) [EXPERIMENTAL]")
+mark_as_advanced (HT_HUNKDRIVER_GENERIC)
 
-# Enables OGG/Vorbis support. OGG/Vorbis files can be
-# used as a substitute of CD audio playback. Adds
-# dependencies to libogg, libvorbis and libvorbisfile.
-# ---------------------
-ht_set_option(HT_WITH_OGG ${DEF_OGG} BOOL "OGG/Vorbis support")
+if (HT_CLIENT)
 
-# Enables high resolution retexturing support. Adds a dependency to libjpeg
-# ---------------------
-ht_set_option(HT_WITH_RETEXTURE ${DEF_RETEXTURE} BOOL "Retexturing support")
+  # SDL 2.0
+  # Enables the use of SDL2 instead of SDL1
+  # ---------------------
+  ht_set_option(HT_USE_SDL2 FALSE BOOL "Use libSDL-2.0 [EXPERIMENTAL]")
 
-# Enables opening of ZIP files (also known as .pk3 packs).
-# Adds a dependency to zlib
-# ---------------------
-ht_set_option(HT_WITH_ZIP ${DEF_ZIP} BOOL
-  "ZIP files support (for opening .pk3 packs)")
+  # Enables OGG/Vorbis support. OGG/Vorbis files can be
+  # used as a substitute of CD audio playback. Adds
+  # dependencies to libogg, libvorbis and libvorbisfile.
+  # ---------------------
+  ht_set_option(HT_WITH_OGG ${DEF_OGG} BOOL "OGG/Vorbis support")
 
-# Enables the optional OpenAL sound system.
-# To use it your system needs libopenal.so.1
-# or openal32.dll (we recommend openal-soft)
-# installed
-# ---------------------
-ht_set_option(HT_WITH_OPENAL ${DEF_OPENAL} BOOL
-  "Use the OpenAL sound system")
+  # Enables high resolution retexturing support. Adds a dependency to libjpeg
+  # ---------------------
+  ht_set_option(HT_WITH_RETEXTURE ${DEF_RETEXTURE} BOOL "Retexturing support")
 
-# Set the gamma via X11 and not via SDL. This works
-# around problems in some SDL versions. Adds dependencies
-# to libX11 and libXxf86vm. Unsupported on
-# Windows and OS X.
-# ---------------------
-if (UNIX AND NOT OSX)
-  ht_set_option(HT_WITH_X11GAMMA FALSE BOOL
-    "Set the gamma via X11 and not via SDL")
+  # Enables the optional OpenAL sound system.
+  # To use it your system needs libopenal.so.1
+  # or openal32.dll (we recommend openal-soft)
+  # installed
+  # ---------------------
+  ht_set_option(HT_WITH_OPENAL ${DEF_OPENAL} BOOL
+    "Use the OpenAL sound system")
+
+  # Set the gamma via X11 and not via SDL. This works
+  # around problems in some SDL versions. Adds dependencies
+  # to libX11 and libXxf86vm. Unsupported on
+  # Windows and OS X.
+  # ---------------------
+  if (UNIX AND NOT OSX)
+    ht_set_option(HT_WITH_X11GAMMA FALSE BOOL
+      "Set the gamma via X11 and not via SDL")
+  endif()
+endif() # HT_CLIENT
+
+if (HT_CLIENT OR HT_SERVER)
+
+  # Enable systemwide installation of game assets
+  # ---------------------
+  ht_set_option(HT_WITH_SYSTEMWIDE TRUE BOOL
+    "Enable systemwide installation of game assets")
+
+  # Enables opening of ZIP files (also known as .pk3 packs).
+    # Adds a dependency to zlib
+  # ---------------------
+  ht_set_option(HT_WITH_ZIP ${DEF_ZIP} BOOL
+    "ZIP files support (for opening .pk3 packs)")
+
+  # This will set the default system directory, a non-empty string
+  # would actually be used. On Windows normals slashes (/)
+  # instead of backslashed (\) must be used!
+  # ---------------------
+  if (WINDOWS)
+    set (SYSTEMDIR_DEFAULT c:/quake2)
+  else()
+    set (SYSTEMDIR_DEFAULT /usr/share/games/quake2)
+  endif()
+  ht_set_option(HT_WITH_SYSTEMDIR "${SYSTEMDIR_DEFAULT}"
+      PATH "Location of system-wide game assets installation")
 endif()
-
-# Enable systemwide installation of game assets
-# ---------------------
-ht_set_option(HT_WITH_SYSTEMWIDE TRUE BOOL
-  "Enable systemwide installation of game assets")
-
-# This will set the default system directory, a non-empty string
-# would actually be used. On Windows normals slashes (/)
-# instead of backslashed (\) must be used!
-# ---------------------
-if (WINDOWS)
-  set (SYSTEMDIR_DEFAULT c:/quake2)
-else()
-  set (SYSTEMDIR_DEFAULT /usr/share/games/quake2)
-endif()
-ht_set_option(HT_WITH_SYSTEMDIR "${SYSTEMDIR_DEFAULT}"
-    PATH "Location of system-wide game assets installation")
 
 # Compiler related definitions
 # ---------------------
@@ -277,20 +307,22 @@ if (HT_WITH_MALLOC STREQUAL ${DEF_MEM})
 endif()
 
 if (UNIX)
+  if (HT_CLIENT OR HT_SERVER)
+    # Optional execinfo support for backtracing on crashes
+    # ---------------------
+    find_package (Libexecinfo)
+    if(LIBEXECINFO_LIB_FOUND)
+      set(HT_HAVE_EXECINFO 1)
+    endif()
 
-  # Optional execinfo support for backtracing on crashes
-  # ---------------------
-  find_package (Libexecinfo)
-  if(LIBEXECINFO_LIB_FOUND)
-    set(HT_HAVE_EXECINFO 1)
+    # dlopen, dlsym, dlclose, etc ...
+    # ---------------------
+    find_package (LibDL REQUIRED)
   endif()
-
-  # dlopen, dlsym, dlclose, etc ...
-  # ---------------------
-  find_package (LibDL REQUIRED)
 endif()
 
 # Git related information
+# ---------------------
 include(GetGitRevisionDescription)
 get_git_head_revision(GIT_REFSPEC GIT_SHA1)
 if (NOT ${GIT_SHA1} STREQUAL "GITDIR-NOTFOUND")
@@ -298,49 +330,73 @@ if (NOT ${GIT_SHA1} STREQUAL "GITDIR-NOTFOUND")
   set (HT_WITH_GIT 1)
 endif()
 
-# X11 libraries
-# ---------------------
-if (HT_WITH_X11GAMMA)
-  find_package (X11 REQUIRED)
-endif()
+if (HT_CLIENT)
 
-# OpenGL
-# ---------------------
-find_package(OpenGL REQUIRED)
-
-# OpenAL
-# ---------------------
-if (HT_WITH_OPENAL)
-  find_package(OpenAL REQUIRED)
-endif()
-
-# SDL
-# ---------------------
-if (HT_USE_SDL2)
-  find_package (SDL2 REQUIRED)
-else()
-  find_package (SDL REQUIRED)
-endif()
-
-# OGG and Vorbis
-# ---------------------
-if (HT_WITH_OGG)
-  find_package (VORBIS REQUIRED)
-endif()
-
-# libjpeg
-# ---------------------
-if (HT_WITH_RETEXTURE)
-  if (OSX)
-    set (JPEG_NAMES libjpeg)
+  # X11 libraries
+  # ---------------------
+  if (HT_WITH_X11GAMMA)
+    find_package (X11 REQUIRED)
   endif()
-  find_package (JPEG REQUIRED)
-endif()
 
-# zlib
-# ---------------------
-if (HT_WITH_ZIP)
-  find_package (ZLIB REQUIRED)
+  # OpenGL
+  # ---------------------
+  find_package(OpenGL REQUIRED)
+
+  # SDL
+  # ---------------------
+  if (HT_USE_SDL2)
+    find_package (SDL2 REQUIRED)
+  else()
+    find_package (SDL REQUIRED)
+  endif()
+
+  # Check for a valid version of SDL before insertion
+  # ---------------------
+  if (SDL_VERSION_STRING)
+    if (NOT SDL_VERSION_STRING MATCHES "1.2.*")
+      set (SDL_VER_ERR 1)
+    endif()
+    if ( NOT SDL_VERSION_STRING MATCHES "2.*" )
+      set (SDL2_VER_ERR 1)
+    endif()
+    if (SDL_VER_ERR AND SDL2_VER_ERR)
+      message (FATAL_ERROR "Only SDL 1.2 or 2.0 are supported. Your SDL version is: ${SDL_VERSION_STRING}")
+    endif()
+  elseif(NOT WINDOWS)
+    message (WARNING "SDL version couldn't be determined!. I'll use it anyway ...")
+  endif()
+
+  # OpenAL
+  # ---------------------
+  if (HT_WITH_OPENAL)
+    find_package(OpenAL REQUIRED)
+  endif()
+
+  # OGG and Vorbis
+  # ---------------------
+  if (HT_WITH_OGG)
+    find_package (VORBIS REQUIRED)
+  endif()
+
+  # libjpeg
+  # ---------------------
+  if (HT_WITH_RETEXTURE)
+    if (OSX)
+      set (JPEG_NAMES libjpeg)
+    endif()
+    find_package (JPEG REQUIRED)
+  endif()
+
+endif() # HT_CLIENT
+
+if (HT_CLIENT OR HT_SERVER)
+
+    # zlib
+    # ---------------------
+    if (HT_WITH_ZIP)
+      find_package (ZLIB REQUIRED)
+    endif()
+
 endif()
 
 # Source files
