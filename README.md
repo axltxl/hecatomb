@@ -243,18 +243,9 @@ That will be great from you!, *htq2* it's on its way to be a highly portable Qua
 These are the established milestones. Your contribution through *proper pull requests* will
 be greatly appreciated.
 
-##Current milestone is *0.1*
-* Code layout/refactoring [DONE]
-* Solid codebase with porting capabilities [DONE]
-* CMake build system fully automated for all supported platforms [DONE]
-* No QAL pointers [DONE]
-* Get rid of CD-Audio playback [DONE]
-* Generic Hunk allocator (based on plain `malloc`/`free`) [DONE]
-* Bug fixes [DONE]
-
-### Milestone 0.2
+##Current milestone is *0.2*
 * No QGL pointers [DONE]
-* C99 fixed integer types
+* C99 fixed integer types [DONE]
 * Memory allocation wrapper functions : `Mem_malloc`, `Mem_realloc`, `Mem_calloc` and `Mem_free` [DONE]
 * Optional use of [dlmalloc](http://g.oswego.edu/dl/html/malloc.html) as memory allocator [DONE]
 * SDL 2.0 support (Linux) [DONE]
