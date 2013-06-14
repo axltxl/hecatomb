@@ -44,7 +44,9 @@ set (
 )
 
 # SDLMain.m (OSX)
-if (OSX)
+# On SDL1.2 putting SDLmain.m BEFORE main.c will link them properly
+if (OSX AND HT_USE_SDL2)
+if (OSX AND NOT HT_USE_SDL2)
   list (APPEND BACKEND_SDL_SRC ${BACKEND_DIR}/sdl_osx/SDLMain.m)
 endif()
 # SDL will be only for the client
@@ -70,6 +72,12 @@ if (UNIX)
   list (APPEND BACKEND_SERVER_SRC ${BACKEND_UNIX_SRC})
 endif()
 
+# SDLMain.m (OSX)
+# On SDL2 putting SDLmain.m AFTER main.c will link them properly
+if (OSX AND HT_USE_SDL2)
+  list (APPEND BACKEND_SDL_SRC ${BACKEND_DIR}/sdl_osx/SDLMain.m)
+endif()
+
 # Windows backend
 if (WINDOWS)
   set (BACKEND_WINDOWS_DIR ${BACKEND_DIR}/windows)
@@ -88,8 +96,6 @@ if (WINDOWS)
   list (APPEND BACKEND_CLIENT_SRC ${BACKEND_WINDOWS_SRC})
   list (APPEND BACKEND_SERVER_SRC ${BACKEND_WINDOWS_SRC})
 endif()
-
-# OSX backend
 
 # Export everything
 set (BACKEND_CLIENT_SRC ${BACKEND_CLIENT_SRC} PARENT_SCOPE)

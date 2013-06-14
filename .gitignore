@@ -8,3 +8,6 @@ bin/*/baseq2
 .*
 *.trace
 extlibs/libs/osx/SDL2*
+extlibs/libs/mingw/*/libSDL2*
+extlibs/include/SDL2
+bin/*/SDL2*
