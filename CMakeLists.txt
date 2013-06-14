@@ -57,7 +57,7 @@ endif()
 # Essential info
 # ---------------------
 set (PROJ_DEVNAME "htq2")
-set (PROJ_URL "http://alericoveri.com.ve/htq2")
+set (PROJ_URL "http://alericoveri.github.io/hecatomb")
 set (PROJ_GIT_URL "git://github.com/alericoveri/hecatomb.git")
 set (PROJ_PRODUCT_NAME "Hecatomb Quake II")
 set (PROJ_EMAIL "alejandroricoveri@gmail.com")
@@ -181,7 +181,7 @@ endif()
 mark_as_advanced (HT_WITH_MALLOC)
 
 # SDL 2.0
-# Enables the use of SDL2 instead of SDL1 
+# Enables the use of SDL2 instead of SDL1
 # ---------------------
 ht_set_option(HT_USE_SDL2 FALSE BOOL "Use libSDL-2.0 [EXPERIMENTAL]")
 

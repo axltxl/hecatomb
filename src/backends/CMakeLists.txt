@@ -45,7 +45,6 @@ set (
 
 # SDLMain.m (OSX)
 # On SDL1.2 putting SDLmain.m BEFORE main.c will link them properly
-if (OSX AND HT_USE_SDL2)
 if (OSX AND NOT HT_USE_SDL2)
   list (APPEND BACKEND_SDL_SRC ${BACKEND_DIR}/sdl_osx/SDLMain.m)
 endif()
