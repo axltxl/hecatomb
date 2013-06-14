@@ -7,3 +7,4 @@ bin/*/baseq2
 *~
 .*
 *.trace
+extlibs/libs/osx/SDL2*

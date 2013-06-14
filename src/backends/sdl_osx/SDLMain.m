@@ -5,11 +5,10 @@
  Feel free to customize this file to suit your needs
  */
 
-#import <SDL/SDL.h>
+#import "prereqs.h"
+#import "backend/generic/sdl.h"
 #import "backend/osx/SDLMain.h"
-#import <sys/param.h> /* for MAXPATHLEN */
-#import <unistd.h>
-//#import <iostream>
+#import "backend/unix/prereqs.h"
 
 /* For some reaon, Apple removed setAppleMenu from the headers in 10.4,
  but the method still is there and works. To avoid warnings, we declare
