@@ -32,6 +32,7 @@ Software's original code drop indeed, oh well ...
   * An [OpenAL](http://connect.creativelabs.com/openal) implementation (if `HT_WITH_OPENAL` option is set to `true`)
   * [zlib](http://www.zlib.net) (if `HT_WITH_ZIP` option is set to `true`)
 * On Windows and OSX: dependencies are bundled into the source tree, so don't worry, it'll build out-of-the-box :)
+* You'll need the Quake II 3.20 media files. You can also get the Quake II demo.
 
 #####Now it's time to compile it:
 * Download latest snapshot of the source code  
