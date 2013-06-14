@@ -64,7 +64,7 @@
  {
    // Print SDL version
    VID_Printf ( PRINT_ALL, "SDL version is \"%d.%d.%d\"\n",
-              SDL_MAJOR_VERSION, SDL_MINOR_VERSION, SDL_PATCHLEVEL );
+                SDL_MAJOR_VERSION, SDL_MINOR_VERSION, SDL_PATCHLEVEL );
 
    if ( !SDL_WasInit ( SDL_INIT_VIDEO ) ) {
  #ifndef HT_WITH_SDL2
@@ -91,7 +91,7 @@
 
  /* ========================================================================= */
  void *
- GLimp_GetProcAddress (const char* proc)
+ GLimp_GetProcAddress ( const char* proc )
  {
    return SDL_GL_GetProcAddress ( proc );
  }
@@ -159,7 +159,7 @@
      }
    }
 
- /* Attach the icon on the window */
+   /* Attach the icon on the window */
  #ifdef HT_WITH_SDL2
    /* Color key must be set after the palette has been set */
    SDL_SetColorKey ( icon, SDL_TRUE, 0 );
@@ -406,7 +406,7 @@
  #ifdef HT_WITH_X11GAMMA
    if ( gl_state.hwgamma == true ) {
      XF86VidModeSetGamma ( dpy, screen, &x11_oldgamma );
-     
+
      /* This forces X11 to update the gamma tables */
      XF86VidModeGetGamma ( dpy, screen, &x11_oldgamma );
    }
