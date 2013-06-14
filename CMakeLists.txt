@@ -57,7 +57,7 @@ endif()
 # Essential info
 # ---------------------
 set (PROJ_DEVNAME "htq2")
-set (PROJ_URL "http://alericoveri.com.ve/htq2")
+set (PROJ_URL "http://alericoveri.github.io/hecatomb")
 set (PROJ_GIT_URL "git://github.com/alericoveri/hecatomb.git")
 set (PROJ_PRODUCT_NAME "Hecatomb Quake II")
 set (PROJ_EMAIL "alejandroricoveri@gmail.com")
