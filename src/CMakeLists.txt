@@ -68,19 +68,12 @@ set (SRC_DIR ${CMAKE_CURRENT_SOURCE_DIR})
 # ---------------------
 set (INCLUDE_DIRS ${SRC_DIR}/include)
 
-# Standard directories
+# Standard libraries
 # ---------------------
 if (HT_CLIENT OR HT_SERVER)
 
   # Libraries
   set (LIBS m)
-
-
-  # .pk3 files support
-  if (HT_WITH_ZIP)
-    list (APPEND INCLUDE_DIRS ${ZLIB_INCLUDE_DIRS})  # zlib
-    list (APPEND LIBS ${ZLIB_LIBRARIES})
-  endif()
 
 endif()
 
