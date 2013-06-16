@@ -29,12 +29,29 @@
 
  #include "prereqs.h"
 
+ /*
+  * Redefine Windows version to XP
+  *
+  * According to msdn, some functions
+  * are only available to specific windows
+  * versions and therefore one must explicitly
+  * tell the compiler that the program
+  * is being compiled for that particular version.
+  * As it turns out, this is the
+  * case of the getaddrinfo() function.
+  * http://programmingrants.blogspot.com/2009/09/tips-on-undefined-reference-to.html
+  */
+ #if !defined(_WIN32_WINNT) || _WIN32_WINNT > 0x0501
+ # define _WIN32_WINNT 0x0501
+ #endif
+
+ /* Reduce compile time on Windows headers */
  #define WIN32_MEAN_AND_LEAN
 
- #include <windows.h>
  #include <winsock2.h>
  #include <ws2tcpip.h>
  #include <wsipx.h>
+ #include <windows.h>
 
  #include <float.h>
  #include <fcntl.h>
