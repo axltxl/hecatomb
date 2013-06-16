@@ -614,13 +614,21 @@
   * Windows main function. Containts the
   * initialization code and the main loop
   */
+ #ifdef DEDICATED_ONLY
+ int main ( int argc, char *argv[] )
+ #else
  int WINAPI
  WinMain ( HINSTANCE hInstance, HINSTANCE hPrevInstance,
            LPSTR lpCmdLine, int nCmdShow )
+ #endif // DEDICATED_ONLY
  {
+ #ifndef DEDICATED_ONLY
    MSG msg;
+ #endif
+
    int time, oldtime, newtime;
 
+ #ifndef DEDICATED_ONLY
    /* Previous instances do not exist in Win32 */
    if ( hPrevInstance ) {
      return 0;
@@ -630,7 +638,6 @@
    global_hInstance = hInstance;
 
    /* Redirect stdout and stderr into a file */
- #ifndef DEDICATED_ONLY
    Sys_RedirectStdout();
  #endif
 
@@ -662,8 +669,10 @@
    /* Seed PRNG */
    randk_seed();
 
+ #ifndef DEDICATED_ONLY
    /* Parse the command line arguments */
    ParseCommandLine ( lpCmdLine );
+ #endif
 
    /* Call the initialization code */
    Qcommon_Init ( argc, argv );
@@ -673,6 +682,7 @@
 
    /* The legendary main loop */
    while ( 1 ) {
+ #ifndef DEDICATED_ONLY
      /* If at a full screen console, don't update unless needed */
      if ( Minimized || ( dedicated && dedicated->value ) ) {
        Sleep ( 1 );
@@ -687,6 +697,7 @@
        TranslateMessage ( &msg );
        DispatchMessage ( &msg );
      }
+ #endif
 
      do {
        newtime = Sys_Milliseconds();

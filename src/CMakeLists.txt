@@ -68,6 +68,8 @@ set (SRC_DIR ${CMAKE_CURRENT_SOURCE_DIR})
 # ---------------------
 set (INCLUDE_DIRS ${SRC_DIR}/include)
 
+# Standard directories
+# ---------------------
 if (HT_CLIENT OR HT_SERVER)
 
   # Libraries
@@ -127,6 +129,9 @@ if (HT_CLIENT)
 
 endif() # HT_CLIENT
 
+#
+# These are common between client and server
+# ---------------------
 if (HT_CLIENT OR HT_SERVER)
 
   # Windows specific libraries

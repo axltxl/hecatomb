@@ -5,6 +5,9 @@ htq2 0.1.1
 - On OSX, bundled frameworks are taken into account at last
   priority, if external frameworks/libraries are found, there
   will be used instead
+- [CMake] HT_HUNKDRIVER_GENERIC is now marked as an advanced 
+  option
+- [Windows] Use of standard main on dedicated server
 
 htq2 0.1.0
 - CMake integrated build automation
