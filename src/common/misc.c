@@ -207,7 +207,6 @@
    Cbuf_Execute();
    FS_InitFilesystem();
    Cbuf_AddText ( "exec default.cfg\n" );
-   Cbuf_AddText ( "exec yq2.cfg\n" );
    Cbuf_AddText ( "exec config.cfg\n" );
    Cbuf_AddEarlyCommands ( true );
    Cbuf_Execute();

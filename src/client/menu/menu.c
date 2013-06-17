@@ -1002,7 +1002,6 @@
  ControlsResetDefaultsFunc ( void *unused )
  {
    Cbuf_AddText ( "exec default.cfg\n" );
-   Cbuf_AddText ( "exec yq2.cfg\n" );
    Cbuf_Execute();
    ControlsSetMenuItemValues();
  }
