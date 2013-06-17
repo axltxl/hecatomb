@@ -189,7 +189,7 @@
  #ifdef HT_WITH_SDL2
    SDL_SetWindowBrightness ( window, gamma );
  #else
-   SDL_SetGamma ( gamma, gamma, gamma ) );
+   SDL_SetGamma ( gamma, gamma, gamma );
  #endif
  #endif // HT_WITH_X11GAMMA
  }
