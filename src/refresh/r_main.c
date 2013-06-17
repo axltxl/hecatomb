@@ -1143,8 +1143,6 @@
    QGL_Shutdown();
  }
 
- extern void UpdateHardwareGamma();
-
  /* ========================================================================= */
  void
  R_BeginFrame ( float camera_separation )
@@ -1160,7 +1158,7 @@
      vid_gamma->modified = false;
 
      if ( gl_state.hwgamma ) {
-       UpdateHardwareGamma();
+       GLimp_UpdateGamma();
      }
    }
 

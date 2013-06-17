@@ -170,36 +170,29 @@
    SDL_FreeSurface ( icon );
  }
 
- /*
-  * Sets the hardware gamma
-  */
- #ifdef HT_WITH_X11GAMMA
+ /* ========================================================================= */
  void
- UpdateHardwareGamma ( void )
+ GLimp_UpdateGamma ( void )
  {
-   float gamma;
+   float gamma = vid_gamma->value; // the actual gamma value
+
+ #ifdef HT_WITH_X11GAMMA
    XF86VidModeGamma x11_gamma;
-   gamma = vid_gamma->value;
    x11_gamma.red = gamma;
    x11_gamma.green = gamma;
    x11_gamma.blue = gamma;
-   XF86VidModeSetGamma ( dpy, screen, &x11_gamma );
-   /* This forces X11 to update the gamma tables */
-   XF86VidModeGetGamma ( dpy, screen, &x11_gamma );
- }
 
+   /* This forces X11 to update the gamma tables */
+   XF86VidModeSetGamma ( dpy, screen, &x11_gamma );
+   XF86VidModeGetGamma ( dpy, screen, &x11_gamma );
  #else
- void
- UpdateHardwareGamma ( void )
- {
-   float gamma = vid_gamma->value;
  #ifdef HT_WITH_SDL2
    SDL_SetWindowBrightness ( window, gamma );
  #else
-   SDL_SetGamma ( gamma, gamma, gamma );
+   SDL_SetGamma ( gamma, gamma, gamma ) );
  #endif
- }
  #endif // HT_WITH_X11GAMMA
+ }
 
  /* ========================================================================= */
  static qboolean

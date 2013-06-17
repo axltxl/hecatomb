@@ -246,4 +246,9 @@
   */
  void GLimp_EndFrame ( void );
 
+ /**
+  * Sets the hardware gamma
+  */
+ void GLimp_UpdateGamma ( void );
+
  #endif /* CL_REF_H */

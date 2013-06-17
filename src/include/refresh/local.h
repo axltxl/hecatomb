@@ -112,7 +112,7 @@
    qboolean paletted;
  } image_t;
 
-  #include "refresh/model.h"
+ #include "refresh/model.h"
 
  typedef enum {
    rserr_ok,
@@ -402,6 +402,6 @@
   * Returns the address of the GL function proc,
   * or NULL if the function is not found.
   */
- void *GLimp_GetProcAddress (const char* proc);
+ void *GLimp_GetProcAddress ( const char *proc );
 
  #endif
