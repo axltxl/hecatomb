@@ -44,6 +44,7 @@
 
  #ifdef HT_WITH_SDL2
  SDL_Window *window;
+ SDL_GLContext glcontext;
  #else
  SDL_Surface *surface;
  #endif
@@ -283,7 +284,7 @@
    SetSDLIcon();
 
    /* Create our OpenGL context and attach it to our window */
-   SDL_GL_CreateContext ( window );
+   glcontext = SDL_GL_CreateContext ( window );
  #endif
 
    /* Initialize the stencil buffer */
@@ -384,6 +385,10 @@
      GLimp_EndFrame();
 
  #ifdef HT_WITH_SDL2
+     // Once finished with OpenGL functions, the SDL_GLContext can be deleted.
+     SDL_GL_DeleteContext ( glcontext );
+
+     // And then, destroy the window
      SDL_DestroyWindow ( window );
  #else
      SDL_FreeSurface ( surface );
