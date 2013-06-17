@@ -44,15 +44,26 @@
  #include "client/sound/local.h"
 
  /* Defines */
- #define SDL_PAINTBUFFER_SIZE 2048
- #define SDL_FULLVOLUME 80
- #define SDL_LOOPATTENUATE 0.003
+ #define HT_SDL_PAINTBUFFER_SIZE 2048
+ #define HT_SDL_FULLVOLUME 80
+ #define HT_SDL_LOOPATTENUATE 0.003
+
+ /* Default SDL audio driver */
+ #ifdef HT_OS_WINDOWS
+ # define HT_SDL_AUDIODRIVER "dsound"
+ #elif defined(HT_OS_LINUX)
+ # define HT_SDL_AUDIODRIVER "alsa"
+ #elif defined(HT_OS_OSX)
+ # define HT_SDL_AUDIODRIVER "CoreAudio"
+ #else
+ # define HT_SDL_AUDIODRIVER "dsp"
+ #endif
 
  /* Globals */
  cvar_t *s_sdldriver;
  q_int32_t *snd_p;
  static sound_t *backend;
- static portable_samplepair_t paintbuffer[SDL_PAINTBUFFER_SIZE];
+ static portable_samplepair_t paintbuffer[HT_SDL_PAINTBUFFER_SIZE];
  static q_int32_t beginofs;
  static q_int32_t playpos = 0;
  static q_int32_t samplesize = 0;
@@ -259,8 +270,8 @@
      /* if paintbuffer is smaller than SDL buffer */
      end = endtime;
 
-     if ( endtime - paintedtime > SDL_PAINTBUFFER_SIZE ) {
-       end = paintedtime + SDL_PAINTBUFFER_SIZE;
+     if ( endtime - paintedtime > HT_SDL_PAINTBUFFER_SIZE ) {
+       end = paintedtime + HT_SDL_PAINTBUFFER_SIZE;
      }
 
      /* start any playsounds */
@@ -410,7 +421,7 @@
    /* Calculate stereo seperation and distance attenuation */
    VectorSubtract ( origin, listener_origin, source_vec );
    dist = VectorNormalize ( source_vec );
-   dist -= SDL_FULLVOLUME;
+   dist -= HT_SDL_FULLVOLUME;
 
    if ( dist < 0 ) {
      dist = 0; /* Close enough to be at full volume */
@@ -523,7 +534,7 @@
      ent = &cl_parse_entities[num];
      CL_GetEntitySoundOrigin ( ent->number, origin );
      /* find the total contribution of all sounds of this type */
-     SDL_SpatializeOrigin ( ent->origin, 255.0f, SDL_LOOPATTENUATE,
+     SDL_SpatializeOrigin ( ent->origin, 255.0f, HT_SDL_LOOPATTENUATE,
                             &left_total, &right_total );
 
      for ( j = i + 1; j < cl.frame.num_entities; j++ ) {
@@ -534,7 +545,7 @@
        sounds[j] = 0; /* don't check this again later */
        num = ( cl.frame.parse_entities + j ) & ( MAX_PARSE_ENTITIES - 1 );
        ent = &cl_parse_entities[num];
-       SDL_SpatializeOrigin ( ent->origin, 255.0f, SDL_LOOPATTENUATE, &left, &right );
+       SDL_SpatializeOrigin ( ent->origin, 255.0f, HT_SDL_LOOPATTENUATE, &left, &right );
        left_total += left;
        right_total += right;
      }
@@ -1003,7 +1014,12 @@
  qboolean
  SDL_BackendInit ( void )
  {
+ #ifdef HT_WITH_SDL2
+   char *drivername = NULL;
+   q_uint8_t i;
+ #else
    char drivername[128];
+ #endif
    char reqdriver[128];
    SDL_AudioSpec desired;
    SDL_AudioSpec obtained;
@@ -1018,35 +1034,37 @@
    q_int32_t sndbits = ( Cvar_Get ( "sndbits", "16", CVAR_ARCHIVE ) )->value;
    q_int32_t sndfreq = ( Cvar_Get ( "s_khz", "44", CVAR_ARCHIVE ) )->value;
    q_int32_t sndchans = ( Cvar_Get ( "sndchannels", "2", CVAR_ARCHIVE ) )->value;
- #ifdef _WIN32
-   s_sdldriver = ( Cvar_Get ( "s_sdldriver", "dsound", CVAR_ARCHIVE ) );
- #elif __linux__
-   s_sdldriver = ( Cvar_Get ( "s_sdldriver", "alsa", CVAR_ARCHIVE ) );
- #elif __APPLE__
-   s_sdldriver = ( Cvar_Get ( "s_sdldriver", "CoreAudio", CVAR_ARCHIVE ) );
- #else
-   s_sdldriver = ( Cvar_Get ( "s_sdldriver", "dsp", CVAR_ARCHIVE ) );
- #endif
-   snprintf ( reqdriver, sizeof ( drivername ), "%s=%s", "SDL_AUDIODRIVER", s_sdldriver->string );
+
+   /* Set the SDL_AUDIODRIVER enviroment variable before we boot up the audio */
+   s_sdldriver = ( Cvar_Get ( "s_sdldriver", HT_SDL_AUDIODRIVER, CVAR_ARCHIVE ) );
+   snprintf ( reqdriver, sizeof ( drivername ), "SDL_AUDIODRIVER=%s", s_sdldriver->string );
    putenv ( reqdriver );
    Com_Printf ( "Starting SDL audio callback.\n" );
 
+   /* And then, we do SDL audio initialization */
    if ( !SDL_WasInit ( SDL_INIT_AUDIO ) ) {
-     if ( SDL_Init ( SDL_INIT_AUDIO ) == -1 ) {
+     if ( SDL_Init ( SDL_INIT_AUDIO ) < 0 ) {
        Com_Printf ( "Couldn't init SDL audio: %s.\n", SDL_GetError () );
        return 0;
      }
    }
 
  #ifdef HT_WITH_SDL2
-   Com_Printf ( "SDL audio driver is \"%s\".\n", SDL_GetCurrentAudioDriver() );
+   /* Get driver name */
+   drivername = SDL_GetCurrentAudioDriver();
+
+   /* Show the list of available drivers */
+   Com_DPrintf("These are the available SDL audio drivers: ");
+   for (i = 0; i < SDL_GetNumAudioDrivers(); ++i) {
+       Com_Printf(" %s", SDL_GetAudioDriver(i));
+   }
+   Com_DPrintf("\n");
  #else
    if ( SDL_AudioDriverName ( drivername, sizeof ( drivername ) ) == NULL ) {
-     strcpy ( drivername, "(UNKNOW)" );
+     strcpy ( drivername, "UNKNOWN" );
    }
-   Com_Printf ( "SDL audio driver is \"%s\".\n", drivername );
  #endif
-
+   Com_Printf ( "SDL audio driver is \"%s\".\n", drivername );
    memset ( &desired, '\0', sizeof ( desired ) );
    memset ( &obtained, '\0', sizeof ( obtained ) );
 
