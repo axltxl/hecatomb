@@ -28,6 +28,7 @@
  #include "system.h"
  #include "filesystem.h"
  #include "common/zone.h"
+ #include "memory.h"
 
  FILE *log_stats_file;
  cvar_t *host_speeds;
@@ -196,6 +197,7 @@
    Cbuf_Init();
    Cmd_Init();
    Cvar_Init();
+   Mem_Init();
  #ifndef DEDICATED_ONLY
    Key_Init();
  #endif

@@ -129,6 +129,16 @@ check_include_files (time.h HT_HAVE_TIME_H)
 check_include_files (locale.h HT_HAVE_LOCALE_H)
 check_include_files (errno.h HT_HAVE_ERRNO_H)
 check_include_files (stdint.h HT_HAVE_STDINT_H)
+check_include_files (malloc.h HT_HAVE_MALLOC_H)
+
+# Check functions
+# ---------------------
+include (CheckFunctionExists)
+if (HT_MEM_STDC)
+  check_function_exists (mallinfo HT_HAVE_MALLINFO)
+else()
+  set (HT_HAVE_MALLINFO 0)
+endif()
 
 # Check machine endianness (Byte order)
 # ---------------------

@@ -21,6 +21,7 @@ set (
   ${HEADER_DIR}/backend/generic/qgl.h
   ${HEADER_DIR}/backend/generic/gl.h
   ${HEADER_DIR}/backend/generic/sdl.h
+  ${HEADER_DIR}/backend/generic/dlmalloc.h
   ${HEADER_DIR}/backend/osx/SDLMain.h
   ${HEADER_DIR}/backend/unix/unix.h
   ${HEADER_DIR}/backend/unix/prereqs.h

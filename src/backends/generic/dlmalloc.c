@@ -1,4 +1,16 @@
 /*
+ * =======================================================================
+ *
+ * Doug Lea's malloc fairly altered for Quake II
+ *
+ * =======================================================================
+ */
+
+ #include "prereqs.h"
+ #define NO_DLMALLOC_H // Avoid dlmalloc.h inclusion
+ #include "memory.h"
+
+/*
   This is a version (aka dlmalloc) of malloc/free/realloc written by
   Doug Lea and released to the public domain, as explained at
   http://creativecommons.org/publicdomain/zero/1.0/ Send questions,

@@ -63,6 +63,10 @@
  #cmakedefine HT_HAVE_LOCALE_H 1
  #cmakedefine HT_HAVE_ERRNO_H 1
  #cmakedefine HT_HAVE_STDINT_H 1
+ #cmakedefine HT_HAVE_MALLOC_H 1
+
+ /* Availabe functions */
+ #cmakedefine HT_HAVE_MALLINFO 1
 
  /* Build type */
  #cmakedefine HT_BUILD_DEBUG
@@ -165,6 +169,7 @@
  #cmakedefine HT_ENDIAN_LITTLE
 
  /* Memory allocator */
+ #define HT_MALLOC_IMP "@HT_WITH_MALLOC@"
  #cmakedefine HT_MEM_STDC
  #cmakedefine HT_MEM_JEMALLOC
  #cmakedefine HT_MEM_DLMALLOC
