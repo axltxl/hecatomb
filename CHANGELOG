@@ -10,6 +10,7 @@ htq2 0.2.0
 - dlmalloc and jemalloc can be chosen as memory allocator backends
   (malloc, calloc, realloc, free)
 - Massive use of fixed integer types
+- [SDL] Sound backend cleanup
 - Initial inclusion of SDL2 backend (experimental state)
 - [SDL2] CMake new option HT_WITH_SDL2 for using SDL2 backend
 - [SDL2] SDL_Scancode-based keyboard input interpretation
