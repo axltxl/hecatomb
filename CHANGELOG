@@ -20,6 +20,7 @@ htq2 0.2.0
   SDL_WarpMouseInWindow and SDL_GetMouseState.
 - [SDL2] Use of SDL_SetWindowBrightness for setting up the gamma ramp
 - New command for malloc stats: mallinfo
+- [SDL2] GLimp_GrabInput will handle mouse grabs
 
 htq2 0.1.1
 - New options for choosing targets on CMake:
