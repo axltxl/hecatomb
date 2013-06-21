@@ -35,10 +35,14 @@
  #define MOUSE_MAX 3000
  #define MOUSE_MIN 40
 
+ #define GRAB_ENABLE     1 << 0
+ #define GRAB_HIDECURSOR 1 << 1
+
  #ifdef HT_WITH_SDL2
  static qboolean mouse_rel; // SDL2 relative mouse mode support
  #endif
  static qboolean mouse_grabbed;
+ static q_uint8_t mouse_grab;
  static cvar_t *windowed_mouse;
  static cvar_t *in_grab;
  static q_int32_t mouse_x, mouse_y;
@@ -91,11 +95,9 @@
  IN_TranslateSDLtoQ2Key ( q_uint32_t keysym )
  {
    q_int32_t key = 0;
-
  #ifdef HT_WITH_SDL2
 
    switch ( keysym ) {
-
    case SDL_SCANCODE_SPACE:
      key = ' ';
      break;
@@ -550,7 +552,9 @@
      key = K_CAPSLOCK;
      break;
    }
+
  #else
+
    if ( ( keysym >= SDLK_SPACE ) && ( keysym < SDLK_DELETE ) ) {
      /* These happen to match
         the ASCII chars */
@@ -826,8 +830,8 @@
        break;
      }
    }
- #endif
 
+ #endif
    return key;
  }
 
@@ -865,23 +869,23 @@
 
      /* The user pressed a button */
    case SDL_KEYDOWN:
-
      /* Fullscreen switch via Alt-Return */
  #ifdef HT_WITH_SDL2
      if ( ( KeyStates[SDL_SCANCODE_LALT] ||
             KeyStates[SDL_SCANCODE_RALT] ) &&
           ( event->key.keysym.scancode == SDL_SCANCODE_RETURN ) ) {
  #else
+
      if ( ( KeyStates[SDLK_LALT] ||
             KeyStates[SDLK_RALT] ) &&
           ( event->key.keysym.sym == SDLK_RETURN ) ) {
-
        SDL_WM_ToggleFullScreen ( surface );
  #endif // HT_WITH_SDL2
-
  #ifdef HT_WITH_SDL2
+
        if ( SDL_GetWindowFlags ( window ) & SDL_WINDOW_FULLSCREEN ) {
  #else
+
        if ( surface->flags & SDL_FULLSCREEN ) {
  #endif
          Cvar_SetValue ( "vid_fullscreen", 1 );
@@ -898,10 +902,12 @@
         Key_ClearStates() can mess up the internal
         K_SHIFT state let's do it here instead. */
  #ifdef HT_WITH_SDL2
+
      if ( ( KeyStates[SDL_SCANCODE_LSHIFT] ||
             KeyStates[SDL_SCANCODE_RSHIFT] ) &&
           ( event->key.keysym.scancode == SDL_SCANCODE_ESCAPE ) ) {
  #else
+
      if ( ( KeyStates[SDLK_LSHIFT] ||
             KeyStates[SDLK_RSHIFT] ) &&
           ( event->key.keysym.sym == SDLK_ESCAPE ) ) {
@@ -935,11 +941,13 @@
        /* Get the pressed key and remove it from the key list */
        key = IN_TranslateSDLtoQ2Key ( event->key.keysym.scancode );
  #else
+
      if ( KeyStates[event->key.keysym.sym] ) {
        KeyStates[event->key.keysym.sym] = 0;
        /* Get the pressed key and remove it from the key list */
        key = IN_TranslateSDLtoQ2Key ( event->key.keysym.sym );
  #endif // HT_WITH_SDL2
+
        if ( key ) {
          keyq[keyq_head].key = key;
          keyq[keyq_head].down = false;
@@ -948,6 +956,40 @@
      }
 
      break;
+   }
+ }
+
+  /*
+  * Grab input
+  */
+ void GLimp_GrabInput ( q_uint8_t flags )
+ {
+   qboolean grab = flags & GRAB_ENABLE;
+   static qboolean state_changed;
+
+   state_changed = (mouse_grabbed != grab);
+   mouse_grabbed = grab;
+
+   /* Prevent renundant SDL calls */
+   if ( state_changed )
+   {
+ #ifdef HT_WITH_SDL2
+     if ( !window )
+ #else
+     if ( !surface )
+ #endif
+     {
+       Com_Printf ( "GLimp_GrabInput called without window" );
+       return;
+     }
+     /* Show/hide cursor */
+     SDL_ShowCursor ( flags & GRAB_HIDECURSOR ? SDL_DISABLE : SDL_ENABLE );
+ #ifdef HT_WITH_SDL2
+     mouse_rel = SDL_SetRelativeMouseMode ( flags & GRAB_HIDECURSOR ? SDL_TRUE : SDL_FALSE ) == 0;
+     SDL_SetWindowGrab ( window, grab ? SDL_TRUE : SDL_FALSE );
+ #else
+     SDL_WM_GrabInput ( grab ? SDL_GRAB_ON : SDL_GRAB_OFF );
+ #endif
    }
  }
 
@@ -973,6 +1015,7 @@
    }
 
  #ifdef HT_WITH_SDL2
+
    if ( !mouse_rel && mouse_grabbed ) {
      /* Not supported */
      int center_x = vid.width / 2,
@@ -982,17 +1025,17 @@
      SDL_GetMouseState ( &abs_x, &abs_y );
      mx = abs_x - center_x;
      my = abs_y - center_y;
-   }
-
-   else {
+   } else {
  #endif
+
      if ( !mx && !my ) {
        SDL_GetRelativeMouseState ( &mx, &my );
      }
+
  #ifdef HT_WITH_SDL2
    }
- #endif
 
+ #endif
    /* Mouse button processing. Button 4
       and 5 are the mousewheel and thus
       not processed here. */
@@ -1019,58 +1062,28 @@
      mouse_buttonstate |= ( 1 << 4 );
    }
 
+   /* Init mouse grab flags */
+   mouse_grab = 0;
+
    /* Grab and ungrab the mouse if the
     * console or the menu is opened */
    if ( vid_fullscreen->value ) {
-     if ( !mouse_grabbed ) {
- #ifdef HT_WITH_SDL2
-       SDL_SetWindowGrab ( window, SDL_TRUE );
- #else
-       SDL_WM_GrabInput ( SDL_GRAB_ON );
- #endif
-       mouse_grabbed = true;
+       mouse_grab |= GRAB_ENABLE | GRAB_HIDECURSOR;
+   }
+
+   /* Set the mouse grab flags */
+   if ( in_grab->value > 0 ) {
+     if ( in_grab->value == 1 ) {
+       mouse_grab |= GRAB_ENABLE | GRAB_HIDECURSOR;
+     }
+     /* see CL_UpdateWindowedMouse */
+     else if ( windowed_mouse->value ) {
+       mouse_grab |= GRAB_ENABLE | GRAB_HIDECURSOR;
      }
    }
 
-   if ( in_grab->value == 0 ) {
-     if ( mouse_grabbed ) {
- #ifdef HT_WITH_SDL2
-       SDL_SetWindowGrab ( window, SDL_FALSE );
- #else
-       SDL_WM_GrabInput ( SDL_GRAB_OFF );
- #endif
-       mouse_grabbed = false;
-     }
-   } else if ( in_grab->value == 1 ) {
-     if ( !mouse_grabbed ) {
- #ifdef HT_WITH_SDL2
-       SDL_SetWindowGrab ( window, SDL_TRUE );
- #else
-       SDL_WM_GrabInput ( SDL_GRAB_ON );
- #endif
-       mouse_grabbed = true;
-     }
-   } else {
-     if ( windowed_mouse->value ) {
-       if ( !mouse_grabbed ) {
- #ifdef HT_WITH_SDL2
-         SDL_SetWindowGrab ( window, SDL_TRUE );
- #else
-         SDL_WM_GrabInput ( SDL_GRAB_ON );
- #endif
-         mouse_grabbed = true;
-       }
-     } else {
-       if ( mouse_grabbed ) {
- #ifdef HT_WITH_SDL2
-         SDL_SetWindowGrab ( window, SDL_FALSE );
- #else
-         SDL_WM_GrabInput ( SDL_GRAB_OFF );
- #endif
-         mouse_grabbed = false;
-       }
-     }
-   }
+   /* Grab the mouse (depending on the conditions) */
+   GLimp_GrabInput ( mouse_grab );
 
    /* Process the key events */
    while ( keyq_head != keyq_tail ) {
@@ -1156,14 +1169,17 @@
    SDL_EnableKeyRepeat ( SDL_DEFAULT_REPEAT_DELAY, SDL_DEFAULT_REPEAT_INTERVAL );
  #endif
  #ifdef HT_WITH_SDL2
+
    if ( SDL_GetWindowGrab ( window ) ) {
  #else
+
    if ( SDL_WM_GrabInput ( SDL_GRAB_QUERY ) == SDL_GRAB_ON ) {
  #endif
      mouse_grabbed = true;
    } else {
      mouse_grabbed = false;
    }
+
  #ifdef HT_WITH_SDL2
    mouse_rel = SDL_GetRelativeMouseMode();
  #endif // HT_WITH_SDL2
