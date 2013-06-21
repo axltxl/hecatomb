@@ -19,6 +19,7 @@ htq2 0.2.0
   htq2 will then proceed to it’s manual calculation through 
   SDL_WarpMouseInWindow and SDL_GetMouseState.
 - [SDL2] Use of SDL_SetWindowBrightness for setting up the gamma ramp
+- New command for malloc stats: mallinfo
 
 htq2 0.1.1
 - New options for choosing targets on CMake:
