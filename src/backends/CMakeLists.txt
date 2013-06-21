@@ -22,16 +22,21 @@ set (
   ${BACKEND_GENERIC_DIR}/qgl.c
 )
 
-# dlmalloc as the memory allocator
-if (HT_MEM_DLMALLOC)
-  list (APPEND BACKEND_GENERIC_SRC ${BACKEND_GENERIC_DIR}/dlmalloc.c)
-endif()
-
 # OpenAL support (QAL)
 if (HT_WITH_OPENAL)
   list (APPEND BACKEND_GENERIC_SRC ${BACKEND_GENERIC_DIR}/qal.c)
 endif()
+
+# Init backend sources for client and server
 set (BACKEND_CLIENT_SRC ${BACKEND_GENERIC_SRC})
+set (BACKEND_SERVER_SRC)
+
+# dlmalloc as the memory allocator
+if (HT_MEM_DLMALLOC)
+  set  (DLMALLOC_SRC ${BACKEND_GENERIC_DIR}/dlmalloc.c)
+  list (APPEND BACKEND_CLIENT_SRC ${DLMALLOC_SRC})
+  list (APPEND BACKEND_SERVER_SRC ${DLMALLOC_SRC})
+endif()
 
 # SDL Backend
 set (BACKEND_SDL_DIR ${BACKEND_DIR}/sdl)
