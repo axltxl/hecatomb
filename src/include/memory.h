@@ -33,14 +33,61 @@
  #include "prereqs.h"
 
  #ifdef HT_MEM_JEMALLOC
+ /*
+  * Configuration for jemalloc
+  */
+ # ifdef JEMALLOC_PREFIX
+ #  define JEMALLOC_MANGLE
+ # else
+ # define JEMALLOC_NO_DEMANGLE
+ # endif
  # include <jemalloc/jemalloc.h>
+ # define Mem_malloc   je_malloc
+ # define Mem_realloc  je_realloc
+ # define Mem_calloc   je_calloc
+ # define Mem_free     je_free
+ # define Mem_mallinfo je_mallinfo
+ #elif defined(HT_MEM_DLMALLOC)
+ /*
+  * Configuration for dlmalloc
+  */
+ # define USE_DL_PREFIX
+ # define PROCEED_ON_ERROR 1
+ # define ABORT Com_DPrintf("dlmalloc: Assertion failed\n");
+ # ifdef HT_OS_WINDOWS
+ #  define WIN32
+ # endif
+ # ifdef HT_BUILD_DEBUG
+ #  define DEBUG 1
+ # endif
+ # ifndef NO_DLMALLOC_H
+ #  include "backend/generic/dlmalloc.h"
+ # endif
+ /* dlmalloc has its own implementation of mallinfo */
+ # define HT_HAVE_MALLINFO 1
+ # define Mem_malloc   dlmalloc
+ # define Mem_realloc  dlrealloc
+ # define Mem_calloc   dlcalloc
+ # define Mem_free     dlfree
+ # define Mem_mallinfo dlmallinfo
+ #else
+ # if HT_HAVE_MALLOC_H
+ # include <malloc.h>
+ # endif
+  /*
+   * Main memory function are wrapped
+   */
+ # define Mem_malloc   malloc
+ # define Mem_realloc  realloc
+ # define Mem_calloc   calloc
+ # define Mem_free     free
+ # define Mem_mallinfo mallinfo
  #endif
 
- /* Main memory function are wrapped */
- #define Mem_malloc  malloc
- #define Mem_realloc realloc
- #define Mem_calloc  calloc
- #define Mem_free    free
+ /**
+  * Initializes internal memory system
+  */
+ void Mem_Init ( void );
 
  /**
   * Reserve a huge chunk of memory, but don't commit any yet

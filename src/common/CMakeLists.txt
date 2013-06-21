@@ -43,6 +43,7 @@ set (
   ${COMMON_DIR}/szone.c
   ${COMMON_DIR}/zone.c
   ${COMMON_DIR}/features.c
+  ${COMMON_DIR}/memory.c
   ${COMMON_SHARED_SRC}
 )
 
