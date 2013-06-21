@@ -26,13 +26,11 @@
  */
 
  #include "prereqs.h"
+ #include "backend/windows/prereqs.h"
  #include "system.h"
  #include "filesystem.h"
  #include "backend/generic/input.h"
  #include "backend/windows/resource.h"
- #include "backend/windows/winquake.h"
-
- #define MAX_NUM_ARGVS 128
 
  int curtime;
  int starttime;
@@ -45,7 +43,6 @@
  HINSTANCE global_hInstance;
  static HINSTANCE game_library;
 
- unsigned int sys_msg_time;
  unsigned int sys_frame_time;
 
  static char console_text[256];
@@ -54,9 +51,6 @@
  char findbase[MAX_OSPATH];
  char findpath[MAX_OSPATH];
  int findhandle;
-
- int argc;
- char *argv[MAX_NUM_ARGVS];
 
  /* ================================================================ */
  void
@@ -334,34 +328,6 @@
  }
 
  /* ======================================================================= */
- void
- ParseCommandLine ( LPSTR lpCmdLine )
- {
-   argc = 1;
-   argv[0] = "exe";
-
-   while ( *lpCmdLine && ( argc < MAX_NUM_ARGVS ) ) {
-     while ( *lpCmdLine && ( ( *lpCmdLine <= 32 ) || ( *lpCmdLine > 126 ) ) ) {
-       lpCmdLine++;
-     }
-
-     if ( *lpCmdLine ) {
-       argv[argc] = lpCmdLine;
-       argc++;
-
-       while ( *lpCmdLine && ( ( *lpCmdLine > 32 ) && ( *lpCmdLine <= 126 ) ) ) {
-         lpCmdLine++;
-       }
-
-       if ( *lpCmdLine ) {
-         *lpCmdLine = 0;
-         lpCmdLine++;
-       }
-     }
-   }
- }
-
- /* ======================================================================= */
  int
  Sys_Milliseconds ( void )
  {
@@ -566,130 +532,6 @@
    snprintf ( gdir, sizeof ( gdir ), "%s/%s/", profile, HT_DIR_CONF );
 
    return gdir;
- }
-
- /* ================================================================ */
- void
- Sys_RedirectStdout ( void )
- {
-   char *cur;
-   char *home;
-   char *old;
-   char path_stdout[MAX_OSPATH];
-   char path_stderr[MAX_OSPATH];
-
-   if ( dedicated && dedicated->value ) {
-     return;
-   }
-
-   home = Sys_GetHomeDir();
-
-   if ( home == NULL ) {
-     return;
-   }
-
-   cur = old = home;
-
-   while ( cur != NULL ) {
-     if ( ( cur - old ) > 1 ) {
-       *cur = '\0';
-       Sys_Mkdir ( home );
-       *cur = '/';
-     }
-
-     old = cur;
-     cur = strchr ( old + 1, '/' );
-   }
-
-   snprintf ( path_stdout, sizeof ( path_stdout ), "%s/%s", home, "stdout.txt" );
-   snprintf ( path_stderr, sizeof ( path_stderr ), "%s/%s", home, "stderr.txt" );
-
-   freopen ( path_stdout, "w", stdout );
-   freopen ( path_stderr, "w", stderr );
- }
-
- /* ======================================================================= */
-
- /*
-  * Windows main function. Containts the
-  * initialization code and the main loop
-  */
- #ifdef DEDICATED_ONLY
- int main ( int argc, char *argv[] )
- #else
- int WINAPI
- WinMain ( HINSTANCE hInstance, HINSTANCE hPrevInstance,
-           LPSTR lpCmdLine, int nCmdShow )
- #endif // DEDICATED_ONLY
- {
- #ifndef DEDICATED_ONLY
-   MSG msg;
- #endif
-
-   int time, oldtime, newtime;
-
- #ifndef DEDICATED_ONLY
-   /* Previous instances do not exist in Win32 */
-   if ( hPrevInstance ) {
-     return 0;
-   }
-
-   /* Make the current instance global */
-   global_hInstance = hInstance;
-
-   /* Redirect stdout and stderr into a file */
-   Sys_RedirectStdout();
- #endif
- 
-   /* Print splash and features */
-   Com_Splash();
-
-   /* Seed PRNG */
-   randk_seed();
-
- #ifndef DEDICATED_ONLY
-   /* Parse the command line arguments */
-   ParseCommandLine ( lpCmdLine );
- #endif
-
-   /* Call the initialization code */
-   Qcommon_Init ( argc, argv );
-
-   /* Save our time */
-   oldtime = Sys_Milliseconds();
-
-   /* The legendary main loop */
-   while ( 1 ) {
- #ifndef DEDICATED_ONLY
-     /* If at a full screen console, don't update unless needed */
-     if ( Minimized || ( dedicated && dedicated->value ) ) {
-       Sleep ( 1 );
-     }
-
-     while ( PeekMessage ( &msg, NULL, 0, 0, PM_NOREMOVE ) ) {
-       if ( !GetMessage ( &msg, NULL, 0, 0 ) ) {
-         Com_Quit();
-       }
-
-       sys_msg_time = msg.time;
-       TranslateMessage ( &msg );
-       DispatchMessage ( &msg );
-     }
- #endif
-
-     do {
-       newtime = Sys_Milliseconds();
-       time = newtime - oldtime;
-     } while ( time < 1 );
-
-     _controlfp ( _PC_24, _MCW_PC );
-     Qcommon_Frame ( time );
-
-     oldtime = newtime;
-   }
-
-   /* never gets here */
-   return TRUE;
  }
 
  /* ================================================================ */

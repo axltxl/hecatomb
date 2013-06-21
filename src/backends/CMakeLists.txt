@@ -88,6 +88,7 @@ if (WINDOWS)
   set (
     BACKEND_WINDOWS_SRC
 
+    ${BACKEND_WINDOWS_DIR}/main.c
     ${BACKEND_WINDOWS_DIR}/network.c
     ${BACKEND_WINDOWS_DIR}/system.c
     ${BACKEND_WINDOWS_DIR}/icon.rc
