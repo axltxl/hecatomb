@@ -1037,7 +1037,12 @@
 
    /* Set the SDL_AUDIODRIVER enviroment variable before we boot up the audio */
    s_sdldriver = ( Cvar_Get ( "s_sdldriver", HT_SDL_AUDIODRIVER, CVAR_ARCHIVE ) );
+ #ifdef HT_WITH_SDL2
+   sprintf ( reqdriver, "SDL_AUDIODRIVER=%s", s_sdldriver->string );
+ #else
    snprintf ( reqdriver, sizeof ( drivername ), "SDL_AUDIODRIVER=%s", s_sdldriver->string );
+ #endif // HT_WITH_SDL2
+
    putenv ( reqdriver );
    Com_Printf ( "Starting SDL audio callback.\n" );
 
@@ -1051,14 +1056,14 @@
 
  #ifdef HT_WITH_SDL2
    /* Get driver name */
-   drivername = SDL_GetCurrentAudioDriver();
+   drivername = (char *)SDL_GetCurrentAudioDriver();
 
    /* Show the list of available drivers */
-   Com_DPrintf("These are the available SDL audio drivers: ");
+   Com_Printf("These are the available SDL audio drivers: ");
    for (i = 0; i < SDL_GetNumAudioDrivers(); ++i) {
        Com_Printf(" %s", SDL_GetAudioDriver(i));
    }
-   Com_DPrintf("\n");
+   Com_Printf("\n");
  #else
    if ( SDL_AudioDriverName ( drivername, sizeof ( drivername ) ) == NULL ) {
      strcpy ( drivername, "UNKNOWN" );
