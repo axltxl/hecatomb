@@ -1148,11 +1148,15 @@
  SDL_BackendShutdown ( void )
  {
    Com_Printf ( "Closing SDL audio device...\n" );
-   SDL_PauseAudio ( 1 );
-   SDL_CloseAudio();
-   SDL_QuitSubSystem ( SDL_INIT_AUDIO );
-   Mem_free ( backend->buffer );
-   backend->buffer = NULL;
+   if ( snd_inited ) {
+     SDL_PauseAudio ( 1 );
+     SDL_CloseAudio();
+     SDL_QuitSubSystem ( SDL_INIT_AUDIO );
+   }
+   if ( backend->buffer ) {
+     Mem_free ( backend->buffer );
+     backend->buffer = NULL;
+   }
    playpos = samplesize = 0;
    snd_inited = 0;
    Com_Printf ( "SDL audio device shut down.\n" );
