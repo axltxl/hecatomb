@@ -22,18 +22,18 @@ Software's original code drop indeed, oh well ...
 ##Compiling
 #####Here's what you'll need:
 * [CMake](http://www.cmake.org) 2.8+ and a toolchain (compiler, linker, etc.)
-* [mingw-w64](http://mingw-w64.sourceforge.net/) is the only toolchain officially supported on Windows
+* [mingw](http://mingw.org) and [mingw-w64](http://mingw-w64.sourceforge.net/) are the only toolchains officially supported on Windows
 * On *nix you'll need at least: 
-  * [SDL 1.2](http://www.libsdl.org/)
+  * [SDL](http://www.libsdl.org/) (at least v1.2, v2.0 is optional through `HT_USE_SDL2`)
   * An OpenGL implementation ([Mesa3D](http://www.mesa3d.org), nvidia-glx, AMD Catalyst, etc.)
 * The following dependencies are optional:
-  * [libjpeg](http://www.ijg.org/) (if `HT_WITH_RETEXTURE` option is set to `true`)
-  * [libvorbisfile](http://www.vorbis.com/) (if `HT_WITH_OGG` option is set to `true`)
-  * (On *nix but not OSX) libX11 (if `HT_WITH_X11GAMMA` option is set to `true`)
-  * An [OpenAL](http://connect.creativelabs.com/openal) implementation (if `HT_WITH_OPENAL` option is set to `true`)
-  * [zlib](http://www.zlib.net) (if `HT_WITH_ZIP` option is set to `true`)
+  * [libjpeg](http://www.ijg.org/) (if `HT_WITH_RETEXTURE` option is set to `TRUE`)
+  * [libvorbisfile](http://www.vorbis.com/) (if `HT_WITH_OGG` option is set to `TRUE`)
+  * (On *nix but not OSX) libX11 (if `HT_WITH_X11GAMMA` option is set to `TRUE`)
+  * An [OpenAL](http://connect.creativelabs.com/openal) implementation (if `HT_WITH_OPENAL` option is set to `TRUE`)
+  * [zlib](http://www.zlib.net) (if `HT_WITH_ZIP` option is set to `TRUE`)
 * On Windows and OSX: dependencies are bundled into the source tree, so don't worry, it'll build out-of-the-box :)
-* You'll need the Quake II 3.20 media files. You can also get the Quake II demo.
+* You'll need the Quake II 3.20 game data installed either into the system-wide directory (`HT_WITH_SYSTEMDIR` - recommended) or inside the local binary installation directory. You can also get the [Quake II demo](ftp://ftp.idsoftware.com/idstuff/quake2/q2-314-demo-x86.exe) game data.
 
 #####Now it's time to compile it:
 * Download latest snapshot of the source code  
@@ -46,8 +46,8 @@ Software's original code drop indeed, oh well ...
 * Reconfigure and generate your build files
 * Let's say you wanted generate a sweet and plain Makefile, now you can actually build it:  
   `$ make`
-* Le voilà, you can already see the binaries on `/path/to/htq2-build/bin/<architecture>`a and test them:  
-  `$ cd /path/to/htq2-build/bin/<architecture>`  
+* Le voilà, you can already see the binaries on `/path/to/hecatomb/bin/<architecture>`a and test them:  
+  `$ cd /path/to/hecatomb/bin/<architecture>`  
   `$ ./htq2 +set vid_fullscreen 0 +set deathmatch 1 +map q2dm1`
 * It's highly probable that you'll be eager to edit your config files to your liking, they are located at your home directory:
   * On *nix and OSX, user files are located at `~/.htq2`
