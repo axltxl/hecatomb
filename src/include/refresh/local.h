@@ -162,6 +162,7 @@
  extern cvar_t *gl_norefresh;
  extern cvar_t *gl_lefthand;
  extern cvar_t *gl_farsee;
+ extern cvar_t *gl_msaa;
  extern cvar_t *gl_drawentities;
  extern cvar_t *gl_drawworld;
  extern cvar_t *gl_speeds;

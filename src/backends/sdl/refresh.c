@@ -214,6 +214,16 @@
    SDL_GL_SetAttribute ( SDL_GL_DOUBLEBUFFER, 1 );
    SDL_GL_SetAttribute ( SDL_GL_STENCIL_SIZE, 8 );
 
+   /* Multisampling AA */
+   if ( gl_msaa->value && gl_msaa->value < 5) {
+     q_uint8_t msaa = 1 << (q_uint8_t) gl_msaa->value;
+     SDL_GL_SetAttribute ( SDL_GL_MULTISAMPLEBUFFERS, 1 );
+     SDL_GL_SetAttribute ( SDL_GL_MULTISAMPLESAMPLES, msaa );
+   }
+   else {
+     Cvar_SetValue ( "gl_msaa", 0 );
+   }
+
    /* Initiate the flags */
  #ifdef HT_WITH_SDL2
    flags = SDL_WINDOW_OPENGL | SDL_WINDOW_SHOWN;

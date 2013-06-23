@@ -84,6 +84,7 @@
  cvar_t *gl_lerpmodels;
  cvar_t *gl_lefthand;
  cvar_t *gl_farsee;
+ cvar_t *gl_msaa;
 
  cvar_t *gl_lightlevel;
  cvar_t *gl_overbrightbits;
@@ -882,6 +883,7 @@
    gl_ext_mtexcombine = Cvar_Get ( "gl_ext_mtexcombine", "1", CVAR_ARCHIVE );
    gl_drawbuffer = Cvar_Get ( "gl_drawbuffer", "GL_BACK", 0 );
    gl_swapinterval = Cvar_Get ( "gl_swapinterval", "1", CVAR_ARCHIVE );
+   gl_msaa = Cvar_Get ( "gl_msaa", "0", CVAR_ARCHIVE );
    gl_saturatelighting = Cvar_Get ( "gl_saturatelighting", "0", 0 );
    vid_fullscreen = Cvar_Get ( "vid_fullscreen", "0", CVAR_ARCHIVE );
    vid_gamma = Cvar_Get ( "vid_gamma", "1.0", CVAR_ARCHIVE );
