@@ -158,6 +158,7 @@
  R_SetDefaultState ( void )
  {
    qglClearColor ( 1, 0, 0.5, 0.5 );
+   qglDisable ( GL_MULTISAMPLE );
    qglCullFace ( GL_FRONT );
    qglEnable ( GL_TEXTURE_2D );
    qglEnable ( GL_ALPHA_TEST );
@@ -198,5 +199,11 @@
    if ( qglColorTableEXT && gl_ext_palettedtexture->value ) {
      qglEnable ( GL_SHARED_TEXTURE_PALETTE_EXT );
      R_SetTexturePalette ( d_8to24table );
+   }
+
+   /* Multisample Antialiasing */
+   if ( gl_msaa->value ) {
+    qglEnable ( GL_MULTISAMPLE );
+    qglHint(GL_MULTISAMPLE_FILTER_HINT_NV, GL_NICEST);
    }
  }

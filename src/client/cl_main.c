@@ -698,10 +698,13 @@
 
    /* fetch results from server */
    CL_ReadPackets();
+
    /* send a new command message to the server */
    CL_SendCommand();
+
    /* predict all unacknowledged movements */
    CL_PredictMovement();
+
    /* allow renderer DLL change */
    VID_CheckChanges();
 

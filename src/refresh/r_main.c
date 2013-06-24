@@ -1139,8 +1139,10 @@
    Cmd_RemoveCommand ( "gl_strings" );
    Mod_FreeAll();
    R_ShutdownImages();
+
    /* shutdown OS specific OpenGL stuff like contexts, etc.  */
    GLimp_Shutdown();
+
    /* shutdown our QGL subsystem */
    QGL_Shutdown();
  }

@@ -217,11 +217,14 @@
    /* Multisampling AA */
    if ( gl_msaa->value && gl_msaa->value < 5) {
      q_uint8_t msaa = 1 << (q_uint8_t) gl_msaa->value;
-     SDL_GL_SetAttribute ( SDL_GL_MULTISAMPLEBUFFERS, 1 );
-     SDL_GL_SetAttribute ( SDL_GL_MULTISAMPLESAMPLES, msaa );
+     if ( SDL_GL_SetAttribute ( SDL_GL_MULTISAMPLEBUFFERS, 1 ) == -1)
+      Com_Printf ( "MSAA is not supported: %s\n", SDL_GetError() );
+     else if ( SDL_GL_SetAttribute ( SDL_GL_MULTISAMPLESAMPLES, msaa ) == -1 )
+      Com_Printf ( "MSAA number of samples are not supported: %s\n", SDL_GetError() );
    }
    else {
-     Cvar_SetValue ( "gl_msaa", 0 );
+     Com_Printf ("MSAA number of samples is too high!\n");
+     Cvar_SetValue ("gl_msaa", 0);
    }
 
    /* Initiate the flags */
