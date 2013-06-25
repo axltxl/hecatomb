@@ -1009,7 +1009,7 @@
    }
 
    /* grab extensions */
-   VID_Printf ( PRINT_ALL, "\nGLEW_VERSION: %s\n", glewGetString(GLEW_VERSION) );
+   VID_Printf ( PRINT_ALL, "\n\nGLEW_VERSION: %s\n", glewGetString(GLEW_VERSION) );
    VID_Printf ( PRINT_ALL, "Probing for OpenGL extensions:\n==============\n" );
 
    /* GL_EXT_compiled_vertex_array GL_SGI_compiled_vertex_array */

@@ -30,6 +30,9 @@
  #include "prereqs.h"
 
  /* GLEW will take of everything */
+ #ifdef HT_OS_WINDOWS
+ # define GLEW_STATIC
+ #endif
  #include "backend/generic/glew.h"
 
  #endif /* GL_WRAPPER_H */
