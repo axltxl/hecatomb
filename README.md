@@ -272,10 +272,12 @@ be greatly appreciated.
 CVars from YQ2 and legacy Q2 are all included, although some were removed.
 These are the current implemented cvars on htq2 only:
 ###CVars
-#####`al_strings`  
+#####`hunk_trace`
+#####`hunk_driver`
 #####`git_ref` (read-only)
 #####`git_hash` (read-only)
 
 ###Commands
+#####`al_strings`
 #####`mallinfo`
 Information about memory
