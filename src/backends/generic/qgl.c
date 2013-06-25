@@ -41,17 +41,15 @@
  /*
   * GL extensions
   */
- void ( APIENTRY *qglLockArraysEXT ) ( int, int );
- void ( APIENTRY *qglUnlockArraysEXT ) ( void );
- void ( APIENTRY *qglPointParameterfEXT ) ( GLenum param, GLfloat value );
- void ( APIENTRY *qglPointParameterfvEXT ) ( GLenum param, const GLfloat *value );
- void ( APIENTRY *qglColorTableEXT ) ( GLenum, GLenum, GLsizei, GLenum, GLenum,
-                                       const GLvoid * );
- void ( APIENTRY *qgl3DfxSetPaletteEXT ) ( GLuint * );
- void ( APIENTRY *qglSelectTextureSGIS ) ( GLenum );
+ PFNGLPOINTPARAMETERFEXTPROC qglPointParameterfEXT;
+ PFNGLPOINTPARAMETERFVEXTPROC qglPointParameterfvEXT;
+ PFNGLCOLORTABLEEXTPROC qglColorTableEXT;
+ PFNGLLOCKARRAYSEXTPROC qglLockArraysEXT;
+ PFNGLUNLOCKARRAYSEXTPROC qglUnlockArraysEXT;
  void ( APIENTRY *qglMTexCoord2fSGIS ) ( GLenum, GLfloat, GLfloat );
- void ( APIENTRY *qglActiveTextureARB ) ( GLenum );
- void ( APIENTRY *qglClientActiveTextureARB ) ( GLenum );
+ void ( APIENTRY *qglSelectTextureSGIS ) ( GLenum );
+ PFNGLACTIVETEXTUREARBPROC qglActiveTextureARB;
+ PFNGLCLIENTACTIVETEXTUREARBPROC qglClientActiveTextureARB;
 
  /* ========================================================================= */
  void
@@ -62,7 +60,6 @@
    qglPointParameterfEXT = NULL;
    qglPointParameterfvEXT = NULL;
    qglColorTableEXT = NULL;
-   qgl3DfxSetPaletteEXT = NULL;
    qglSelectTextureSGIS = NULL;
    qglMTexCoord2fSGIS = NULL;
    qglActiveTextureARB = NULL;
@@ -73,7 +70,7 @@
  void *
  QGL_GetProcAddress ( char *proc )
  {
-   return GLimp_GetProcAddress (proc );
+   return GLimp_GetProcAddress ( proc );
  }
 
  /* ========================================================================= */
@@ -85,7 +82,6 @@
    qglPointParameterfEXT = NULL;
    qglPointParameterfvEXT = NULL;
    qglColorTableEXT = NULL;
-   qgl3DfxSetPaletteEXT = NULL;
    qglSelectTextureSGIS = NULL;
    qglMTexCoord2fSGIS = NULL;
    qglActiveTextureARB = NULL;

@@ -449,17 +449,15 @@
  void * QGL_GetProcAddress ( char *proc );
 
  /* GL extensions */
- extern void ( APIENTRY *qglPointParameterfEXT ) ( GLenum param, GLfloat value );
- extern void ( APIENTRY *qglPointParameterfvEXT ) ( GLenum param,
-     const GLfloat *value );
- extern void ( APIENTRY *qglColorTableEXT ) ( GLenum, GLenum, GLsizei, GLenum,
-     GLenum, const GLvoid * );
- extern void ( APIENTRY *qglLockArraysEXT ) ( int, int );
- extern void ( APIENTRY *qglUnlockArraysEXT ) ( void );
+ extern PFNGLPOINTPARAMETERFEXTPROC qglPointParameterfEXT;
+ extern PFNGLPOINTPARAMETERFVEXTPROC qglPointParameterfvEXT;
+ extern PFNGLCOLORTABLEEXTPROC qglColorTableEXT;
+ extern PFNGLLOCKARRAYSEXTPROC qglLockArraysEXT;
+ extern PFNGLUNLOCKARRAYSEXTPROC qglUnlockArraysEXT;
  extern void ( APIENTRY *qglMTexCoord2fSGIS ) ( GLenum, GLfloat, GLfloat );
  extern void ( APIENTRY *qglSelectTextureSGIS ) ( GLenum );
- extern void ( APIENTRY *qglActiveTextureARB ) ( GLenum );
- extern void ( APIENTRY *qglClientActiveTextureARB ) ( GLenum );
+ extern PFNGLACTIVETEXTUREARBPROC qglActiveTextureARB;
+ extern PFNGLCLIENTACTIVETEXTUREARBPROC qglClientActiveTextureARB;
 
  extern q_int32_t QGL_TEXTURE0, QGL_TEXTURE1;
 
