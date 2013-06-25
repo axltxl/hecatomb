@@ -1008,6 +1008,12 @@
      VID_Error ( ERR_FATAL, "%s\n", glewGetErrorString(err) );
    }
 
+   //Make sure OpenGL 1.2 or higher is supported
+    if( !GLEW_VERSION_1_2 )
+    {
+        VID_Error ( ERR_FATAL, "OpenGL 1.2+ needs to be supported!\n" );
+    }
+
    /* grab extensions */
    VID_Printf ( PRINT_ALL, "\n\nGLEW_VERSION: %s\n", glewGetString(GLEW_VERSION) );
    VID_Printf ( PRINT_ALL, "Probing for OpenGL extensions:\n==============\n" );

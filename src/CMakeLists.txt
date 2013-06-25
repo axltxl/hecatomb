@@ -201,6 +201,11 @@ if (HT_CLIENT)
   # Refresher
   add_subdirectory (refresh)
 
+  if (WINDOWS)
+    # On Windows it becomes necessary to define GLEW_STATIC
+    set_source_files_properties (${GLEW_SRC} PROPERTIES COMPILE_DEFINITIONS GLEW_STATIC)
+  endif()
+
   # Client
   add_subdirectory (client)
 
