@@ -11,6 +11,7 @@ A portable Quake II client
 * [Supported architectures](#supported-architectures)
 * [FAQ](#faq)
 * [Contribute](#you-wish-to-contribute)
+* [CVars](#cvars)
 
 This is the Hecatomb (a.k.a. *htq2*), a Quake II client who's being intensely developed towards *high portability*. Serious decisions are being made. 
 The main focus is portability, modernization and expansion capabilities, that means *htq2* is not only portable but also extensible. 
@@ -266,3 +267,15 @@ be greatly appreciated.
 
 ### Milestone 0.9
 * OpenGL ES 2.0+ support
+
+##CVars and commands
+CVars from YQ2 and legacy Q2 are all included, although some were removed.
+These are the current implemented cvars on htq2 only:
+###CVars
+#####`al_strings`  
+#####`git_ref` (read-only)
+#####`git_hash` (read-only)
+
+###Commands
+#####`mallinfo`
+Information about memory
