@@ -1000,88 +1000,110 @@
    strlwr ( vendor_buffer );
    Cvar_Set ( "scr_drawall", "0" );
    gl_config.allow_cds = true;
-   VID_Printf ( PRINT_ALL, "\n\nProbing for OpenGL extensions:\n" );
 
-   /* grab extensions */
-   if ( strstr ( gl_config.extensions_string, "GL_EXT_compiled_vertex_array" ) ||
-        strstr ( gl_config.extensions_string, "GL_SGI_compiled_vertex_array" ) ) {
-     VID_Printf ( PRINT_ALL, "...using GL_EXT_compiled_vertex_array\n" );
-     qglLockArraysEXT = ( void * ) QGL_GetProcAddress ( "glLockArraysEXT" );
-     qglUnlockArraysEXT = ( void * ) QGL_GetProcAddress ( "glUnlockArraysEXT" );
-   } else {
-     VID_Printf ( PRINT_ALL, "...GL_EXT_compiled_vertex_array not found\n" );
+   /* Initialize GLEW */
+   if ( (err = glewInit()) != GLEW_OK )
+   {
+     /* Problem: glewInit failed, something is seriously wrong. */
+     VID_Error ( ERR_FATAL, "%s\n", glewGetErrorString(err) );
    }
 
-   if ( strstr ( gl_config.extensions_string, "GL_EXT_point_parameters" ) ) {
+   /* grab extensions */
+   VID_Printf ( PRINT_ALL, "\nGLEW_VERSION: %s\n", glewGetString(GLEW_VERSION) );
+   VID_Printf ( PRINT_ALL, "Probing for OpenGL extensions:\n==============\n" );
+
+   /* GL_EXT_compiled_vertex_array GL_SGI_compiled_vertex_array */
+   if ( GLEW_EXT_compiled_vertex_array || glewIsSupported ("GL_SGI_compiled_vertex_array") )
+   {
+     VID_Printf ( PRINT_ALL, "Using GL_EXT_compiled_vertex_array\n" );
+     qglLockArraysEXT = ( void * ) QGL_GetProcAddress ( "glLockArraysEXT" );
+     qglUnlockArraysEXT = ( void * ) QGL_GetProcAddress ( "glUnlockArraysEXT" );
+   }
+   else {
+     VID_Printf ( PRINT_ALL, "GL_EXT_compiled_vertex_array not found\n" );
+   }
+
+   /* GL_EXT_point_parameters */
+   if ( GLEW_EXT_point_parameters )
+   {
      if ( gl_ext_pointparameters->value ) {
-       VID_Printf ( PRINT_ALL, "...using GL_EXT_point_parameters\n" );
+       VID_Printf ( PRINT_ALL, "Using GL_EXT_point_parameters\n" );
        qglPointParameterfEXT = ( void ( APIENTRY * ) ( GLenum, GLfloat ) )
                                QGL_GetProcAddress ( "glPointParameterfEXT" );
        qglPointParameterfvEXT = ( void ( APIENTRY * ) ( GLenum, const GLfloat * ) )
                                 QGL_GetProcAddress ( "glPointParameterfvEXT" );
      } else {
-       VID_Printf ( PRINT_ALL, "...ignoring GL_EXT_point_parameters\n" );
+       VID_Printf ( PRINT_ALL, "Ignoring GL_EXT_point_parameters\n" );
      }
    } else {
-     VID_Printf ( PRINT_ALL, "...GL_EXT_point_parameters not found\n" );
+     VID_Printf ( PRINT_ALL, "GL_EXT_point_parameters not found\n" );
    }
 
-   if ( !qglColorTableEXT &&
-        strstr ( gl_config.extensions_string, "GL_EXT_paletted_texture" ) &&
-        strstr ( gl_config.extensions_string, "GL_EXT_shared_texture_palette" ) ) {
+   /* GL_EXT_paletted_texture GL_EXT_shared_texture_palette */
+   if ( !qglColorTableEXT
+        && GLEW_EXT_paletted_texture && GLEW_EXT_shared_texture_palette)
+   {
      if ( gl_ext_palettedtexture->value ) {
-       VID_Printf ( PRINT_ALL, "...using GL_EXT_shared_texture_palette\n" );
+       VID_Printf ( PRINT_ALL, "Using GL_EXT_shared_texture_palette\n" );
        qglColorTableEXT =
          ( void ( APIENTRY * ) ( GLenum, GLenum, GLsizei, GLenum, GLenum,
                                  const GLvoid * ) ) QGL_GetProcAddress (
            "glColorTableEXT" );
-     } else {
-       VID_Printf ( PRINT_ALL, "...ignoring GL_EXT_shared_texture_palette\n" );
+     }
+     else {
+       VID_Printf ( PRINT_ALL, "Ignoring GL_EXT_shared_texture_palette\n" );
      }
    } else {
-     VID_Printf ( PRINT_ALL, "...GL_EXT_shared_texture_palette not found\n" );
+     VID_Printf ( PRINT_ALL, "GL_EXT_shared_texture_palette not found\n" );
    }
 
-   if ( strstr ( gl_config.extensions_string, "GL_ARB_multitexture" ) ) {
+   /* GL_ARB_multitexture */
+   if ( GLEW_ARB_multitexture )
+   {
      if ( gl_ext_multitexture->value ) {
-       VID_Printf ( PRINT_ALL, "...using GL_ARB_multitexture\n" );
+       VID_Printf ( PRINT_ALL, "Using GL_ARB_multitexture\n" );
        qglMTexCoord2fSGIS = ( void * ) QGL_GetProcAddress ( "glMultiTexCoord2fARB" );
        qglActiveTextureARB = ( void * ) QGL_GetProcAddress ( "glActiveTextureARB" );
        qglClientActiveTextureARB = ( void * ) QGL_GetProcAddress ( "glClientActiveTextureARB" );
        QGL_TEXTURE0 = GL_TEXTURE0_ARB;
        QGL_TEXTURE1 = GL_TEXTURE1_ARB;
      } else {
-       VID_Printf ( PRINT_ALL, "...ignoring GL_ARB_multitexture\n" );
+       VID_Printf ( PRINT_ALL, "Ignoring GL_ARB_multitexture\n" );
      }
    } else {
-     VID_Printf ( PRINT_ALL, "...GL_ARB_multitexture not found\n" );
+     VID_Printf ( PRINT_ALL, "GL_ARB_multitexture not found\n" );
    }
 
-   if ( strstr ( gl_config.extensions_string, "GL_SGIS_multitexture" ) ) {
+   /* GL_SGIS_multitexture */
+   if ( glewIsSupported("GL_SGIS_multitexture") )
+   {
      if ( qglActiveTextureARB ) {
-       VID_Printf ( PRINT_ALL, "...GL_SGIS_multitexture deprecated in favor of ARB_multitexture\n" );
+       VID_Printf ( PRINT_ALL, "GL_SGIS_multitexture deprecated in favor of ARB_multitexture\n" );
      } else if ( gl_ext_multitexture->value ) {
-       VID_Printf ( PRINT_ALL, "...using GL_SGIS_multitexture\n" );
+       VID_Printf ( PRINT_ALL, "Using GL_SGIS_multitexture\n" );
        qglMTexCoord2fSGIS = ( void * ) QGL_GetProcAddress ( "glMTexCoord2fSGIS" );
        qglSelectTextureSGIS = ( void * ) QGL_GetProcAddress ( "glSelectTextureSGIS" );
        QGL_TEXTURE0 = GL_TEXTURE0_SGIS;
        QGL_TEXTURE1 = GL_TEXTURE1_SGIS;
      } else {
-       VID_Printf ( PRINT_ALL, "...ignoring GL_SGIS_multitexture\n" );
+       VID_Printf ( PRINT_ALL, "Ignoring GL_SGIS_multitexture\n" );
      }
    } else {
-     VID_Printf ( PRINT_ALL, "...GL_SGIS_multitexture not found\n" );
+     VID_Printf ( PRINT_ALL, "GL_SGIS_multitexture not found\n" );
    }
 
    gl_config.anisotropic = false;
 
-   if ( strstr ( gl_config.extensions_string, "GL_EXT_texture_filter_anisotropic" ) ) {
-     VID_Printf ( PRINT_ALL, "...using GL_EXT_texture_filter_anisotropic\n" );
+   /* GL_EXT_texture_filter_anisotropic */
+   if ( GLEW_EXT_texture_filter_anisotropic )
+   {
+     VID_Printf ( PRINT_ALL, "Using GL_EXT_texture_filter_anisotropic\n" );
      gl_config.anisotropic = true;
      qglGetFloatv ( GL_MAX_TEXTURE_MAX_ANISOTROPY_EXT, &gl_config.max_anisotropy );
      Cvar_SetValue ( "gl_anisotropic_avail", gl_config.max_anisotropy );
-   } else {
-     VID_Printf ( PRINT_ALL, "...GL_EXT_texture_filter_anisotropic not found\n" );
+   }
+   else {
+     VID_Printf ( PRINT_ALL, "GL_EXT_texture_filter_anisotropic not found\n" );
      gl_config.anisotropic = false;
      gl_config.max_anisotropy = 0.0;
      Cvar_SetValue ( "gl_anisotropic_avail", 0.0 );
@@ -1089,37 +1111,42 @@
 
    gl_config.mtexcombine = false;
 
-   if ( strstr ( gl_config.extensions_string, "GL_ARB_texture_env_combine" ) ) {
+   /* GL_ARB_texture_env_combine */
+   if ( GLEW_ARB_texture_env_combine )
+   {
      if ( gl_ext_mtexcombine->value ) {
-       VID_Printf ( PRINT_ALL, "...using GL_ARB_texture_env_combine\n" );
+       VID_Printf ( PRINT_ALL, "Using GL_ARB_texture_env_combine\n" );
        gl_config.mtexcombine = true;
      } else {
-       VID_Printf ( PRINT_ALL, "...ignoring GL_ARB_texture_env_combine\n" );
+       VID_Printf ( PRINT_ALL, "Ignoring GL_ARB_texture_env_combine\n" );
      }
    } else {
-     VID_Printf ( PRINT_ALL, "...GL_ARB_texture_env_combine not found\n" );
+     VID_Printf ( PRINT_ALL, "GL_ARB_texture_env_combine not found\n" );
    }
 
+   /* GL_EXT_texture_env_combine */
    if ( !gl_config.mtexcombine ) {
      if ( strstr ( gl_config.extensions_string, "GL_EXT_texture_env_combine" ) ) {
        if ( gl_ext_mtexcombine->value ) {
-         VID_Printf ( PRINT_ALL, "...using GL_EXT_texture_env_combine\n" );
+         VID_Printf ( PRINT_ALL, "Using GL_EXT_texture_env_combine\n" );
          gl_config.mtexcombine = true;
        } else {
-         VID_Printf ( PRINT_ALL, "...ignoring GL_EXT_texture_env_combine\n" );
+         VID_Printf ( PRINT_ALL, "Ignoring GL_EXT_texture_env_combine\n" );
        }
      } else {
-       VID_Printf ( PRINT_ALL, "...GL_EXT_texture_env_combine not found\n" );
+       VID_Printf ( PRINT_ALL, "GL_EXT_texture_env_combine not found\n" );
      }
    }
 
+   /* Set up some last stuff */
    R_SetDefaultState();
    R_InitImages();
    Mod_Init();
    R_InitParticleTexture();
    Draw_InitLocal();
-   err = qglGetError();
 
+   /* Let's see if OpenGL fell into some error */
+   err = qglGetError();
    if ( err != GL_NO_ERROR ) {
      VID_Printf ( PRINT_ALL, "glGetError() = 0x%x\n", err );
    }

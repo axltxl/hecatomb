@@ -20,14 +20,17 @@ set (
   ${HEADER_DIR}/backend/generic/qal.h
   ${HEADER_DIR}/backend/generic/qgl.h
   ${HEADER_DIR}/backend/generic/gl.h
+  ${HEADER_DIR}/backend/generic/glew.h
   ${HEADER_DIR}/backend/generic/sdl.h
   ${HEADER_DIR}/backend/generic/dlmalloc.h
   ${HEADER_DIR}/backend/osx/SDLMain.h
   ${HEADER_DIR}/backend/unix/unix.h
+  ${HEADER_DIR}/backend/unix/glxew.h
   ${HEADER_DIR}/backend/unix/prereqs.h
   ${HEADER_DIR}/backend/windows/prereqs.h
   ${HEADER_DIR}/backend/windows/resource.h
   ${HEADER_DIR}/backend/windows/winquake.h
+  ${HEADER_DIR}/backend/windows/wglew.h
   ${HEADER_DIR}/client.h
   ${HEADER_DIR}/client/input.h
   ${HEADER_DIR}/client/screen.h

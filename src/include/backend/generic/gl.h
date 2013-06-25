@@ -29,11 +29,8 @@
 
  #include "prereqs.h"
 
- #ifdef HT_OS_OSX
- # include <OpenGL/gl.h>
- #else
- # include <GL/gl.h>
- #endif
+ /* GLEW will take of everything */
+ #include "backend/generic/glew.h"
 
  #endif /* GL_WRAPPER_H */
 

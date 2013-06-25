@@ -20,6 +20,7 @@ set (
 
   ${BACKEND_GENERIC_DIR}/vid.c
   ${BACKEND_GENERIC_DIR}/qgl.c
+  ${BACKEND_GENERIC_DIR}/glew.c
 )
 
 # OpenAL support (QAL)
