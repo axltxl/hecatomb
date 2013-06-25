@@ -39,56 +39,223 @@
  #include "refresh/local.h"
 
  /*
-  * GL extensions
+  * OpenGL extensions
   */
- void ( APIENTRY *qglLockArraysEXT ) ( int, int );
- void ( APIENTRY *qglUnlockArraysEXT ) ( void );
- void ( APIENTRY *qglPointParameterfEXT ) ( GLenum param, GLfloat value );
- void ( APIENTRY *qglPointParameterfvEXT ) ( GLenum param, const GLfloat *value );
- void ( APIENTRY *qglColorTableEXT ) ( GLenum, GLenum, GLsizei, GLenum, GLenum,
-                                       const GLvoid * );
- void ( APIENTRY *qgl3DfxSetPaletteEXT ) ( GLuint * );
- void ( APIENTRY *qglSelectTextureSGIS ) ( GLenum );
- void ( APIENTRY *qglMTexCoord2fSGIS ) ( GLenum, GLfloat, GLfloat );
- void ( APIENTRY *qglActiveTextureARB ) ( GLenum );
- void ( APIENTRY *qglClientActiveTextureARB ) ( GLenum );
+ PFNGLPOINTPARAMETERFEXTPROC qglPointParameterfEXT;
+ PFNGLPOINTPARAMETERFVEXTPROC qglPointParameterfvEXT;
+ PFNGLCOLORTABLEEXTPROC qglColorTableEXT;
+ PFNGLLOCKARRAYSEXTPROC qglLockArraysEXT;
+ PFNGLUNLOCKARRAYSEXTPROC qglUnlockArraysEXT;
+ void ( GLAPIENTRY *qglMTexCoord2fSGIS ) ( GLenum, GLfloat, GLfloat );
+ void ( GLAPIENTRY *qglSelectTextureSGIS ) ( GLenum );
+ PFNGLACTIVETEXTUREARBPROC qglActiveTextureARB;
+ PFNGLCLIENTACTIVETEXTUREARBPROC qglClientActiveTextureARB;
+
+ /* ========================================================================= */
+ void QGL_EXT_Reset ( void )
+ {
+   qglLockArraysEXT          = NULL;
+   qglUnlockArraysEXT        = NULL;
+   qglPointParameterfEXT     = NULL;
+   qglPointParameterfvEXT    = NULL;
+   qglColorTableEXT          = NULL;
+   qglSelectTextureSGIS      = NULL;
+   qglMTexCoord2fSGIS        = NULL;
+   qglActiveTextureARB       = NULL;
+   qglClientActiveTextureARB = NULL;
+ }
 
  /* ========================================================================= */
  void
  QGL_Shutdown ( void )
  {
-   qglLockArraysEXT = NULL;
-   qglUnlockArraysEXT = NULL;
-   qglPointParameterfEXT = NULL;
-   qglPointParameterfvEXT = NULL;
-   qglColorTableEXT = NULL;
-   qgl3DfxSetPaletteEXT = NULL;
-   qglSelectTextureSGIS = NULL;
-   qglMTexCoord2fSGIS = NULL;
-   qglActiveTextureARB = NULL;
-   qglClientActiveTextureARB = NULL;
+   QGL_EXT_Reset();
+ }
+
+ /* ========================================================================= */
+ void QGL_EXT_Init ( void )
+ {
+   /* First of all, we set up our extensions */
+   QGL_EXT_Reset();
+
+   /* grab extensions */
+   VID_Printf ( PRINT_ALL, "GLEW_VERSION: %s\n", glewGetString(GLEW_VERSION) );
+   VID_Printf ( PRINT_ALL, "Probing for OpenGL extensions:\n==============\n" );
+
+   /* GL_EXT_compiled_vertex_array GL_SGI_compiled_vertex_array */
+   if ( GLEW_EXT_compiled_vertex_array
+        || glewIsSupported ("GL_SGI_compiled_vertex_array") )
+   {
+     VID_Printf ( PRINT_ALL, "Using GL_EXT_compiled_vertex_array\n" );
+     qglLockArraysEXT = ( PFNGLLOCKARRAYSEXTPROC )
+       QGL_GetProcAddress ( "glLockArraysEXT" );
+     qglUnlockArraysEXT = ( PFNGLUNLOCKARRAYSEXTPROC )
+       QGL_GetProcAddress ( "glUnlockArraysEXT" );
+   }
+   else {
+     VID_Printf ( PRINT_ALL, "GL_EXT_compiled_vertex_array not found\n" );
+   }
+
+   /* GL_EXT_point_parameters */
+   if ( GLEW_EXT_point_parameters )
+   {
+     if ( gl_ext_pointparameters->value ) {
+       VID_Printf ( PRINT_ALL, "Using GL_EXT_point_parameters\n" );
+       qglPointParameterfEXT = ( PFNGLPOINTPARAMETERFEXTPROC )
+                               QGL_GetProcAddress ( "glPointParameterfEXT" );
+       qglPointParameterfvEXT = ( PFNGLPOINTPARAMETERFVEXTPROC )
+                                QGL_GetProcAddress ( "glPointParameterfvEXT" );
+     }
+     else {
+       VID_Printf ( PRINT_ALL, "Ignoring GL_EXT_point_parameters\n" );
+     }
+   }
+   else {
+     VID_Printf ( PRINT_ALL, "GL_EXT_point_parameters not found\n" );
+   }
+
+   /* GL_EXT_paletted_texture GL_EXT_shared_texture_palette */
+   if ( !qglColorTableEXT
+        && GLEW_EXT_paletted_texture && GLEW_EXT_shared_texture_palette)
+   {
+     if ( gl_ext_palettedtexture->value ) {
+       VID_Printf ( PRINT_ALL, "Using GL_EXT_shared_texture_palette\n" );
+       qglColorTableEXT =
+         ( PFNGLCOLORTABLEEXTPROC ) QGL_GetProcAddress ( "glColorTableEXT" );
+     }
+     else {
+       VID_Printf ( PRINT_ALL, "Ignoring GL_EXT_shared_texture_palette\n" );
+     }
+   }
+   else {
+     VID_Printf ( PRINT_ALL, "GL_EXT_shared_texture_palette not found\n" );
+   }
+
+   /* GL_ARB_multitexture */
+   if ( GLEW_ARB_multitexture )
+   {
+     if ( gl_ext_multitexture->value ) {
+       VID_Printf ( PRINT_ALL, "Using GL_ARB_multitexture\n" );
+       qglMTexCoord2fSGIS = ( void * )
+         QGL_GetProcAddress ( "glMultiTexCoord2fARB" );
+       qglActiveTextureARB = ( PFNGLACTIVETEXTUREARBPROC )
+         QGL_GetProcAddress ( "glActiveTextureARB" );
+       qglClientActiveTextureARB = ( PFNGLCLIENTACTIVETEXTUREARBPROC )
+         QGL_GetProcAddress ( "glClientActiveTextureARB" );
+       QGL_TEXTURE0 = GL_TEXTURE0_ARB;
+       QGL_TEXTURE1 = GL_TEXTURE1_ARB;
+     }
+     else {
+       VID_Printf ( PRINT_ALL, "Ignoring GL_ARB_multitexture\n" );
+     }
+   }
+   else {
+     VID_Printf ( PRINT_ALL, "GL_ARB_multitexture not found\n" );
+   }
+
+   /* GL_SGIS_multitexture */
+   if ( glewIsSupported("GL_SGIS_multitexture") )
+   {
+     if ( qglActiveTextureARB ) {
+       VID_Printf ( PRINT_ALL,
+         "GL_SGIS_multitexture deprecated in favor of ARB_multitexture\n" );
+     }
+     else if ( gl_ext_multitexture->value ) {
+       VID_Printf ( PRINT_ALL, "Using GL_SGIS_multitexture\n" );
+       qglMTexCoord2fSGIS = ( void * )
+         QGL_GetProcAddress ( "glMTexCoord2fSGIS" );
+       qglSelectTextureSGIS = ( void * )
+         QGL_GetProcAddress ( "glSelectTextureSGIS" );
+       QGL_TEXTURE0 = GL_TEXTURE0_SGIS;
+       QGL_TEXTURE1 = GL_TEXTURE1_SGIS;
+     }
+     else {
+       VID_Printf ( PRINT_ALL, "Ignoring GL_SGIS_multitexture\n" );
+     }
+   }
+   else {
+     VID_Printf ( PRINT_ALL, "GL_SGIS_multitexture not found\n" );
+   }
+
+   gl_config.anisotropic = false;
+
+   /* GL_EXT_texture_filter_anisotropic */
+   if ( GLEW_EXT_texture_filter_anisotropic )
+   {
+     VID_Printf ( PRINT_ALL, "Using GL_EXT_texture_filter_anisotropic\n" );
+     gl_config.anisotropic = true;
+     qglGetFloatv ( GL_MAX_TEXTURE_MAX_ANISOTROPY_EXT, &gl_config.max_anisotropy );
+     Cvar_SetValue ( "gl_anisotropic_avail", gl_config.max_anisotropy );
+   }
+   else {
+     VID_Printf ( PRINT_ALL, "GL_EXT_texture_filter_anisotropic not found\n" );
+     gl_config.anisotropic = false;
+     gl_config.max_anisotropy = 0.0;
+     Cvar_SetValue ( "gl_anisotropic_avail", 0.0 );
+   }
+
+   gl_config.mtexcombine = false;
+
+   /* GL_ARB_texture_env_combine */
+   if ( GLEW_ARB_texture_env_combine )
+   {
+     if ( gl_ext_mtexcombine->value ) {
+       VID_Printf ( PRINT_ALL, "Using GL_ARB_texture_env_combine\n" );
+       gl_config.mtexcombine = true;
+     }
+     else {
+       VID_Printf ( PRINT_ALL, "Ignoring GL_ARB_texture_env_combine\n" );
+     }
+   }
+   else {
+     VID_Printf ( PRINT_ALL, "GL_ARB_texture_env_combine not found\n" );
+   }
+
+   /* GL_EXT_texture_env_combine */
+   if ( !gl_config.mtexcombine ) {
+     if ( GLEW_EXT_texture_env_combine )
+     {
+       if ( gl_ext_mtexcombine->value ) {
+         VID_Printf ( PRINT_ALL, "Using GL_EXT_texture_env_combine\n" );
+         gl_config.mtexcombine = true;
+       }
+       else {
+         VID_Printf ( PRINT_ALL, "Ignoring GL_EXT_texture_env_combine\n" );
+       }
+     }
+     else {
+       VID_Printf ( PRINT_ALL, "GL_EXT_texture_env_combine not found\n" );
+     }
+   }
  }
 
  /* ========================================================================= */
  void *
  QGL_GetProcAddress ( char *proc )
  {
-   return GLimp_GetProcAddress (proc );
+   return GLimp_GetProcAddress ( proc );
  }
 
  /* ========================================================================= */
  qboolean
  QGL_Init (void)
  {
-   qglLockArraysEXT = NULL;
-   qglUnlockArraysEXT = NULL;
-   qglPointParameterfEXT = NULL;
-   qglPointParameterfvEXT = NULL;
-   qglColorTableEXT = NULL;
-   qgl3DfxSetPaletteEXT = NULL;
-   qglSelectTextureSGIS = NULL;
-   qglMTexCoord2fSGIS = NULL;
-   qglActiveTextureARB = NULL;
-   qglClientActiveTextureARB = NULL;
+   /*
+    * Setup GLEW after window and OpenGL context have been succesfully updated
+    */
+   q_int8_t err;
+
+   /* Initialize GLEW */
+   if ( (err = glewInit()) != GLEW_OK )
+   {
+     /* Problem: glewInit failed, something is seriously wrong. */
+     Com_Error ( ERR_FATAL, "GLEW: %s\n", glewGetErrorString(err) );
+   }
+
+   //Make sure OpenGL 1.2 or higher is supported
+   if( !GLEW_VERSION_1_2 )
+   {
+     Com_Error ( ERR_FATAL, "OpenGL 1.2+ needs to be supported!\n" );
+   }
    return true;
  }

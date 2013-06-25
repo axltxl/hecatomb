@@ -35,10 +35,6 @@
  #endif
  #include "backend/generic/gl.h"
 
- #ifndef APIENTRY
- # define APIENTRY
- #endif
-
  #define GL_SHARED_TEXTURE_PALETTE_EXT 0x81FB
 
  #define GL_TEXTURE0_SGIS 0x835E
@@ -448,18 +444,26 @@
   */
  void * QGL_GetProcAddress ( char *proc );
 
- /* GL extensions */
- extern void ( APIENTRY *qglPointParameterfEXT ) ( GLenum param, GLfloat value );
- extern void ( APIENTRY *qglPointParameterfvEXT ) ( GLenum param,
-     const GLfloat *value );
- extern void ( APIENTRY *qglColorTableEXT ) ( GLenum, GLenum, GLsizei, GLenum,
-     GLenum, const GLvoid * );
- extern void ( APIENTRY *qglLockArraysEXT ) ( int, int );
- extern void ( APIENTRY *qglUnlockArraysEXT ) ( void );
- extern void ( APIENTRY *qglMTexCoord2fSGIS ) ( GLenum, GLfloat, GLfloat );
- extern void ( APIENTRY *qglSelectTextureSGIS ) ( GLenum );
- extern void ( APIENTRY *qglActiveTextureARB ) ( GLenum );
- extern void ( APIENTRY *qglClientActiveTextureARB ) ( GLenum );
+ /* OpenGL extensions */
+ void QGL_EXT_Init ( void );
+
+ /* GL_EXT_point_parameters */
+ extern PFNGLPOINTPARAMETERFEXTPROC qglPointParameterfEXT;
+ extern PFNGLPOINTPARAMETERFVEXTPROC qglPointParameterfvEXT;
+
+ /* GL_EXT_paletted_texture GL_EXT_shared_texture_palette */
+ extern PFNGLCOLORTABLEEXTPROC qglColorTableEXT;
+
+ /* GL_EXT_compiled_vertex_array GL_SGI_compiled_vertex_array */
+ extern PFNGLLOCKARRAYSEXTPROC qglLockArraysEXT;
+ extern PFNGLUNLOCKARRAYSEXTPROC qglUnlockArraysEXT;
+
+
+ /* GL_ARB_multitexture or GL_SGIS_multitexture  */
+ extern void ( GLAPIENTRY *qglSelectTextureSGIS ) ( GLenum );
+ extern void ( GLAPIENTRY *qglMTexCoord2fSGIS ) ( GLenum, GLfloat, GLfloat );
+ extern PFNGLACTIVETEXTUREARBPROC qglActiveTextureARB;
+ extern PFNGLCLIENTACTIVETEXTUREARBPROC qglClientActiveTextureARB;
 
  extern q_int32_t QGL_TEXTURE0, QGL_TEXTURE1;
 
