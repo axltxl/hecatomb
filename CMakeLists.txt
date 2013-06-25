@@ -62,7 +62,7 @@ set (PROJ_GIT_URL "git://github.com/alericoveri/hecatomb.git")
 set (PROJ_PRODUCT_NAME "Hecatomb Quake II")
 set (PROJ_EMAIL "alejandroricoveri@gmail.com")
 set (VERSION_MAJOR 0)
-set (VERSION_MINOR 2)
+set (VERSION_MINOR 3)
 set (VERSION_PATCH 0)
 set (VERSION "${VERSION_MAJOR}.${VERSION_MINOR}.${VERSION_PATCH}")
 
