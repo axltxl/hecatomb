@@ -202,6 +202,7 @@
    q_int32_t counter = 0;
    q_int32_t flags;
    q_int32_t stencil_bits;
+   GLenum err;
 
    /* Create the window */
    VID_NewWindow ( vid.width, vid.height );
@@ -286,6 +287,21 @@
    /* Create our OpenGL context and attach it to our window */
    glcontext = SDL_GL_CreateContext ( window );
  #endif
+
+   /* Setup GLEW after window and OpenGL context have been succesfully updated */
+
+   /* Initialize GLEW */
+   if ( (err = glewInit()) != GLEW_OK )
+   {
+     /* Problem: glewInit failed, something is seriously wrong. */
+     Com_Error ( ERR_FATAL, "%s\n", glewGetErrorString(err) );
+   }
+
+   //Make sure OpenGL 1.2 or higher is supported
+   if( !GLEW_VERSION_1_2 )
+   {
+     Com_Error ( ERR_FATAL, "OpenGL 1.2+ needs to be supported!\n" );
+   }
 
    /* Initialize the stencil buffer */
    if ( !SDL_GL_GetAttribute ( SDL_GL_STENCIL_SIZE, &stencil_bits ) ) {

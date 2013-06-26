@@ -448,14 +448,24 @@
   */
  void * QGL_GetProcAddress ( char *proc );
 
- /* GL extensions */
+ /* OpenGL extensions */
+ void QGL_SetupExtensions ( void );
+
+ /* GL_EXT_point_parameters */
  extern PFNGLPOINTPARAMETERFEXTPROC qglPointParameterfEXT;
  extern PFNGLPOINTPARAMETERFVEXTPROC qglPointParameterfvEXT;
+
+ /* GL_EXT_paletted_texture GL_EXT_shared_texture_palette */
  extern PFNGLCOLORTABLEEXTPROC qglColorTableEXT;
+
+ /* GL_EXT_compiled_vertex_array GL_SGI_compiled_vertex_array */
  extern PFNGLLOCKARRAYSEXTPROC qglLockArraysEXT;
  extern PFNGLUNLOCKARRAYSEXTPROC qglUnlockArraysEXT;
- extern void ( APIENTRY *qglMTexCoord2fSGIS ) ( GLenum, GLfloat, GLfloat );
- extern void ( APIENTRY *qglSelectTextureSGIS ) ( GLenum );
+
+
+ /* GL_ARB_multitexture or GL_SGIS_multitexture  */
+  extern void ( GLAPIENTRY *qglSelectTextureSGIS ) ( GLenum );
+ extern void ( GLAPIENTRY *qglMTexCoord2fSGIS ) ( GLenum, GLfloat, GLfloat );
  extern PFNGLACTIVETEXTUREARBPROC qglActiveTextureARB;
  extern PFNGLCLIENTACTIVETEXTUREARBPROC qglClientActiveTextureARB;
 
