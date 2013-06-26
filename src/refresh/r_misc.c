@@ -204,6 +204,6 @@
    /* Multisample Antialiasing */
    if ( gl_msaa->value ) {
     qglEnable ( GL_MULTISAMPLE );
-    qglHint(GL_MULTISAMPLE_FILTER_HINT_NV, GL_NICEST);
+    qglHint ( GL_MULTISAMPLE_FILTER_HINT_NV, GL_NICEST );
    }
  }
