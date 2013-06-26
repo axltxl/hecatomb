@@ -158,7 +158,15 @@
  R_SetDefaultState ( void )
  {
    qglClearColor ( 1, 0, 0.5, 0.5 );
-   qglDisable ( GL_MULTISAMPLE );
+
+   /* Multisample Antialiasing */
+   if ( GLEW_VERSION_1_3 ) {
+     qglDisable ( GL_MULTISAMPLE );
+   }
+   else if ( GLEW_ARB_multisample ) {
+      qglDisable ( GL_MULTISAMPLE_ARB );
+   }
+
    qglCullFace ( GL_FRONT );
    qglEnable ( GL_TEXTURE_2D );
    qglEnable ( GL_ALPHA_TEST );
@@ -202,8 +210,13 @@
    }
 
    /* Multisample Antialiasing */
-   if ( gl_msaa->value ) {
-    qglEnable ( GL_MULTISAMPLE );
-    qglHint ( GL_MULTISAMPLE_FILTER_HINT_NV, GL_NICEST );
+   if ( gl_msaa_samples->value ) {
+     if ( GLEW_VERSION_1_3 ) {
+      qglEnable ( GL_MULTISAMPLE );
+      qglHint ( GL_MULTISAMPLE_FILTER_HINT_NV, GL_NICEST );
+     }
+     else if ( GLEW_ARB_multisample ) {
+      qglEnable ( GL_MULTISAMPLE_ARB );
+     }
    }
  }
