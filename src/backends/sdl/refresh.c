@@ -286,7 +286,6 @@
 
        /* Try to recover */
        Cvar_SetValue ( "gl_mode", 5 );
-       Cvar_SetValue ( "gl_msaa_samples", 0 );
        Cvar_SetValue ( "vid_fullscreen", 0 );
        vid.width = 640;
        vid.height = 480;
