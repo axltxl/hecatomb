@@ -227,7 +227,7 @@
       err = true;
      }
      if ( err )
-       Cvar_SetValue ("gl_msaa_samples", 0);
+       Cvar_SetValue ( "gl_msaa_samples", 0 );
    }
 
    /* Initiate the flags */
@@ -283,8 +283,10 @@
        VID_Printf ( PRINT_ALL, "SDL_SetVideoMode failed: %s\n", SDL_GetError() );
  #endif
        VID_Printf ( PRINT_ALL, "Reverting to gl_mode 5 (640x480) and windowed mode.\n" );
+
        /* Try to recover */
        Cvar_SetValue ( "gl_mode", 5 );
+       Cvar_SetValue ( "gl_msaa_samples", 0 );
        Cvar_SetValue ( "vid_fullscreen", 0 );
        vid.width = 640;
        vid.height = 480;
